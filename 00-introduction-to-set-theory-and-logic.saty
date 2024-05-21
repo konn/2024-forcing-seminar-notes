@@ -191,14 +191,15 @@ document (|
         \listing{
           * \emph{公理図式}：
             
-            ** ${K: P \to Q \to P}
-            ** ${S: (P \to Q \to R) \to (P \to Q) \to P \to R}
-            ** ${P: ((P \to Q) \to P) \to P}
+            ** ${\mathbf{K}: P \to Q \to P}
+            ** ${\mathbf{S}: (P \to Q \to R) \to (P \to Q) \to P \to R}
+            ** ${\mathbf{P}: ((P \to Q) \to P) \to P}
             ** ${\forall_I: \forall y \p{P \to \subst{Q}![(${x}, ${y})]} \to (P \to \forall x Q)}（ただし変数${y}は${P}および${\forall x Q}に自由に現れない）
             ** ${\forall_{E, \tau}: \p{\forall x P} \to \subst{P}![(${u}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
           
             * \emph{推論規則}：
               ** モーダスポネンス：${L: P \to Q}, ${M: P}のとき ${(LM): Q}
+              ** 汎化：${L: \subst{P}![(${x}, ${y})]}のとき${L: \forall x P}（但し変数${y}は証明項${L}および${\forall x P}に自由に現れない）。
         }
       }
     >
