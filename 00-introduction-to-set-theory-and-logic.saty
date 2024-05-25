@@ -11,6 +11,8 @@
 @require: base/list-ext
 @require: latexcmds/latexcmds
 @require: matrix/matrix
+@require: arrows/arrows
+@require: arrows/commands
 
 let-math \lrarrow = ${\longleftrightarrow}
 let-math \CH = ${\mathrm{CH}}
@@ -18,6 +20,48 @@ let-math \ZF = ${\mathrm{ZF}}
 let-math \NK = ${\mathrm{NK}}
 let-math \HK = ${\mathrm{HK}}
 let-math \LK = ${\mathrm{LK}}
+let-math \CL = ${\mathrm{CL}}
+let-math \MP = ${\mathrm{MP}}
+let-math \mcomma = ${\mrquad!(3.0 /. 18.0)}
+let-math \Gen = ${\mathrm{Gen}}
+let-math \FinSeq arg = ${\mathord{\text!{}^{<\omega} #arg}}
+let-math \Pow = ${\mathop{\mathcal{P}}}
+let-math \implies = ${\Longrightarrow}
+let-math \iff = ${\Longleftrightarrow}
+let-math \overset m-over m =
+  text-in-math MathOrd (fun ctx -> (
+    let font-size = ctx |> get-font-size in
+    let ib-over = embed-math (ctx |> set-font-size (font-size *' 0.85)) m-over in
+    let ib-over = inline-fil ++ ib-over ++ inline-fil in
+    let ib-m = embed-math ctx m in
+    let ib-sp = inline-graphics 0pt (font-size *' 0.1) 0pt (fun _ -> []) in
+    line-stack-bottom [ib-over; ib-sp; ib-m]
+  ))
+
+let iff-arrow = Arrow.of-bth (|
+  body = ArrowBody.(
+    solid (|width = 0.05;|)
+    |> shift 0.2
+  );
+  head = ArrowHead.(vee (|
+    line-width = 0.05;
+    size = 0.15;
+    ext = 0.1;
+  |));
+  tail = ArrowTail.(vee (|
+    line-width = 0.05;
+    size = 0.15;
+    ext = -0.5;
+  |));
+|)
+let-math \defs = ${\mathrel{\overset{\text!{def}}{\Longleftrightarrow}}}
+let-math \K = ${𝖪}
+let-math \S = ${𝖲}
+let-math \P = ${𝖯}
+let-math \G = ${𝖦}
+let-math \F = ${𝖥}
+let-math \J = ${𝖩}
+let-math \lh = ${\mathop{\mathrm{lh}}}
 let-inline \emph arg = {\font-style[bold](arg);}
 let-inline \gruby arg1 arg2 = {\ruby?:[Ruby.mode Ruby.g](arg1)(arg2);}
 let-mutable defn-counter <- 0
@@ -58,8 +102,101 @@ document (|
   }
 
   +section{フィルターと忙しい人のための強制法}<
-    +p{強制法というのは、簡単にいうと集合論のモデル${V}に「新たな元」${G}を付加し、望んだ性質を持つような新しい集合論のモデル${V[G]}を構成する方法である。}
-    +p{近似とウルトラフィルターの話。ウルトラフィルターとしての実数。}
+    +p{強制法というのは、簡単にいうと集合論のモデル${V}に「新たな元」${G}を付加し、望んだ性質を持つような新しい集合論のモデル${V[G]}を構成する方法である。強制法で中心的な役割を果すのは生成超フィルター${G}である。フィルターの概念は集合論や位相空間論をやっていると頻出だが、それ以外の分野ではあまり多く登場しない。そこで、本編に入る前に、フィルター（特に\emph{超フィルター}）の直観を養うためのお気持の話をしていこう。}
+
+    +p{フィルターは擬順序集合（poset）上で定義される概念なので、まずは擬順序の定義から与える：}
+
+    +defn?*?:({擬順序})<
+      +p{
+        \emph{擬順序集合}（\emph{pseudo-order}または\emph{preorder}、略：\emph{poset}\footnote{集合論以外の分野では、半順序 partial order の略を poset とする場合も多い。Poset に反対称律を含めないのは、集合論と周辺分野でのジャーゴンである。}）${(\mathbb{P}, \mathord{\leq}, \mathbb{1})}とは、${\leq}が以下を満たす${P}上の二項関係であることを言う：
+        \enumerate{
+          * ${\leq}は反射的である：${\forall x \in P \mhquad x \leq x}
+          * ${\leq}は推移的である：${\forall x, y, z \in P \mhquad x \leq y \land y \leq z \to x \leq z}
+          * ${\mathbb{1} \in \mathbb{P}}は最大限\footnote{反対称律を仮定していないので、${\mathbb{P}}は複数の相異なる最大限を持ち得ることに注意する。}である：${\forall x \mhquad x \leq \mathbb{1}}
+        }
+
+        集合論の文脈では、擬順序集合${\mathbb{P}}自体のことを\emph{強制概念}（\emph{forcing notion}）、擬順序集合の各元${p \in ℙ}のことを\emph{強制条件}（\emph{forcing condition}）と呼ぶ。
+      }
+    >
+
+    +p{
+      擬順序集合を表すメタ変数として、大文字の黒板太字${\mathbb{P}, \mathbb{Q}, \ldots}などを用いる。名前がついている特別な擬順序集合は、${\mathbf{C}, \mathbf{D}, \mathbf{B}, \ldots}のように大文字の太字で表す場合がある。}
+    +p{半順序から反対称律${x \leq y \Rightarrow y \leq x \Rightarrow y = x}を外したものが擬順序である。理論構成では反対称律が成り立つような商を取るが、強制法を使う上では条件が少ない方が楽なので、擬順序を考えることが多い\footnote{理論的には最大元${\mathbb{1}}がなくてもよい（後から付加すりゃいい）が、理論の記述が楽になるので入れられている。}。
+    }
+
+    +example?*?:({擬順序集合の例})<
+      +p{\enumerate{
+        * 整数全体${\mathbb{Z}}上の整除関係${x \mid y \iff x \text!{ は } y \text!{ を割り切る}}を考える。このとき、${(\mathbb{N}, \mathord{\mid}, 0)}は擬順序集合である。特に、${n \neq 0}について${n \mid -n \mid n}であるが、${n \neq -n}であるので、擬順序ではあるが半順序ではない。
+        * 集合${X}について、冪集合${(\Pow(X), \mathord{\subseteq}, X)}は擬順序集合である。
+        * 集合${X}について、${X}上の有限列の全体${\FinSeq{X} = \pb{ (x_0, x_1, \ldots, x_{n - 1}) \mrquad!(0.25)\mid\mrquad!(0.25) n < \omega, x_i \in X}}上の逆向きの包含関係${\sigma \leq \tau \iff \sigma \supseteq \tau}を考えると、${(\FinSeq{X}, \mathord{\leq}, \emptyset)}は擬順序集合である。
+      }}
+    >
+
+    +p{
+      擬順序集合が強制概念とも呼ばれるのは、擬順序集合が何らかの意味で宇宙に付加したい「理想元」「新たな概念」${G}の近似の集まりだと思えるからである。「新たな概念」じたいはこの宇宙になくても、その宇宙から手の届く範囲での「近似」の候補全体を考えることはできる。その「近似」の全体を自由度を基準に順序づけたものが擬順序集合＝強制概念であり、個別の元${p \in \mathbb{P}}は理想元の最終的な性質を定める条件と見做せる。なので、各元のことを「強制条件」と呼ぶのである。
+    }
+
+    +p{
+      最後の例である${\FinSeq{X}}は、${X}上の長さ${\omega}の無限列の近似全体を考えていることに相当する。${n = \lh(p) < \omega}なる強制条件${p \in \FinSeq{X}}は、最終的な無限列の${n}-桁めまでの近似に相当する。
+      ${\FinSeq{X}}はあくまでも候補の「全体」に過ぎず、全ての条件を同時に満たすような理想元＝${X}の無限列は存在しない。たとえば、${X = 2 = \pb{0, 1}}のときを考えると、${\pangle{0, 1, 0}}と${\pangle{0,0,1,0}}はそれぞれ無限列の近似だと思える訳だが、二桁めがことなるため、これらを同時に拡張したような無限列は明らかに存在せず、両条件は両立しない。
+    }
+
+    +p{
+      つまり、条件の全体のうち、近似として両立するような条件から成る部分集合を考えるための概念が必要になる。それこそが\emph{フィルター}（およびその双対概念であるイデアル）であり、強制法の主役を張る概念である：
+    }
+
+    +defn?*?:({フィルターとイデアル})<
+      +p{以下、${\mathbb{P}}を擬順序集合とする。}
+      +enumerate{
+        * ${\mathcal{F} \subseteq \mathbb{P}}が\emph{フィルター}${\defs}
+          ** ${\mathbb{1} \in \mathcal{F} \neq \mathbb{P}}
+          ** 上に閉：${\mathcal{F} \ni p \leq q \implies q \in \mathcal{F}}
+          ** 二元が両立：${p, q \in \mathcal{F} \implies \exists r \in \mathcal{F} \mhquad r \leq p, q}
+        * \emph{超フィルター}（\emph{ultrafilter}）とは、包含関係について極大なフィルターのことである。
+        * イデアルはフィルターの双対である。つまり、${\mathcal{I} \subseteq \mathbb{P}}がイデアル\footnote{Boole代数を擬順序集合と見做した時のイデアルと、可換環と見做したときのイデアルの概念は一致する。素イデアルもそうである。} ${\defs}
+          ** ${\emptyset \neq \mathcal{I} \neq \mathbb{P}}
+          ** 下に閉：${q \leq p \in \mathcal{I} \implies q \in \mathcal{I}}
+          ** 二元が上界を持つ：${p, q \in \mathcal{I} \implies \exists r \in \mathcal{I} \mhquad p, q \leq r}
+        * \emph{素イデアル}（\emph{prime ideal}）とは、極大なイデアルのことである。
+      }
+    >
+    
+    +p{本節ではイデアルは使わないが、のちのち重要になってくるので導入だけした。以下ではフィルターについて考えていく。}
+
+    +p{
+      フィルターは上述の通り両立する強制条件の集まりである。中でも\emph{超フィルター}は両立する条件たちを極限まで集めてきたものだと思え、これこそが強制法により付加したい理想元・新概念に対応するものになる。
+    }
+
+    +p{
+      この事を見るために、もう一度${\FinSeq{X}}の例を考えてみよう。${F \subseteq \FinSeq{X}}をフィルターとすると、条件 (c) から任意の二元${p, q \in F}は両立しており、特に${p \cup q}は長さ${\max\pb{\lh(p), \lh(q)}}の有限列となることがわかる。なぜなら、順序の定義から${r \in F}がとれて、${p, q \subseteq r}なっているので、${p, q}はいずれも${r}を一定桁までに制限したものになっているからだ。
+      この事から、特に${\sigma_F = \bigcup F}とすると、${\sigma_F}は${X}の元から成る高々長さ${\omega}の列を一意に定めることがわかる。
+    }
+    +p{
+      特に${\mathcal{U}}が${\FinSeq{X}}の超フィルターだとしてみる。すると${\sigma_{\mathcal{U}}}は必ず長さ${\omega}の無限列になることがわかる。
+      なぜなら、もし${n = \lh(\sigma) < \omega}とすると、${\mathcal{U}}の任意の元の長さは高々${n}である。このとき、適当な${x \in X}をとれば、${\mathcal{U}' = \mathcal{U} \cup \pb{\sigma_{\mathcal{U}} \cup \set{(n, x)}}}は${\mathcal{U}}を真に含むフィルターであるが、これは${\mathcal{U}}の極大性に反する。
+    }
+    +p{逆に、無限列${\sigma: \omega \to X}が与えられたとき、${\mathcal{U}_\sigma \coloneq \pb{p \in \FinSeq{X} \mid p \subseteq \sigma}}は${\FinSeq{X}}の超フィルターとなることはすぐわかる。
+    そして、この${\mathcal{U} \mapsto \sigma_{\mathcal{U}}}と${\sigma \mapsto \mathcal{U}_\sigma}の対応が互いに逆演算になっており、${\FinSeq{X}}の超フィルターを考えることと、${X}の無限列を考えることは本質的に同じことになっていることがわかるだろう。
+    }
+
+    +example?*?:({Cauchy列を近似する擬順序})<
+      +p{
+        実際の議論で扱われることは少ないが、みんなが良く知っている実数を超フィルターとして見る例を考えてみよう。
+        実数の定義にはCauchy列とDedekind切断の例があるが、ここでは扱いやすいCauchy列、特にを考えてみる。Cauchy列は「誤差がゼロに収束していく有理数の無限列」だったので、上の${\FinSeq{X}}の例のように、有理数の有限列と誤差の組の上に「部分的なCauchy列」であることを表す順序を入れてみよう：
+      }
+
+      +gather?:(AZMathEquation.notag)(${
+        | \mathbb{P} \coloneq \pb{ (p, N) \mid N < \omega,\mcomma p \in \FinSeq{\mathbb{Q}}}
+        | (p, N) < (q, M) \defs N > M \land p \supsetneq q \land \forall i, j \in [\lh(q) - 1, \lh(p))\mhquad \pabs{p_i - p_j} < 2^{-M}
+        |}
+      );
+
+      +p{気持ちとしては、強制条件${(p, N) \in \mathbb{P}}は、部分的なCauchy列${p}であって、伸ばす先の候補を${2^{-N}}の開球から選ばなくてはならないようなものである。
+        こう考えれば、${\mathbb{P}}の超フィルターが与えられたとき、その第一成分の集合和をとれば、Cauchy列が定まることがわかる。
+        逆に実数が与えられた場合、その${2}-進展開を考えて適当な桁で打ち切ったものたちが生成するフィルターを考えれば、超フィルターが得られる。
+        これらは完全な逆にはなっていないが、Cauchy列の間の標準的な同値関係を考えればほぼ一対一対応を与えるものになっている。
+      }
+    >
   >
 
   +section{集合論の見取り図}<
@@ -102,6 +239,10 @@ document (|
     +p{
       ${\ZF}集合論は一階述語論理で記述される理論であり、集合論では一階述語論理に関する数理論理学の結果を縦横無尽に使う。本稿ではその必要最小限の事実を振り返っておく。
       まずは、一階述語論理の構文と意味論について簡単に見ていこう。一階述語論理では議論したい理論ごとに言語${\mathcal{L}}を固定して議論をする。一階述語論理における言語とは、何が項で何が論理式なのかを確定させるのに必要な記号の集まりである。
+    }
+
+    +p{
+      本節のより踏み込んだ内容については、証明論寄りの内容は古森・小野\cite[`古森・小野:2010`];や戸次\cite[`戸次:2012`];を参考にされたい。
     }
 
     +defn?:(`formula`)?:({一階述語論理の項と論理式})<
@@ -187,20 +328,41 @@ document (|
 
     +defn?*?:({古典一階述語論理の証明体系${\HK}})<
       +p{
-        古典一階述語論理のヒルベルト流証明体系${\HK}は、以下のような公理図式と推論規則から成る：
+        定数記号の集合${A, B, C, \ldots}と変数記号の集合${x, y, z, \ldots}が与えられた時、これらから定まる\emph{${\CL}-項}（\emph{${\CL}-term}）を以下で定める：
+        \enumerate{
+          * 特別な定数${\K, \S}は${\CL}-項である。
+          * 定数${A, B, C, \ldots}および変数は${x,y, z, \ldots}は${\CL}-項である。
+          * ${L, M}を${\CL}-項とするとき、${(LM)}は${\CL}-項である。
+        }
+        変数を含まない${\CL}-項を\emph{閉${\CL}-項}と呼び、特に定数${\K, \S}のみから成る閉項を\emph{結合子}または\emph{コンビネータ}（\emph{combinator}）と呼ぶ。${\CL}-項の括弧は左結合とし、一番外側のものは省略する。つまり、${LM(NO)P}は${(((LM)(NO))P)}の略記である。
+        ${\CL}-項を渡るメタ変数として、${L, M, N, \ldots}などを用いる。
+      }
+      +p{
+        古典一階述語論理のヒルベルト流証明体系${\HK}を定義する。${\HK}-式は${\K, \S, \P, \G, \F, \J}を定数として持つ${\CL}-項${L}と一階述語論理式${\varphi}に対して、${L: \varphi}の形のものである。${L}を主部または証明項、${\varphi}を述部または型と呼ぶ。
+        ${\HK}における公理系とは、述部が閉論理式であるような${\HK}-式の集合である。
+        
+        ${\HK}は以下の公理図式を持つ：
         \listing{
           * \emph{公理図式}：
             
-            ** ${\mathbf{K}: P \to Q \to P}
-            ** ${\mathbf{S}: (P \to Q \to R) \to (P \to Q) \to P \to R}
-            ** ${\mathbf{P}: ((P \to Q) \to P) \to P}
-            ** ${\forall_I: \forall y \p{P \to \subst{Q}![(${x}, ${y})]} \to (P \to \forall x Q)}（ただし変数${y}は${P}および${\forall x Q}に自由に現れない）
-            ** ${\forall_{E, \tau}: \p{\forall x P} \to \subst{P}![(${u}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
-          
-            * \emph{推論規則}：
-              ** モーダスポネンス：${L: P \to Q}, ${M: P}のとき ${(LM): Q}
-              ** 汎化：${L: \subst{P}![(${x}, ${y})]}のとき${L: \forall x P}（但し変数${y}は証明項${L}および${\forall x P}に自由に現れない）。
+            ** ${\K: P \to Q \to P}
+            ** ${\S: (P \to Q \to R) \to (P \to Q) \to P \to R}
+            ** ${\P: ((P \to Q) \to P) \to P}
+            ** ${\G: \forall y \p{P \to \subst{Q}![(${x}, ${y})]} \to (P \to \forall x Q)}（ただし変数${y}は${P}および${\forall x Q}に自由に現れない）
+            ** ${\F: \p{\forall x P} \to \subst{P}![(${u}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
         }
+        
+        ${\HK}の\emph{推論図}は、${\HK}-式を頂点とし、次の規則に従う有向辺で結ばれる有限根つき木である：
+        \listing{
+            * \emph{推論規則}：
+              ** モーダスポネンス（${\MP}）：${L: P \to Q}, ${M: P}のとき ${(LM): Q}
+              ** 汎化（${\Gen}）：${\J L: \subst{P}![(${x}, ${y})]}のとき${L: \forall x P}（但し変数${y}は証明項${L}および${\forall x P}に自由に現れない）。
+        }
+        推論木で親を持たない上端の${\HK}-式を\emph{仮定}と呼び、根を\emph{定理}と呼ぶ。
+      }
+
+      +p{
+        ${\Gamma}を${\HK}における公理系とする。論理式${\varphi}が公理系${\Gamma}から\emph{証明可能}である（記号：${\Gamma \vdash_{\HK} \varphi}）とは、${\HK}の公理と${\Gamma}の元を仮定とする推論木で${\varphi}が結論になるものが存在することをいう。
       }
     >
   >
