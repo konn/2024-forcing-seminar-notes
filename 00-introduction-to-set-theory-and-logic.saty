@@ -25,6 +25,7 @@ let-math \MP = ${\mathrm{MP}}
 let-math \mcomma = ${\mrquad!(3.0 /. 18.0)}
 let-math \Gen = ${\mathrm{Gen}}
 let-math \FinSeq arg = ${\mathord{\text!{}^{<\omega} #arg}}
+let-math \seq arity arg = ${\mathord{\text!{}^{#arity} #arg}}
 let-math \Pow = ${\mathop{\mathcal{P}}}
 let-math \implies = ${\Longrightarrow}
 let-math \iff = ${\Longleftrightarrow}
@@ -68,6 +69,8 @@ let-mutable defn-counter <- 0
 let-block ctx +defn = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定義} defn-counter ctx
 let-mutable example-counter <- 0
 let-block ctx +example = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){例} example-counter ctx
+let-mutable theorem-counter <- 0
+let-block ctx +theorem = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定理} theorem-counter ctx
 open LatexCmds
 
 let math-font-scale sty sz m = text-in-math sty 
@@ -102,7 +105,10 @@ document (|
   }
 
   +section{フィルターと忙しい人のための強制法}<
+    
     +p{強制法というのは、簡単にいうと集合論のモデル${V}に「新たな元」${G}を付加し、望んだ性質を持つような新しい集合論のモデル${V[G]}を構成する方法である。強制法で中心的な役割を果すのは生成超フィルター${G}である。フィルターの概念は集合論や位相空間論をやっていると頻出だが、それ以外の分野ではあまり多く登場しない。そこで、本編に入る前に、フィルター（特に\emph{超フィルター}）の直観を養うためのお気持の話をしていこう。}
+
+    +subsection{擬順序集合とフィルター}<
 
     +p{フィルターは擬順序集合（poset）上で定義される概念なので、まずは擬順序の定義から与える：}
 
@@ -196,7 +202,40 @@ document (|
         逆に実数が与えられた場合、その${2}-進展開を考えて適当な桁で打ち切ったものたちが生成するフィルターを考えれば、超フィルターが得られる。
         これらは完全な逆にはなっていないが、Cauchy列の間の標準的な同値関係を考えればほぼ一対一対応を与えるものになっている。
       }
+
+      +p{
+        この例は、あくまでもCauchy列という近似をフィルターでも表示できる、という例示の意図であり、同値関係等が面倒臭いので、実用上強制法で実数を扱うときにこの擬順序使うことはない。
+        また、集合論者が「実数」というと何らかの非可算ポーランド空間の元であれば何でもよく、特にBaire空間${\mathcal{N} = \FinSeq{\omega}}やカントール空間${\mathcal{C} = \FinSeq{2}}の元を指すことが多い。
+      }
     >
+  >
+  +subsection{Cantorの対角線論法と強制法}<
+    +p{
+      CantorはFourier級数展開の一意性について調べる仮定で、不連続点の個数がいくつまでなら一意性が保たれるのか？という問題から無限集合の濃度を「数える」必要に迫られ、集合論誕生の契機となった。
+      Cantorの考え方は「互いに全単射が存在する集合同士は濃度が等しい」と見做そう、というものだった。
+      なかでも、次の定理の証明をもって集合論の誕生と見做されることが多い：
+    }
+    +theorem?*?:({Cantor})<
+      +p{
+        実数全体の集合${\mathbb{R}}の濃度は、自然数全体の集合${\mathbb{N}}の濃度より真に大きい。つまり、${\mathbb{N}}から${\mathbb{R}}への全単射は存在しない。
+      }
+    >
+    +p{
+      Cantorは当初区間縮小法という論法によって上の定理を証明していたが、その後\emph{対角線論法}による証明を発見し、現代ではこちらの論法の方が本質的と見られている。
+      この論法では、より一般に、${X}から${\Pow(X)}への全単射が存在しないことが示せる。
+    }
+    +p{
+      よく知られている上記Cantorの定理の証明は、可算無限個の実数を持ってきたときに、その対角線で必ず異なるような実数を作ることができ、したがって可算個では実数は取り尽せない、というものだ。ここでは見方を変えて、この証明をフィルターの言葉で書き直して見てみよう。対角線論法で直接実数を扱うのは、端点での値の一意性が効いてきて面倒（${1.0 = 0.999\ldots}などを考えよ）なので、ここでは実数の代わりに${\pb{0, 1}}の無限列の全体${\seq{\omega}{2}}を使って、${\omega}から ${\seq{\omega}{2}}への全射が存在しないことを示すことにする。
+      前節での議論から、${\FinSeq{2}}の超フィルターを考えることと、${\seq{\omega}{2}}の元を考えることは同じことだったから、${\FinSeq{2}}のいい感じの超フィルターを作ることを考えよう。
+    }
+
+    +p{
+      そこで、可算個の「実数」の一覧が${\p{f_i \in \seq{\omega}{2} \mid i < \omega}}として与えられたとしよう。
+    }
+
+
+
+  >
   >
 
   +section{集合論の見取り図}<
