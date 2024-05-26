@@ -16,6 +16,8 @@
 let-math \lrarrow = ${\longleftrightarrow}
 let-math \CH = ${\mathrm{CH}}
 let-math \ZF = ${\mathrm{ZF}}
+let-math \ZFC = ${\mathrm{ZFC}}
+let-math \AC = ${\mathrm{AC}}
 let-math \NK = ${\mathrm{NK}}
 let-math \HK = ${\mathrm{HK}}
 let-math \LK = ${\mathrm{LK}}
@@ -95,6 +97,7 @@ let-math \Seq m m-cond =
   let mparen = paren-scheme (gr-abs-bracket-m 0.5pt) half-height-default in
   let rparen = paren-scheme (gr-angle-bracket 0.5pt false) half-height-default in
   math-paren-with-middle lparen rparen mparen [${\mrquad!(mid-space-ratio)#m\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#m-cond\mrquad!(mid-space-ratio)}]
+let-math \aleph = ${ℵ}
 let-inline \emph arg = {\font-style[bold](arg);}
 let-inline \gruby arg1 arg2 = {\ruby?:[Ruby.mode Ruby.g](arg1)(arg2);}
 let-mutable defn-counter <- 0
@@ -105,6 +108,9 @@ let-mutable theorem-counter <- 0
 let-block ctx +theorem = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定理} theorem-counter ctx
 let-mutable lemma-counter <- 0
 let-block ctx +lemma = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){補題} theorem-counter ctx
+let-mutable conjecture-counter <- 0
+let-block ctx +conjecture = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){予想} conjecture-counter ctx
+let-math \GCH  = ${\mathord{\mathrm{GCH}}}
 open LatexCmds
 
 let math-font-scale sty sz m = text-in-math sty 
