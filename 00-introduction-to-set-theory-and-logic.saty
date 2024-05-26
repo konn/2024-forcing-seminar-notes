@@ -64,7 +64,7 @@ document (|
       +p{\enumerate{
         * 整数全体${\mathbb{Z}}上の整除関係${x \mid y \iff x \text!{ は } y \text!{ を割り切る}}を考える。このとき、${(\mathbb{N}, \mathord{\mid}, 0)}は擬順序集合である。特に、${n \neq 0}について${n \mid -n \mid n}であるが、${n \neq -n}であるので、擬順序ではあるが半順序ではない。
         * 集合${X}について、冪集合${(\Pow(X), \mathord{\subseteq}, X)}は擬順序集合である。
-        * 集合${X}について、${X}上の有限列の全体${\FinSeq{X} = \pb{ (x_0, x_1, \ldots, x_{n - 1}) \mrquad!(0.25)\mid\mrquad!(0.25) n < \omega, x_i \in X}}上の逆向きの包含関係${\sigma \leq \tau \iff \sigma \supseteq \tau}を考えると、${(\FinSeq{X}, \mathord{\leq}, \emptyset)}は擬順序集合である。
+        * 集合${X}について、${X}上の有限列の全体${\FinSeq{X} = \Set{ (x_0, x_1, \ldots, x_{n - 1})}{n < \omega, x_i \in X}}上の逆向きの包含関係${\sigma \leq \tau \iff \sigma \supseteq \tau}を考えると、${(\FinSeq{X}, \mathord{\leq}, \emptyset)}は擬順序集合である。
       }}
     >
 
@@ -111,7 +111,7 @@ document (|
       特に${\mathcal{U}}が${\FinSeq{X}}の超フィルターだとしてみる。すると${\sigma_{\mathcal{U}}}は必ず長さ${\omega}の無限列になることがわかる。
       なぜなら、もし${n = \lh(\sigma) < \omega}とすると、${\mathcal{U}}の任意の元の長さは高々${n}である。このとき、適当な${x \in X}をとれば、${\mathcal{U}' = \mathcal{U} \cup \pb{\sigma_{\mathcal{U}} \cup \set{(n, x)}}}は${\mathcal{U}}を真に含むフィルターであるが、これは${\mathcal{U}}の極大性に反する。
     }
-    +p{逆に、無限列${\sigma: \omega \to X}が与えられたとき、${\mathcal{U}_\sigma \coloneq \pb{p \in \FinSeq{X} \mid p \subseteq \sigma}}は${\FinSeq{X}}の超フィルターとなることはすぐわかる。
+    +p{逆に、無限列${\sigma: \omega \to X}が与えられたとき、${\mathcal{U}_\sigma \coloneq \Set{p \in \FinSeq{X}}{p \subseteq \sigma}}は${\FinSeq{X}}の超フィルターとなることはすぐわかる。
     そして、この${\mathcal{U} \mapsto \sigma_{\mathcal{U}}}と${\sigma \mapsto \mathcal{U}_\sigma}の対応が互いに逆演算になっており、${\FinSeq{X}}の超フィルターを考えることと、${X}の無限列を考えることは本質的に同じことになっていることがわかるだろう。
     }
 
@@ -122,7 +122,7 @@ document (|
       }
 
       +gather?:(AZMathEquation.notag)(${
-        | \mathbb{P} \coloneq \pb{ (p, N) \mid N < \omega,\mcomma p \in \FinSeq{\mathbb{Q}}}
+        | \mathbb{P} \coloneq \Set{ (p, N) }{N < \omega,\mcomma p \in \FinSeq{\mathbb{Q}}}
         | (p, N) < (q, M) \defs N > M \land p \supsetneq q \land \forall i, j \in [\lh(q) - 1, \lh(p))\mhquad \pabs{p_i - p_j} < 2^{-M}
         |}
       );
@@ -160,7 +160,7 @@ document (|
     }
 
     +p{
-      そこで、可算個の「実数」の一覧が${\p{f_i \in \seq{\omega}{2} \mid i < \omega}}として与えられたとしよう。
+      そこで、可算個の「実数」の一覧が${\Seq{f_i \in \seq{\omega}{2}}{i < \omega}}として与えられたとしよう。
     }
 
 

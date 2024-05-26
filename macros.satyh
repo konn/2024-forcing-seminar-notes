@@ -1,4 +1,3 @@
-@require: class-jlreq/jlreq
 @require: class-jlreq/theorem
 @require: math
 @require: enumitem/enumitem
@@ -63,6 +62,39 @@ let-math \G = ${𝖦}
 let-math \F = ${𝖥}
 let-math \J = ${𝖩}
 let-math \lh = ${\mathop{\mathrm{lh}}}
+let mid-space-ratio = 0.1875
+let-math \Set a b = ${\set-builder{#a\mrquad!(mid-space-ratio)}{\mrquad!(mid-space-ratio)#b}}
+let minus l = 0pt -' l
+let gr-abs-bracket-m thk vlen fsize color =
+
+  % 基準となる横の位置 (h) 及び 縦の位置 (v) の座標．
+  let hmin = minus fsize *' 0.2 in
+  let h0 = 0pt in
+  let hmax = fsize *' 0.2 in
+  let va = vlen in
+
+  % 結ぶことになる点の座標．
+  let (x0, y0) = (0pt, va) in
+  let (x1, y1) = (0pt, minus va) in
+
+  let path =
+    start-path (x0, y0)
+      |> line-to (x1, y1)
+      |> terminate-path
+  in
+  let xmin = hmin in
+  let xmax = hmax in
+  (
+    [stroke thk color path],
+    (xmin, minus vlen), (xmax, vlen),
+    (fun _ -> 0pt)
+  )
+let-math \Seq m m-cond =
+  open AZMathParens in
+  let lparen = paren-scheme (gr-angle-bracket 0.5pt true) half-height-default in
+  let mparen = paren-scheme (gr-abs-bracket-m 0.5pt) half-height-default in
+  let rparen = paren-scheme (gr-angle-bracket 0.5pt false) half-height-default in
+  math-paren-with-middle lparen rparen mparen [${#m\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#m-cond}]
 let-inline \emph arg = {\font-style[bold](arg);}
 let-inline \gruby arg1 arg2 = {\ruby?:[Ruby.mode Ruby.g](arg1)(arg2);}
 let-mutable defn-counter <- 0
