@@ -103,6 +103,8 @@ let-mutable example-counter <- 0
 let-block ctx +example = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){例} example-counter ctx
 let-mutable theorem-counter <- 0
 let-block ctx +theorem = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定理} theorem-counter ctx
+let-mutable lemma-counter <- 0
+let-block ctx +lemma = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){補題} theorem-counter ctx
 open LatexCmds
 
 let math-font-scale sty sz m = text-in-math sty 

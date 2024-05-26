@@ -51,7 +51,7 @@ document (|
           * ${\mathbb{1} \in \mathbb{P}}は最大限\footnote{反対称律を仮定していないので、${\mathbb{P}}は複数の相異なる最大限を持ち得ることに注意する。}である：${\forall x \mhquad x \leq \mathbb{1}}
         }
 
-        集合論の文脈では、擬順序集合${\mathbb{P}}自体のことを\emph{強制概念}（\emph{forcing notion}）、擬順序集合の各元${p \in ℙ}のことを\emph{強制条件}（\emph{forcing condition}）と呼ぶ。
+        集合論の文脈では、擬順序集合${\mathbb{P}}自体のことを\emph{強制概念}（\emph{forcing notion}）、擬順序集合の各元${p \in ℙ}のことを\emph{強制条件}（\emph{forcing condition}）と呼ぶ。強制条件が${q \leq p}を満たすとき、「${q}は${p}を\emph{拡張する}（${q} \emph{extends} ${p}）」と言う。
       }
     >
 
@@ -156,15 +156,43 @@ document (|
     }
     +p{
       よく知られている上記Cantorの定理の証明は、可算無限個の実数を持ってきたときに、その対角線で必ず異なるような実数を作ることができ、したがって可算個では実数は取り尽せない、というものだ。ここでは見方を変えて、この証明をフィルターの言葉で書き直して見てみよう。対角線論法で直接実数を扱うのは、端点での値の一意性が効いてきて面倒（${1.0 = 0.999\ldots}などを考えよ）なので、ここでは実数の代わりに${\pb{0, 1}}の無限列の全体${\seq{\omega}{2}}を使って、${\omega}から ${\seq{\omega}{2}}への全射が存在しないことを示すことにする。
-      前節での議論から、${\FinSeq{2}}の超フィルターを考えることと、${\seq{\omega}{2}}の元を考えることは同じことだったから、${\FinSeq{2}}のいい感じの超フィルターを作ることを考えよう。
+      前節での議論から、${\FinSeq{2}}の超フィルターを考えることと、${\seq{\omega}{2}}の元を考えることは同じことだったから、${\mathbf{C} \coloneq \FinSeq{2}}のいい感じの超フィルターを作ることを考えよう。
     }
 
     +p{
-      そこで、可算個の「実数」の一覧が${\Seq{f_i \in \seq{\omega}{2}}{i < \omega}}として与えられたとしよう。
+      そこで、可算個の「実数」の一覧が${\Seq{f_i \in \seq{\omega}{2}}{i < \omega}}として与えられたとしよう。このとき、${D_n \subseteq \mathbf{C}}を「どこかで${f_n}と異なる値を取る条件」の集合とする：
+      \eqn?:(AZMathEquation.notag)(${D_n = \Set{p \in \FinSeq{2}}{\exists i < \lh(p) \mcomma p(i) \neq f_n(i)}});
+
+      各${D_n}は最終的に条件を貼り合わせてできる無限列が「${f_n}とどこかで異なる」ということを表していると思える。
+      全ての${f_n}と異なるような実数を構成したかったので、今回の目標は全ての${D_n}たちと交わるような超フィルター${\mathcal{G}}を作ることである。
+
+      実は、${D_n}たちは個別に見れば次の意味で「普遍的に成り立つ性質」だと思える：
     }
 
+    +lemma<
+      +p{任意の ${p \in \FinSeq{2}}および${n < \omega}に対して、${p}を拡張するような（つまり、${q \leq p}となるような）元${q \in D_n}の元が取れる。}
+    >
+    +proof<
+      +p{${p}は有限桁なので${\lh(p) = k}とする。そこで${q \coloneq p \cup \pb{(k, 1 - f_n(k))}}として末尾に${f}と異なる値を付け足してやればよい。
+      }
+    >
 
+    +p{
+      このように「どんな条件もそれを満たすよう拡張できる」強制条件の集合を\emph{稠密集合}と呼び、指定された稠密集合の族${\mathcal{D}}の全ての要素と同時に交わるような超フィルターを\emph{${\mathcal{D}}-生成超フィルター}（\emph{generic filter}）と呼ぶ。
+    }
 
+    +defn<
+      +p{
+      ${\mathbb{P}}を擬順序集合とする。
+      \enumerate{
+        * ${D \subseteq \mathbb{P}}が${\mathbb{P}}で\emph{稠密}\footnote{これは、下閉集合を基本開集合として生成される位相で稠密集合になっている、という条件と同値である}（\emph{dense}）${\defs}どんな${p \in \mathbb{P}}に対しても、${q \leq p}となるような${q \in D}が存在する。
+        * ${\mathcal{D}}を集合族とする。超フィルター${G \subseteq \mathbb{P}}が\emph{${\mathcal{D}}-生成フィルター}（\emph{${\mathcal{D}}-generic filter}）${\defs} ${D \in \mathcal{D}}なる任意の${\mathbb{P}}-稠密集合${D \subseteq \mathbb{P}}について${D \cap G \neq \emptyset}となること。
+      }}
+    >
+
+    +p{
+      今の状況を上の定義を使って言い換えれば、${D_n}たちは${\mathbf{C}}の稠密集合であり、今回の目的は${\Set{D_n}{n < \omega}}-生成フィルターを取ろう、ということだった訳だ。
+    }
   >
   >
 
