@@ -13,78 +13,8 @@
 @require: matrix/matrix
 @require: arrows/arrows
 @require: arrows/commands
+@import: macros
 
-let-math \lrarrow = ${\longleftrightarrow}
-let-math \CH = ${\mathrm{CH}}
-let-math \ZF = ${\mathrm{ZF}}
-let-math \NK = ${\mathrm{NK}}
-let-math \HK = ${\mathrm{HK}}
-let-math \LK = ${\mathrm{LK}}
-let-math \CL = ${\mathrm{CL}}
-let-math \MP = ${\mathrm{MP}}
-let-math \mcomma = ${\mrquad!(3.0 /. 18.0)}
-let-math \Gen = ${\mathrm{Gen}}
-let-math \FinSeq arg = ${\mathord{\text!{}^{<\omega} #arg}}
-let-math \seq arity arg = ${\mathord{\text!{}^{#arity} #arg}}
-let-math \Pow = ${\mathop{\mathcal{P}}}
-let-math \implies = ${\Longrightarrow}
-let-math \iff = ${\Longleftrightarrow}
-let-math \overset m-over m =
-  text-in-math MathOrd (fun ctx -> (
-    let font-size = ctx |> get-font-size in
-    let ib-over = embed-math (ctx |> set-font-size (font-size *' 0.85)) m-over in
-    let ib-over = inline-fil ++ ib-over ++ inline-fil in
-    let ib-m = embed-math ctx m in
-    let ib-sp = inline-graphics 0pt (font-size *' 0.1) 0pt (fun _ -> []) in
-    line-stack-bottom [ib-over; ib-sp; ib-m]
-  ))
-
-let iff-arrow = Arrow.of-bth (|
-  body = ArrowBody.(
-    solid (|width = 0.05;|)
-    |> shift 0.2
-  );
-  head = ArrowHead.(vee (|
-    line-width = 0.05;
-    size = 0.15;
-    ext = 0.1;
-  |));
-  tail = ArrowTail.(vee (|
-    line-width = 0.05;
-    size = 0.15;
-    ext = -0.5;
-  |));
-|)
-let-math \defs = ${\mathrel{\overset{\text!{def}}{\Longleftrightarrow}}}
-let-math \K = ${𝖪}
-let-math \S = ${𝖲}
-let-math \P = ${𝖯}
-let-math \G = ${𝖦}
-let-math \F = ${𝖥}
-let-math \J = ${𝖩}
-let-math \lh = ${\mathop{\mathrm{lh}}}
-let-inline \emph arg = {\font-style[bold](arg);}
-let-inline \gruby arg1 arg2 = {\ruby?:[Ruby.mode Ruby.g](arg1)(arg2);}
-let-mutable defn-counter <- 0
-let-block ctx +defn = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定義} defn-counter ctx
-let-mutable example-counter <- 0
-let-block ctx +example = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){例} example-counter ctx
-let-mutable theorem-counter <- 0
-let-block ctx +theorem = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定理} theorem-counter ctx
-open LatexCmds
-
-let math-font-scale sty sz m = text-in-math sty 
-  (fun ctx -> 
-      read-inline (ctx |> set-font-size (get-font-size ctx *' sz)) {${#m}}
-  )
-let-math \mathsize sty sz m = math-font-scale sty sz m
-
-let-math \subst a subss =
-  let froms = List.map (fun (x, y) -> x) subss
-  in let tos = List.map (fun (x,y) -> y) subss
-  in ${\mathord{#a\pB{\mathsize!(MathOrd)!(0.75){\matrix-body![froms; tos]}}}}
-
-in 
 document (|
   title = {\no-break{集合論の雰囲気と数理論理学の初歩1}};
   author = {Hiromi ISHII (\@mr_konn)};
