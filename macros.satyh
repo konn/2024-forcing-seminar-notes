@@ -63,7 +63,7 @@ let-math \F = ${𝖥}
 let-math \J = ${𝖩}
 let-math \lh = ${\mathop{\mathrm{lh}}}
 let mid-space-ratio = 0.1875
-let-math \Set a b = ${\set-builder{#a\mrquad!(mid-space-ratio)}{\mrquad!(mid-space-ratio)#b}}
+let-math \Set a b = ${\set-builder{\mrquad!(mid-space-ratio)#a\mrquad!(mid-space-ratio)}{\mrquad!(mid-space-ratio)#b\mrquad!(mid-space-ratio)}}
 let minus l = 0pt -' l
 let gr-abs-bracket-m thk vlen fsize color =
 
@@ -94,7 +94,7 @@ let-math \Seq m m-cond =
   let lparen = paren-scheme (gr-angle-bracket 0.5pt true) half-height-default in
   let mparen = paren-scheme (gr-abs-bracket-m 0.5pt) half-height-default in
   let rparen = paren-scheme (gr-angle-bracket 0.5pt false) half-height-default in
-  math-paren-with-middle lparen rparen mparen [${#m\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#m-cond}]
+  math-paren-with-middle lparen rparen mparen [${\mrquad!(mid-space-ratio)#m\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#m-cond\mrquad!(mid-space-ratio)}]
 let-inline \emph arg = {\font-style[bold](arg);}
 let-inline \gruby arg1 arg2 = {\ruby?:[Ruby.mode Ruby.g](arg1)(arg2);}
 let-mutable defn-counter <- 0
