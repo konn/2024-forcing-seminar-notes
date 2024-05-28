@@ -8,12 +8,48 @@
 @require: pervasives
 @require: fss/fss
 @require: ruby/ruby
+@require: figbox/figbox
 @require: base/list-ext
 @require: latexcmds/latexcmds
 @require: matrix/matrix
 @require: arrows/arrows
 @require: arrows/commands
+@require: gr
+@require: arrows/arrows
+@require: color
 @import: macros
+@import: references
+
+let universe ctx = 
+  open Color in
+  open Gr in
+  let an-arrow = (Arrow.read (Arrow.of-bth
+        (|body = 
+            ArrowBody.dashed
+              (|width = 0.1; dash = (|fill = 0.4; space = 0.4; shift = 0.0|)
+              |)
+        ; head = ArrowHead.vee (|line-width=0.1; size=0.4; ext = 0.;|)
+        ; tail = ArrowTail.none
+        |)) ctx)#draw
+  in List.append
+    ( draw-splines 1pt black 
+        [ (0pt, 100pt);
+          (20pt, 30pt);
+          (50pt, 1pt);
+          (80pt, 30pt);
+          (100pt, 100pt)
+        ]
+    ) 
+    (List.append 
+    (an-arrow (50pt, 1pt) (50pt, 100pt))
+    [ draw-text (50pt, -10pt) (read-inline ctx {${0}})
+    ; draw-text (45pt, 105pt) (read-inline ctx {${\On}})
+    ; draw-text (54pt, 20pt) (read-inline ctx {${\omega}})
+    ; draw-text (54pt, 40pt) (read-inline ctx {${\omega_1}})
+    ; draw-text (54pt, 60pt) (read-inline ctx {${\omega_2}})
+    ; draw-text (57pt, 70pt) (read-inline ctx {${\vdots}})
+    ])
+in
 
 document (|
   title = {\no-break{集合論の雰囲気と数理論理学の初歩1}};
@@ -89,10 +125,6 @@ document (|
       いずれの理解にも数理論理学と基数算術の初歩が必要になるので、そうした内容は次回以降扱うとして、今回はそれらの雰囲気を把んでモチベーションを高めてもらうのが主となるだろう。
     }
     
-  >
-
-  +section{Boole値モデル：「多値集合論」としての強制法}<
-    +p{ここで集合の宇宙の累積的階層とBoole値モデルのおきもちを書く}
   >
 
   +section{フィルターと忙しい人のための強制法}<
@@ -336,6 +368,131 @@ document (|
       したがって、本セミナーの当面のゴールはこうした問題とその解決方法について、ある程度注意すべき点を押さえつつ大まかに理解することである。
     }
   >
+
+  +section{強制法により広がる宇宙：「多値集合論」としての強制法＝Boole値モデル}<
+    +p{
+      無限組合せ論についてはやるしかないので、ここでは最初の問題である「ない元の増やし方」がどのように正当化されるのか、ロジックの詳細に立ち入らない範囲で雰囲気だけ紹介していく。強制法の定式化には、大きく分けて二つの流儀がある：
+    }
+
+    +enumerate{
+      * ${\ZFC}の可算推移的モデル（c.t.m.）${M}を考え、${M}に属する稠密集合に対する全てに対する生成フィルター${G}を直接構成して、${M[G]}を直接さわる流儀
+      * 新しい宇宙の元の「名前」の全体${V^\mathbb{P}}と強制関係（\emph{forcing relation}）${p \vDash \varphi}を定義して、宇宙全体の強制拡大を考える流儀
+    }
+
+    +p{
+      それぞれが異なる使い勝手を持つので、同じ研究者でも論文によってそれぞれの流儀を使い分けることがある。
+      また、強制関係を使えば事実上${V}上の生成フィルター${G}を取っていると思うことができるため\footnote{実は、${V}上の生成フィルターを取る方法も、Hamkinsら\cite[`Hamkins:2012`];の強制法の自然主義的説明（\emph{naturalist account of forcing}）}、いちいち「c.t.m.を取る」とは言わずにあたかも${V}上の生成フィルター${G}を取って議論する形で書いてしまう場合も多い。
+      このセミナーでは、後者の${V^\mathbb{P}}を使った流儀で強制法を定式化し、慣れてきたらいきなり${G}を取るようにする。
+    }
+
+    +p{
+      強制関係を天下り的に与えてもよいが、それだと直観が掴みづらいところがある。そこで、本セミナーでは\emph{完備Boole代数}${\mathbb{B}}を使ったBoole値モデル${V^\mathbb{B}}とそこでの真偽値の定義を先にやり、そこから一般の擬順序の強制関係を導く、という形を取ることにする。
+    }
+
+    +fig-on-right(
+      FigBox.from-graphics-given-context (100pt, 100pt) universe
+    )<
+    +p{
+      Boole値モデルの考え方を見るために、最初に集合の累積的階層（\emph{cumulative hierarchy}）について復習しておこう。
+      集合論においては、現在作業している集合論のモデルのことを集合の宇宙${V}と呼ぶ。右図は集合論者が「宇宙」と言ったときに思い浮かべる一般的なイメージである\footnote{強調ではなく、集合論者に「宇宙の絵を描いてくれ」というと、十人中百人がこの図を描くだろう}。
+      ${\ZF}では（特に、von Neumannの基礎の公理の下では）、この宇宙は以下のように空集合からはじめて順序数に沿って冪集合を取っていくことで得られる。これを、集合の\emph{累積的階層}（\emph{cumulative hierarchy}）と呼ぶ。
+    }
+    >
+
+    +alignat?:(AZMathEquation.notag)(2)(${
+        |V_0 | \coloneq \emptyset |  |
+        |V_{\alpha + 1} | \coloneq \mathcal{P}(V_\alpha) | |
+        | V_\gamma | \coloneq \bigcup_{\alpha < \gamma} V_\alpha | \mquad | (\gamma: \text!{limit})
+        |}
+    );
+
+    +p{
+      ここで、冪集合というのは特性関数を介して考えれば、${\Pow(X) \cong \Set{f}{f: X \to 2}}と見做すことができるのを思い出そう。つまり、${X}の部分集合${S \subseteq X}というのは、${X}の各元${x \in X}に対して、「その集合に属するかどうか？」という真偽値を返す関数${\chi_S}と一対一に対応しているといわけだ：
+      
+      \eqn?:(AZMathEquation.notag)(${
+        \chi_S(x) = \cases!(${|0|(x \nin S)|1|(x \in S)|})
+      });
+
+
+      集合論では、こうした関数の集合をしばしば${\seq{X}{2}}と書く\footnote{完全に好みで、普通のベキのように${2^X}と書く人も沢山いる。私は定義域・値域の順に並ぶのが好みなので、この記法を多用する。}。つまり、上を書き直せば：
+
+      \eqn?:(AZMathEquation.notag)(${V_0 = \emptyset \mqquad V_{\alpha + 1} = \seq{V_\alpha}{2} \mqquad V_\gamma = \bigcup_{\alpha < \gamma} V_\alpha\mhquad (\gamma: \text!{limit})});
+
+      ということだ。
+    }
+
+    +p{
+      さて、強制法の目的の一つは、「この宇宙に存在しない理想元」を考えることにあった。そこで、この累積階層の構成を真似して、集合概念を「拡張」できないだろうか？
+      ところで、計算機科学分野では、${2 = \set{0, 1}}の元を偽・真と対応させてBoole代数とかBoole値と呼ぶことが多い。しかし、厳密には${2}は二値Boole代数と呼ばれるもので、これを一般化したBoole代数という代数系が定義できる：
+    }
+
+    +defn<
+      +p{
+        以下を満たす${\mathbb{B} = (\mathbb{B}, \mathbb{0}, \mathbb{1}, \mathord{-}, \mathord{+}, \mathord{\cdot}, \mathord{\leq})}をBoole代数と呼ぶ：
+
+        \enumerate{
+          * ${\leq}は${B}上の半順序である。
+          * ${\mathbb{0}, \mathbb{1}}はそれぞれ${\leq}に関する最小・最大元である。
+          * 任意の二元${p, q \in \mathbb{B}}に対して、${p + q, p \cdot q}はそれぞれ二元の上限（最小下界）・下限（最大上界）を与える。
+            ** つまり${p, q \leq p \cdot q}かつ${\forall r \mhquad \pB{p, q \leq r \implies p \cdot q \leq r}}が成り立つ。${+}についてはこの双対を取った性質が成り立つ。
+          * ${p \in \mathbb{B}}に対し、${-p}は${p}の\emph{補元}（\emph{complement}）と呼ばれ、${p + (-p) = \mathbb{1}}および${p \cdot (-p) = \mathbb{0}}を満たす。
+        }
+      }
+
+      +p{
+        更に、${\mathbb{B}}の濃度${\kappa}-未満の任意の部分集合${A \subseteq \mathbb{B}}についてその上限${\sum \mathbb{B}}・下限${\prod \mathbb{B}}が存在するとき、${\mathbb{B}}を\emph{${\kappa}-完備Boole代数}と呼ぶ。
+        濃度の制限なく上限・下限が存在するBoole代数を\emph{完備Boole代数}（cBa）と呼ぶ。
+      }
+
+    >
+    +remark<+p{測度論でBorel集合族のことを${\sigma}-代数などといったりするが、これは${\sigma}-Boole代数のことである。${\sigma}は最小の非可算基数${\omega_1}の古い別名である。}>
+
+    +p{
+      気持ちとしては、${-}, ${+}, ${\cdot}が論理結合子${\lnot}, ${\lor}, ${\land}に対応し、${\sum}, ${\prod}は量化子${\exists}, ${\forall}を模倣したいという事になる。${2 = \set{0, 1}}の各元を偽・真と対応させれば、${2}には明らかに完備Boole代数の構造が入る\footnote{ちなみに、完全に今回の趣旨から外れるが、直観主義集合論では${2}すら完備になるとは限らない。なんてこった……}。
+      そこで、${V}の累積的階層で${2}の果していた役割を完備Boole代数${\mathbb{B}}で置き換えれば、${\mathbb{B}}-値モデル（または${\mathbb{B}}-name の全体）${V^\mathbb{B}}が得られる：
+    }
+    
+    +alignat?:(AZMathEquation.notag)(2)(${
+        |V^\mathbb{B}_0 | \coloneq \emptyset |  |
+        |V^\mathbb{B}_{\alpha + 1} | \coloneq \seq{V^\mathbb{B}_\alpha}{\mathbb{B}} = \Set{\adot{f}}{ \adot{f}: V^\mathbb{B}_\alpha \to \mathbb{B}} | |
+        | V^\mathbb{B}_\gamma | \coloneq \bigcup_{\alpha < \gamma} V^\mathbb{B}_\alpha | \mquad | (\gamma: \text!{limit})
+        |}
+    );
+
+    +p{
+      これで実際に新しい宇宙を増やせているのか？という疑問があるかもしれない。そもそも、モデルというからには、何らかの形で論理式に対する意味論を与えてやる必要がある。幸い、我々は「真偽値っぽく振る舞う」${\mathbb{B}}に基づいて新たな宇宙の対象を作っているので、これを使おう。こんな感じで（厳密ではないが）${\mathbb{B}}上の真偽値${\pSQ{\varphi}_{\mathbb{B}}}を定義できる：
+    }
+
+    +alignat(2)(${
+      | \pSQ{\adot{x} \in \adot{f}}_{\mathbb{B}}
+          | \coloneq \sum_{(\theta, b) \in \adot{f}} b \cdot \pSQ{\adot{x} = \theta}_{\mathbb{B}},
+      | \pSQ{\adot{x} = \adot{y}}_{\mathbb{B}} |
+        \coloneq \pSQ{\adot{x} \subseteq \adot{y}} \cdot \pSQ{\adot{y} \subseteq \adot{x}}_{\mathbb{B}},
+      | \pSQ{\lnot \varphi} | \coloneq -\pSQ{\varphi},
+      | \pSQ{\varphi \lor \psi} | \coloneq \pSQ{\varphi} + \pSQ{\psi}
+      | \pSQ{\exists x \mhquad \varphi(x)} 
+      | \coloneq \sum_{x \in V^\mathbb{B}} \pSQ{\varphi(x)}_{\mathbb{B}}
+      | \pSQ{\forall x \mhquad \varphi(x)} | \coloneq \prod_{x \in V^\mathbb{B}} \pSQ{\varphi(x)}_{\mathbb{B}}
+    |});
+
+
+    +p{${\pSQ{\varphi} = \mathbb{1}}であるとき${\varphi}は真であると考える。}
+    +p{
+      こうして定めた真偽値は演繹を保存し、${\pSQ{\ZF} = \mathbb{1}}であり更に${V}で選択公理が成り立つなら${\pSQ{\AC} = \mathbb{1}}となることがわかる。
+      また、${V}の集合${x \in V}に対し、再帰的に${\check{x} \coloneq \Set{(\check{y}, \mathbb{1})}{y \in x}}と定めると、これは明らかに${x \in V^{\mathbb{B}}}となるので、この${V^\mathbb{B}}は${V}をある意味で拡張になっている。
+      更に、この宇宙には、\emph{${(V, \mathbb{B})}-生成フィルター}${\adot{G}}という特別なオブジェクトが存在している。これ自体の定義は簡単で、次のように定められる：
+
+      \eqn?:(AZMathEquation.notag)(${\adot{G} \coloneq \Set{(\check{b}, b)}{b \in \mathbb{B}}});
+
+      そう……ちょうど${\mathbb{B}}の対角線を取っている。すると、${\mathbb{B}}の任意の稠密集合${D \in V}について次が言える：
+
+      \eqn?:(AZMathEquation.notag)(${\pSQ{\forall D \in \check{V}\mhquad \pB{D \subseteq \check{\mathbb{B}}: \text!{稠密} \implies \adot{G} \cap \check{D} \neq \emptyset}}_{\mathbb{B}} = \mathbb{1}});
+
+      \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成的超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！これこそ正に我々の欲しかったものだ。
+    }
+
+    +p{こうした事実の証明には結構手間がかかる（修士1年の最初の半年くらい）。なので、本セミナーでは、次回以降証明の詳細には立ち入りすぎない範囲で、注意の必要な場所や証明のアイデアを伝えられるような範囲で取り扱っていく予定である。}
+  >
   >
 
   +section{集合論の見取り図}<
@@ -514,6 +671,15 @@ document (|
   +section{不完全性定理とTarskiの真理定義不可能性定理}<
     
   >
+>
+
++part{参考文献}<
+  +makebibliography 
+        ?:(|sort-references=true; 
+            citestyle=CiteAsNumber;
+            name-shrink=true;
+          |)
+        (bib-theme)(bibs);
 >
 
 >

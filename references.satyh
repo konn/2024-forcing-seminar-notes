@@ -1,0 +1,66 @@
+@require: bibyfi/bibyfi
+@require: code
+@require: annot
+@require: fss/fss
+@require: bibyfi/bibyfi-IEEETran
+
+let bib-theme = BiByFiIEEETran.theme (|
+    name-shrink = true;
+    et-al = true;
+    journal-abbr = [];
+  |)
+
+let default-book =
+  (|
+    author = [];
+    title = ` `;
+    publisher = ` `;
+    year = `1957`;
+    note = None;
+    month = None;
+    address = None;
+    edition = None;
+    series = None;
+    volume = None;
+    key = None;
+  |)
+
+let bibs = [
+  (`Hamkins:2012`,
+    WildCard({
+      J. D. Hamkins and D. E. Seabold, "Well-founded Boolean ultrapowers as large cardinal embeddings", 2012. URL: 
+        \href(`https://arxiv.org/abs/1206.6075`){\code(`https://arxiv.org/abs/1206.6075`);}.}
+    )
+  );
+  (`古森・小野:2010`, 
+    Book(|
+      author = [`古森 雄一`; `小野寛晰`];
+      title = `現代数理論理学序説`;
+      publisher = `日本評論社`;
+      year = `2010`;
+      note = Some `ISBN: 978-4-535-78556-4`;
+      month = Some `6`;
+      address = None;
+      edition = None;
+      series = None;
+      volume = None;
+      key = None;
+    |)
+  );
+  (`戸次:2012`, 
+    Book(| default-book with
+      author = [`戸次大介`];
+      title = `数理論理学`;
+      publisher = `東京大学出版会`;
+      year = `2012`;
+      note = Some `ISBN: 978-4-13-062915-7`;
+      month = None;
+      address = None;
+      edition = None;
+      series = None;
+      volume = None;
+      key = None;
+    |)
+  )
+
+]

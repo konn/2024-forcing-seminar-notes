@@ -2,6 +2,7 @@
 @require: math
 @require: enumitem/enumitem
 @require: azmath/azmath
+@require: azmath/accent
 @require: bibyfi/bibyfi
 @require: bibyfi/bibyfi-IEEETran
 @require: pervasives
@@ -23,6 +24,7 @@ let-math \HK = ${\mathrm{HK}}
 let-math \LK = ${\mathrm{LK}}
 let-math \CL = ${\mathrm{CL}}
 let-math \MP = ${\mathrm{MP}}
+let-math \On = ${\mathrm{On}}
 let-math \mcomma = ${\mrquad!(3.0 /. 18.0)}
 let-math \Gen = ${\mathrm{Gen}}
 let-math \FinSeq arg = ${\mathord{\text!{}^{<\omega} #arg}}
@@ -107,6 +109,8 @@ let-mutable example-counter <- 0
 let-block ctx +example = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){例} example-counter ctx
 let-mutable theorem-counter <- 0
 let-block ctx +theorem = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){定理} theorem-counter ctx
+let-mutable remark-counter <- 0
+let-block ctx +remark = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){注意} remark-counter ctx
 let-mutable lemma-counter <- 0
 let-block ctx +lemma = JLReqTheorem.theorem-scheme(JLReqTheorem.default-config-theorem){補題} theorem-counter ctx
 let-mutable conjecture-counter <- 0
@@ -124,3 +128,158 @@ let-math \subst a subss =
   let froms = List.map (fun (x, y) -> x) subss
   in let tos = List.map (fun (x,y) -> y) subss
   in ${\mathord{#a\pB{\mathsize!(MathOrd)!(0.75){\matrix-body![froms; tos]}}}}
+
+let add-pt (x1, y1) (x2, y2) = (x1 +' x2, y1 +' y2)
+let scale-pt (x1, y1) r = (x1 *' r, y1 *' r)
+let sub-pt (x1, y1) (x2, y2) = (x1 -' x2, y1 -' y2)
+
+let extend-spline p0 p1 p2 p3 =
+  let v0 = add-pt (scale-pt (sub-pt p2 p0) (1.0 /. 6.0)) p1 in
+  let v1 = add-pt (scale-pt (sub-pt p1 p3) (1.0 /. 6.0)) p2 in
+  bezier-to v0 v1 p2
+
+let-rec draw-splines
+  | width col [] = [] 
+  | width col (start :: pts ) =
+  open Gr in
+  let-rec go 
+        | p0 p1 p2 (p3 :: ps) acc = 
+            extend-spline p0 p1 p2 p3 acc
+              |> go p1 p2 p3 ps
+        | p0 p1 p2 [] acc = 
+            extend-spline p0 p1 p2 (add-pt p2 (scale-pt (sub-pt p2 p1) 0.25)) acc
+  in match pts with
+  | [] -> []
+  | (tgt :: []) -> [stroke width col (line start tgt)]
+  | (p1 :: p2 :: ps) ->
+      [stroke 
+        width col
+        ( terminate-path
+          (go (add-pt start (scale-pt (sub-pt start p1) 0.25)) 
+              start p1 (p2 :: ps) (start-path start))
+        )
+      ]
+
+let minus l = 0pt -' l
+let reflect-x = linear-transform-path (0.0 -. 1.0) 0.0 0.0 1.0
+
+let pads-double-sqbracket is-open fsize =
+  let (pad-inner, pad-outer) = (fsize *' 0.02, fsize *' 0.12) in
+  if is-open
+  then (pad-outer, pad-inner, 0pt)
+  else (pad-inner, pad-outer, 0pt)
+
+let gr-double-sqbracket thk is-open vlen fsize color =
+    % 基準となる横の位置 (h) 及び 縦の位置 (v) の座標．
+    let hmin = minus fsize *' 0.12 in
+    let h0 = 0pt in
+    let ha = vlen *' 0.14 +' fsize *' 0.2 in
+    let hmax = ha +' fsize *' 0.02 in
+    let va = vlen in
+
+    % 結ぶことになる点の座標．
+    let (x0, y0) = (ha, va) in
+    let (x01, y01) = (ha *' 0.4, va) in
+    let (x1, y1) = (0pt, va) in
+    let (x2, y2) = (0pt, minus va) in
+    let (x23, y23) = (ha *' 0.4, minus va) in
+    let (x3, y3) = (ha, minus va) in
+
+    let path-outer =
+      start-path (x0, y0)
+        |> line-to (x1, y1)
+        |> line-to (x2, y2)
+        |> line-to (x3, y3)
+        |> terminate-path
+    in
+    let path-vert = start-path (x01, y01) |> line-to (x23, y23) |> terminate-path in
+    let path = unite-path path-outer path-vert in
+    let path = if is-open then path else reflect-x path in
+    let xmin = if is-open then hmin else minus hmax in
+    let xmax = if is-open then hmax else minus hmin in
+    (
+      [stroke thk color path],
+      (xmin, minus vlen), (xmax, vlen),
+      (fun _ -> 0pt)
+    )
+
+let max-len l1 l2 = if l1 >' l2 then l1 else l2
+
+let double-sqbracket-l =  
+      AZMathParens.paren-scheme 
+        (gr-double-sqbracket 0.5pt true) 
+        AZMathParens.half-height-default
+let double-sqbracket-r = 
+  AZMathParens.paren-scheme 
+      (gr-double-sqbracket 0.5pt false) 
+      AZMathParens.half-height-default
+let accent-scheme str-acc wid-acc-r acc-thickness-r shift-offset-opt inner =
+  let embedf ctx =
+    let accent = math-char MathOrd str-acc in
+    let ib-inner = embed-math ctx inner in
+    let ib-accent = embed-math ctx accent in
+    let (wid-in, ht-in, dp-in) = get-natural-metrics ib-inner in
+    let (_, ht-acc, _) = get-natural-metrics ib-accent in
+
+    let offset-acc = ht-acc -' (ctx |> get-font-size) *' acc-thickness-r in
+    let wid-acc = (ctx |> get-font-size) *' wid-acc-r in
+    let shift-offset = (ctx |> get-font-size) *' (shift-offset-opt |> Option.from 0.) in
+    let ht = max-len ht-in ht-acc in
+    let dp = dp-in in
+
+    let xoffset =
+      if wid-in >' wid-acc
+      then % 右揃え
+        wid-in
+      else % 中央揃え
+        wid-in +' (wid-acc -' wid-in) *' 0.5
+    in
+
+    let grlst (x, y) =
+      [
+        draw-text (x, y) ib-inner;
+        draw-text (x +' xoffset +' shift-offset, y +' ht-in -' offset-acc) ib-accent;
+      ]
+    in
+
+    math-graphics MathOrd wid-in ht dp grlst
+  in
+
+  math-in-math MathOrd embedf
+    
+    
+let-math \check ?:shift inner = 
+  open Gr in open Color in
+  let shift = Option.from 0pt shift in
+  math-in-math MathOrd 
+      (fun ctx -> (
+        let ib-inner = embed-math ctx inner in
+        let (wid-in, ht-in, dp-in) = get-natural-metrics ib-inner in
+        let check-hpad = wid-in *' 0.2 in
+        let check-ht = wid-in *' 0.2 in
+        let check-vpad = ht-in *' 1.25 in
+        math-graphics MathOrd wid-in ht-in dp-in 
+          (fun (x, y) -> 
+            [ draw-text (x, y) ib-inner
+            ; stroke 0.5pt black 
+              ( start-path (shift +' x +' check-hpad, y +' check-vpad +' check-ht)
+                |> line-to (shift +' x +' wid-in *' 0.5, y +' check-vpad)
+                |> line-to (shift +' x +' wid-in -' check-hpad, y +' check-vpad +' check-ht)
+                |> terminate-path
+              )
+            ]
+          )
+        )
+      )
+
+let-math \pSQ ?:ht m =
+  let half-height = match ht with
+  | Some(ht) -> AZMathParens.half-height-fixed ht 
+  | None -> AZMathParens.half-height-default
+  in math-paren
+      (AZMathParens.paren-scheme (gr-double-sqbracket 0.5pt true) half-height)
+      (AZMathParens.paren-scheme (gr-double-sqbracket 0.5pt false) half-height)
+      m
+
+let-math \lt = ${<}
+let-math \gt = ${>}
