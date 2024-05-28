@@ -109,10 +109,12 @@ document (|
         \enumerate{
           * ${\leq}は反射的である：${\forall x \in P \mhquad x \leq x}
           * ${\leq}は推移的である：${\forall x, y, z \in P \mhquad x \leq y \land y \leq z \to x \leq z}
-          * ${\mathbb{1} \in \mathbb{P}}は最大限\footnote{反対称律を仮定していないので、${\mathbb{P}}は複数の相異なる最大限を持ち得ることに注意する。}である：${\forall x \mhquad x \leq \mathbb{1}}
+          * ${\mathbb{1} \in \mathbb{P}}は最大元\footnote{反対称律を仮定していないので、${\mathbb{P}}は複数の相異なる最大元を持ち得ることに注意する。}である：${\forall x \mhquad x \leq \mathbb{1}}
         }
 
         集合論の文脈では、擬順序集合${\mathbb{P}}自体のことを\emph{強制概念}（\emph{forcing notion}）、擬順序集合の各元${p \in ℙ}のことを\emph{強制条件}（\emph{forcing condition}）と呼ぶ。強制条件が${q \leq p}を満たすとき、「${q}は${p}を\emph{拡張する}（${q} \emph{extends} ${p}）」と言う。
+
+        また、条件${p, q \in \mathbb{P}}に対して${r \leq p, q}を満たすような${r \in \mathbb{P}}が取れるとき、${p, q}は\emph{両立する}（\emph{compatible}）と言う。
       }
     >
 
@@ -154,7 +156,7 @@ document (|
           ** ${\emptyset \neq \mathcal{I} \neq \mathbb{P}}
           ** 下に閉：${q \leq p \in \mathcal{I} \implies q \in \mathcal{I}}
           ** 二元が上界を持つ：${p, q \in \mathcal{I} \implies \exists r \in \mathcal{I} \mhquad p, q \leq r}
-        * \emph{素イデアル}（\emph{prime ideal}）とは、極大なイデアルのことである。
+        * \emph{素イデアル}（\emph{prime ideal}）または極大イデアル（\emph{maximal ideal}）とは、極大なイデアルのことである。
       }
     >
     
@@ -196,7 +198,7 @@ document (|
 
       +p{
         この例は、あくまでもCauchy列という近似をフィルターでも表示できる、という例示の意図であり、同値関係等が面倒臭いので、実用上強制法で実数を扱うときにこの擬順序使うことはない。
-        また、集合論者が「実数」というと何らかの非可算ポーランド空間の元であれば何でもよく、特にBaire空間${\mathcal{N} = \FinSeq{\omega}}やカントール空間${\mathcal{C} = \FinSeq{2}}の元を指すことが多い。
+        また、集合論者が「実数」というと何らかの非可算ポーランド空間の元であれば何でもよく、特にBaire空間${\mathcal{N} = \seq{\omega}{\omega}}やカントール空間${\mathcal{C} = \seq{\omega}{2}}の元を指すことが多い。
       }
     >
   >
@@ -248,7 +250,12 @@ document (|
     }
 
     +defn<
-      +p{${B \subseteq \mathbb{P}}が\emph{フィルター基}（\emph{filter base}）${\defs} ${\emptyset \nin B \neq \emptyset}かつ${\forall p, q \in B \mhquad \exists r \in B \mhquad r \leq p, q}となること。つまり、フィルターの定義のうち上に閉じている条件を除いたもの。
+      +p{}+enumerate{
+        * ${B \subseteq \mathbb{P}}が\emph{フィルター基}（\emph{filter base}）${\defs} ${\emptyset \nin B \neq \emptyset}かつ${\forall p, q \in B \mhquad \exists r \in B \mhquad r \leq p, q}となること。つまり、フィルターの定義のうち上に閉じている条件を除いたもの。
+        * ${C \subseteq \mathbb{P}}が\emph{有限交叉性}（\emph{finite intersection property}, 略：FIP）を持つ ${\defs}
+          ${C}の任意有限個の元${p_0, \ldots, p_{n-1} \in C}が${\mathbb{P}}に\emph{下限}${r^* \in \mathbb{P}}を持つこと。つまり、次を満たす${r \in \mathbb{P}}が存在する：
+          \gather(${|r^* \leq p_0, \ldots, p_{n-1}| \forall r \in \mathbb{P}\mhquad \pB{r \leq p_0, \ldots, p_{n-1} \implies r \leq r^*} |});
+          このような${r}を${p_0 \cdot \ldots \cdot p_{n-1}}と書く\footnote{${p_0 \land \cdots \land p_{n-1}}と書く流儀もメジャーである。ここでは論理記号と区別するために敢えて環の記号を書いている}。
       }
     >
 
@@ -259,13 +266,17 @@ document (|
       +p{${F \coloneq \Set{p \in \mathbb{P}}{\exists q \in B \mhquad q \leq p}}とせよ。
       }
     >
+    +lemma<+p{${C \subseteq \mathbb{P}}がFIPを持つなら、${C}はそれを含むフィルター${F}に拡張できる。}>
+    +proof<
+      +p{${B \coloneq \Set{p_0 \cdot \ldots \cdot p_{n-1}}{n < \omega, p_i \in C }}はフィルター基。}
+    >
 
     +lemma<
       +p{${F \subseteq \mathbf{C}}をCohen強制法上のフィルターとする。もし任意の${n < \omega}について、${\lh(p) \geq n}なる${p \in F}が取れるなら、${F}は${\mathbf{C}}の超フィルターである。}
     >
     +proof<
       +p{
-        このとき${x = \bigcup F}は${\Seq{\omega}{2}}の元となる。このとき、${x}の有限部分全体から成る集合${U_x}は超フィルターとなることを既に見たが、明らかに${U_x \subseteq F}である。
+        このとき${x = \bigcup F}は${\seq{\omega}{2}}の元となる。このとき、${x}の有限部分全体から成る集合${U_x}は超フィルターとなることを既に見たが、明らかに${U_x \subseteq F}である。
       }
     >
 
@@ -294,6 +305,35 @@ document (|
     +p{
       定理\ref(`cantor-diag`);の証明だけ考えれば、この証明はわざわざフィルターと稠密集合をつかって証明を焼き直しただけに見える。
       しかし、大事なのは、稠密集合と生成超フィルターの言葉を使うことで、\emph{対角線論法の本質を一般的なフレームワークとして}抽出できる、ということだ。そして、\emph{これこそが強制法の基本的な考え方}に外ならない。
+    }
+
+    +p{
+      今回は一つこの世にある実数のブラックリストからそこに載っていない実数を一個とりだしてくるのに稠密集合と生成フィルターを使った方法を使った。
+      一方で、連続体仮説は「実数はいくつあるのか？」という問題だった。なので、連続体仮説を破るには、素朴に考えるとたとえば新しく${\aleph_2}個の実数をつけ足すことができればよさそうだ。
+      ここに、上で使った手法を応用できないだろうか？たとえば、実数${x \in \reals}を一つ固定したとき、以下の集合を考えてみよう：
+      \eqn(${D_x \coloneq \Set{p \in \mathbf{C}}{\exists i < \omega \mhquad p(i) \neq x(i)}});
+      すると、これは上で対角線論法を焼き直した際に${D_n}が稠密であったのとちょうど同じ理由で、${\mathbf{C}}で稠密になっていることがわかる。
+      また、${E_n \coloneq \Set{p \in \mathbf{C}}{\lh(p) \geq n}}と置けば、これも足りない分を任意に伸ばせばよいだけなので稠密集合である。
+    }
+
+    +p{
+      これを踏まえれば、「この世に存在する全ての実数${x \in \reals}について${D_x}と${E_n}について生成的なフィルター」が取れれば、宇宙に存在しない新しい実数を足すことができそうだ。なので、この作業を${\aleph_2}回繰り返してみれば、少なくとも${\aleph_2}個の実数が存在し、${\aleph_0 < \aleph_1 < \aleph_2 = 2^{\aleph_0}}となって、${\CH}が破れているような宇宙が出来るのではないか？……これが、強制法による連続体仮説の破り方の基本的な考え方である。
+    }
+
+    +p{
+      もちろん、これはあくまで素朴な考え方であって、考慮しなければならないことはたくさんある：
+
+      \enumerate{
+        * 「今の宇宙にない実数」を足すような行為を、どうやって正当化できるのか？
+        * そもそも、${\aleph_0}とか${2^{\aleph_0}}とかがこの宇宙と同じだとどうして思っていいのか？
+        * 無理矢理${\aleph_2}個の実数を足しても、その過程で${\aleph_1}やら${\aleph_2}も潰れてしまって、結局${\aleph_1 = \aleph_2}になってしまうかもしれない。
+      }
+
+      最初の問題を解決するのが強制法の理論構成であり、数理論理学の道具を使って不完全性定理を回避しつつ挑むことになる。2番目の問題についても、数理論理学的な手法によってどういった概念が保たれ、どういった概念が破壊されるのかを分析する必要がある。
+
+      最後の問題については、「存在しない実数を一気に${\aleph_2}個足すとき、\emph{それに使う擬順序がどのような無限組合せ論的性質を持つか}を分析することで、新たな宇宙でどの基数が保たれどの基数が破られるのか判断することができる。
+
+      したがって、本セミナーの当面のゴールはこうした問題とその解決方法について、ある程度注意すべき点を押さえつつ大まかに理解することである。
     }
   >
   >

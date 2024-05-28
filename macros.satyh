@@ -57,6 +57,7 @@ let iff-arrow = Arrow.of-bth (|
   |));
 |)
 let-math \defs = ${\mathrel{\overset{\text!{def}}{\Longleftrightarrow}}}
+let-math \reals = ${\seq{\omega}{2}}
 let-math \K = ${𝖪}
 let-math \S = ${𝖲}
 let-math \P = ${𝖯}
