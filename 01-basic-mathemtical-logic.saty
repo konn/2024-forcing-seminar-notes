@@ -1,0 +1,187 @@
+@require: class-jlreq/jlreq
+@require: class-jlreq/theorem
+@require: math
+@require: enumitem/enumitem
+@require: azmath/azmath
+@require: bibyfi/bibyfi
+@require: bibyfi/bibyfi-IEEETran
+@require: pervasives
+@require: fss/fss
+@require: ruby/ruby
+@require: figbox/figbox
+@require: base/list-ext
+@require: latexcmds/latexcmds
+@require: matrix/matrix
+@require: arrows/arrows
+@require: arrows/commands
+@require: gr
+@require: arrows/arrows
+@require: color
+@import: macros
+@import: references
+
+document (|
+  title = {\no-break{強制法セミナー第1回：数理論理学の初歩}};
+  author = {Hiromi ISHII (\@mr_konn)};
+  date = {2024-06-02};
+  show-title = true;
+  show-toc = true;
+|)'<
+  +section{一階述語論理の構文と証明体系}<
+
+    +p{
+      \emph{一階述語論理}は、予め固定された言語の下で、与えられた集合の元の間の関係を使って記述できるような性質を扱う論理体系である。現代数学は、一階述語論理の下で適切な強さの公理系の集合論\footnote{ここでの「集合論」は${\ZF}に限らない広い意味でのものである。よく、圏論が「集合論に代わる数学の基礎として採用できる」と説明されることがあるが、これはつよつよ圏であるトポスの内部言語を使うことで集合論を代替できる、という話で、${\ZF}とは違う集合論の「実装」を与えることができる、という話である。}を採用すれば全て展開できることが知られている。
+    }
+
+    +p{
+      ${\ZF}集合論は一階述語論理で記述される理論であり、集合論では一階述語論理に関する数理論理学の結果を縦横無尽に使う。本稿ではその必要最小限の事実を振り返っておく。
+      まずは、一階述語論理の構文と意味論について簡単に見ていこう。一階述語論理では議論したい理論ごとに言語${\mathcal{L}}を固定して議論をする。一階述語論理における言語とは、何が項で何が論理式なのかを確定させるのに必要な記号の集まりである。
+    }
+
+    +p{
+      本節のより踏み込んだ内容については、証明論寄りの内容は古森・小野\cite[`古森・小野:2010`];や戸次\cite[`戸次:2012`];を参考にされたい。
+    }
+
+    +defn?:(`formula`)?:({一階述語論理の項と論理式})<
+      +p{
+        一階述語論理の言語${\mathcal{L}}は次の構成要素から成る：
+        \listing{
+          * 関数記号${f^{(n_0)}_0, f^{(n_1)}_1, f^{(n_2)}_2, \ldots \mhquad (n_i \in ℕ)}
+          * 関係記号${R^{(m_0)}_0, R^{(m_1)}_1, R^{(m_2)}_2, \ldots \mhquad (m_i \in ℕ) }
+        }
+        上添え字の${(n_i), (m_i)}は記号の一部ではなく、各記号ごとに割り当てられている自然数であり、\emph{項数}（\emph{arity}）と呼ばれ、${f^{(n)}}は${n}-項関数記号、${R^{(m)}}は${m}-項関係記号と呼ばれる。
+        特に、${0}-項関数記号は\emph{定数記号}と呼ばれ、メタ変数${c_i, d_i, \ldots}などで表す。
+
+        一般に、記号の集合は有限とは限らず、任意の無限集合であったり、クラスであったりする場合がある。
+      }
+
+      +p {
+        一階の言語${\mathcal{L}}について、${\mathcal{L}}-\emph{項}（\emph{${\mathcal{L}}-term}）を以下のように帰納的に定義する：
+        \enumerate{
+          * 定数記号${c}は${\mathcal{L}}-項である。
+          * 変数${v}は${\mathcal{L}}-項である。
+          * 関数記号${f^{n}}および${\mathcal{L}}-項${\tau_0, \ldots, \tau_{n-1}}に対し、${f(\tau_0, \ldots, \tau_{n-1})}は${\mathcal{L}}-項である。
+          * 以上で定まるもののみが${\mathcal{L}}-項である。
+        }
+        最後の「以上で定まるもののみが〜」というのは、計算機科学でいう最小不動点の条件と同じである。以後の帰納的定義では省略する。
+      }
+
+      +p{
+        一階言語${\mathcal{L}}について、${\mathcal{L}}-\emph{原子論理式}（\emph{atomic ${\mathcal{L}}-formula}）を以下のように帰納的に定義する：
+        \enumerate{
+          * ${\bot}は${\mathcal{L}}-原子論理式である。
+          * ${\tau, \tau'}が${\mathcal{L}}-項のとき、${\tau = \tau'}は${\mathcal{L}}-原子論理式である。
+          * ${R}が${m}-項関係記号、${\tau_0, \ldots, \tau_{m-1}}が${\mathcal{L}}-項のとき、${R(\tau_0, \ldots, \tau_{m-1})}は${\mathcal{L}}-原子論理式である。
+        }
+      }
+
+      +p{
+        古典一階述語論理の\emph{${\mathcal{L}}-論理式}（\emph{${\mathcal{L}}}-formula）を以下のように機能的に定義する：
+        \enumerate{
+          * ${\mathcal{L}}-原子論理式は${\mathcal{L}}-論理式である。
+          * ${\varphi, \psi}が${\mathcal{L}}-論理式のとき、${\varphi \to \psi}は${\mathcal{L}}-論理式である。
+          * ${x}が変数記号で${\varphi(x)}が${\mathcal{L}}-論理式のとき、${\forall x \mhquad\varphi(x)}は${\mathcal{L}}-論理式である。
+        }
+        自由変数\footnote{変数が自由とか束縛されているとかはみなさんが知っているやつです。}を持たない論理式を\emph{閉論理式}（\emph{closed formula}）または\emph{文}（\emph{sentence}）と呼ぶ。
+      }
+      +p{
+        ${\to}は右結合とする。つまり、${\varphi \to \psi \to \chi}は${\varphi \to (\psi \to \chi)}の略記として解釈される。
+      }
+    >
+
+    +p{一階の言語の例として、ここではこれからずっと付き合うことになる集合論の言語${\mathcal{L}_{\in}}や環の言語${\mathcal{L}_\text!({ring})}などを挙げておく：}
+
+    +example?*?:({集合論の言語})<
+      +p{集合論の言語${\mathcal{L}_{\in}}は、二項述語記号${\in^{(2)}}のみを持つ言語である。}
+    >
+
+    +p{
+      え？他の記号は要らないの？和集合とか内包表記とか……と思うかもしれないが、${\ZF}公理系は十分強力であり、そうした記号を含む論理式があっても、それを含まない形で書き換えることができる。例えば、${x = A \cup B}は${\forall z \mhquad \pB{z \in x \lrarrow z \in A \lor z \in B}}と書き換えることができる。
+    }
+
+    +example?*?:({環の言語})<
+      +p{単位的環の言語${\mathcal{L}_\text!{ring}}は定数記号${0, 1}、二項関係記号${+, \cdot}を持つ言語である。}
+    >
+
+    +p{無限言語の例としては、体${K}に対して${K}-線型空間の言語がある：}
+
+    +example?*?:({${K}-線型空間の言語})<
+      +p{${K}を体とするとき、${K}-線型空間の言語は以下から成る：}
+      +listing{
+        * 定数記号${0}
+        * 二項関数記号${+}
+        * ${c \in K}ごとに、一項関数記号${c \cdot}
+      }
+    >
+
+    +p{
+      以上はあくまで何が式で何が項かという構文を定義しただけである。それらの証明可能性を与えるのが\emph{証明体系}である。
+      一階述語論理には互いに同値な複数の証明体系が知られている。型付き${\lambda}-計算に近い自然演繹${\NK}や、コンビネータ論理に近いヒルベルト流の体系${\HK}、簡潔でわかりやすく証明論などで用いられるシーケント計算${\LK}が代表的である。
+    }
+
+    +p{
+      分析の対象としては${\LK}が洗練されているのだが、導入が簡単であり、強制法で扱う上でも楽なのでここではヒルベルト流の体系${\HK}を証明体系として採用することにする。
+    }
+
+    +defn?*?:({古典一階述語論理の証明体系${\HK}})<
+      +p{
+        定数記号の集合${A, B, C, \ldots}と変数記号の集合${x, y, z, \ldots}が与えられた時、これらから定まる\emph{${\CL}-項}（\emph{${\CL}-term}）を以下で定める：
+        \enumerate{
+          * 特別な定数${\K, \S}は${\CL}-項である。
+          * 定数${A, B, C, \ldots}および変数は${x,y, z, \ldots}は${\CL}-項である。
+          * ${L, M}を${\CL}-項とするとき、${(LM)}は${\CL}-項である。
+        }
+        変数を含まない${\CL}-項を\emph{閉${\CL}-項}と呼び、特に定数${\K, \S}のみから成る閉項を\emph{結合子}または\emph{コンビネータ}（\emph{combinator}）と呼ぶ。${\CL}-項の括弧は左結合とし、一番外側のものは省略する。つまり、${LM(NO)P}は${(((LM)(NO))P)}の略記である。
+        ${\CL}-項を渡るメタ変数として、${L, M, N, \ldots}などを用いる。
+      }
+      +p{
+        古典一階述語論理のヒルベルト流証明体系${\HK}を定義する。${\HK}-式は${\K, \S, \P, \G, \F, \J}を定数として持つ${\CL}-項${L}と一階述語論理式${\varphi}に対して、${L: \varphi}の形のものである。${L}を主部または証明項、${\varphi}を述部または型と呼ぶ。
+        ${\HK}における公理系とは、述部が閉論理式であるような${\HK}-式の集合である。
+        
+        ${\HK}は以下の公理図式を持つ：
+        \listing{
+          * \emph{公理図式}：
+            
+            ** ${\K: P \to Q \to P}
+            ** ${\S: (P \to Q \to R) \to (P \to Q) \to P \to R}
+            ** ${\P: ((P \to Q) \to P) \to P}
+            ** ${\G: \forall y \p{P \to \subst{Q}![(${x}, ${y})]} \to (P \to \forall x Q)}（ただし変数${y}は${P}および${\forall x Q}に自由に現れない）
+            ** ${\F: \p{\forall x P} \to \subst{P}![(${u}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
+        }
+        
+        ${\HK}の\emph{推論図}は、${\HK}-式を頂点とし、次の規則に従う有向辺で結ばれる有限根つき木である：
+        \listing{
+            * \emph{推論規則}：
+              ** モーダスポネンス（${\MP}）：${L: P \to Q}, ${M: P}のとき ${(LM): Q}
+              ** 汎化（${\Gen}）：${\J L: \subst{P}![(${x}, ${y})]}のとき${L: \forall x P}（但し変数${y}は証明項${L}および${\forall x P}に自由に現れない）。
+        }
+        推論木で親を持たない上端の${\HK}-式を\emph{仮定}と呼び、根を\emph{定理}と呼ぶ。
+      }
+
+      +p{
+        ${\Gamma}を${\HK}における公理系とする。論理式${\varphi}が公理系${\Gamma}から\emph{証明可能}である（記号：${\Gamma \vdash_{\HK} \varphi}）とは、${\HK}の公理と${\Gamma}の元を仮定とする推論木で${\varphi}が結論になるものが存在することをいう。
+      }
+    >
+  >
+
+  +section{一階述語論理のTarski意味論と完全性定理}<
+    
+  >
+
+  +section{初等拡大、超積、コンパクト性定理}<
+    
+  >
+
+  +section{不完全性定理とTarskiの真理定義不可能性定理}<
+    
+  >
+
+  +section{参考文献}<
+    +makebibliography 
+          ?:(|sort-references=true; 
+              citestyle=CiteAsNumber;
+              name-shrink=true;
+            |)
+          (bib-theme)(bibs);
+  >
+>

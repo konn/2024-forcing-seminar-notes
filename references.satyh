@@ -25,6 +25,21 @@ let default-book =
     key = None;
   |)
 
+let default-article =
+  (| author = []
+    ; title =  ` `
+    ; journal = ` `
+    ; pages = (` `, ` `)
+    ; year = ` `
+    ; number = None
+    ; volume = None
+    ; key = None
+    ; month = None
+    ; note = None
+    |)
+
+let-inline \url x = {\href(x){\code(x);}}
+
 let bibs = [
   (`Hamkins:2012`,
     WildCard({
@@ -61,6 +76,45 @@ let bibs = [
       volume = None;
       key = None;
     |)
+  );
+  (`alg-d:gch`,
+    WildCard({\code(`alg-d`);, "一般連続体仮説 : 選択公理 \| 壱大整域". \url(`https://alg-d.com/math/ac/gch.html`);})
+  );
+  ( `Woodin:2017`,
+    Article
+    (| author = [`Hugh W. Woodin` ]
+    ; title =  `In Search of Ultimate-L the 19th Midrasha Mathematicae Lectures`
+    ; journal = `The Bulletin of Symbolic Logic`
+    ; pages = (`1`, `109`)
+    ; year = `2017`
+    ; number = Some `1`
+    ; volume = Some `23`
+    ; key = None
+    ; month = Some `March`
+    ; note = None
+    |)
+  );
+  ( `Woodin:2011`,
+    Article
+    (| default-article with
+      author = [`Hugh W. Woodin` ]
+    ; title =  `The continuum hypothesis, the generic-multiverse of sets, and the Omega conjecture`
+    ; journal = `Set theory, arithmetic, and foundations of mathematics: theorems, philosophies`
+    ; pages = (`13`, `42`)
+    ; year = `2011`
+    ; volume = Some `36`
+    |)
+  );
+  (`Hamkins:2011`,
+    Article
+      (| default-article with
+        author = [`Joel David Hamkins`]
+        ; title = `The set-theoretic multiverse`
+        ; journal = `Review of Symbolic Logic`
+        ; pages = (`416`, `449`)
+        ; year = `2011`
+        ; volume = Some `5`
+      |)
   )
-
 ]
+
