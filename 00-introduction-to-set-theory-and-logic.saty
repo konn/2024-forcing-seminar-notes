@@ -31,24 +31,69 @@ let universe ctx =
         ; head = ArrowHead.vee (|line-width=0.1; size=0.4; ext = 0.;|)
         ; tail = ArrowTail.none
         |)) ctx)#draw
-  in List.append
-    ( draw-splines 1pt black 
-        [ (0pt, 100pt);
+  in let small-font = ctx |> set-font-size (get-font-size ctx *' 0.75)
+  in List.concat
+    [ draw-splines 1pt black 
+        [ (10pt, 100pt);
           (20pt, 30pt);
           (50pt, 1pt);
           (80pt, 30pt);
-          (100pt, 100pt)
+          (90pt, 100pt)
         ]
-    ) 
-    (List.append 
-    (an-arrow (50pt, 1pt) (50pt, 100pt))
-    [ draw-text (50pt, -10pt) (read-inline ctx {${0}})
-    ; draw-text (45pt, 105pt) (read-inline ctx {${\On}})
-    ; draw-text (54pt, 20pt) (read-inline ctx {${\omega}})
-    ; draw-text (54pt, 40pt) (read-inline ctx {${\omega_1}})
-    ; draw-text (54pt, 60pt) (read-inline ctx {${\omega_2}})
-    ; draw-text (57pt, 70pt) (read-inline ctx {${\vdots}})
-    ])
+    ; an-arrow (50pt, 1pt) (50pt, 100pt)
+    ; [ draw-text (50pt, -10pt) (read-inline small-font {${0}})
+      ; draw-text (45pt, 105pt) (read-inline small-font {${\On}})
+      ; draw-text (54pt, 20pt) (read-inline small-font {${\omega}})
+      ; draw-text (54pt, 40pt) (read-inline small-font {${\omega_1}})
+      ; draw-text (54pt, 60pt) (read-inline small-font {${\omega_2}})
+      ; draw-text (57pt, 70pt) (read-inline small-font {${\vdots}})
+      ; draw-text (87.5pt, 105pt) (read-inline ctx {${V}})
+      ]
+    ]
+let v-and-vg ctx = 
+  open Color in
+  open Gr in
+  let an-arrow = (Arrow.read (Arrow.of-bth
+        (|body = 
+            ArrowBody.dashed
+              (|width = 0.1; dash = (|fill = 0.4; space = 0.4; shift = 0.0|)
+              |)
+        ; head = ArrowHead.vee (|line-width=0.1; size=0.4; ext = 0.;|)
+        ; tail = ArrowTail.none
+        |)) ctx)#draw
+  in let small-font = ctx |> set-font-size (get-font-size ctx *' 0.75)
+  in List.concat
+    [ draw-splines 1pt black 
+        [ (10pt, 100pt);
+          (20pt, 30pt);
+          (50pt, 1pt);
+          (80pt, 30pt);
+          (90pt, 100pt)
+        ]
+    ; [ fill Color.black (circle (75pt, 60pt) 2pt)
+      ; draw-text (72.5pt, 65pt) (read-inline small-font {${\mathbb{B}}})
+      ]
+      ; draw-splines 1pt black 
+      [ (-10pt, 100pt);
+      (10pt, 30pt);
+      (50pt, 1pt);
+      (90pt, 30pt);
+      (110pt, 100pt)
+      ]
+    ; [ fill Color.black (circle (95pt, 60pt) 2pt)
+      ; draw-text (92.5pt, 65pt) (read-inline small-font {${G}})
+      ]
+    ; an-arrow (50pt, 1pt) (50pt, 100pt)
+    ; [ draw-text (50pt, -10pt) (read-inline small-font {${0}})
+        ; draw-text (45pt, 105pt) (read-inline small-font {${\On}})
+        ; draw-text (54pt, 20pt) (read-inline small-font {${\omega}})
+        ; draw-text (54pt, 40pt) (read-inline small-font {${\omega_1}})
+        ; draw-text (54pt, 60pt) (read-inline small-font {${\omega_2}})
+        ; draw-text (57pt, 70pt) (read-inline small-font {${\vdots}})
+        ; draw-text (87.5pt, 105pt) (read-inline ctx {${V}})
+        ; draw-text (105pt, 105pt) (read-inline ctx {${V[G]}})
+        ]
+    ]
 in
 
 document (|
@@ -432,11 +477,11 @@ document (|
       +p{
         強制関係を天下り的に与えてもよいが、それだと直観が掴みづらいところがある。そこで、本セミナーでは\emph{完備Boole代数}${\mathbb{B}}を使ったBoole値モデル${V^\mathbb{B}}とそこでの真偽値の定義を先にやり、そこから一般の擬順序の強制関係を導く、という形を取ることにする。
       }
-    +p{
-      Boole値モデルの考え方を見るために、最初に集合の累積的階層（\emph{cumulative hierarchy}）について復習しておこう。
-      集合論においては、現在作業している集合論のモデルのことを集合の宇宙${V}と呼ぶ。右図は集合論者が「宇宙」と言ったときに思い浮かべる一般的なイメージである\footnote{強調ではなく、集合論者に「宇宙の絵を描いてくれ」というと、十人中百人がこの図を描くだろう}。
-      ${\ZF}では（特に、von Neumannの基礎の公理の下では）、この宇宙は以下のように空集合からはじめて順序数に沿って冪集合を取っていくことで得られる。これを、集合の\emph{累積的階層}（\emph{cumulative hierarchy}）と呼ぶ。
-    }
+      +p{
+        Boole値モデルの考え方を見るために、最初に集合の累積的階層（\emph{cumulative hierarchy}）について復習しておこう。
+        集合論においては、現在作業している集合論のモデルのことを集合の宇宙${V}と呼ぶ。右図は集合論者が「宇宙」と言ったときに思い浮かべる一般的なイメージである\footnote{強調ではなく、集合論者に「宇宙の絵を描いてくれ」というと、十人中百人がこの図を描くだろう}。
+        ${\ZF}では（特に、von Neumannの基礎の公理の下では）、この宇宙は以下のように空集合からはじめて順序数に沿って冪集合を取っていくことで得られる。これを、集合の\emph{累積的階層}（\emph{cumulative hierarchy}）と呼ぶ。
+      }
     >
 
     +alignat?:(AZMathEquation.notag)(2)(${
@@ -516,23 +561,40 @@ document (|
     |});
 
 
-    +p{${\pSQ{\varphi} = \mathbb{1}}であるとき${\varphi}は真であると考える。}
+    +p{${\pSQ{\varphi} = \mathbb{1}}であるとき${\varphi}は真であると考え、${V^\mathbb{B} \vDash \varphi}と書く。}
+
+
     +p{
       こうして定めた真偽値は演繹を保存し、${\pSQ{\ZF} = \mathbb{1}}であり更に${V}で選択公理が成り立つなら${\pSQ{\AC} = \mathbb{1}}となることがわかる。
-      また、${V}の集合${x \in V}に対し、再帰的に${\check{x} \coloneq \Set{(\check{y}, \mathbb{1})}{y \in x}}と定めると、これは明らかに${x \in V^{\mathbb{B}}}となるので、この${V^\mathbb{B}}は${V}をある意味で拡張になっている。
-      更に、この宇宙には、\emph{${(V, \mathbb{B})}-生成フィルター}${\adot{G}}という特別なオブジェクトが存在している。これ自体の定義は簡単で、次のように定められる：
-
-      \eqn?:(AZMathEquation.notag)(${\adot{G} \coloneq \Set{(\check{b}, b)}{b \in \mathbb{B}}});
-
-      そう……ちょうど${\mathbb{B}}の対角線を取っている。すると、${\mathbb{B}}の任意の稠密集合${D \in V}について次が言える：
-
-      \eqn?:(AZMathEquation.notag)(${\pSQ{\forall D \in \check{V}\mhquad \pB{D \subseteq \check{\mathbb{B}}: \text!{稠密} \implies \adot{G} \cap \check{D} \neq \emptyset}}_{\mathbb{B}} = \mathbb{1}});
-
-      \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成的超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！これこそ正に我々の欲しかったものだ。
+      また、${V}の集合${x \in V}に対し、再帰的に${\check{x} \coloneq \Set{(\check{y}, \mathbb{1})}{y \in x}}と定めると、これは明らかに${x \in V^{\mathbb{B}}}となるので、この${V^\mathbb{B}}は${V}のある意味で拡張になっている。
     }
+    +fig-on-right(
+      FigBox.from-graphics-given-context (100pt, 110pt) v-and-vg
+    )<
+      +p{
+        更に、この宇宙には、\emph{${(V, \mathbb{B})}-生成フィルター}${\adot{G}}という特別なオブジェクトが存在している。これ自体の定義は簡単で、次のように定められる：
 
-    +p{こうした事実の証明には結構手間がかかる（修士1年の最初の半年くらい）。なので、本セミナーでは、次回以降証明の詳細には立ち入りすぎない範囲で、注意の必要な場所や証明のアイデアを伝えられるような範囲で取り扱っていく予定である。また、以上では真偽値を使ったが、基礎モデルで選択公理（より厳密にはBoole素イデアル定理）を仮定してよければ、${V^\mathbb{B}}を${\mathbb{B}}の超フィルターで割ることで、二値的なモデルを得る事もできる。これがHamkinsらによるHamkinsら\cite[`Hamkins:2012`];\emph{強制法の自然主義的正当化}（Naturalist Account of Forcing）だが、こちらも余力があれば触れよう。}
+        \eqn?:(AZMathEquation.notag)(${\adot{G} \coloneq \Set{(\check{b}, b)}{b \in \mathbb{B}}});
+
+        そう……ちょうど${\mathbb{B}}の対角線を取っている。すると、次が言える：
+
+        \eqn?:(AZMathEquation.notag)(${V^{\mathbb{B}} \models \forall D \in \check{V}\mhquad \pB{D \subseteq \check{\mathbb{B}}: \text!{稠密} \implies \adot{G} \cap \check{D} \neq \emptyset}});
+
+        \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！これこそ正に我々の欲しかったものだ。更に、${V^\mathbb{B}}の中では、自分自身は${\check{V}}と生成超フィルター${G}を含む最小の宇宙${V[G]}になっているように見えている。
+      }
+    >
+
+    +p{こうした事実の証明には結構手間がかかる（修士1年の最初の半年くらい）。なので、本セミナーでは、次回以降証明の詳細には立ち入りすぎない範囲で、注意の必要な場所や証明のアイデアを伝えられるような範囲で取り扱っていく予定である。また、以上では真偽値を使ったが、基礎モデルで選択公理（より厳密にはBoole素イデアル定理）を仮定してよければ、${V^\mathbb{B}}を${\mathbb{B}}の超フィルターで割ることで、二値的なモデルを得る事もできる。これがHamkinsら\cite[`Hamkins:2012`];による\emph{強制法の自然主義的正当化}（Naturalist Account of Forcing）だが、こちらも余力があれば触れよう。}
   >
+
+    % +subsection{余談：強制法・Boole値モデルの他の応用}<
+    %   +p{
+    %     強制法の主要な活躍分野は無矛盾性証明だが、一方で\emph{強制法を使って${\ZFC}の（無矛盾性以外の）定理を証明する}とか、\emph{インフォーマルな記法を正当化する}という使い方もできる。
+    %   }
+    %   +p{
+    %     たとえば、Solovayの\emph{ランダム強制法}${\mathbf{B} \coloneq \mathcal{B}/\null}を考える。これは、Borel集合族${\mathcal{B}}をLebesgue測度零集合の成すイデアル${\null}で割ったものだ。
+    %   }
+    % >
   >
 
   +section{集合論の見取り図}<
