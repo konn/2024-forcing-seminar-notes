@@ -516,8 +516,7 @@ document (|
             ** つまり${p, q \leq p \cdot q}かつ${\forall r \mhquad \pB{p, q \leq r \implies p \cdot q \leq r}}が成り立つ。${+}についてはこの双対を取った性質が成り立つ。
           * ${p \in \mathbb{B}}に対し、${p}の\emph{補元}（\emph{complement}）${-p}は、${p + (-p) = \mathbb{1}}および${p \cdot (-p) = \mathbb{0}}を満たす。
         }
-        更に、${\mathbb{B}}の濃度${\kappa}-未満の任意の部分集合${A \subseteq \mathbb{B}}に上限${\sum A}・下限${\prod A}が存在するとき、${\mathbb{B}}を\emph{${\kappa}-完備Boole代数}と呼ぶ。
-        濃度の制限なく上限・下限が存在するBoole代数を\emph{完備Boole代数}（cBa）と呼ぶ。
+        更に${\mathbb{B}}の濃度${\kappa}-未満の任意の部分集合${A \subseteq \mathbb{B}}に上限${\sum A}・下限${\prod A}が存在するとき、${\mathbb{B}}を\emph{${\kappa}-完備Boole代数}と呼び、濃度の制限なく上限・下限が存在するBoole代数を\emph{完備Boole代数}（cBa）と呼ぶ。
       }
 
     >
