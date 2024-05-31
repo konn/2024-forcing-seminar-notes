@@ -29,6 +29,7 @@ let-math \On = ${\mathrm{On}}
 let-math \models = ${\vDash}
 let-math \forces = ${\Vdash}
 let-math \Cd = ${\mathrm{Cd}}
+let-math \diamondsuit = ${♢}
 let-math \CC = ${\mathrm{CC}}
 let-math \DC = ${\mathrm{DC}}
 let-math \AD = ${\mathrm{AD}}
