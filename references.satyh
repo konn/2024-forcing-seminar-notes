@@ -77,6 +77,15 @@ let bibs = [
       key = None;
     |)
   );
+  (`様相真理`,
+    Book (|  default-book with
+      author = [`佐野勝彦`; `倉橋太志`; `薄葉季路`; `黒川英徳`; `菊池誠`];
+      title = `数学における証明と真理 様相論理と数学基礎論`;
+      year = `2016`;
+      publisher = `共立出版`;
+      note = Some `ISBN: 978-4-320-11148-6`;
+    |)
+  );
   (`alg-d:gch`,
     WildCard({\code(`alg-d`);, "一般連続体仮説 : 選択公理 \| 壱大整域". \url(`https://alg-d.com/math/ac/gch.html`);})
   );
