@@ -23,7 +23,7 @@ jobs:
         } | tee -a ${GITHUB_OUTPUT}
 
   typeset:
-    name: Typeset ${{matrix.input}}
+    name: Typeset ${{matrix.output}}
     needs: [enumerate]
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -34,7 +34,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Typeset
-      run: satysfi ${{matrix.input}}
+      run: docker run -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest satysfi ${{matrix.input}}
     - name: Upload PDF
       uses: actions/upload-artifact@v2
       with:
