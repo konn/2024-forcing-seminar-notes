@@ -116,7 +116,7 @@ let-math \Seq m m-cond =
   let rparen = paren-scheme (gr-angle-bracket 0.5pt false) half-height-default in
   math-paren-with-middle lparen rparen mparen [${\mrquad!(mid-space-ratio)#m\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#m-cond\mrquad!(mid-space-ratio)}]
 
-let define-theorem ?:rule-color ?:config name counter ctx ?:label ?:title body =
+let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   let () = counter <- !counter + 1
   in let num = arabic !counter 
   in let rule-color = Option.from (Color.gray 0.5) rule-color
@@ -146,20 +146,25 @@ let define-theorem ?:rule-color ?:config name counter ctx ?:label ?:title body =
   in read-block ctx '< +colorbox(style)(body); >
   
 let-math \aleph = ${ℵ}
+let prop-color = Colors.gray 0.25
+let conj-color = Colors.gray 0.75
+let example-color = Color.rgb .25 .25 .75
+let remark-color = Color.rgb 1. 0.75 0.0
+let defn-color = Color.rgb .25 .6 .25
 let-inline \emph arg = {\font-style[bold](arg);}
 let-inline \gruby arg1 arg2 = {\ruby?:[Ruby.mode Ruby.g](arg1)(arg2);}
 let-mutable defn-counter <- 0
-let-block ctx +defn = define-theorem `定義` defn-counter ctx
+let-block ctx +defn = define-theorem `定義` ?:defn-color defn-counter ctx
 let-mutable example-counter <- 0
-let-block ctx +example = define-theorem ?:(Color.rgb .25 .25 .8) `例` example-counter ctx
+let-block ctx +example = define-theorem `例` ?:example-color example-counter ctx
 let-mutable theorem-counter <- 0
-let-block ctx +theorem = define-theorem ?:(Colors.gray 0.25) `定理` theorem-counter ctx
+let-block ctx +theorem = define-theorem `定理` ?:prop-color theorem-counter ctx
 let-mutable remark-counter <- 0
-let-block ctx +remark = define-theorem ?:(Colors.orange) `注意` remark-counter ctx
+let-block ctx +remark = define-theorem `注意` ?:remark-color remark-counter ctx
 let-mutable lemma-counter <- 0
-let-block ctx +lemma = define-theorem ?:(Colors.gray 0.25) `補題` theorem-counter ctx
+let-block ctx +lemma = define-theorem `補題` ?:prop-color theorem-counter ctx
 let-mutable conjecture-counter <- 0
-let-block ctx +conjecture = define-theorem ?:(Colors.gray 0.75) `予想` conjecture-counter ctx
+let-block ctx +conjecture = define-theorem `予想` ?:conj-color conjecture-counter ctx
 let-math \GCH  = ${\mathord{\mathrm{GCH}}}
 open LatexCmds
 
