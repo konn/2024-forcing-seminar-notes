@@ -146,6 +146,7 @@ let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   in read-block ctx '< +colorbox(style)(body); >
   
 let-math \aleph = ${ℵ}
+let-math \deffml = ${\mathrel{:\equiv}}
 let prop-color = Colors.gray 0.25
 let conj-color = Colors.gray 0.75
 let example-color = Color.rgb .25 .25 .75
