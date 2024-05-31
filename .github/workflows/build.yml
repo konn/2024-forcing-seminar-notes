@@ -20,7 +20,7 @@ jobs:
           find . -maxdepth 1 -mindepth 1 -type f -name '*.saty' \
             | jq --compact-output -Rs --monochrome-output \
               'split("\n") | map(select(length > 0) | {input: ., output: . | sub("\\.saty$"; ".pdf") | sub("^\\./"; "")})'
-        } >${GITHUB_OUTPUT}
+        } | tee -a ${GITHUB_OUTPUT}
 
   typeset:
     name: Typeset ${{matrix.input}}
