@@ -699,7 +699,7 @@ document (|
     }>
   >
 
-  +section{次回予告}<+p{数理論理学の初歩をやるぞ}>
+  +section{次回予告}<+p{数理論理学の初歩をやるぞ！}>
   +section{参考文献}<
     +makebibliography 
           ?:(|sort-references=true; 
