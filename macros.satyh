@@ -16,6 +16,7 @@
 
 let-math \lrarrow = ${\longleftrightarrow}
 let-math \CH = ${\mathrm{CH}}
+let-math \dot arg = ${\adot{#arg}}
 let-math \ZF = ${\mathrm{ZF}}
 let-math \Z = ${\mathrm{Z}}
 let-math \ZFC = ${\mathrm{ZFC}}
@@ -24,6 +25,7 @@ let-math \NK = ${\mathrm{NK}}
 let-math \HK = ${\mathrm{HK}}
 let-math \LK = ${\mathrm{LK}}
 let-math \CL = ${\mathrm{CL}}
+let-math \defeq = ${\coloneq}
 let-math \MP = ${\mathrm{MP}}
 let-math \On = ${\mathrm{On}}
 let-math \models = ${\vDash}
