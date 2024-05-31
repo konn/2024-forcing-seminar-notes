@@ -28,9 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
-      matrix:
-        input: ${{fromJson(needs.enumerate.outputs.inputs.input)}}
-        output: ${{fromJson(needs.enumerate.outputs.inputs.output)}}
+      matrix: ${{fromJson(needs.enumerate.outputs.inputs)}}
       fail-fast: false
     steps:
     - name: Checkout
