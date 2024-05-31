@@ -374,12 +374,7 @@ document (|
     }
 
     +defn<
-      +p{}+enumerate{
-        * ${B \subseteq \mathbb{P}}が\emph{フィルター基}（\emph{filter base}）${\defs} ${\emptyset \nin B \neq \emptyset}かつ${\forall p, q \in B \mhquad \exists r \in B \mhquad r \leq p, q}となること。つまり、フィルターの定義のうち上に閉じている条件を除いたもの。
-        * ${C \subseteq \mathbb{P}}が\emph{有限交叉性}（\emph{finite intersection property}, 略：FIP）を持つ ${\defs}
-          ${C}の任意有限個の元${p_0, \ldots, p_{n-1} \in C}が${\mathbb{P}}に\emph{下限}${r^* \in \mathbb{P}}を持つこと。つまり、次を満たす${r \in \mathbb{P}}が存在する：
-          \gather(${|r^* \leq p_0, \ldots, p_{n-1}| \forall r \in \mathbb{P}\mhquad \pB{r \leq p_0, \ldots, p_{n-1} \implies r \leq r^*} |});
-          このような${r}を${p_0 \cdot \ldots \cdot p_{n-1}}と書く\footnote{${p_0 \land \cdots \land p_{n-1}}と書く流儀もメジャーである。ここでは論理記号と区別するために敢えて環の記号を書いている}。
+      +p{${B \subseteq \mathbb{P}}が\emph{フィルター基}（\emph{filter base}）${\defs} ${\emptyset \nin B \neq \emptyset}かつ${\forall p, q \in B \mhquad \exists r \in B \mhquad r \leq p, q}となること。つまり、フィルターの定義のうち上に閉じている条件を除いたもの。
       }
     >
 
@@ -389,10 +384,6 @@ document (|
     +proof<
       +p{${F \coloneq \Set{p \in \mathbb{P}}{\exists q \in B \mhquad q \leq p}}とせよ。
       }
-    >
-    +lemma<+p{${C \subseteq \mathbb{P}}がFIPを持つなら、${C}はそれを含むフィルター${F}に拡張できる。}>
-    +proof<
-      +p{${B \coloneq \Set{p_0 \cdot \ldots \cdot p_{n-1}}{n < \omega, p_i \in C }}はフィルター基。}
     >
 
     +lemma<
@@ -455,7 +446,7 @@ document (|
 
       最初の問題を解決するのが強制法の理論構成であり、数理論理学の道具を使って不完全性定理を回避しつつ挑むことになる。2番目の問題についても、数理論理学的な手法によってどういった概念が保たれ、どういった概念が破壊されるのかを分析する必要がある。
 
-      最後の問題については、「存在しない実数を一気に${\aleph_2}個足すとき、\emph{それに使う擬順序がどのような無限組合せ論的性質を持つか}を分析することで、新たな宇宙でどの基数が保たれどの基数が破られるのか判断することができる。
+      最後の問題については、「存在しない実数」を一気に${\aleph_2}個足すとき、\emph{それに使う擬順序がどのような無限組合せ論的性質を持つか}を分析することで、新たな宇宙でどの基数が保たれどの基数が破られるのか判断することができる。
 
       したがって、本セミナーの当面のゴールはこうした問題とその解決方法について、ある程度注意すべき点を押さえつつ大まかに理解することである。
     }
@@ -467,21 +458,24 @@ document (|
 
       \enumerate{
         * ${\ZFC}の可算推移的モデル（c.t.m.）${M}を考え、${M}に属する稠密集合に対する全てに対する生成フィルター${G}を直接構成して、${M[G]}を直接さわる流儀
-        * 新しい宇宙の元の「名前」の全体${V^\mathbb{P}}と強制関係（\emph{forcing relation}）${p \vDash \varphi}を定義して、宇宙全体の強制拡大を考える流儀
+        * 新しい宇宙の元の「名前」の全体${V^\mathbb{P}}と強制関係（\emph{forcing relation}）${p \Vdash \varphi}を定義して、宇宙全体の強制拡大を考える流儀
       }
 
       それぞれが異なる使い勝手を持つので、同じ研究者でも論文によってそれぞれの流儀を使い分けることがある。
       また、強制関係を使えば事実上${V}上の生成フィルター${G}を取っていると思うことができるため、いちいち「c.t.m.を取る」とは言わずにあたかも${V}上の生成フィルター${G}を取って議論する形で書いてしまう場合も多い。
       このセミナーでは、後者の${V^\mathbb{P}}を使った流儀で強制法を定式化し、慣れてきたらいきなり${G}を取るようにする。
+      }
+      
+    +p{
       強制関係を天下り的に与えてもよいが、それだと直観が掴みづらいところがある。そこで、本セミナーでは\emph{完備Boole代数}${\mathbb{B}}を使ったBoole値モデル${V^\mathbb{B}}とそこでの真偽値の定義を先にやり、そこから一般の擬順序の強制関係を導く、という形を取ることにする。
+      Boole値モデルの考え方を見るために、最初に集合の累積的階層（\emph{cumulative hierarchy}）について復習しておこう。
     }
-
-    
-    +fig-on-right(
-      FigBox.from-graphics-given-context (100pt, 100pt) universe
-    )<
+    +newpage;
+      
+      +fig-on-right(
+        FigBox.from-graphics-given-context (100pt, 100pt) universe
+        )<
       +p{
-        Boole値モデルの考え方を見るために、最初に集合の累積的階層（\emph{cumulative hierarchy}）について復習しておこう。
         集合論においては、現在作業している集合論のモデルのことを集合の宇宙${V}と呼ぶ。右図は集合論者が「宇宙」と言ったときに思い浮かべる一般的なイメージである\footnote{強調ではなく、集合論者に「宇宙の絵を描いてくれ」というと、十人中百人がこの図を描くだろう}。
         ${\ZF}では（特に、von Neumannの基礎の公理の下では）、この宇宙は以下のように空集合からはじめて順序数に沿って冪集合を取っていくことで得られる。これを、集合の\emph{累積的階層}（\emph{cumulative hierarchy}）と呼ぶ。
       }
@@ -495,18 +489,17 @@ document (|
     );
 
     +p{
-      ここで、冪集合というのは特性関数を介して考えれば、${\Pow(X) \cong \Set{f}{f: X \to 2}}と見做すことができるのを思い出そう。つまり、${X}の部分集合${S \subseteq X}というのは、${X}の各元${x \in X}に対して、「その集合に属するかどうか？」という真偽値を返す関数${\chi_S}と一対一に対応しているといわけだ：
+      ここで、冪集合というのは特性関数を介して考えれば、${\Pow(X) \cong \Set{\chi}{\chi: X \to 2}}と見做すことができるのを思い出そう。つまり、${X}の部分集合${S \subseteq X}というのは、${X}の各元${x \in X}に対して、「その集合に属するかどうか？」という真偽値を返す関数${\chi_S: X \to 2}と一対一に対応しているといわけだ：
       
       \eqn?:(AZMathEquation.notag)(${
         \chi_S(x) = \cases!(${|0|(x \nin S)|1|(x \in S)|})
       });
 
 
-      集合論では、こうした関数の集合をしばしば${\seq{X}{2}}と書く\footnote{完全に好みで、普通のベキのように${2^X}と書く人も沢山いる。私は定義域・値域の順に並ぶのが好みなので、この記法を多用する。}。つまり、上を書き直せば：
+      集合論では、こうした関数の集合をしばしば${\seq{X}{2}}と書く\footnote{完全に好みで、普通のベキのように${2^X}と書く人も沢山いる。私は定義域・値域の順に並ぶのが好みなのと、概念や論理式を相対化する際に右肩に書く記法と衝突するので、この記法を多用する。}。つまり、上を書き直せば次のようになる：
 
-      \eqn?:(AZMathEquation.notag)(${V_0 = \emptyset \mqquad V_{\alpha + 1} = \seq{V_\alpha}{2} \mqquad V_\gamma = \bigcup_{\alpha < \gamma} V_\alpha\mhquad (\gamma: \text!{limit})});
+      \eqn?:(AZMathEquation.notag)(${V_0 = \emptyset \mqquad V_{\alpha + 1} = \seq{V_\alpha}{2} \mqquad V_\gamma = \bigcup_{\alpha < \gamma} V_\alpha\mhquad (\gamma: \text!{limit}).});
 
-      ということだ。
     }
 
     +p{
@@ -525,15 +518,13 @@ document (|
             ** つまり${p, q \leq p \cdot q}かつ${\forall r \mhquad \pB{p, q \leq r \implies p \cdot q \leq r}}が成り立つ。${+}についてはこの双対を取った性質が成り立つ。
           * ${p \in \mathbb{B}}に対し、${p}の\emph{補元}（\emph{complement}）${-p}は、${p + (-p) = \mathbb{1}}および${p \cdot (-p) = \mathbb{0}}を満たす。
         }
-      }
-
-      +p{
-        更に、${\mathbb{B}}の濃度${\kappa}-未満の任意の部分集合${A \subseteq \mathbb{B}}についてその上限${\sum \mathbb{B}}・下限${\prod \mathbb{B}}が存在するとき、${\mathbb{B}}を\emph{${\kappa}-完備Boole代数}と呼ぶ。
+        更に、${\mathbb{B}}の濃度${\kappa}-未満の任意の部分集合${A \subseteq \mathbb{B}}に上限${\sum A}・下限${\prod A}が存在するとき、${\mathbb{B}}を\emph{${\kappa}-完備Boole代数}と呼ぶ。
         濃度の制限なく上限・下限が存在するBoole代数を\emph{完備Boole代数}（cBa）と呼ぶ。
       }
 
     >
     +remark<+p{測度論でBorel集合族のことを${\sigma}-代数などといったりするが、これは${\sigma}-Boole代数のことである。${\sigma}は最小の非可算基数${\omega_1}の古い別名である。}>
+    +remark<+p{Boole代数の演算を${-, +, \cdot, \sum, \prod}ではなく${\lnot, \lor, \land, \bigvee, \bigwedge}で書く流儀もメジャーである。本稿では、論理記号との衝突を避け、また環としての構造に思いを致すため、代数的な記号の方を採用する。}>
 
     +p{
       気持ちとしては、${-}, ${+}, ${\cdot}が論理結合子${\lnot}, ${\lor}, ${\land}に対応し、${\sum}, ${\prod}は量化子${\exists}, ${\forall}を模倣したいという事になる。${2 = \set{0, 1}}の各元を偽・真と対応させれば、${2}には明らかに完備Boole代数の構造が入る\footnote{ちなみに、完全に今回の趣旨から外れるが、直観主義集合論では${2}すら完備になるとは限らない。なんてこった……}。
@@ -553,8 +544,9 @@ document (|
 
     +p{
       また、${\ZF}では集合というものは${\in}-関係について整礎木を成しており、これが${V}が空集合から冪を取る操作で${V}が尽せるという事を保証していた。一方、${V^\mathbb{B}}はこの木構造の各枝の候補が与えられていて、特定の条件が満たされたときだけに確率的に伸びる、というようなものだとも思える。
-      これは、ある意味でプログラミングでマクロによってコードを生成する際に、動的に構文木を生成する条件を記述するようなものになっている。進んだ命題の無矛盾性証明には、\emph{反復強制法}という強制法を超限回繰り返すような手法が使われることになり、ここでは「解釈後に${\mathbb{B}}-値集合になる${\mathbb{C}}-集合」のような入れ子の構造が現れるが、これも多段階計算のようなものだと思うことができる。
-      非常に大雑把な言い方をすれば、${V^\mathbb{B}}は、各項に${\mathbb{B}}-値集合を対応させる\emph{集合論の表示的意味論}のようなものだと思ってもよい。これはあくまでもお気持ではあるが、強制法のBoole値モデルを使った正当化に、cpoを使ってプログラミングの表示的意味論の中核である領域理論を創始したScottが関わっていることを考えると、そこには何らかの類似性があると言ってもよいだろう。
+      これは、ある意味でプログラミングでマクロによってコードを生成する際に、動的に構文木を生成する条件を記述するようなものになっている。進んだ命題の無矛盾性証明には、\emph{反復強制法}という強制法を超限回繰り返すような手法が使われることになり、ここでは「解釈後に${\mathbb{B}}-値集合になる${\mathbb{C}}-値集合」のような入れ子の構造が現れるが、これも多段階計算のようなものだと思うことができる。
+      非常に大雑把な言い方をすれば、${V^\mathbb{B}}は、各項に${\mathbb{B}}-値集合を対応させる\emph{集合論の表示的意味論}のようなものだと思ってもよい。
+      これはあくまでもお気持ではあるが、強制法のBoole値モデルとしての定式化に主要な役割を果したScottが、プログラミングの表示的意味論の嚆矢である領域理論の創始者でもあり、そこでも半順序が重要な役割を果していることを考えると、比喩としてはそこまで失当ではないだろう。
     }
 
     +p{
@@ -562,8 +554,8 @@ document (|
     }
 
     +alignat(2)(${
-      | \pSQ{\adot{x} \in \adot{f}}_{\mathbb{B}}
-          | \coloneq \sum_{(\theta, b) \in \adot{f}} b \cdot \pSQ{\adot{x} = \theta}_{\mathbb{B}},
+      | \pSQ{\adot{x} \in \adot{S}}_{\mathbb{B}}
+          | \coloneq \sum_{\dot{z} \in \dom(\adot{S})} \dot{S}(\dot{z}) \cdot \pSQ{\adot{x} = \dot{z}}_{\mathbb{B}},
       | \pSQ{\adot{x} = \adot{y}}_{\mathbb{B}} |
         \coloneq \pSQ{\adot{x} \subseteq \adot{y}} \cdot \pSQ{\adot{y} \subseteq \adot{x}}_{\mathbb{B}},
       | \pSQ{\lnot \varphi} | \coloneq -\pSQ{\varphi},
@@ -594,7 +586,7 @@ document (|
 
         \eqn?:(AZMathEquation.notag)(${V^{\mathbb{B}} \models \forall D \in \check{V}\mhquad \pB{D \subseteq \check{\mathbb{B}}: \text!{稠密} \implies \adot{G} \cap \check{D} \neq \emptyset}});
 
-        \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！これこそ正に我々の欲しかったものだ。更に、${V^\mathbb{B}}の中では、自分自身は${\check{V}}と生成超フィルター${G}を含む最小の宇宙${V[G]}になっているように見えている。${V}で${(V, \mathbb{B})}-生成フィルターは取れない（たとえば全ての実数と異なる実数を付加する強制法を考えよ！）ので、${V[G]}は（${\mathbb{B}}が非自明なら）${V} を真に拡張する宇宙になっていることがわかる。
+        \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！これこそ正に我々の欲しかったものだ。更に、${V^\mathbb{B}}の中では、自分自身は${\check{V}}と生成超フィルター${G}を含む最小の宇宙${V[G]}になっているように見えている。${V}で${(V, \mathbb{B})}-生成フィルターは取れない（たとえば${V}の全ての実数と異なる実数を付加する強制法を考えよ！）ので、${V[G]}は（${\mathbb{B}}が非自明なら）${V} を真に拡張する宇宙になっていることがわかる。
       }
     >
 
@@ -613,7 +605,7 @@ document (|
         二つめは、\emph{${V}と${V[G]}とで真偽が一致する命題}を証明する際に、\emph{${V[G]}で命題の証拠をでっちあげて}、この\emph{証拠自体は${V}にはない}けど\emph{真偽は一致するのでなんか${V}でも成り立ちますよ}、という鮮かな詐欺みたいな論法である。
         ${V}と${V[G]}では有限の世界は全く変わらないし、命題の複雑性が十分低ければ（${\Delta_1}-論理式や${\Sigma^1_2}-概念など）一定の条件下で真偽は保たれる。
         この例としては、ErdősとHajnalによる\emph{有限グラフ理論}の予想のShelahによる証明がある。ErdősとHajnalの予想は、「4頂点の完全グラフ${K_4}を含まないような有限グラフで、辺を2色で塗り分けた際に、かならず同じ色の三角形が含まれるようなものは存在するか？」という問題であった。Shelahはこれを肯定的に証明したが、具体的なグラフを与えるのではなく、強制法を使って${\aleph_0}-色で塗り分けても同色の三角形が取れるような\emph{無限}グラフを${V[G]}でつくり、コンパクト性からそんな\emph{有限}グラフが${V[G]}で存在することをまず示した。
-        で、これは有限なので、${V}に既にあるよね、OK、という論法である。ね？詐欺みたいでしょ。
+        で、これは有限なので、${V}に既にあるよね、という論法だ。ね？詐欺みたいでしょ。
       }
 
       +p{
@@ -622,12 +614,12 @@ document (|
       }
 
       +p{
-        Boole値解析の例を示そう。いま、${(X, \mathcal{B}, \mu)}を${\sigma}-有限な${\sigma}-加法的測度空間とし、${\mathbf{MB} \defeq \mathcal{B}/\null}を測度代数と呼ぶ。ここで、${\null}は${\mu}-測度零集合の成す${\mathcal{B}}上のイデアルである。${\sigma}-有限性から${\null}は${\sigma}-飽和性という特別な性質を満たし、${\mathbb{B}}が可算和・共通部分などで閉じていることから、${\mathbf{MB}}は完備Boole代数となる。
+        Boole値解析の例を示そう。いま、${(X, \mathcal{B}, \mu)}を${\sigma}-有限な${\sigma}-加法的測度空間とし、${\mathbf{MB} \defeq \mathcal{B}/\null}を測度代数と呼ぶ。ここで、${\null}は${\mu}-測度零集合の成す${\mathcal{B}}上のイデアルである。${\sigma}-有限性から${\null}は${\sigma}-飽和性という特別な性質を満たし、${\mathbf{MB}}が可算和・共通部分などで閉じていることから、${\mathbf{MB}}は完備Boole代数となる。
       }
       +p{
-        これを考えると何が嬉しいのかというと、実は\emph{${V^\mathbf{MB}}における実数${\dot{x} \in \mathbb{R}^{V^{\mathbb{B}}}}は、${V}における可測関数${\mathcal{F}_{\dot{x}}: X \to \mathbb{R}}と一対一に対応する}のだ\footnote{ここでいう「実数」は集合論者のいう${\seq{\omega}{2}}や${\seq{\omega}{\omega}}の元ではなく、世間一般的な実数、つまり実数体${\mathbb{R}}の元（もっと詳しく言えばDedekind切断）である。}！
-        すると、${V[G]}における実数列${\p{\adot{u}_i \in \mathbb{R}}_{i < \omega}}は、${V}での可測関数の列${\p{f_i: X \to \mathbb{R}}_{i < \omega}}に対応する。
-        このとき、${V[G]}で${\adot{u}_i \longrightarrow v \mhquad (i \to \infty)}が成り立つことと、${V}で${\mathcal{F}_{u_i} \mathrel{\overset{\text!{a.e.}}{\longrightarrow}} \mathcal{F}_v \mhquad (i \to \infty)}が成り立つことは同値であることがわかる。
+        これを考えると何が嬉しいのかというと、実は\emph{${V^\mathbf{MB}}における実数${\dot{x} \in \mathbb{R}^{V^{\mathbf{MB}}}}は、${V}における可測関数${\mathcal{F}_{\dot{x}}: X \to \mathbb{R}}と一対一に対応する}のだ\footnote{ここでいう「実数」は集合論者のいう${\seq{\omega}{2}}や${\seq{\omega}{\omega}}の元ではなく、世間一般的な実数、つまり実数体${\mathbb{R}}の元（もっと詳しく言えばDedekind切断）である。}！
+        すると、${V^{\mathbf{MB}}}における実数列${\p{\adot{u}_i \in \mathbb{R}}_{i < \omega}}は、${V}での可測関数の列${\p{f_i: X \to \mathbb{R}}_{i < \omega}}に対応する。
+        このとき、${V^{\mathbf{MB}}}で${\adot{u}_i \longrightarrow v \mhquad (i \to \infty)}が成り立つことと、${V}で${\mathcal{F}(x)_{u_i} \mathrel{\overset{\text!{a.e.}}{\longrightarrow}} \mathcal{F}(x)_v \mhquad (i \to \infty)}が成り立つことは同値であることがわかる。
       }
 
       +p{
@@ -640,7 +632,7 @@ document (|
           \eqn?:(AZMathEquation.notag)(${
             \forall f \in \mathcal{S} \mhquad \pB{f(x) \leq F(x) \mhquad \text!{for a.e.\rquad(.25);} x \in X}
           });
-          面倒なので、以下${f(x) \leq g(x) \text!{for a.e.\rquad(.25);}}を${f \leq_{\null} g}と略記する。
+          面倒なので、以下${f(x) \leq g(x)\mrquad!(.25) \text!{for a.e.}}を${f \leq_{\null} g}と略記する。
           このとき、${X}-可測関数${F^{*}: X \to \mathbb{R}}で次を満たすものが存在する：
           }
           +enumerate{
@@ -650,11 +642,11 @@ document (|
           }
       >
 
-      +p{これは測度論の基本的な定理の一つで、通常は普通に証明されるが、なんと実数の連続性公理を${V^{\mathbf{MB}}}で解釈するだけで自動的に従ってしまうのだ！}
+      +p{これは測度論の基本的な定理の一つで、通常は愚直に証明されるが、なんと実数の連続性公理を${V^{\mathbf{MB}}}で解釈するだけで自動的に従ってしまうのだ！}
 
       +p{
         また、これはあんまり言及している人がみつからないのだが、測度代数によるBoole値モデルは、しばしば槍玉に挙げられる\emph{確率論での確率変数のインフォーマルな取り扱いを正当化する}ことにも使える。よく、「確率変数${X \in \mathbb{R}}ってなんなんだ」「確率${P(X < a \land Y \geq b)}とかってなんかインフォーマルすぎないか」と文句を言われがちである。
-        しかし、確率変数とはフォーマルには実数値可測関数のことであり、${V^{\mathbf{MB}}}における実数が可測写像に対応していたことを思い出そう。特に、今考えている測度空間が確率空間${(\Omega, \mathcal{B}, O)}である場合を考える。すると、この場合の\emph{${\mathbf{MB}}-実数は正に確率変数と対応している}ことがわかる。
+        しかし、今考えている確率空間を${(\Omega, \mathcal{B}, P)}とすると、確率変数とはフォーマルには実数値${X}-可測関数のことである。${V^{\mathbf{MB}}}における実数が可測写像に対応していたので、\emph{${\mathbf{MB}}-実数は正に確率変数と対応している}ことがわかる。
 
         更に、${\varphi}を確率変数を含む論理式とするとき、${P(\varphi) = P\p{\pSQ{\varphi}_\mathbf{MB}}}の略記だと思えば、確率の表記法を正当化することもできる。例としては：
 
@@ -662,8 +654,8 @@ document (|
            \pSQ{X < \check{a} < Y} = \Set{x \in X}{X(x) < a < Y(x) \mhquad \text!{a.e.}}/\null
         });
 
-        となり、これの測度を取れば正に人々が用いている略記法そのものになる。
-        あとは独立性とかが${V^\mathbf{MB}}の言葉で焼き直せれば、結構使える作業言語になると思う。焼き直せていないので、興味のある人は一緒にやりましょう。
+        となり、測度を取れば正に人々が用いている略記法そのものだ。
+        あとは確率変数の独立性とかが${V^\mathbf{MB}}の言葉で焼き直せれば、結構使える作業言語になると思う。焼き直せていないので興味のある人は一緒にやりましょう。
       }
 
       +p{
