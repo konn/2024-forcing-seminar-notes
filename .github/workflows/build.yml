@@ -16,7 +16,7 @@ jobs:
         echo "Enumerating files..."
 
         {
-          echo "INPUTS="
+          echo -n "inputs="
           find . -maxdepth 1 -mindepth 1 -type f -name '*.saty' \
             | jq --compact-output -Rs --monochrome-output \
               'split("\n") | map(select(length > 0) | {input: ., output: . | sub("\\.saty$"; ".pdf") | sub("^\\./"; "")})'
