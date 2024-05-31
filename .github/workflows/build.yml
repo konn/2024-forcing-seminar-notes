@@ -1,0 +1,44 @@
+on: push
+name: Build Manuscripts
+jobs:
+  enumerate:
+    name: Enumerate Inputs
+    runs-on: ubuntu-latest
+    outputs:
+      inputs: ${{ steps.enumerate.outputs.inputs }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Enumerate *.saty
+      id: enumerate
+      run: |
+        echo "Enumerating files..."
+
+        {
+          echo "INPUTS="
+          find . -maxdepth 1 -mindepth 1 -type f -name '*.saty' \
+            | jq --compact-output -Rs --monochrome-output \
+              'split("\n") | map(select(length > 0) | {input: ., output: . | sub("\\.saty$"; ".pdf") | sub("^\\./"; "")})'
+        } >${GITHUB_OUTPUT}
+
+  typeset:
+    name: Typeset ${{matrix.input}}
+    needs: [enumerate]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        input: ${{fromJson(needs.enumerate.outputs.inputs.input)}}
+        output: ${{fromJson(needs.enumerate.outputs.inputs.output)}}
+      fail-fast: false
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Typeset
+      run: satysfi ${{matrix.input}}
+    - name: Upload PDF
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{matrix.output}}
+        path: ${{matrix.output}}
