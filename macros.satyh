@@ -125,11 +125,25 @@ let define-theorem ?:rule-color ?:config name counter ctx ?:label ?:title body =
   in let number = embed-string num
   in let read-heading i = read-inline ctx {\font-style[bold]{#i;}}
   in let suffix = Option.map-or (read-heading {}) (fun title -> inline-skip (get-font-size ctx *' 0.5) ++ read-heading {(#title;)}) title
-  in let heading = read-heading name ++ read-heading number ++ suffix ++ read-heading {.} ++
-            inline-skip (JLReqLib.get-length ctx ~(jlreq-length @`1zw`))
+  in let zw = JLReqLib.get-length ctx ~(jlreq-length @`1zw`)
+  in let heading = read-heading name ++ read-heading number ++ suffix ++ read-heading {.} ++ inline-skip zw
   in let () = JLReqParagraph.set-paragraph-top-text heading
   in open Colorbox
-  in read-block ctx '< +colorbox [title-filled false; sharrp-corners-all; colback Color.white; boxsep 5pt; toprule 0pt; bottomrule 0pt; rightrule 0pt; leftrule 5pt; colframe rule-color](body); >
+  in let style =
+        [ title-filled false
+        ; sharrp-corners-all
+        ; toprule 0pt
+        ; bottomrule 0pt
+        ; rightrule 0pt
+        ; leftrule 5pt
+        ; left-skip 5pt
+        ; left (zw *' 1.5)
+        ; top zw
+        ; bottom zw
+        ; colback Color.white
+        ; colframe rule-color
+        ]
+  in read-block ctx '< +colorbox(style)(body); >
   
 let-math \aleph = ${ℵ}
 let-inline \emph arg = {\font-style[bold](arg);}
