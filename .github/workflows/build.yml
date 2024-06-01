@@ -48,6 +48,8 @@ jobs:
     env:
       DEST: pdf_dests
     steps:
+    - name: Set timezone
+      run: timedatectl set-timezone Asia/Tokyo
     - uses: actions/checkout@v4
     - name: Download PDFs
       uses: actions/download-artifact@v4
