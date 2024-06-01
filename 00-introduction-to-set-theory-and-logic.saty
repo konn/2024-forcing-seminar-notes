@@ -19,6 +19,7 @@
 @require: color
 @import: macros
 @import: references
+@import: presets
 
 let universe ctx = 
   open Color in
@@ -100,9 +101,7 @@ document (|
   title = {\no-break{強制法セミナー第0回：忙しい人のための強制法}};
   author = {Hiromi ISHII (\@mr_konn)};
   date = {2024-06-02};
-  show-title = true;
-  show-toc = true;
-|)?* ?* ?:'<
+|)?:'<
   +p{
     本セミナーの目的は、集合論で縦横無尽に使われる\emph{強制法}について大まかなところを理解し、\emph{連続体仮説}（${\CH}）の独立性証明に使えるようになることにある。
     強制法は、与えられた現在の集合論のモデル（\emph{宇宙}、\emph{universe}）に新たな元を付加して拡張するための一般的な枠組みである。
@@ -364,7 +363,7 @@ document (|
       +p{
       ${\mathbb{P}}を擬順序集合とする。
       \enumerate{
-        * ${D \subseteq \mathbb{P}}が${\mathbb{P}}で\emph{稠密}\footnote{これは、下閉集合を基本開集合として生成される位相で稠密集合になっている、という条件と同値である}（\emph{dense}）${\defs}どんな${p \in \mathbb{P}}に対しても、${q \leq p}となるような${q \in D}が存在する。
+        * ${D \subseteq \mathbb{P}}が${\mathbb{P}}で\emph{稠密}\footnote{これは、下閉集合を基本開集合として生成される位相で稠密集合になっている、という条件と同値である}（\emph{dense}）${\defs}どんな${p \in \mathbb{P}}に対しても、${q \leq p}となる${q \in D}が存在する。
         * ${\mathcal{D}}を集合族とする。超フィルター${G \subseteq \mathbb{P}}が\emph{${\mathcal{D}}-生成フィルター}（\emph{${\mathcal{D}}-generic filter}）${\defs} ${D \in \mathcal{D}}なる任意の${\mathbb{P}}-稠密集合${D \subseteq \mathbb{P}}について${D \cap G \neq \emptyset}となること。
       }}
     >

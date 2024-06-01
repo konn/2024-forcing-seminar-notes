@@ -19,13 +19,12 @@
 @require: color
 @import: macros
 @import: references
+@import: presets
 
 document (|
   title = {\no-break{強制法セミナー第1回：数理論理学の初歩}};
   author = {Hiromi ISHII (\@mr_konn)};
   date = {2024-06-02};
-  show-title = true;
-  show-toc = true;
 |)'<
   +section{一階述語論理の構文と証明体系}<
 
@@ -80,12 +79,23 @@ document (|
         \enumerate{
           * ${\mathcal{L}}-原子論理式は${\mathcal{L}}-論理式である。
           * ${\varphi, \psi}が${\mathcal{L}}-論理式のとき、${\varphi \to \psi}は${\mathcal{L}}-論理式である。
-          * ${x}が変数記号で${\varphi(x)}が${\mathcal{L}}-論理式のとき、${\forall x \mhquad\varphi(x)}は${\mathcal{L}}-論理式である。
+          * ${x}が変数記号で${\varphi}が${\mathcal{L}}-論理式のとき、${\forall x \mhquad\varphi}は${\mathcal{L}}-論理式である。
         }
         自由変数\footnote{変数が自由とか束縛されているとかはみなさんが知っているやつです。}を持たない論理式を\emph{閉論理式}（\emph{closed formula}）または\emph{文}（\emph{sentence}）と呼ぶ。
       }
       +p{
         ${\to}は右結合とする。つまり、${\varphi \to \psi \to \chi}は${\varphi \to (\psi \to \chi)}の略記として解釈される。
+      }
+    >
+
+    +remark<
+      +p{
+        いま我々は古典論理だけを考えているので、他の論理結合子・量化子は次のような略記法として導入する：
+        \gather?:(AZMathEquation.notag)(${|
+          \neg \varphi \deffml \varphi \to \bot, \mqquad \varphi \land \psi \deffml \lnot (\varphi \to \lnot \psi), \mqquad \varphi \lor \psi \deffml \lnot \varphi \to \psi,
+        | \exists x \varphi \deffml \lnot \forall x \lnot \varphi
+        |});
+        このようにするのは、今後論理式の複雑性に関する帰納法で色々な証明を回していく際に、場合分けの数は少ないほうが楽だからである。
       }
     >
 
@@ -162,6 +172,10 @@ document (|
         ${\Gamma}を${\HK}における公理系とする。論理式${\varphi}が公理系${\Gamma}から\emph{証明可能}である（記号：${\Gamma \vdash_{\HK} \varphi}）とは、${\HK}の公理と${\Gamma}の元を仮定とする推論木で${\varphi}が結論になるものが存在することをいう。
       }
     >
+
+    +p{
+      
+    }
   >
 
   +section{一階述語論理のTarski意味論と完全性定理}<

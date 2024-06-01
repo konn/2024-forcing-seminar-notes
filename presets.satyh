@@ -1,0 +1,105 @@
+@require: fss/fss
+@require: fss/font/set
+@require: class-jlreq/jlreq
+
+
+module Presets : sig 
+  val default-font-set : fss-font-set
+end = struct
+  open FssFonts
+  let font-default-Jpan script font =
+    (| script = script ;
+      font = (|
+        font-name = font ;
+        ratio = 0.88 ;
+        rising = 0.0 ;
+      |) ;
+    |)
+
+  let ja-roman: fss-font-combination = 
+      [ font-default-Jpan FssFontScript.hani `fonts-noto-serif-cjk-jp:NotoSerifCJKjp-Regular` ;
+        font-default-Jpan FssFontScript.kana `fonts-noto-serif-cjk-jp:NotoSerifCJKjp-Regular` ;
+      ]
+
+  let default-font-cond-r : fss-font-selection-cond =
+    FssFontSelectionCond.of-simple-config
+      (| font-size = None ;
+        width = 100 ;
+        weight = 80. ;
+        slant = 0 ;
+        style = FssFontStyle.parse `Regular` ;
+      |)
+
+  let default-font-cond-i : fss-font-selection-cond =
+    FssFontSelectionCond.of-simple-config
+      (| font-size = None ;
+        width = 100 ;
+        weight = 80. ;
+        slant = 100 ;
+        style = FssFontStyle.parse `Italic` ;
+      |)
+
+  let ja-italic: fss-font-combination = 
+      [ font-default-Jpan FssFontScript.hani `fonts-noto-sans-cjk-jp:NotoSansCJKjp-Medium` ;
+        font-default-Jpan FssFontScript.kana `fonts-noto-sans-cjk-jp:NotoSansCJKjp-Medium` ;
+      ]
+
+  let default-font-cond-b : fss-font-selection-cond =
+    FssFontSelectionCond.of-simple-config
+      (| font-size = None ;
+        width = 100 ;
+        weight = 180. ;
+        slant = 0 ;
+        style = FssFontStyle.parse `Bold` ;
+      |)
+
+  let ja-bold: fss-font-combination = 
+      [ font-default-Jpan FssFontScript.hani `fonts-noto-sans-cjk-jp:NotoSansCJKjp-Medium` ;
+        font-default-Jpan FssFontScript.kana `fonts-noto-sans-cjk-jp:NotoSansCJKjp-Medium` ;
+      ]
+
+  let default-font-cond-bi : fss-font-selection-cond =
+    FssFontSelectionCond.of-simple-config
+      (| font-size = None ;
+        width = 100 ;
+        weight = 180. ;
+        slant = 100 ;
+        style = FssFontStyle.parse `Bold Italic` ;
+      |)
+
+  let ja-bold-italic: fss-font-combination = 
+      [ font-default-Jpan FssFontScript.hani `fonts-noto-sans-cjk-jp:NotoSansCJKjp-Black` ;
+        font-default-Jpan FssFontScript.kana `fonts-noto-sans-cjk-jp:NotoSansCJKjp-Black` ;
+      ]
+
+  let preset-font-set-ja = 
+    (| default-font-set-ja
+    with 
+    default-font = ja-roman ;
+    conditional-fonts =
+      [ (default-font-cond-r, ja-roman) ;
+        (default-font-cond-i, ja-italic) ;
+        (default-font-cond-b, ja-bold) ;
+        (default-font-cond-bi, ja-bold-italic) ;
+      ];
+  |)
+  let default-font-set = 
+    FssFontSet.combine
+      FssFonts.default-font-set-la
+      preset-font-set-ja
+end
+
+type document-def = (|title: inline-text; author: inline-text; date: inline-text|)
+let document : document-def -> block-text ?-> block-text -> document = fun doc ->
+  JLReq.document
+    (|title = doc#title
+    ; author = doc#author
+    ; date = doc#date
+    ; show-title = true
+    ; show-toc = true
+    |)
+    ?:(| JLReq.default-config-document
+    with font = Presets.default-font-set
+    |)
+    ?*
+
