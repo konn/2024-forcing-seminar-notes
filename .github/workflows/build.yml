@@ -35,7 +35,7 @@ jobs:
     - name: Typeset
       run: docker run -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest satysfi ${{matrix.input}}
     - name: Upload PDF
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{matrix.output}}
         path: ${{matrix.output}}
