@@ -24,7 +24,7 @@
 document (|
   title = {\no-break{強制法セミナー第1回：数理論理学の初歩}};
   author = {Hiromi ISHII (\@mr_konn)};
-  date = {2024-06-02};
+  date = {2024-06-23};
 |)'<
   +section{一階述語論理の構文と証明体系}<
 
