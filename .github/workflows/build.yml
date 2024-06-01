@@ -53,7 +53,7 @@ jobs:
       run: |
         set -euxo pipefail
         cat <<EOF >inputs.json
-        "${{needs.enumerate.outputs.inputs}}"
+        ${{needs.enumerate.outputs.inputs}}
         EOF
         DEST=pdfs
         mkdir -p "${DEST}"
