@@ -19,11 +19,11 @@ jobs:
           echo -n "inputs="
           find . -maxdepth 1 -mindepth 1 -type f -name '*.saty' \
             | jq --compact-output -Rs --monochrome-output \
-              '{include: split("\n") | map(select(length > 0) | {input: ., output: . | sub("\\.saty$"; ".pdf") | sub("^\\./"; "")})}'
+              '{include: split("\n") | map(select(length > 0) | {input: ., output: . | sub("\\.saty$"; ".pdf") | sub("^\\./"; ""), name: . | sub("\\.saty$"; "") | sub("^\\./"; "")})}'
         } | tee -a ${GITHUB_OUTPUT}
 
   typeset:
-    name: Typeset ${{matrix.output}}
+    name: Typeset ${{matrix.name}}
     needs: [enumerate]
     runs-on: ubuntu-latest
     strategy:
@@ -37,16 +37,34 @@ jobs:
     - name: Upload PDF
       uses: actions/upload-artifact@v4
       with:
-        name: ${{matrix.output}}
+        name: ${{matrix.name}}
         path: ${{matrix.output}}
 
   release:
     name: Release PDFs
     if: github.ref == 'refs/heads/main'
-    needs: [typeset]
+    needs: [typeset, enumerate]
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
     - name: Download PDFs
       uses: actions/download-artifact@v4
-    - run: tree
+    - name: Collect and release!
+      run: |
+        set -euxo pipefail
+        cat <<EOF >inputs.json
+        "${{needs.enumerate.outputs.inputs}}"
+        EOF
+        DEST=pdfs
+        mkdir -p "${DEST}"
+        cp notes.yaml *.pdf "${DEST}/"
+        jq --raw-output '.include | map(.name) | .[]' inputs.json | \
+          while read -r NAME; do
+            cp "${NAME}/${NAME}.pdf" "${DEST}/"
+          done
+        tree
+        TARBALL=discord-uploader-v0.1.0.0-x86_64-linux.tar.gz
+        gh -R konn/discord-uploader release download v0.1.0.0 --pattern "${TARBALL}"
+        tar xzvf "${TARBALL}"
+        pushd "${DEST}"
+        ../discord-uploader
