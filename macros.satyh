@@ -77,6 +77,7 @@ let-math \defs = ${\mathrel{\overset{\text!{def}}{\Longleftrightarrow}}}
 let-math \reals = ${\seq{\omega}{2}}
 let-math \K = ${𝖪}
 let-math \S = ${𝖲}
+let-math \A = ${𝖠}
 let-math \P = ${𝖯}
 let-math \G = ${𝖦}
 let-math \F = ${𝖥}
@@ -147,6 +148,7 @@ let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   
 let-math \aleph = ${ℵ}
 let-math \deffml = ${\mathrel{:\equiv}}
+let-inline \eqn-notag x = {\eqn?:(AZMathEquation.notag)(x);}
 let prop-color = Colors.gray 0.25
 let conj-color = Colors.gray 0.75
 let example-color = Color.rgb .25 .25 .75

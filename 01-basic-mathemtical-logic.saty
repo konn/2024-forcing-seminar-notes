@@ -142,41 +142,78 @@ document (|
           * 定数${A, B, C, \ldots}および変数は${x,y, z, \ldots}は${\CL}-項である。
           * ${L, M}を${\CL}-項とするとき、${(LM)}は${\CL}-項である。
         }
-        変数を含まない${\CL}-項を\emph{閉${\CL}-項}と呼び、特に定数${\K, \S}のみから成る閉項を\emph{結合子}または\emph{コンビネータ}（\emph{combinator}）と呼ぶ。${\CL}-項の括弧は左結合とし、一番外側のものは省略する。つまり、${LM(NO)P}は${(((LM)(NO))P)}の略記である。
+        変数を含まない${\CL}-項を\emph{閉${\CL}-項}と呼び、定数${\K, \S}のみから成る閉項を\emph{結合子}または\emph{コンビネータ}（\emph{combinator}）と呼ぶ。${\CL}-項の括弧は左結合とし、一番外側のものは省略する。つまり、${LM(NO)P}は${(((LM)(NO))P)}の略記である。
         ${\CL}-項を渡るメタ変数として、${L, M, N, \ldots}などを用いる。
       }
       +p{
         古典一階述語論理のヒルベルト流証明体系${\HK}を定義する。${\HK}-式は${\K, \S, \P, \G, \F, \J}を定数として持つ${\CL}-項${L}と一階述語論理式${\varphi}に対して、${L: \varphi}の形のものである。${L}を主部または証明項、${\varphi}を述部または型と呼ぶ。
-        ${\HK}における公理系とは、述部が閉論理式であるような${\HK}-式の集合である。
-        
+
         ${\HK}は以下の公理図式を持つ：
         \listing{
           * \emph{公理図式}：
             
             ** ${\K: P \to Q \to P}
             ** ${\S: (P \to Q \to R) \to (P \to Q) \to P \to R}
+            ** ${\A: \bot \to P}
             ** ${\P: ((P \to Q) \to P) \to P}
-            ** ${\G: \forall y \p{P \to \subst{Q}![(${x}, ${y})]} \to (P \to \forall x Q)}（ただし変数${y}は${P}および${\forall x Q}に自由に現れない）
-            ** ${\F: \p{\forall x P} \to \subst{P}![(${u}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
+            ** ${\F: \p{\forall x P} \to \subst{P}![(${x}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
+            ** ${\G: \forall x \p{P \to Q} \to (P \to \forall x Q)}（ただし変数${x}は${P}に自由に現れない）
         }
-        
-        ${\HK}の\emph{推論図}は、${\HK}-式を頂点とし、次の規則に従う有向辺で結ばれる有限根つき木である：
-        \listing{
-            * \emph{推論規則}：
-              ** モーダスポネンス（${\MP}）：${L: P \to Q}, ${M: P}のとき ${(LM): Q}
-              ** 汎化（${\Gen}）：${\J L: \subst{P}![(${x}, ${y})]}のとき${L: \forall x P}（但し変数${y}は証明項${L}および${\forall x P}に自由に現れない）。
-        }
-        推論木で親を持たない上端の${\HK}-式を\emph{仮定}と呼び、根を\emph{定理}と呼ぶ。
-      }
-
-      +p{
-        ${\Gamma}を${\HK}における公理系とする。論理式${\varphi}が公理系${\Gamma}から\emph{証明可能}である（記号：${\Gamma \vdash_{\HK} \varphi}）とは、${\HK}の公理と${\Gamma}の元を仮定とする推論木で${\varphi}が結論になるものが存在することをいう。
       }
     >
 
     +p{
-      
+      これで${\HK}の公理は定まった。続いて${\HK}における「公理系」「証明」の概念を形式化しよう：
     }
+
+    +defn?*?:({${\HK}の証明図})<
+      +p{
+        \enumerate{
+          * ${\HK}における言語${\mathcal{L}}の公理系${\Gamma}とは、証明項がただ一つの定数のみからなる${\CL}-項で、述部が${\mathcal{L}}-論理式であるような${\HK}-項の集合である。
+          * ${\HK}の\emph{証明図}とは、${\HK}-項を頂点とする根つき木であって、全ての枝が葉から根に向かって次の\emph{推論規則}のいずれかに従って形成されているものである。根を「\emph{結論}」、葉を「\emph{仮定}」と呼ぶ：
+            ** \emph{三段論法}\footnote{厳密には、ギリシアのアリストテレス論理学における「三段論法」とは「大前提・小前提・結論」からなる（正しいとは限らない）論法の総称であり、モーダス・ポネンスはその中の妥当な典型例の一つである。だから、本来日本語訳として「三段論法」と呼ぶのは若干間違っており、厳密を期すのなら「前件肯定」と呼ぶべきだといえばそうなのだが、もう習慣として定着しているのでここでもそれに倣う。}（\emph{modus ponens}、${\MP}）：
+              \eqn?:(AZMathEquation.notag)(open Derive in open DeriveDSL in ${
+                \proven!(
+                  derive ${(LM): Q}
+                  |> byOp {${\MP}}
+                  |> from [assume ${L: P \to Q}; assume ${M: P}]
+                )
+              });
+            ** \emph{汎化}（\emph{generalization}）：
+              \eqn?:(AZMathEquation.notag)(open Derive in open DeriveDSL in ${
+                \proven!(
+                  derive ${\J M: \forall x P}
+                  |> byOp {${\Gen} \quad; （ただし仮定の述部に${x}は自由に現れない）}
+                  |> from [assume ${M: \varphi}]
+                )
+              });
+          * 公理系${\Gamma}からの証明図は、仮定がすべて${\HK}の公理または${\Gamma}の公理である証明図のことである。
+          * ${\HK}で公理系${\Gamma}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${\Gamma \vdash_{\HK} \varphi}）とは、結論が${\varphi}であるような${\Gamma}からの証明図が存在することである。
+          * ${\varphi}が${\HK}の\emph{恒真式}（\emph{tautology}、記号${\vdash_{\HK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
+        }
+      }
+    >
+
+    +remark<+p{面倒なので、特に使わない場合は${\HK}の証明項を省略することがある。}>
+
+    +example?*?:({酒場の法則})<
+      +p{
+        古典一階述語論理のヘンなトートロジーとして有名なものに、一項関係記号${P}をもつ言語で表現できる「酒場の法則」がある：
+        \eqn?:(AZMathEquation.notag)(${
+          \exists z \mhquad[P(z) \to \forall x P(x)]
+        });
+        ${P(x)}を「${x}が呑んだくれている」と読むと、これが「酒場の法則」と呼ばれている理由がわかる：「どんな酒場にも、そいつが呑んだくれているなら、他の客も全員呑んだくれているような特別な客${z}氏がいる」。これは、呑んでない人間がいるならそいつを${z}とし、いなければ適当に取ればよい。
+      }
+
+      +p{
+        これを${\HK}で証明すると、以下のようになる（${\exists \deffml \lnot \forall \lnot}に気を付けよう）：
+        \eqn-notag(open Derive in open DeriveDSL in ${
+          \proven!(
+            derive ${(-): \pb{\forall z \mhquad [\p{P(z) \to \forall x P(x)} \to \bot]} \to \bot }
+          )
+        });
+      }
+    >
   >
 
   +section{一階述語論理のTarski意味論と完全性定理}<
