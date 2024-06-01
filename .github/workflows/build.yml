@@ -45,26 +45,46 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: [typeset, enumerate]
     runs-on: ubuntu-22.04
+    env:
+      DEST: pdf_dests
     steps:
     - uses: actions/checkout@v4
     - name: Download PDFs
       uses: actions/download-artifact@v4
-    - name: Collect and release!
+    - name: Download releaser
+      env: 
+        GH_TOKEN: ${{ github.token }}
       run: |
-        set -euxo pipefail
-        cat <<EOF >inputs.json
-        ${{needs.enumerate.outputs.inputs}}
-        EOF
-        DEST=pdfs
-        mkdir -p "${DEST}"
-        cp notes.yaml *.pdf "${DEST}/"
-        jq --raw-output '.include | map(.name) | .[]' inputs.json | \
-          while read -r NAME; do
-            cp "${NAME}/${NAME}.pdf" "${DEST}/"
-          done
-        tree
         TARBALL=discord-uploader-v0.1.0.0-x86_64-linux.tar.gz
         gh -R konn/discord-uploader release download v0.1.0.0 --pattern "${TARBALL}"
         tar xzvf "${TARBALL}"
+    - name: Collect PDFs
+      run: |
+        set -euxo pipefail
+        mkdir -p "${DEST}"
+        cat <<EOF >inputs.json
+        ${{needs.enumerate.outputs.inputs}}
+        EOF
+        cp notes.yaml *.pdf "${DEST}/"
+        jq --raw-output '.include | map(.name) | .[]' inputs.json | \
+          while read -r NAME; do
+            if [[ -f "${NAME}/${NAME}.pdf" ]]; then
+              cp "${NAME}/${NAME}.pdf" "${DEST}/"
+            elif [[ -f "${NAME}.pdf" ]]; then
+              cp "${NAME}.pdf" "${DEST}/"
+            else 
+              echo "No PDF found for ${NAME}"
+            fi
+          done
+        tree
+    - name: Release to Discord!
+      env:
+        CF_ACCOUNT_ID: ${{secrets.CF_ACCOUNT_ID}}
+        CF_API_KEY: ${{secrets.CF_API_KEY}}
+        CF_KV_NAMESPACE: ${{secrets.CF_KV_NAMESPACE}}
+        DISCORD_APP_ID: ${{secrets.DISCORD_APP_ID}}
+        DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
+        DISCORD_CHANNEL: ${{secrets.DISCORD_CHANNEL}}
+      run: |
         pushd "${DEST}"
         ../discord-uploader
