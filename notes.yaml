@@ -1,6 +1,6 @@
 notes:
 - name: 強制法セミナー第0回：忙しい人のための強制法
   file: "00-introduction-to-set-theory-and-logic.pdf"
-  published: true
 - name: 強制法セミナー第1回：数理論理学の初歩
   file: "01-basic-mathemtical-logic.pdf"
+  draft: true
