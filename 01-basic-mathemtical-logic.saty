@@ -93,7 +93,7 @@ document (|
       +p{
         いま我々は古典論理だけを考えているので、他の論理結合子・量化子は次のような略記法として導入する：
         \gather?:(AZMathEquation.notag)(${|
-          \neg \varphi \deffml \varphi \to \bot, \mqquad \varphi \land \psi \deffml \lnot (\varphi \to \lnot \psi), \mqquad \varphi \lor \psi \deffml \lnot \varphi \to \psi,
+          \lnot \varphi \deffml \varphi \to \bot, \mqquad \varphi \land \psi \deffml \lnot (\varphi \to \lnot \psi), \mqquad \varphi \lor \psi \deffml (\varphi \to \psi) \to \psi,
         | \exists x \varphi \deffml \lnot \forall x \lnot \varphi
         |});
         このようにするのは、今後論理式の複雑性に関する帰納法で色々な証明を回していく際に、場合分けの数は少ないほうが楽だからである。
@@ -196,28 +196,108 @@ document (|
 
     +remark<+p{面倒なので、特に使わない場合は${\HK}の証明項を省略することがある。}>
 
+    +example?*?:({二重否定除去})<
+      +p{述語論理に立ち入る前に、この公理系から二重否定除去${\lnot \lnot P \to P}が証明可能であることを見てみよう（幅を取るので、${\lnot P \deffml P \to \bot}の略記法を使う）。以下がその証明図である：
+      }
+      
+      +font-style[FssStyle.with-font-size (fun sz -> sz *' 0.75)]<+eqn-notag(open Derive in open DeriveDSL in ${
+        \proven!(
+          derive ${\S(\K\P)(\S(\K\A)): \lnot \lnot P \to P}
+          |> byOp {${\MP}}
+          |> from 
+              [ derive ${\S(\K\P): (\lnot \lnot P \to (\lnot P \to P) \to P)
+              \to (\lnot \lnot P \to \lnot P \to P)
+              \to \lnot \lnot P
+              \to P}
+                |> byOp {${\MP}}
+                |> from
+                    [ derive ${\S: \gamma} 
+                    ; derive ${\K\P: \lnot\lnot P \to (\lnot P \to P) \to P}
+                      |> byOp {${\MP}}
+                      |> from [derive ${\K: \xi}; derive ${\P: (\lnot P \to P) \to P}]
+                    ]
+              ; derive ${\S(\K\A): \lnot\lnot P \to \lnot P \to P}
+                  |> byOp {${\MP}}
+                  |> from 
+                      [ derive ${S: \zeta}
+                      ; derive ${\K\A: \lnot P \to \bot \to P}
+                        |> byOp {${\MP}}
+                        |> from [derive ${\K: \delta}; derive ${\A: \bot \to P}]
+                      ]
+              ]
+        )
+      });>
+
+      +p{
+        但し、
+        \gather?:(AZMathEquation.notag)(${
+          | \gamma \deffml (\lnot \lnot P \to (\lnot P \to P) \to P)
+        \to (\lnot \lnot P \to \lnot P \to P)
+        \to \lnot \lnot P
+        \to P
+          | \xi \deffml ((\lnot P \to P) \to P) \to \lnot\lnot P \to (\lnot P \to P) \to P
+          | \zeta \deffml (\lnot P \to \bot \to P) \to (\lnot P \to \bot) \to \lnot P \to P
+          | \delta \deffml  (\bot \to P) \to \lnot P \to \bot \to P
+        |}
+        );
+      }
+    >
+
+    +p{このように、ちょっとした証明でも結構たいへんである。次の演繹定理を使うとある程度証明を楽できる：}
+
+    +theorem?*?:({${\HK}の演繹定理})<
+      +p{${\Gamma}を公理系、${\varphi, \psi}を論理式としたとき、${\Gamma, \varphi \vdash_{\HK} \psi}ならば${\Gamma \vdash_{\HK} \varphi \to \psi}。}
+    >
+
+    +p{この証明には、次の${\lambda}-抽象を使う：}
+
+    +defn<
+      +p{${M}を${\CL}-項、${x}を変数としたとき、${x}を含まない${\CL}-項${(\lambda x. M)}を${M}の構成による帰納法で次のように定義する：}
+      +enumerate{
+        * ${\lambda x. M \deffml \K M}, ただし ${x \nin \FV(M)}
+        * ${\lambda x. x \deffml \S\K\K}
+        * ${\lambda x. \J M \deffml \G(\J(\lambda x. M))} 
+        * ${\lambda x. MN \deffml \S(\lambda x. M)(\lambda x. N)}
+      }
+    >
+
+    +p{演繹定理はより詳しく次のように言い換えられる：}
+
+    +theorem?*?:({${\HK}の演繹定理})<
+      +p{${x}を${\Gamma}に現れない${\CL}-変数、としたとき、}
+      +eqn-notag(${
+        x: \varphi, \Gamma \vdash_{\HK} M: \psi 
+        \mquad \implies \mquad \Gamma \vdash_{\HK} (\lambda x. M): \varphi \to \psi
+      });
+    >
+
+    +p{
+      この${\lambda}-抽象は、理論計算機科学で\emph{${\lambda}-計算の項をコンビネータ論理にコンパイルする際に用いられる変換と同じもの}である。${\S, \K}といった項も、コンビネータ論理の基本的な項である。実は、上の二重否定除去の証明図は、最初にHaskellで同じ型を持つプログラムをでっちあげて、コンパイラに部分項の型推論をさせて復元して書いたものである。
+      ${\HK}-項の定義の際に「型」という言葉を使ったように、実は直観主義論理の証明項・主部と、型付き${\lambda}-計算の項・型との間には対応関係があり、これを\emph{Curry–Howard対応}とよぶ。
+      我々は\emph{古典}論理を考えているが、これは${\lambda}-計算に続きの計算を表す\emph{継続}を入れたものに対応しており、実は継続オペレータに型を付けようとすると、古典命題論理のトートロジーであるPeirceの法則${((P \to Q) \to P) \to P)}と一致し、これこそが上の公理系の${\P}である。Peirceの法則は直観主義論理に付け加えると、ちょうど古典論理と一致する。
+    }
+
+    +exercise<
+      +p{上で導入した${\HK}から排中律${P \lor \lnot P}が証明可能であることを示せ。また、逆に${\HK}から${\P}を除いた体系に排中律・二重否定除去の一方だけを追加すると、${\P}が証明できることを示せ。}
+    >
+
     +example?*?:({酒場の法則})<
       +p{
         古典一階述語論理のヘンなトートロジーとして有名なものに、一項関係記号${P}をもつ言語で表現できる「酒場の法則」がある：
         \eqn?:(AZMathEquation.notag)(${
           \exists z \mhquad[P(z) \to \forall x P(x)]
         });
-        ${P(x)}を「${x}が呑んだくれている」と読むと、これが「酒場の法則」と呼ばれている理由がわかる：「どんな酒場にも、そいつが呑んだくれているなら、他の客も全員呑んだくれているような特別な客${z}氏がいる」。これは、呑んでない人間がいるならそいつを${z}とし、いなければ適当に取ればよい。
-      }
-
-      +p{
-        これを${\HK}で証明すると、以下のようになる（${\exists \deffml \lnot \forall \lnot}に気を付けよう）：
-        \eqn-notag(open Derive in open DeriveDSL in ${
-          \proven!(
-            derive ${(-): \pb{\forall z \mhquad [\p{P(z) \to \forall x P(x)} \to \bot]} \to \bot }
-          )
-        });
+        ${P(x)}を「${x}が呑んだくれている」と読むと、これが「酒場の法則」と呼ばれている理由がわかる：「どんな酒場にも、そいつが呑んだくれているなら、他の客も全員呑んだくれているような特別な客${z}氏がいる」。これは、呑んでない人間がいるならそいつを${z}氏とし、全員呑んでいるなら適当に取ればよい。
       }
     >
+
+    +exercise<+p{演繹定理を駆使して、酒場の法則を示せ。}>
   >
 
   +section{一階述語論理のTarski意味論と完全性定理}<
-    
+    +p{前節で、言語${\mathcal{L}}の下での一階述語論理の構文と証明体系を導入した。これを具体的な数学の宇宙の対象と結び付け、解釈を考えるのが\emph{Tarski意味論}あるいは単純に${\mathcal{L}}-構造や「モデル」と呼ばれるものである。他にも色々なモデルの与え方はある（例えば強制法のBoole値モデルであるとか、圏論的論理学における函手など）し、意味論といっても結合子の間の調和を考える証明論的意味論など色々なものがあるが、以下ではモデルといったらTarskiモデルを考える。}
+
+    +p{}
   >
 
   +section{初等拡大、超積、コンパクト性定理}<

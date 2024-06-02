@@ -148,10 +148,13 @@ let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   
 let-math \aleph = ${ℵ}
 let-math \deffml = ${\mathrel{:\equiv}}
+let-math \FV = ${\mathop{\mathrm{FV}}}
 let-inline \eqn-notag x = {\eqn?:(AZMathEquation.notag)(x);}
+let-block +eqn-notag x = '<+eqn?:(AZMathEquation.notag)(x);>
 let prop-color = Colors.gray 0.25
 let conj-color = Colors.gray 0.75
 let example-color = Color.rgb .25 .25 .75
+let exer-color = Color.rgb .0 .75 .9
 let remark-color = Color.rgb 1. 0.75 0.0
 let defn-color = Color.rgb .25 .6 .25
 let-inline \emph arg = {\font-style[bold](arg);}
@@ -168,6 +171,8 @@ let-mutable lemma-counter <- 0
 let-block ctx +lemma = define-theorem `補題` ?:prop-color theorem-counter ctx
 let-mutable conjecture-counter <- 0
 let-block ctx +conjecture = define-theorem `予想` ?:conj-color conjecture-counter ctx
+let-mutable exercise-counter <- 0
+let-block ctx +exercise = define-theorem `演習` ?:exer-color exercise-counter ctx
 let-math \GCH  = ${\mathord{\mathrm{GCH}}}
 open LatexCmds
 
