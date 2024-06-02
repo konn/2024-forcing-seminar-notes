@@ -44,10 +44,10 @@ let universe ctx =
     ; an-arrow (50pt, 1pt) (50pt, 100pt)
     ; [ draw-text (50pt, -10pt) (read-inline small-font {${0}})
       ; draw-text (45pt, 105pt) (read-inline small-font {${\On}})
-      ; draw-text (54pt, 20pt) (read-inline small-font {${\omega}})
-      ; draw-text (54pt, 40pt) (read-inline small-font {${\omega_1}})
-      ; draw-text (54pt, 60pt) (read-inline small-font {${\omega_2}})
-      ; draw-text (57pt, 70pt) (read-inline small-font {${\vdots}})
+      ; draw-text (54pt, 35pt) (read-inline small-font {${\omega}})
+      ; draw-text (54pt, 45pt) (read-inline small-font {${\omega_1}})
+      ; draw-text (54pt, 55pt) (read-inline small-font {${\omega_2}})
+      ; draw-text (54pt, 65pt) (read-inline small-font {${\vdots}})
       ; draw-text (87.5pt, 105pt) (read-inline ctx {${V}})
       ]
     ]
@@ -55,10 +55,7 @@ let v-and-vg ctx =
   open Color in
   open Gr in
   let an-arrow = (Arrow.read (Arrow.of-bth
-        (|body = 
-            ArrowBody.dashed
-              (|width = 0.1; dash = (|fill = 0.4; space = 0.4; shift = 0.0|)
-              |)
+        (|body = ArrowBody.solid (|width = 0.05|)
         ; head = ArrowHead.vee (|line-width=0.1; size=0.4; ext = 0.;|)
         ; tail = ArrowTail.none
         |)) ctx)#draw
@@ -71,26 +68,29 @@ let v-and-vg ctx =
           (80pt, 30pt);
           (90pt, 100pt)
         ]
-    ; [ fill Color.black (circle (75pt, 60pt) 2pt)
-      ; draw-text (72.5pt, 65pt) (read-inline small-font {${\mathbb{B}}})
+    ; [ fill Color.black (circle (75pt, 80pt) 2pt)
+      ; draw-text (72.5pt, 85pt) (read-inline small-font {${\mathbb{B}}})
       ]
       ; draw-splines 1pt black 
-      [ (-10pt, 100pt);
-      (10pt, 30pt);
-      (50pt, 1pt);
-      (90pt, 30pt);
-      (110pt, 100pt)
-      ]
-    ; [ fill Color.black (circle (95pt, 60pt) 2pt)
-      ; draw-text (92.5pt, 65pt) (read-inline small-font {${G}})
+        [ (-10pt, 100pt);
+          (20pt, 30pt);
+        ] 
+      ; draw-splines 1pt black
+        [ (80pt, 30pt);
+          (110pt, 100pt)
+        ]
+    ; [ fill Color.black (circle (95pt, 80pt) 2pt)
+      ; draw-text (92.5pt, 87pt) (read-inline small-font {${G}})
+      ; dashed-stroke 1pt (2pt, 1pt, 2pt) Color.black 
+        (start-path (20pt, 30pt) |> line-to (80pt, 30pt) |> terminate-path)
       ]
     ; an-arrow (50pt, 1pt) (50pt, 100pt)
     ; [ draw-text (50pt, -10pt) (read-inline small-font {${0}})
         ; draw-text (45pt, 105pt) (read-inline small-font {${\On}})
-        ; draw-text (54pt, 20pt) (read-inline small-font {${\omega}})
-        ; draw-text (54pt, 40pt) (read-inline small-font {${\omega_1}})
-        ; draw-text (54pt, 60pt) (read-inline small-font {${\omega_2}})
-        ; draw-text (57pt, 70pt) (read-inline small-font {${\vdots}})
+        ; draw-text (54pt, 35pt) (read-inline small-font {${\omega}})
+        ; draw-text (54pt, 45pt) (read-inline small-font {${\omega_1}})
+        ; draw-text (54pt, 55pt) (read-inline small-font {${\omega_2}})
+        ; draw-text (54pt, 65pt) (read-inline small-font {${\vdots}})
         ; draw-text (87.5pt, 105pt) (read-inline ctx {${V}})
         ; draw-text (105pt, 105pt) (read-inline ctx {${V[G]}})
         ]
@@ -364,7 +364,7 @@ document (|
       ${\mathbb{P}}を擬順序集合とする。
       \enumerate{
         * ${D \subseteq \mathbb{P}}が${\mathbb{P}}で\emph{稠密}\footnote{これは、下閉集合を基本開集合として生成される位相で稠密集合になっている、という条件と同値である}（\emph{dense}）${\defs}どんな${p \in \mathbb{P}}に対しても、${q \leq p}となる${q \in D}が存在する。
-        * ${\mathcal{D}}を集合族とする。超フィルター${G \subseteq \mathbb{P}}が\emph{${\mathcal{D}}-生成フィルター}（\emph{${\mathcal{D}}-generic filter}）${\defs} ${D \in \mathcal{D}}なる任意の${\mathbb{P}}-稠密集合${D \subseteq \mathbb{P}}について${D \cap G \neq \emptyset}となること。
+        * ${\mathcal{D}}を集合族とする。フィルター${G \subseteq \mathbb{P}}が\emph{${\mathcal{D}}-生成フィルター}（\emph{${\mathcal{D}}-generic filter}）${\defs} ${D \in \mathcal{D}}なる任意の${\mathbb{P}}-稠密集合${D \subseteq \mathbb{P}}について${D \cap G \neq \emptyset}となること。
       }}
     >
 
@@ -396,13 +396,13 @@ document (|
 
     +proof?:({Proof of Theorem \ref(`cantor-diag`);.})<
       +p{
-        上の補題から、次を見たすように${\Seq{f_i \in \mathbf{C}}{i < \omega}}を取ればよい：
+        上の補題から、次を満たすように${\Seq{f_i \in \mathbf{C}}{i < \omega}}を取ればよい：
       }
 
       +enumerate{
         * ${\lh(p_n) = n}
         * ${p_{n + 1} \leq p_n}
-        * ${p_{n+1} \in D_n}
+        * ${p_{n+1} \in D_n \cap E_n}
       }
 
       +p{
@@ -546,7 +546,7 @@ document (|
     }
 
     +p{
-      閑話休題。集合概念を${\mathbb{B}}-値「確率」つきに一般化したが、これで実際に新しい宇宙を増やせているのか？という疑問があるかもしれない。そもそも、モデルというからには、何らかの形で論理式に対する意味論を与えてやる必要がある。幸い、我々は「真偽値っぽく振る舞う」${\mathbb{B}}に基づいて新たな宇宙の対象を作っているので、これを使おう。こんな感じで（厳密ではないが）${\mathbb{B}}上の真偽値${\pSQ{\varphi}_{\mathbb{B}}}を定義できる：
+      閑話休題。集合概念を${\mathbb{B}}-値「確率」つきに一般化したが、これで実際に新しい元を増やせているのか？という疑問があるかもしれない。そもそも、モデルというからには、何らかの形で論理式に対する意味論を与えてやる必要がある。幸い、我々は「真偽値っぽく振る舞う」${\mathbb{B}}に基づいて新たな宇宙の対象を作っているので、これを使おう。こんな感じで（厳密ではないが）${\mathbb{B}}上の真偽値${\pSQ{\varphi}_{\mathbb{B}}}を定義できる：
     }
 
     +alignat(2)(${
@@ -567,7 +567,7 @@ document (|
 
     +p{
       こうして定めた真偽値は演繹を保存し、${V^\mathbb{B} \models \ZF}であり更に${V}で選択公理が成り立つなら${V^{\mathbb{B}} \models \AC}となることがわかる。
-      また、${V}の集合${x \in V}に対し、再帰的に${\check{x} \coloneq \Set{(\check{y}, \mathbb{1})}{y \in x}}と定めると、これは明らかに${x \in V^{\mathbb{B}}}となるので、この${V^\mathbb{B}}は${V}のある意味で拡張になっている。
+      また、${V}の集合${x \in V}に対し、再帰的に${\check{x} \coloneq \Set{(\check{y}, \mathbb{1})}{y \in x}}と定めると、これは明らかに${\check{x} \in V^{\mathbb{B}}}となるので、この${V^\mathbb{B}}は${V}のある意味で拡張になっている。
     }
     +p{
       更に、この宇宙には、\emph{${(V, \mathbb{B})}-生成フィルター}${\adot{G}}という特別なオブジェクトが存在している。これ自体の定義は簡単で、次のように定められる：
