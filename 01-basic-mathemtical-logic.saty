@@ -458,7 +458,7 @@ document (|
       +listing{
         * ${\mathcal{L}(N)}-論理式${\varphi}が${\mathcal{N}}と${\mathcal{M}}の間で\emph{絶対的}（\emph{absolute}、記号：${\mathcal{N} \prec_{\varphi} \mathcal{M}}）${\defs} ${\mathcal{N} \models \varphi} iff ${\mathcal{M} \models \varphi}。
         * ${\mathcal{L}(N)}-論理式の集合${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
-        * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{M} \prec \mathcal{N}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{M})} \mathcal{M}}のこと。
+        * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{N} \prec \mathcal{M}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{M})} \mathcal{M}}のこと。
       }
     >
 
