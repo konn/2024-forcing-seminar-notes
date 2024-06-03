@@ -578,7 +578,7 @@ document (|
         +p{次が成立：}
         +eqn-notag(${
           \prod_{i \in I} \mathcal{M}_i/\mathcal{U} \models \varphi
-            \iff \Set{i \in I}{ \mathcal{M}_i \models \varphi}
+            \iff \Set{i \in I}{ \mathcal{M}_i \models \varphi} \in \mathcal{U}
         });
       >
       +proof<
