@@ -227,11 +227,23 @@ document (|
           * 公理系${\Gamma}からの証明図は、仮定がすべて${\HK}の公理または${\Gamma}の公理である証明図のことである。
           * ${\HK}で公理系${\Gamma}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${\Gamma \vdash_{\HK} \varphi}）とは、結論が${\varphi}であるような${\Gamma}からの証明図が存在することである。
           * ${\varphi}が${\HK}の\emph{恒真式}（\emph{tautology}、記号${\vdash_{\HK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
+          * 公理系${T}が\emph{矛盾している}（\emph{inconsistent}）であるとは、${T \vdash \bot}が成り立つこと、すなわち${T}から${\bot}への証明図が存在することである。
+            矛盾していない公理系を\emph{無矛盾}（\emph{consistent}）であるという。
         }
       }
     >
-
     +remark<+p{面倒なので、特に使わない場合は${\HK}の証明項を省略することがある。}>
+
+    +p{次の結果は重要である：}
+
+    +theorem<+p{${\HK}は無矛盾である。つまり、公理系${\emptyset}は無矛盾である。}>
+
+    +p{
+      標準的な証明は、${\HK}のメタ計算として見ることのできるGentzen流シーケント計算${\LK}を導入し、${\LK}-証明可能性と${\HK}-証明可能性の一致を証明してから、${\LK}のカット除去定理を示すことで行われる。
+      今回はそんなことやってる暇はないし、使わないので省略する。
+    }
+    +exercise<+p{おるうぇくんに証明してもらおう！}>
+
 
     +example?*?:({二重否定除去})<
       +p{述語論理に立ち入る前に、この公理系から二重否定除去${\lnot \lnot P \to P}が証明可能であることを見てみよう（幅を取るので、${\lnot P \deffml P \to \bot}の略記法を使う）。以下がその証明図である：
@@ -307,6 +319,7 @@ document (|
         \mquad \implies \mquad \Gamma \vdash_{\HK} (\lambda x. M): \varphi \to \psi
       });
     >
+    +cor?:(`not-intro`)<+p{${T, \varphi \vdash \bot \implies T \vdash \lnot \varphi}。}>
 
     +p{
       この${\lambda}-抽象は、理論計算機科学で\emph{${\lambda}-計算の項をコンビネータ論理にコンパイルする際に用いられる変換と同じもの}である。${\S, \K}といった項も、コンビネータ論理の基本的な項である。実は、上の二重否定除去の証明図は、最初にHaskellで同じ型を持つプログラムをでっちあげて、コンパイラに部分項の型推論をさせて復元して書いたものである。
@@ -314,9 +327,41 @@ document (|
       我々は\emph{古典}論理を考えているが、これは${\lambda}-計算に続きの計算を表す\emph{継続}を入れたものに対応しており、実は継続オペレータに型を付けようとすると、古典命題論理のトートロジーであるPeirceの法則${((P \to Q) \to P) \to P)}と一致し、これこそが上の公理系の${\P}である。Peirceの法則は直観主義論理に付け加えると、ちょうど古典論理と一致する。
     }
 
+
     +exercise<
       +p{上で導入した${\HK}から排中律${P \lor \lnot P}が証明可能であることを示せ。また、逆に${\HK}から${\P}を除いた体系に排中律・二重否定除去の一方だけを追加すると、${\P}が証明できることを示せ。}
     >
+
+    +p{演繹定理の応用として、次の命題が示せる：}
+
+    +lemma?:(`lem:consis-extend`)<
+      +p{${\varphi}を閉論理式とする。公理系${T}が無矛盾なら、${T + \varphi}か${T + \lnot \varphi}の少なくとも一方は無矛盾。}
+    >
+    +proof<
+      +p{
+        まず${T + \varphi}が矛盾した場合を考える。このとき、有限個の${A_0, \ldots, A_{n-1} \in T}があって、${A_0, \ldots, A_{n-1}, \varphi \vdash \bot}となる。
+        特に、演繹定理の\ref(`not-intro`);から${A_0, \ldots, A_{n-1} \vdash \lnot \varphi}が成り立ち、特に${T \vdash \lnot \varphi}である。よって${\lnot \varphi}は${T}の帰結なので、${T + \varphi}は当然無矛盾である。
+      }
+
+      +p{
+        逆に${A_0, \ldots, A_{n-1}, \lnot \varphi \vdash \bot}とすると、同様にして${T \vdash \lnot \lnot \varphi}が成り立つ。二重否定除去則${\HK}の定理であるので、再び演繹定理から${T \vdash \varphi}を得る。
+      }
+    >
+
+    +exercise<+p{上の証明を、${\HK}から${\P}を取り除いた直観主義論理の体系${\mathrm{HJ}}でも通るようにせよ。}>
+
+    +lemma<
+      +p{${\HK}において、公理系${T}から${\varphi}が証明不能なら、${T + \lnot \varphi}は無矛盾。}
+    >
+    +proof<
+      +p{${T}が矛盾していると、公理${\A: \bot \to P}より任意の論理式が証明可能となるので、仮定から${T}は無矛盾であることに注意する。}
+      
+      +p{
+        ${T + \lnot \varphi}が矛盾していたとする。このとき再び\ref(`not-intro`);から${T \vdash \lnot\lnot \varphi}である。二重否定除去は${\HK}の定理なので、結局${T \vdash \varphi}となり、${T \nvdash \varphi}に反する。
+      }
+    >
+
+    +remark<+p{実は、この定理は${\mathrm{HJ}}では成立しない。この事を使って、直観主義論理上で「ゼロではなくはない冪零無限小元」を使って解析学を展開する\emph{滑らか無限小解析}（\emph{smooth infinitesimal analysis}）およびその上に構築された\emph{綜合的微分幾何学}（\emph{synthetic diferrential geometry}）という分野がある。}>
 
     +exercise?*?:({酒場の法則})<
       +p{
@@ -332,7 +377,7 @@ document (|
     >
   >
 
-  +section{一階述語論理のTarski意味論と完全性定理}<
+  +section{一階述語論理のTarski意味論}<
     +p{前節で、言語${\mathcal{L}}の下での一階述語論理の構文と証明体系を導入した。これを具体的な数学の宇宙の対象と結び付け、解釈を考えるのが\emph{Tarski意味論}あるいは単純に${\mathcal{L}}-構造や「モデル」と呼ばれるものである。他にも色々なモデルの与え方はある（例えば強制法のBoole値モデルであるとか、圏論的論理学における函手など）し、意味論といっても結合子の間の調和を考える証明論的意味論など色々なものがあるが、以下ではモデルといったらTarskiモデルを考える。}
 
     +p{言語${\mathcal{L}}の項・論理式を解釈できる集合を${\mathcal{L}}-構造と呼ぶ：}
@@ -483,6 +528,17 @@ document (|
       >
       +defn<+p{\emph{集合${I}上の（超）フィルター}（\emph{(ultra-)filter on } ${I}）とは、冪集合Boole代数${(\Pow(I), \emptyset, I, (-)^c, \cup, \cap\subseteq)}の（超）フィルターのことである。}>
 
+      +remark<+p{前回のチュートリアルでは、フィルターは貼り合わせ可能な条件の集合であり、超フィルターは極限まで条件を突き詰めたものだという見方をした。
+      一方で、フィルターは「殆んど至るところで成り立つ」ような何らかの性質を表現するのにも使うことができる。}>
+
+      +example<+p{}
+        +enumerate{
+          * 測度空間上の零集合の集まり${\null}を考える。このとき、${\null^* \defeq \Set{A \subseteq X}{ X \setminus A \in \null}}はボレル集合族${\mathcal{B}}のフィルターである。
+          * 完備距離空間${(X, d)}を考える。この時、${X}の稠密開集合全体は開集合代数上のフィルターを成す。別の見方をすれば、${\Pow(X)}上でフィルター基になっている。
+          * 位相空間${(X, \mathcal{O})}の近傍系${\mathcal{U}_x = \Set{A \subseteq X}{x \in X^{\circ}}}は${\Pow(X)}上のフィルターを成す。基本近傍系はフィルター基になっている。
+        }
+      >
+
       +defn<
         +p{
           ${I}を任意の集合とし、${\Seq{\mathcal{M}_i}{i \in I}}を${\mathcal{L}}-構造の族、${\mathcal{U}}を${I}上の超フィルターとする。
@@ -537,7 +593,7 @@ document (|
           ${\varphi \equiv \forall x \psi(x)}のときを考える。帰納法の仮定は、任意の${[u] \in \mathcal{M}}について
 
           \eqn-notag(${
-            \mathcal{M} \models \psi([u]) \iff \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))}
+            \mathcal{M} \models \psi([u]) \iff \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \in \mathcal{U}
           });
     
           である。しかるに：
@@ -580,7 +636,7 @@ document (|
           しかし、すると${S}の定義から${\mathcal{M}_i \nvDash \psi(v(i))}、${T}の定義から${\mathcal{M}_i \vDash \psi(v(i))}となり、矛盾。
         }
       >
-      +exercise<+p{${\implies}, ${\bot}などの場合を補い、上の証明を完成させよ。}>
+      +exercise<+p{${\to}, ${\bot}などの場合を補い、上の証明を完成させよ。}>
 
       +cor<+p{${\mathcal{M}}を${\mathcal{L}(\mathcal{M})}-構造と思って超冪を取ると、
         \eqn-notag(${
@@ -659,6 +715,34 @@ document (|
         }
       >
 
+      +p{
+        さて、前節では、${\mathcal{L}}-構造や公理系${T}のモデルについて定義をし、「全ての${T}のモデルで成り立つ」という意味論的な妥当性を定義した：
+        \eqn-notag(${
+          T \models \varphi \defs \forall \mathcal{M} \models T \mhquad \mathcal{M} \models \varphi
+        });
+        一方で、我々は証明体系${\HK}における証明可能性、
+        \eqn-notag(${
+            T \vdash \varphi
+        });
+        も既に扱っていた。この二つの概念が一致することを示すのが\emph{完全性定理}（\emph{Completeness Theorem}）である：
+      }
+      +theorem?*?:({一階述語論理の完全性定理、Gödelの学位論文})<
+        +p{${T \models \varphi \implies T \vdash \varphi}}
+      >
+      +p{
+        この逆向き、つまり「証明可能なら、妥当である」の方向については\emph{健全性定理}（\emph{Soundness Theorem}）と呼ばれることも多い。「成り立たないような命題が証明されてしまうようなヘンな証明体系ではない」という意味で「健全」ということである。
+      }
+      +exercise<
+        +p{健全性定理${T \vdash \varphi \implies T \models \varphi}を証明せよ。}
+        +font-style[bold]<
+          +pn{ヒント：証明図の深さに関する帰納法。固有変数条件が効いてくる。}
+        >
+      >
+      +p{
+        健全性は地道にやればできるが、完全性${T \models \varphi \implies T \vdash \varphi}は非自明である。完全性が「完全性」と呼ばれるのは、「全部のモデルで成り立つような命題を完全に取り尽せている」という気持ちが背景にある。
+        これは一般に対偶を示すのが常套手段である。つまり、${\varphi}が${T}から証明できないとして、${M \models \lnot \varphi}なる${T}-モデル${M}を構成するのだ。
+        この証明には、一般的には\emph{Henkin構成}と呼ばれる手法が使われる。これは、次の補題を使う：
+      }
 
     >
     +subsection{Löwenheim–Skolemの定理}<
@@ -678,7 +762,17 @@ document (|
           * \emph{上方Löwenheim–Skolem}：任意の${\kappa \geq \pabs{\mathcal{M}}}に対し${\pabs{N} = \kappa}なる初等拡大${\mathcal{N} \succ \mathcal{M}}が存在する。
         }
       >
-      +p{証明に無限組合せ論で重要な概念を含むので、ここでは下方Löwenheim–Skolemの定理の証明の概略を以下で紹介する。上方については、コンパクト性定理を使うのが簡単なので、それを待つこと。}
+      +p{証明に無限組合せ論で重要な概念を含むので、ここでは下方Löwenheim–Skolemの定理の証明の概略を以下で紹介する。上方の方は演習問題とする。}
+      +exercise?*?:({上方Löwenheim–Skolem})<
+        +p{上方Löwenheim–Skolemの定理を証明せよ。}
+        +pn{\font-style[bold]{ヒント：コンパクト性定理をつかう。${\kappa}個の新しい定数記号を${\Seq{c_\xi}{\xi < \kappa}}導入して、それらが「pairwiseに全て異なる」という公理を足した公理系を考えよ}}
+      >
+      +defn?*?:({Skolem関数})<
+        +p{\emph{TODO: 定義する}}
+      >
+      +proof?:({Proof of Downward Löwenheim–Skolem})<
+        +p{\emph{TODO: ${\Sk}を繰り返す}}
+      >
     >
 
   >
