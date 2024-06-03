@@ -14,6 +14,7 @@
 @require: arrows/commands
 @require: colorbox/colorbox
 @require: fss/fss
+@require: uline/uline
 @import: colors
 
 let-math \lrarrow = ${\longleftrightarrow}
@@ -22,6 +23,7 @@ let-math \dot arg = ${\adot{#arg}}
 let-math \ZF = ${\mathrm{ZF}}
 let-math \Z = ${\mathrm{Z}}
 let-math \ZFC = ${\mathrm{ZFC}}
+let-math \BPI = ${\mathrm{BPI}}
 let-math \AC = ${\mathrm{AC}}
 let-math \NK = ${\mathrm{NK}}
 let-math \HK = ${\mathrm{HK}}
@@ -32,6 +34,7 @@ let-math \MP = ${\mathrm{MP}}
 let-math \On = ${\mathrm{On}}
 let-math \models = ${\vDash}
 let-math \forces = ${\Vdash}
+let-math \muline arg = ${\text!{\uline{${#arg}}}}
 let-math \Cd = ${\mathrm{Cd}}
 let-math \diamondsuit = ${♢}
 let-math \CC = ${\mathrm{CC}}
@@ -169,6 +172,7 @@ let-mutable remark-counter <- 0
 let-block ctx +remark = define-theorem `注意` ?:remark-color remark-counter ctx
 let-mutable lemma-counter <- 0
 let-block ctx +lemma = define-theorem `補題` ?:prop-color theorem-counter ctx
+let-block ctx +cor = define-theorem `系` ?:prop-color theorem-counter ctx
 let-mutable conjecture-counter <- 0
 let-block ctx +conjecture = define-theorem `予想` ?:conj-color conjecture-counter ctx
 let-mutable exercise-counter <- 0
@@ -342,3 +346,4 @@ let-math \pSQ ?:ht m =
 let-math \lt = ${<}
 let-math \gt = ${>}
 let-math \compat = ${\mathrel{∥}}
+let-math \restrict = ${\mathbin{\upharpoonright}}

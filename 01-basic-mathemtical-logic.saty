@@ -22,6 +22,38 @@
 @import: references
 @import: presets
 
+let-math \bold-in = 
+  text-in-math MathRel 
+    (fun ctx -> 
+      ( let sz = get-font-size ctx in
+        let cl = get-text-color ctx in
+        let (w,h,d) = get-natural-metrics (read-inline ctx {${\in}}) in
+        let newh = h -' d *' 0.5 in
+        let thick = 1pt in
+        let neww = w *' 0.75 in
+        inline-graphics w h d
+            (fun (x, y) ->
+              [ stroke thick cl
+                (Gr.line (x, y +' newh *' .5) (x +' neww, y +' newh *' .5))
+              ; stroke thick cl
+                  (start-path (x +' neww, y +' newh)
+                  |> line-to (x +' neww *' .5, y +' newh)
+                  |> bezier-to
+                      (x, y +' newh)
+                      (x, y +' newh *' .75)
+                      (x, y +' newh *' .5)
+                  |> bezier-to
+                      (x, y +' newh *' .25)
+                      (x, y)
+                      (x +' neww *' .5, y)
+                  |> line-to (x +' neww, y)
+                  |> terminate-path)
+              ]
+            )
+      )
+    )
+in
+
 document (|
   title = {\no-break{強制法セミナー第1回：数理論理学の初歩}};
   author = {Hiromi ISHII (\@mr_konn)};
@@ -46,36 +78,36 @@ document (|
       +p{
         一階述語論理の言語${\mathcal{L}}は次の構成要素から成る：
         \listing{
-          * 関数記号${f^{(n_0)}_0, f^{(n_1)}_1, f^{(n_2)}_2, \ldots \mhquad (n_i \in ℕ)}
-          * 関係記号${R^{(m_0)}_0, R^{(m_1)}_1, R^{(m_2)}_2, \ldots \mhquad (m_i \in ℕ) }
+          * 関数記号${\bm{f}^{(n_0)}_0, \bm{f}^{(n_1)}_1, \bm{f}^{(n_2)}_2, \ldots \mhquad (n_i \in ℕ)}
+          * 関係記号${\bm{R}^{(m_0)}_0, \bm{R}^{(m_1)}_1, \bm{R}^{(m_2)}_2, \ldots \mhquad (m_i \in ℕ) }
         }
-        上添え字の${(n_i), (m_i)}は記号の一部ではなく、各記号ごとに割り当てられている自然数であり、\emph{項数}（\emph{arity}）と呼ばれ、${f^{(n)}}は${n}-項関数記号、${R^{(m)}}は${m}-項関係記号と呼ばれる。
-        特に、${0}-項関数記号は\emph{定数記号}と呼ばれ、メタ変数${c_i, d_i, \ldots}などで表す。
+        上添え字の${(n_i), (m_i)}は記号の一部ではなく、各記号ごとに割り当てられている自然数であり、\emph{項数}（\emph{arity}）と呼ばれ、${\bm{f}^{(n)}}は${n}-項関数記号、${\bm{R}^{(m)}}は${m}-項関係記号と呼ばれる。
+        特に、${0}-項関数記号は\emph{定数記号}と呼ばれ、メタ変数${\bm{c}_i, \bm{d}_i, \ldots}などで表す。
 
         一般に、記号の集合は有限とは限らず、任意の無限集合であったり、クラスであったりする場合がある。
       }
 
-      +p {
+      +pn {
         一階の言語${\mathcal{L}}について、${\mathcal{L}}-\emph{項}（\emph{${\mathcal{L}}-term}）を以下のように帰納的に定義する：
         \enumerate{
-          * 定数記号${c}は${\mathcal{L}}-項である。
+          * 定数記号${\bm{c}}は${\mathcal{L}}-項である。
           * 変数${v}は${\mathcal{L}}-項である。
-          * 関数記号${f^{n}}および${\mathcal{L}}-項${\tau_0, \ldots, \tau_{n-1}}に対し、${f(\tau_0, \ldots, \tau_{n-1})}は${\mathcal{L}}-項である。
+          * 関数記号${\bm{f}^{n}}および${\mathcal{L}}-項${\tau_0, \ldots, \tau_{n-1}}に対し、${\bm{f}(\tau_0, \ldots, \tau_{n-1})}は${\mathcal{L}}-項である。
           * 以上で定まるもののみが${\mathcal{L}}-項である。
         }
         最後の「以上で定まるもののみが〜」というのは、計算機科学でいう最小不動点の条件と同じである。以後の帰納的定義では省略する。
       }
 
-      +p{
+      +pn{
         一階言語${\mathcal{L}}について、${\mathcal{L}}-\emph{原子論理式}（\emph{atomic ${\mathcal{L}}-formula}）を以下のように帰納的に定義する：
         \enumerate{
           * ${\bot}は${\mathcal{L}}-原子論理式である。
-          * ${\tau, \tau'}が${\mathcal{L}}-項のとき、${\tau = \tau'}は${\mathcal{L}}-原子論理式である。
-          * ${R}が${m}-項関係記号、${\tau_0, \ldots, \tau_{m-1}}が${\mathcal{L}}-項のとき、${R(\tau_0, \ldots, \tau_{m-1})}は${\mathcal{L}}-原子論理式である。
+          * ${\tau, \tau'}が${\mathcal{L}}-項のとき、${\tau \mathrel{\bm{=}} \tau'}は${\mathcal{L}}-原子論理式である。
+          * ${\bm{R}}が${m}-項関係記号、${\tau_0, \ldots, \tau_{m-1}}が${\mathcal{L}}-項のとき、${\bm{R}(\tau_0, \ldots, \tau_{m-1})}は${\mathcal{L}}-原子論理式である。
         }
       }
 
-      +p{
+      +pn{
         古典一階述語論理の\emph{${\mathcal{L}}-論理式}（\emph{${\mathcal{L}}}-formula）を以下のように機能的に定義する：
         \enumerate{
           * ${\mathcal{L}}-原子論理式は${\mathcal{L}}-論理式である。
@@ -84,9 +116,14 @@ document (|
         }
         自由変数\footnote{変数が自由とか束縛されているとかはみなさんが知っているやつです。}を持たない論理式を\emph{閉論理式}（\emph{closed formula}）または\emph{文}（\emph{sentence}）と呼ぶ。
       }
+      +p{言語${\mathcal{L}}について、${\mathcal{L}}-閉論理式の全体のクラスを${\mathcal{L}}と書くことがある。}
       +p{
         ${\to}は右結合とする。つまり、${\varphi \to \psi \to \chi}は${\varphi \to (\psi \to \chi)}の略記として解釈される。
       }
+    >
+
+    +remark<
+      +p{ここでは、オブジェクトレベルの演算・関係と区別するために、関数・関係記号を太字で表している。本節と次節では暫くこの区別を用いるが、慣れてきたら単に両者を混合して普通の字体で書く。}
     >
 
     +remark<
@@ -103,11 +140,11 @@ document (|
     +p{一階の言語の例として、ここではこれからずっと付き合うことになる集合論の言語${\mathcal{L}_{\in}}や環の言語${\mathcal{L}_\text!({ring})}などを挙げておく：}
 
     +example?*?:({集合論の言語})<
-      +p{集合論の言語${\mathcal{L}_{\in}}は、二項述語記号${\in^{(2)}}のみを持つ言語である。}
+      +p{集合論の言語${\mathcal{L}_{\in}}は、二項関係記号${\bold-in^{(2)}}のみを持つ言語である。}
     >
 
     +p{
-      え？他の記号は要らないの？和集合とか内包表記とか……と思うかもしれないが、${\ZF}公理系は十分強力であり、そうした記号を含む論理式があっても、それを含まない形で書き換えることができる。例えば、${x = A \cup B}は${\forall z \mhquad \pB{z \in x \lrarrow z \in A \lor z \in B}}と書き換えることができる。
+      え？他の記号は要らないの？和集合とか内包表記とか……と思うかもしれないが、${\ZF}公理系は十分強力であり、そうした記号を含む論理式があっても、それを含まない形で書き換えることができる。例えば、${x = A \cup B}は${\forall z \mhquad \pB{z \bold-in x \lrarrow z \bold-in A \lor z \bold-in B}}と書き換えることができる。
     }
 
     +example?*?:({環の言語})<
@@ -119,9 +156,9 @@ document (|
     +example?*?:({${K}-線型空間の言語})<
       +p{${K}を体とするとき、${K}-線型空間の言語は以下から成る：}
       +listing{
-        * 定数記号${0}
-        * 二項関数記号${+}
-        * ${c \in K}ごとに、一項関数記号${c \cdot}
+        * 定数記号${\bm{0}}
+        * 二項関数記号${\bm{+}}
+        * ${c \in K}ごとに、一項関数記号${\bm{c \cdot}}
       }
     >
 
@@ -169,7 +206,7 @@ document (|
     +defn?*?:({${\HK}の証明図})<
       +p{
         \enumerate{
-          * ${\HK}における言語${\mathcal{L}}の公理系${\Gamma}とは、証明項がただ一つの定数のみからなる${\CL}-項で、述部が${\mathcal{L}}-論理式であるような${\HK}-項の集合である。
+          * ${\HK}における言語${\mathcal{L}}の公理系${\Gamma}とは、証明項がただ一つの定数のみからなる${\CL}-項で、述部が${\mathcal{L}}-閉論理式であるような${\HK}-項の集合である。
           * ${\HK}の\emph{証明図}とは、${\HK}-項を頂点とする根つき木であって、全ての枝が葉から根に向かって次の\emph{推論規則}のいずれかに従って形成されているものである。根を「\emph{結論}」、葉を「\emph{仮定}」と呼ぶ：
             ** \emph{三段論法}\footnote{厳密には、ギリシアのアリストテレス論理学における「三段論法」とは「大前提・小前提・結論」からなる（正しいとは限らない）論法の総称であり、モーダス・ポネンスはその中の妥当な典型例の一つである。だから、本来日本語訳として「三段論法」と呼ぶのは若干間違っており、厳密を期すのなら「前件肯定」と呼ぶべきだといえばそうなのだが、もう習慣として定着しているのでここでもそれに倣う。}（\emph{modus ponens}、${\MP}）：
               \eqn?:(AZMathEquation.notag)(open Derive in open DeriveDSL in ${
@@ -281,27 +318,369 @@ document (|
       +p{上で導入した${\HK}から排中律${P \lor \lnot P}が証明可能であることを示せ。また、逆に${\HK}から${\P}を除いた体系に排中律・二重否定除去の一方だけを追加すると、${\P}が証明できることを示せ。}
     >
 
-    +example?*?:({酒場の法則})<
+    +exercise?*?:({酒場の法則})<
       +p{
         古典一階述語論理のヘンなトートロジーとして有名なものに、一項関係記号${P}をもつ言語で表現できる「酒場の法則」がある：
         \eqn?:(AZMathEquation.notag)(${
           \exists z \mhquad[P(z) \to \forall x P(x)]
         });
-        ${P(x)}を「${x}が呑んだくれている」と読むと、これが「酒場の法則」と呼ばれている理由がわかる：「どんな酒場にも、そいつが呑んだくれているなら、他の客も全員呑んだくれているような特別な客${z}氏がいる」。これは、呑んでない人間がいるならそいつを${z}氏とし、全員呑んでいるなら適当に取ればよい。
+        ${P(x)}を「${x}が呑んだくれている」と読むと、これが「酒場の法則」と呼ばれている理由がわかる：「どんな酒場にも、そいつが呑んだくれているなら、他の客も全員呑んだくれているような客${z}氏がいる」。
+        演繹定理を駆使して、${\HK}でこの法則を示せ。
       }
-    >
 
-    +exercise<+p{演繹定理を駆使して、酒場の法則を示せ。}>
+      +pn{\font-style[bold]{ヒント：呑んでない人間がいるならそいつを${z}氏とし、全員呑んでいるなら適当に取ればよい。}}
+    >
   >
 
   +section{一階述語論理のTarski意味論と完全性定理}<
     +p{前節で、言語${\mathcal{L}}の下での一階述語論理の構文と証明体系を導入した。これを具体的な数学の宇宙の対象と結び付け、解釈を考えるのが\emph{Tarski意味論}あるいは単純に${\mathcal{L}}-構造や「モデル」と呼ばれるものである。他にも色々なモデルの与え方はある（例えば強制法のBoole値モデルであるとか、圏論的論理学における函手など）し、意味論といっても結合子の間の調和を考える証明論的意味論など色々なものがあるが、以下ではモデルといったらTarskiモデルを考える。}
 
-    +p{}
+    +p{言語${\mathcal{L}}の項・論理式を解釈できる集合を${\mathcal{L}}-構造と呼ぶ：}
+
+    +defn?*?:({${\mathcal{L}}-構造})<
+      +p{
+        言語${\mathcal{L} = \pangle{\bm{R}_i^{(n_i)}, \bm{f}_j^{(m_j)} }_{i \in I, j \in J}}
+        について、\emph{${\mathcal{L}}-構造}（\emph{${\mathcal{L}}-structure}）とは、${\mathcal{M} = \pangle{M, R^{\mathcal{M}}_i, f^{\mathcal{M}}_j}}であって、次を満たすもの：
+        \enumerate{
+          * ${\mathcal{M} \neq \emptyset}
+          * ${R^{\mathcal{M}}_i \subseteq M^{n_i}}は${M}上の${n_i}-項関係
+          * ${f^{\mathcal{M}}_j: M^{m_j} \to M}は${M}上の${m_j}-引数関数
+        }
+      }
+    >
+
+    +p{台集合上の語彙の解釈がそれぞれ自然な方法で与えられているという訳で、代数系の定義を（公理を除いて）一般化したようなものになっている。}
+    +p{単純な${\mathcal{L}}-言語だけでは、定数だけを含む論理式しか考えられないが、${\mathcal{L}}-構造${\mathcal{M}}が与えられたら、${\mathcal{M}}に含まれるような元についてもパラメータとして記述したくなる。そこで、${\mathcal{L}}-言語を拡大した言語${\mathcal{L}(\mathcal{M})}を定義しよう：}
+    +defn<
+      +p{${\mathcal{L}}を言語、${\mathcal{M}}を${\mathcal{L}}-構造とするとき、全ての${a \in \mathcal{M}}について、${\mathcal{L}}に含まれない新たな定数記号${\bm{c}_a}を付け加えた言語を、${\mathcal{L}}の${\mathcal{M}}による\emph{拡大}（\emph{expansion}）${\mathcal{L}(\mathcal{M})}と表す。
+      }
+    >
+    +remark<+p{任意の${\mathcal{L}}-論理式は${\mathcal{L}(\mathcal{M})}-論理式でもある。}>
+    +p{構造が定まると、自然な形で項・論理式の解釈も定まる：}
+
+    +defn<
+      +p{以下、${\mathcal{M}}を${\mathcal{L}}-構造とする。}
+      +listing{
+        * ${\mathcal{L}(\mathcal{M})}-項${\tau}について、以下のように${\tau}の${\mathcal{M}}における\emph{解釈}（\emph{interpretation}）を、項の構造に関する帰納法で以下のように定める：
+          \enumerate {
+            * 定数記号${\bm{c}_a\mhquad(a \in \mathcal{M})}に対し、${\bm{c}_a^\mathcal{M} \defeq a}
+            * 関数記号${\bm{f}^{(m)}}と項${t_0, \ldots, t_{m-1}}に対し：
+                \eqn-notag(${\p{\app{\bm{f}}{t_0, \ldots, t_{m - 1}}}^\mathcal{M} \defeq f^\mathcal{M}(t_0^\mathcal{M}, \ldots, t_{m - 1}^\mathcal{M})});
+          }
+        * ${\mathcal{L}(\mathcal{M})}-閉論理式${\varphi}について、${\mathcal{M} \models \varphi}を以下のように帰納的に定める：
+        \enumerate{
+            * ${\mathcal{M} \nvDash \bot}
+            * 項${t_0, t_1}について、 ${\mathcal{M} \models t_0 = t_1 \defs t_0^\mathcal{M} = t_1^\mathcal{M}}
+            * 関係記号${\bm{R}^{(n)}}と項${t_0, \ldots, t_{n-1}}に対し、${\mathcal{M} \models \bm{R}(t_0, \ldots, t_{n-1}) \defs (t_0^\mathcal{M}, \ldots, t_{n_i-1}^\mathcal{M}) \in R^\mathcal{M}}
+            * ${\varphi, \psi}を${\mathcal{L}}-論理式とするとき、${\mathcal{M} \models \varphi \to \psi \defs \mathcal{M} \nvDash \varphi \lor \mathcal{M} \models \psi}
+            * ${\varphi}を${\mathcal{L}}-論理式とするとき、
+              ${\mathcal{M} \models \forall x \varphi
+                \defs} 任意の${a \in \mathcal{M}}について${\mathcal{M} \models \subst{\varphi}![(${x}, ${\bm{c}_a})]
+              }
+          }
+      }
+    >
+    +p{${T}を${\mathcal{L}}-公理系としたとき、いよいよ${T}-モデルの定義ができる：}
+
+    +defn<
+      +p{${T}を${\mathcal{L}}-公理系、${\mathcal{M}}を${\mathcal{L}}-構造、${\varphi}を${\mathcal{L}}-論理式とする。}
+      +listing{
+        * ${\mathcal{M}}が${T}の\emph{モデル}（\emph{model}）である（記号：${\mathcal{M} \models T}）${\defs}任意の${\varphi \in T} \footnote{${\HK}の公理系は厳密にはラベルつきの閉論理式の集合であった。以下では、ラベルを無視して論理式だけを見る。}について${\mathcal{M} \models \varphi}。
+        * ${\varphi}が${T}で\emph{妥当}（\emph{valid}）である${T \models \varphi} ${\defs} 任意の${\mathcal{L}}-構造${\mathcal{M}}について${\mathcal{M} \models T \implies  \mathcal{M} \models \varphi}。
+      }
+    >
   >
 
-  +section{初等拡大、超積、コンパクト性定理}<
+  +section{絶対性、初等性、完全性定理、Löwenheim–Skolemの定理}<
+    +p{前節では${\mathcal{L}}-構造を定義したが、今回はその複数のモデル同士を比べたり、あるいは新しいモデルを構成する方法について取り扱う。}
+    +p{まず、部分環や部分空間などのように、大きなモデルの部分に相当する部分構造（部分モデル）を定義する：}
+    +defn<
+      +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}について、${\mathcal{N}}が${\mathcal{M}}の\emph{部分構造}（\emph{substructure}）または${M}が${N}の\emph{拡大}（\emph{extension}）${\defs}
+        \enumerate{
+          * ${\mathcal{N} \subseteq \mathcal{M}}、
+          * 任意の関係記号${\bm{R}^{(n)}}について${R^\mathcal{N} = R^\mathcal{M} \cap N^{n}}、
+          * 任意の関数記号${\bm{f}^{(m)}}について${f^\mathcal{N} = f^\mathcal{M} \restrict N^{m}}。
+        }
+      }
+    >
+    +remark<+p{背景となる理論がある程度固定されている場合、「部分モデル」（submodel）とも呼ぶ。}>
+    +p{
+      つまり、関係は制限したものになっており、関数の解釈について閉じているような関係である。
+      さらに、論理式の解釈についても閉じているような部分・拡大構造を初等部分モデル・初等拡大とよぶ：
+    }
+    +defn?*?:({絶対性、初等部分構造})<
+      +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-構造とし、${\mathcal{N}}は${\mathcal{M}}の部分構造であるとする。}
+      +listing{
+        * ${\mathcal{L}(N)}-論理式${\varphi}が${\mathcal{N}}と${\mathcal{M}}の間で\emph{絶対的}（\emph{absolute}、記号：${\mathcal{N} \prec_{\varphi} \mathcal{M}}）${\defs} ${\mathcal{N} \models \varphi} iff ${\mathcal{M} \models \varphi}。
+        * ${\mathcal{L}(N)}-論理式の集合${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
+        * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{M} \prec \mathcal{N}}）とは、${\mathcal{N} \prec_\mathcal{L} \mathcal{M}}のこと。
+      }
+    >
+
+    +remark<+p{一般に、「初等××」という概念の「初等」は、「一階述語論理の」というような意味である。}>
+
+    +p{以上は部分モデル上の初等性だが、良く似た概念に部分モデル関係が成り立つとは限らない構造間の初等同値性がある：}
+
+    +defn<
+      +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}が${\mathcal{L}}-\emph{初等同値}（\emph{elementarily equivalent}、記号：${\mathcal{M} \equiv_{\mathcal{L}} \mathcal{N}}）${\defs} 任意の${\mathcal{L}}-閉論理式${\varphi}について${\mathcal{M} \models \varphi} iff ${\mathcal{N} \models \varphi}。}
+    >
+
+    +p{つまり、初等拡大性${\mathcal{N} \prec \mathcal{M}}は、${\mathcal{N}}が${\mathcal{M}}の部分構造であり、${\mathcal{N} \equiv_{\mathcal{L}(\mathcal{M})} \mathcal{M}}
+    であるということだ。}
+
+    +exercise<+p{部分構造だが、初等部分構造ではないような例を挙げよ。}>
+    +exercise<+p{言語によって（初等）部分構造であったりなかったりする構造の組の例をそれぞれ挙げよ。}>
+
+    +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で再頻出の道具であるり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
+
+    +lemma?*?:({Tarski–Vaught判定条件})<
+      +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-部分構造とするとき、次は同値：}
+      +enumerate{
+        * ${\mathcal{N} \prec \mathcal{M}}
+        * ${\varphi(x)}を${x}のみを変数に持つ${\mathcal{L}(\mathcal{N})}-論理式とするとき、
+          \eqn-notag(${\mathcal{M} \models \pB{\exists x\varphi(x)} \implies \exists a \in \mathcal{N} \mhquad \mathcal{M} \models \varphi(a) });
+      }
+    >
+    +remark<+p{「解」${a \in \mathcal{N}}そのものは小さい${\mathcal{N}}の方から取っているが、その真偽の判定は大きな${\mathcal{M}}の方で成り立っているかどうかだけ考えればよい、という点に注意しよう。}>
+    +exercise<
+      +p{上を証明せよ。（\font-style[bold]{ヒント：論理式の複雑性に関する帰納法。）}}
+    >
+    +p{Tarski–Vaught判定条件のうち、次の\emph{初等鎖定理}もよく使う：}
+    +lemma?*?:({初等鎖定理})<
+      +p{${\Seq{M_\alpha}{\alpha < \gamma}}を${\mathcal{L}}-構造の列とし、更に任意の${\alpha < \beta}について${M_\alpha \prec M_\beta}が成り立つする。このとき、${M \defeq \bigcup_\alpha M_\alpha}とおけば、${M_\alpha \prec M}が任意の${\alpha < \gamma}について成り立つ。}
+    >
+    +exercise<+p{示せ。部分構造になることがちゃんと言えれば、あとは簡単。}>
+
+    +p{
+      初等部分構造や初等拡大を取ったりして色々するのは、モデル理論や集合論の基本的な操作である。以下では、そうした構成の道具を見ていく。
+    }
+    +subsection{超積、超冪とŁośの定理、コンパクト性定理、完全性定理}<
+      +p{
+        \emph{超積}は添え字づけられたモデルの族が与えられた際に、そこから新たなモデルを構成する方法であり、更に最終的に得られるモデルは「殆んど至るところ」で成り立つ真理を反映したものになっている。更に、\emph{超冪}は超積の特別な場合であり、添え字に依らず同じ構造を使って超積をとったものだが、これは強制法や巨大基数の理論の非常に重要な道具である。
+      }
+
+      +p{
+        超積は、冪集合の成すBoole代数上の超フィルターを使って定義される。
+        （超）フィルターの定義は前回やった通りだが、考えている擬順序が冪集合代数のようにBoole代数であるとき、定義がより簡単になる：
+      }
+        
+      +lemma<
+        +p{${\mathbb{B}}をBoole代数、${\mathcal{F}\subseteq \mathbb{B}}とするとき、次は同値：}
+        +enumerate{
+          * ${\mathcal{F}}は${\mathbb{B}}のフィルター。
+          * 以下が成り立つ：
+            ** ${\mathbb{0} \nin \mathcal{F}, \mathbb{1} \in \mathcal{F}}
+            ** ${\mathcal{F} \ni b \geq c \implies c \in \mathcal{F}}
+            ** ${b, c \in \mathcal{F} \implies b \cdot c \in \mathcal{F}}
+        }
+      >
+      +lemma<
+        +p{${\mathbb{B}}をBoole代数、${\mathcal{U}}を${\mathbb{B}}のフィルターとするとき、次は同値：}
+        +enumerate{
+          * ${\mathcal{U}}は${\mathbb{B}}の超フィルター。
+          * 任意の${b \in \mathbb{B}}について、${b \in \mathcal{U}}または${- b \in \mathcal{U}}のいずれか一方のみが成り立つ。
+        }
+      >
+      +defn<+p{\emph{集合${I}上の（超）フィルター}（\emph{(ultra-)filter on } ${I}）とは、冪集合Boole代数${(\Pow(I), \emptyset, I, (-)^c, \cup, \cap\subseteq)}の（超）フィルターのことである。}>
+
+      +defn<
+        +p{
+          ${I}を任意の集合とし、${\Seq{\mathcal{M}_i}{i \in I}}を${\mathcal{L}}-構造の族、${\mathcal{U}}を${I}上の超フィルターとする。
+        }
+        +listing{
+          * ${u, v \in \prod_{i \in I} \mathcal{M}_i}に対して、${u \sim_{\mathcal{U}} v}を次で定める：
+            \eqn-notag(${u \sim_{\mathcal{U}} v \defs \Set{i \in I}{u(i) = v(i)} \in \mathcal{U}});
+            このとき、${[u]_{\mathcal{U}}}を${\sim_{\mathcal{U}}}に関する${u \in \prod_i \mathcal{M}_i}の同値類とする。
+          * ${\pangle{\mathcal{M}_i}_{i \in I}}の${\mathcal{U}}による\emph{超積}（\emph{ultraproduct}）${\mathcal{N} = \prod_{i \in I} \mathcal{M}_i/\mathcal{U}}とは、次で定義される${\mathcal{L}}-構造である。
+            \enumerate{
+              * \emph{台集合}：
+                \eqn-notag(${\prod_{i \in I} \mathcal{M}_i/\mathcal{U} \defeq \Set{[u]_{\mathcal{U}}}{u \in \prod_{i \in I} \mathcal{M}_i}});
+              * \emph{関係記号の解釈}：各${\bm{R}^{(n)}}について、
+                \eqn-notag(${
+                  ([u_0], \ldots, [u_{n-1}]) \in R^{\mathcal{N}} 
+                    \defs
+                  \Set{i \in I}{(u_0(i), \ldots, u_{n-1}(i)) \in R^{\mathcal{M}_i}} \in \mathcal{U}
+                });
+              * \emph{関数記号の解釈}：各${\bm{f}^{(m)}}について、
+                \eqn-notag(${
+                  f^{\mathcal{N}}([u_0], \ldots, [u_{m-1}]) 
+                    \defeq
+                  \pB{\Seq{f^{\mathcal{M}_i}(u_0(i), \ldots, u_{m-1}(i))}{i \in I}}_\mathcal{U}
+                });
+            }
+          * ${\mathcal{M}_i= \mathcal{M}}のとき、${\prod_{i\in I}\mathcal{M}/\mathcal{U}}を${\mathcal{M}}の${\mathcal{U}}による\emph{超冪}（\emph{ultrapower}）と呼び、記号${\seq{I}{\mathcal{M}}/\mathcal{U}}で表す。
+        }
+      >
+
+      +exercise<+p{超積${\prod_i \mathcal{M}_i/\mathcal{U}}の定義がwell-definedであり、実際に${\mathcal{L}}-構造となることを示せ。}>
+
+      +p{
+        超積が「殆んど至るところ成立する」ものを集めてきたものだ、といったが、そのことを表現しているのが、次の\ruby[`ウロッシュ`]{|Łoś|}\footnote{Łośはポーランド人の数学者である。ŁはWとLの中間音（そんなのある？）、śは「シュ」みたいに発音するらしい。}の定理である：}
+
+      +theorem?*?:({Łośの定理})<
+        +p{次が成立：}
+        +eqn-notag(${
+          \prod_{i \in I} \mathcal{M}_i/\mathcal{U} \models \varphi
+            \iff \Set{i \in I}{ \mathcal{M}_i \models \varphi}
+        });
+      >
+      +proof<
+        +p{
+          超積についてはほとんどの参加者が知らないようなので、ここでは軽く証明の概略を示しておく。
+          \eqn-notag(${\mathcal{M} \defeq \prod_i\mathcal{M}_i/\mathcal{U}});
+          とおいて、${\mathcal{L}(\mathcal{M})}論理式${\varphi}の複雑性に関する帰納法を使って示す。
+        }
+
+        +p{${\varphi}が関係記号のときは定義から明らか。}
+
+        +p{
+          ${\varphi \equiv \forall x \psi(x)}のときを考える。帰納法の仮定は、任意の${[u] \in \mathcal{M}}について
+
+          \eqn-notag(${
+            \mathcal{M} \models \psi([u]) \iff \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))}
+          });
     
+          である。しかるに：
+          \alignat?:(AZMathEquation.notag)(2)(${|
+            \mathcal{M} \models \forall x \psi(x)
+              | \iff \forall [u] \in \mathcal{M} \mhquad \mathcal{M} \models \varphi([u]) | \mquad | (\text!{${\models}の定義})
+          | | \iff \forall [u] \in \mathcal{M} \mhquad  \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \in \mathcal{U} |  | (\text!{帰納法の仮定}) 
+          || \iff \Set{i \in I}{ \forall [u] \in \mathcal{M}\mhquad \mathcal{M}_i \models \psi(u(i))} \in \mathcal{U} || (\ast)
+          || \iff \Set{i \in I}{ \mathcal{M}_i \models \forall x \psi(x)} \in \mathcal{U} | | (\text!{各${M_i \neq \emptyset}、${\mathcal{M}_i \models \forall}の定義より})
+          |});
+          ${(\ast)}の部分に詳しい説明が必要だろう。
+          }
+          +p{
+            ${(\Longleftarrow)}の向き：定義より、
+            \eqn-notag(${
+              \Set{i \in I}{ \forall [u] \in \mathcal{M}\mhquad \mathcal{M}_i \models \psi(u(i))} = \bigcap_{[v] \in \mathcal{M}} \Set{i \in I}{ \mathcal{M}_i \models \psi(v(i))} 
+            });
+            である。いま、任意の${[u] \in \mathcal{M}}について
+            \eqn-notag(${
+              \mathcal{U} \ni \bigcap_{[v] \in \mathcal{M}} \Set{i \in I}{ \mathcal{M}_i \models \psi(v(i))}  \subseteq \Set{i \in I}{ \mathcal{M}_i \models \psi(u(i))} 
+            });
+            であり、${\mathcal{U}}はフィルター、特に上に閉じているから、${\Set{i \in I}{ \mathcal{M}_i \models \psi(u(i))} \in \mathcal{U}}を得る。
+          }
+        +p{
+          ${(\implies)}の向き：ここで超フィルターであることを使う。仮に、
+          \eqn-notag(${\Set{i \in I}{ \forall [u] \in \mathcal{M}\mhquad \mathcal{M}_i \models \psi(u(i))} \nin \mathcal{U}});
+          であったとする。このとき、超フィルターの極大性から、この補集合は${\mathcal{U}}に属する：
+          \eqn-notag(${
+            S \defeq 
+            \Set{i \in I}{ \exists [u] \in \mathcal{M}\mhquad \mathcal{M}_i \nvDash \psi(u(i))} \in \mathcal{U}
+          });
+          ${\emptyset \nin \mathcal{U}}より${S \neq \emptyset}であることに注意する。
+          ここで、${[v] \in \mathcal{M}}を以下のように定める：
+          \eqn-notag(${
+            v(i) \defeq
+            \cases!(${|u(i)\mathrel{\text!{for}} [u] \in \mathcal{M} \mathrel{\text!{with}} \mathcal{M}_i \nvDash \psi(u(i))|(i \in S)| \text!{任意の} x \in \mathcal{M}_i |(\text!{otherwise})|})
+          });
+          すると、各${i \in S}について${\mathcal{M}_i \nvDash \psi([v])}がなりたっているので、帰納法の仮定より${\mathcal{M} \nvDash\psi([v])}となる。しかし、${(\ast)}の直前の仮定から${T \defeq \Set{i \in I}{\mathcal{M}_i \models \psi(v(i))} \in 𝒰}である。
+          ${𝒰}はフィルターであり、${S \cap T \in 𝒰 \nni \emptyset}なので、${i \in S \cap T}が取れる。
+          しかし、すると${S}の定義から${\mathcal{M}_i \nvDash \psi(v(i))}、${T}の定義から${\mathcal{M}_i \vDash \psi(v(i))}となり、矛盾。
+        }
+      >
+      +exercise<+p{${\implies}, ${\bot}などの場合を補い、上の証明を完成させよ。}>
+
+      +cor<+p{${\mathcal{M}}を${\mathcal{L}(\mathcal{M})}-構造と思って超冪を取ると、
+        \eqn-notag(${
+          \mathcal{M} \prec \seq{I}{\mathcal{M}}/\mathcal{U}.
+        });
+      }>
+      +proof<
+        +p{
+          ${\varphi}を${\mathcal{L}(\mathcal{M})}-論理式とすると、任意の${i}につき${M_i = M}なので、
+          \eqn-notag(${
+            \Set{i \in I}{\mathcal{M}_i \models \varphi} = 
+              \cases!(${| I | (\mathcal{M} \models \varphi)
+                        | \emptyset | (\text!{otherwise})|}
+                      )
+          });
+          よって${\mathcal{M} \models \varphi \iff \Set{i \in I}{\mathcal{M} \models \varphi} = X \in \mathcal{U} \mathrel{\overset{\text!{Łoś}}{\iff}} \seq{I}{\mathcal{M}}/\mathcal{U} \models \varphi}を得る。
+        }
+      >
+
+      +p{
+        Łośの定理を使うには、超フィルターを取る必要がある。我々は${\AC}を仮定しているので、どんな集合上にも必ず超フィルターが取れる：
+      }
+      +lemma?*?:({Boolean Prime Ideal Theorem, ${\BPI}})<
+        +p{${\mathcal{F} \subseteq \mathbb{B}}をBoole代数のフィルターとするとき、それを拡張する超フィルターが少なくとも一つ存在する。}
+      >
+      +exercise<+p{これを証明せよ（\font-style[bold]{ヒント：フィルターを一歩一歩拡張していけばいいだけ}）}>
+      +remark<+p{実は、${\BPI + \text!{Łoś}}は選択公理と同値である。}>
+      +p{フィルターのうち上閉性を外したものをフィルター基というのであった。フィルター基が与えられたとき、その元以上のものを全て集めてくればフィルターになるので、次の系が得られる：}
+      
+      +cor<
+        +p{${A \subseteq \mathbb{B}}をBoole代数のフィルター基とするとき、それを拡張する超フィルターが少なくとも一つ存在する。}
+      >
+      
+      +p{こんなもの、何に使うのか？と思うかもしれない。しかし、これは非常に強力な道具であり、例えばモデル理論の最も基本的な定理である、コンパクト性定理や完全性定理の証明に使うことができる。}
+
+      +theorem?*?:({コンパクト性定理\footnote{名前の通り、この定理はモデルの空間にしかるべき位相を入れたときに、その空間がコンパクトであることと同値である。}})<
+        +p{公理系${T}がモデルを持つことと、${T}の任意の有限部分集合がモデルを持つことは同値である。}
+      >
+
+      +proof?:({Proof of Compactness Theorem})<
+        +p{${T}がモデルを持つなら、当然それは${T}の有限部分のモデルになっている。逆を示そう。}
+        +p{
+          そこで、${T}の任意の有限部分集合${s \Subset T}がモデルを持つとし、それぞれに対して${M_s \models s}となるモデルを固定する。
+          添え字集合は${T}の有限部分集合なので、${I \defeq [T]^{<\aleph_0} \defeq \Set{x \subset T}{\pabs{T} < \aleph_0}}とおいて、${I}上の超フィルターでいいものを取りたい。
+        }
+
+        +remark<
+          +p{${I}じたいも有限集合の族だが、取るのは${I}上の超フィルター${\mathcal{U}}、いいかえれば${\Pow(I)}の部分集合である。つまり、\emph{${\mathcal{U}}の各元${S \in \mathcal{U}}は${T}の有限集合ではなく}、${T}の有限部分集合を元にもつ無限集合である。
+          ここを混同すると、どこの話をしているのかわからなくなる。}
+        >
+
+        +p{
+          各${s}について、集合${V_s \subseteq I}を以下で定める：
+          \eqn-notag(${
+            V_s \defeq \Set{X \in I}{s \subseteq X}
+          });
+          このとき、${\mathcal{B} \defeq \Set{V_s}{s \in I}}はフィルター基となる。
+          なぜなら、${V_s \neq \emptyset}であり、また${V_s \cap V_t = V_{s \cup t} \in \mathcal{B}}となるからである。
+          そこで、${\BPI}により${\mathcal{B} \subseteq \mathcal{U}}なる${I}上の超フィルターを取り、${M \defeq \prod_{i \in I} M_i/\mathcal{U}}と定めよう。
+        }
+
+        +pn{\font-style[bold]{Claim}. ${M \models T}である。}
+
+        +p{
+          そこで、任意に${\varphi \in T}を取り、${M \models \varphi}を示す。Łośの定理から、次を示せばよい：
+          \eqn-notag(${
+            S \defeq \Set{s \in I}{M_s \models \varphi} \in \mathcal{U}.
+          });
+          まず、構成法より${V_{\pb{\varphi}} \in \mathcal{B} \subseteq \mathcal{U}}である。
+          ここで、任意に${s \in V_{\pb{\varphi}} \subseteq [T]^{<\aleph_0}}を取る。${s}は${T}の有限部分集合であり、更に${\varphi}を元にもつ。よって${M_s \models \varphi}がなりたつ。
+          以上から、
+          \eqn-notag(${
+            S = \Set{s \in I}{M_s \models \varphi} \supseteq V_{\pb{\varphi}} \in \mathcal{U}
+          });
+          いま${\mathcal{U}}はフィルターで上に閉じているから、結局${S \in \mathcal{U}}となる。
+        }
+      >
+
+
+    >
+    +subsection{Löwenheim–Skolemの定理}<
+      +p{
+        そうしたものがどういう条件の下で取れるのか？という問いに答えるのが\emph{\ruby[`レーヴェンハイム`; ` `; `スコーレム`][{Löwenheim};{–};{Skolem}];の定理}である。
+        これを述べるために、言語の濃度の概念を定義する：
+      }
+      +defn<
+        +p{言語${\mathcal{L} = \pangle{\bm{R}^{(n_i)}_i, \bm{f}^{(m_j)}_j}_{i \in I, j \in J}}の\emph{濃度}${\pabs{\mathcal{L}}}を${\pabs{\mathcal{L}}\defeq \pabs{I} + \pabs{J} + \aleph_0}と定める。}
+      >
+      +remark<+p{基数の和は単純に${\max}と一致する。論理式は任意有限超あるので、記号の数が有限でも最低${\aleph_0}個は論理式があるということに注意しよう。}>
+      +exercise<+p{${\pabs{\mathcal{L}}}は${\mathcal{L}}-論理式全体の濃度と一致することを証明せよ。（\font-style[bold]{ヒント：無限基数${\kappa}について${\kappa^{<\omega} = \kappa}}）}>
+      +theorem?*?:({Löwenheim–Skolem（–Tarski）の定理})<
+        +p{${\mathcal{M}}を無限${\mathcal{L}}-構造とする。}
+        +enumerate{
+          * \emph{下方Löwenheim–Skolem}：${\pabs{\mathcal{L}} \leq \kappa \leq \pabs{\mathcal{M}}}とし、${S \subseteq \mathcal{M}}を濃度${\kappa}以下の${\mathcal{M}}の部分集合とする。このとき、${S \subseteq \mathcal{N}}かつ${\pabs{\mathcal{N}} = κ}となる${\mathcal{M}}の初等部分構造${\mathcal{N} \subseteq \mathcal{M}}が存在する。
+          * \emph{上方Löwenheim–Skolem}：任意の${\kappa \geq \pabs{\mathcal{M}}}に対し${\pabs{N} = \kappa}なる初等拡大${\mathcal{N} \succ \mathcal{M}}が存在する。
+        }
+      >
+      +p{証明に無限組合せ論で重要な概念を含むので、ここでは下方Löwenheim–Skolemの定理の証明の概略を以下で紹介する。上方については、コンパクト性定理を使うのが簡単なので、それを待つこと。}
+    >
+
   >
 
   +section{不完全性定理とTarskiの真理定義不可能性定理}<
