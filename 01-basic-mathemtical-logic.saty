@@ -783,7 +783,7 @@ document (|
       +p{証明に無限組合せ論で重要な概念を含むので、ここでは下方Löwenheim–Skolemの定理の証明の概略を以下で紹介する。上方の方は演習問題とする。}
       +exercise?*?:({上方Löwenheim–Skolem})<
         +p{上方Löwenheim–Skolemの定理を証明せよ。}
-        +pn{\font-style[bold]{ヒント：コンパクト性定理をつかう。${\kappa}個の新しい定数記号を${\Seq{c_\xi}{\xi < \kappa}}導入して、それらが「pairwiseに全て異なる」という公理を足した公理系を考えよ}}
+        +pn{\font-style[bold]{ヒント：コンパクト性定理をつかう。${\kappa}個の新しい定数記号を${\Seq{c_\xi}{\xi < \kappa}}導入して、それらが「pairwiseに全て異なる」という公理を足した公理系を考え、最後に下方Löwenheim–Skolemを使えばよい。}}
       >
       +p{下方の基本的な考え方は、存在論理式の「証拠」があれば持ってくるような関数を考えて、それらについて閉じているような部分集合を取ってくるというものである。まず、一般に次の補題が成り立つ：}
       +lemma?:(`lem:closure`)?:({閉包の存在と濃度})<
@@ -847,7 +847,7 @@ document (|
         +p{
           \ref(`lem:skolem-hull`);および\ref(`lem:closure`);から、${A \subseteq \Sk^\mathcal{M}(A) \prec \mathcal{M}}であり、言語の濃度と論理式の濃度は一致し（\ref(`exc:counting-fml`);）仮定より${\pabs{L} \leq \pabs{A}}なので、ふたたび補題\ref(`lem:closure`);より
           \eqn-notag(${\pabs{\Sk^\mathcal{M}(A)} \leq \pabs{\mathcal{L}} + \pabs{A} + \aleph_0 = \pabs{A} \leq \kappa});
-          となる。${\kappa}に足りなければ、今度は上方Löwenheim–Skolemの定理を使って拡張すればよい。
+          となる。${\kappa}に足りなければ、予め${\pabs{A} = \kappa}になるように${\Sk}を取る前に増やしておけばよい。
         }
       >
     >
