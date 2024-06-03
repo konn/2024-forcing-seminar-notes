@@ -771,7 +771,7 @@ document (|
       +defn<
         +p{言語${\mathcal{L} = \pangle{\bm{R}^{(n_i)}_i, \bm{f}^{(m_j)}_j}_{i \in I, j \in J}}の\emph{濃度}${\pabs{\mathcal{L}}}を${\pabs{\mathcal{L}}\defeq \pabs{I} + \pabs{J} + \aleph_0}と定める。}
       >
-      +remark<+p{基数の和は単純に${\max}と一致する。論理式は任意有限超あるので、記号の数が有限でも最低${\aleph_0}個は論理式があるということに注意しよう。}>
+      +remark<+p{基数の和は単純に${\max}と一致する。論理式は任意有限長あり得るので、記号の数が有限でも最低${\aleph_0}個は論理式があるということに注意しよう。}>
       +exercise?:(`exc:counting-fml`)<+p{${\pabs{\mathcal{L}}}は${\mathcal{L}}-論理式全体の濃度および${\mathcal{L}}-項全体の濃度と一致することを証明せよ。（\font-style[bold]{ヒント：無限基数${\kappa}について${\kappa^{<\omega} = \kappa}}）}>
       +theorem?*?:({Löwenheim–Skolem（–Tarski）の定理})<
         +p{${\mathcal{M}}を無限${\mathcal{L}}-構造とする。}
