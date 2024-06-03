@@ -25,6 +25,7 @@ let-math \Z = ${\mathrm{Z}}
 let-math \ZFC = ${\mathrm{ZFC}}
 let-math \BPI = ${\mathrm{BPI}}
 let-math \Sk = ${\mathop{\mathrm{Sk}}}
+let-math \Cl = ${\mathop{\mathrm{Cl}}}
 let-math \AC = ${\mathrm{AC}}
 let-math \NK = ${\mathrm{NK}}
 let-math \HK = ${\mathrm{HK}}
