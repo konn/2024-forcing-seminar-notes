@@ -476,7 +476,7 @@ document (|
     +exercise<+p{部分構造だが、初等部分構造ではないような例を挙げよ。}>
     +exercise<+p{言語によって（初等）部分構造であったりなかったりする構造の組の例をそれぞれ挙げよ。}>
 
-    +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で再頻出の道具であるり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
+    +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で再頻出の道具であり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
 
     +lemma?:(`lem:Tarski-Vaught`)?:({Tarski–Vaught判定条件})<
       +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-部分構造とするとき、次は同値：}
@@ -490,7 +490,7 @@ document (|
     +exercise<
       +p{上を証明せよ。（\font-style[bold]{ヒント：論理式の複雑性に関する帰納法。）}}
     >
-    +p{Tarski–Vaught判定条件のうち、次の\emph{初等鎖定理}もよく使う：}
+    +p{Tarski–Vaught判定条件の系である、次の\emph{初等鎖定理}もよく使う：}
     +lemma?*?:({初等鎖定理})<
       +p{${\Seq{M_\alpha}{\alpha < \gamma}}を${\mathcal{L}}-構造の列とし、更に任意の${\alpha < \beta}について${M_\alpha \prec M_\beta}が成り立つする。このとき、${M \defeq \bigcup_\alpha M_\alpha}とおけば、${M_\alpha \prec M}が任意の${\alpha < \gamma}について成り立つ。}
     >
