@@ -534,8 +534,9 @@ document (|
       +example<+p{}
         +enumerate{
           * 測度空間上の零集合の集まり${\null}を考える。このとき、${\null^* \defeq \Set{A \subseteq X}{ X \setminus A \in \null}}はボレル集合族${\mathcal{B}}のフィルターである。
-          * 完備距離空間${(X, d)}を考える。この時、${X}の稠密開集合全体は開集合代数上のフィルターを成す。別の見方をすれば、${\Pow(X)}上でフィルター基になっている。
-          * 位相空間${(X, \mathcal{O})}の近傍系${\mathcal{U}_x = \Set{A \subseteq X}{x \in X^{\circ}}}は${\Pow(X)}上のフィルターを成す。基本近傍系はフィルター基になっている。
+          * 完備距離空間${(X, d)}を考える。この時、${X}の稠密開集合全体は開集合代数上のフィルターを成す。別の見方をすれば、${X}上でフィルター基になっている。
+          * 位相空間${(X, \mathcal{O})}の近傍系${\mathcal{U}_x = \Set{A \subseteq X}{x \in X^{\circ}}}は${X}上のフィルターを成す。基本近傍系はフィルター基になっている。
+          * ${\mathcal{F}_{\mathrm{cofin}} \defeq \Set{S \subseteq X}{\pabs{X \setminus S} < \aleph_0}}は集合${X}上のフィルターとなる。\emph{補有限フィルター}（\emph{cofinite filter}）や\emph{\ruby[`フレシェ`]{|Fréchet|}フィルター}と呼ぶ。
         }
       >
 
