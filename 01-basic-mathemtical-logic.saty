@@ -458,7 +458,7 @@ document (|
       +listing{
         * ${\mathcal{L}(N)}-論理式${\varphi}が${\mathcal{N}}と${\mathcal{M}}の間で\emph{絶対的}（\emph{absolute}、記号：${\mathcal{N} \prec_{\varphi} \mathcal{M}}）${\defs} ${\mathcal{N} \models \varphi} iff ${\mathcal{M} \models \varphi}。
         * ${\mathcal{L}(N)}-論理式の集合${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
-        * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{N} \prec \mathcal{M}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{M})} \mathcal{M}}のこと。
+        * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{N} \prec \mathcal{M}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{N})} \mathcal{M}}のこと。
       }
     >
 
@@ -470,13 +470,13 @@ document (|
       +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}が${\mathcal{L}}-\emph{初等同値}（\emph{elementarily equivalent}、記号：${\mathcal{M} \equiv_{\mathcal{L}} \mathcal{N}}）${\defs} 任意の${\mathcal{L}}-閉論理式${\varphi}について${\mathcal{M} \models \varphi} iff ${\mathcal{N} \models \varphi}。}
     >
 
-    +p{つまり、初等拡大性${\mathcal{N} \prec \mathcal{M}}は、${\mathcal{N}}が${\mathcal{M}}の部分構造であり、${\mathcal{N} \equiv_{\mathcal{L}(\mathcal{M})} \mathcal{M}}
+    +p{つまり、初等拡大性${\mathcal{N} \prec \mathcal{M}}は、${\mathcal{N}}が${\mathcal{M}}の部分構造であり、${\mathcal{N} \equiv_{\mathcal{L}(\mathcal{N})} \mathcal{M}}
     であるということだ。}
 
     +exercise<+p{部分構造だが、初等部分構造ではないような例を挙げよ。}>
     +exercise<+p{言語によって（初等）部分構造であったりなかったりする構造の組の例をそれぞれ挙げよ。}>
 
-    +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で再頻出の道具であり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
+    +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で最頻出の道具であり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
 
     +lemma?:(`lem:Tarski-Vaught`)?:({Tarski–Vaught判定条件})<
       +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-部分構造とするとき、次は同値：}
