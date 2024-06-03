@@ -575,7 +575,7 @@ document (|
         超積が「殆んど至るところ成立する」ものを集めてきたものだ、といったが、そのことを表現しているのが、次の\ruby[`ウロッシュ`]{|Łoś|}\footnote{Łośはポーランド人の数学者である。ŁはWとLの中間音（そんなのある？）、śは「シュ」みたいに発音するらしい。}の定理である：}
 
       +theorem?*?:({Łośの定理})<
-        +p{次が成立：}
+        +p{${\mathcal{L}\p{\prod_i \mathcal{M}_i/\mathcal{U}}}-論理式${\varphi}について、次が成立：}
         +eqn-notag(${
           \prod_{i \in I} \mathcal{M}_i/\mathcal{U} \models \varphi
             \iff \Set{i \in I}{ \mathcal{M}_i \models \varphi} \in \mathcal{U}
