@@ -1101,7 +1101,7 @@ document (|
         +p{
           ${\ZFC}で作業する。${\ZFC \proves \Con(\ZFC)}とする。すると、上の補題より${\ZFC \proves \pB{\exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}}となる。
           そこで、そのようなモデル${M \models \ZFC \land \lnot \Con(\ZFC)}を取る。
-          このとき、メタレベルで${\ZFC}からの${\Con(\ZFC)}証明${P}を考えると、${M}は${\ZFC}のモデルであることから、${\code{P}^M \in M}であり、かつ${M \models \code{P}^M \text!{は${\Con(\ZFC)}の証明}}となる。
+          このとき、メタレベルで${\ZFC}からの${\Con(\ZFC)}証明${P}を考えると、${M}は${\ZFC}のモデルであることから、${\code{P}^M \in M}であり、かつ${M \models \pB{\code{P}^M \text!{は${\Con(\ZFC)}の証明}}}となる。
           よって${M \models \Con(\ZFC)}となるが、これは矛盾である。
         }
       >
