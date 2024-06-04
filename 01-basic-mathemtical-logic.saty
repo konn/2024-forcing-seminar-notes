@@ -271,7 +271,7 @@ document (|
                 \proven!(
                   derive ${\J M: \forall x P}
                   |> byOp {${\Gen} \quad; （ただし仮定の述部に${x}は自由に現れない）}
-                  |> from [assume ${M: \varphi}]
+                  |> from [assume ${M: P}]
                 )
               });
           * 公理系${\Gamma}からの証明図は、仮定がすべて${\HK}の公理または${\Gamma}の公理である証明図のことである。
