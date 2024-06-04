@@ -17,6 +17,16 @@
 @require: uline/uline
 @import: colors
 
+let output-cross-reference ctx l =
+  let ref-txt = 
+    match (get-cross-reference l) with
+    | None -> {?}
+    | Some(s) -> embed-string s
+  in let body = text-in-math MathOrd (fun ctx -> read-inline ctx ref-txt)
+  in let m = ${(#body)}
+  in embed-math ctx m
+let-inline ctx \eqref l = 
+  output-cross-reference ctx (`eq:` ^ l ^ `:num`)
 let-math \lrarrow = ${\longleftrightarrow}
 let-math \CH = ${\mathrm{CH}}
 let-math \dot arg = ${\adot{#arg}}
@@ -37,6 +47,15 @@ let-math \LK = ${\mathrm{LK}}
 let-math \CL = ${\mathrm{CL}}
 let-math \defeq = ${\coloneq}
 let-math \MP = ${\mathrm{MP}}
+let-math \Fml = ${\mathrm{Fml}}
+let-math \Sent = ${\mathrm{Sent}}
+let-math \mphantom a =
+  text-in-math MathOrd (fun ctx -> (
+    let ib-a = embed-math ctx a in
+    let (wid, ht, dp) = get-natural-metrics ib-a in
+    let ib-phantom = inline-graphics wid ht dp (fun _ -> []) in
+    line-stack-bottom [ib-phantom]
+  ))
 let-math \On = ${\mathrm{On}}
 let-math \models = ${\vDash}
 let-math \nmodels = ${\nvDash}
