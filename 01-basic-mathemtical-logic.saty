@@ -953,14 +953,17 @@ document (|
         }
       >
       +proof<
-        +p{${N \defeq \Sk^{\mathcal{M}}(A)}とおく。}
-        +enumerate{
-          * 関係の解釈は自然に入るので、関数について閉じていることが言えればいい。
-            ここで、各関数記号${\bm{f}^{(n)}}について、${\mathcal{M} \models \forall \bar{x} \exists y \mhquad \bm{f}(\bar{x}) = y}が成り立つので、特にSkolem関数${f_{\bm{f}(x_0, \ldots, x_{n-1}) = y}}は${f}と全く同じになっている。
-            よって\ref(`lem:closure`);より、${f(\bar{a}) \in \Sk^{\mathcal{M}}(A)}となる。よって部分構造である。
-          * \ref(`lem:Tarski-Vaught`);を使う。${\bar{a} \in N}と${\mathcal{L}}-論理式${\varphi(\bar{a},y)}を任意に取り、${\mathcal{M} \models \exists y \varphi(\bar{a}, y)}として、${\mathcal{M} \models \varphi(\bar{a}, b)}となる${b \in N}が取れればよい。
-            Skolem関数${f_{\varphi}}を考えると${N}は${f_\varphi}について閉じているので、${f_{\varphi}(\bar{a}) \in N}となる。
-            また、Skolem関数の定義より${\mathcal{M} \models \varphi(\bar{a}, f_{\varphi}(\bar{a}))}である。よって、${b \defeq f_{\varphi}(\bar{a})}とすればよい。
+        +p{
+          ${N \defeq \Sk^{\mathcal{M}}(A)}とおく。
+          \enumerate{
+            * 関係の解釈は自然に入るので、関数について閉じていることが言えればいい。
+              ここで、各関数記号${\bm{f}^{(n)}}について、${\mathcal{M} \models \forall \bar{x} \exists y \mhquad \bm{f}(\bar{x}) = y}が成り立つので、特にSkolem関数${f_{\bm{f}(x_0, \ldots, x_{n-1}) = y}}は${f}と全く同じになっている。
+              よって\ref(`lem:closure`);より、${f(\bar{a}) \in \Sk^{\mathcal{M}}(A)}となる。よって部分構造である。
+            * \ref(`lem:Tarski-Vaught`);を使う。${\bar{a} \in N}と${\mathcal{L}}-論理式${\varphi(\bar{a},y)}を任意に取り、${\mathcal{M} \models \exists y \varphi(\bar{a}, y)}として、${\mathcal{M} \models \varphi(\bar{a}, b)}となる${b \in N}が取れればよい。
+              Skolem関数${f_{\varphi}}を考えると${N}は${f_\varphi}について閉じているので、${f_{\varphi}(\bar{a}) \in N}となる。
+              また、Skolem関数の定義より${\mathcal{M} \models \varphi(\bar{a}, f_{\varphi}(\bar{a}))}である。よって、${b \defeq f_{\varphi}(\bar{a})}とすればよい。
+          }
+          \phantom{}
         }
       >
       +proof?:({Proof of Downward Löwenheim–Skolem})<
@@ -980,7 +983,7 @@ document (|
       Tarskiの定理については強制法の基礎理論というよりは、強制法の理論を構築し使っていく上で、メタレベルとオブジェクトレベルの区別が重要であることを示唆する定理として理解できる。
     }
     +p{
-      不完全性定理については、そのキャッチーさからさまざまな良書がおおいが、一般形を示すには非常に慎重な証明が要されるため、分量が長くなりがちである。そこで本章では、対象を${\ZF}を含むような理論のみに限定し、完全性定理を適用して意味論的な議論を経由することで完結な証明を与えることを目標とする。強制法を用いる上では、これがあれば十分である。
+      不完全性定理については、そのキャッチーさからさまざまな良書がおおいが、一般形を示すには非常に慎重な証明が要されるため、分量が長くなりがちである。そこで本章では、対象を${\ZF}を含むような理論のみに限定し、完全性定理を適用して意味論的な議論を経由することで簡潔な証明を与えることを目標とする。強制法を用いる上では、これがあれば十分である。
     }
     +subsection({Tarskiの真理定義不可能性定理})(
       let-math \Tr = ${\mathrm{Tr}} 
