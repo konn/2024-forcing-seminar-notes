@@ -39,7 +39,11 @@ let-math \defeq = ${\coloneq}
 let-math \MP = ${\mathrm{MP}}
 let-math \On = ${\mathrm{On}}
 let-math \models = ${\vDash}
+let-math \nmodels = ${\nvDash}
 let-math \forces = ${\Vdash}
+let-math \nforces = ${\nVdash}
+let-math \nforces = ${\nVdash}
+let-math \liff = ${\longleftrightarrow}
 let-math \muline arg = ${\text!{\uline{${#arg}}}}
 let-math \Cd = ${\mathrm{Cd}}
 let-math \diamondsuit = ${♢}
@@ -156,8 +160,36 @@ let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
         ; colframe rule-color
         ]
   in read-block ctx '< +colorbox(style)(body); >
-  
+
+let define-theorem-nonumber ?:config name ?:rule-color  ctx ?:label ?:title body =
+    let rule-color = Option.from (Color.gray 0.5) rule-color
+    in let name = embed-string name
+    in let read-heading i = read-inline ctx {\font-style[bold]{#i;}}
+    in let suffix = Option.map-or (read-heading {}) (fun title -> inline-skip (get-font-size ctx *' 0.5) ++ read-heading {(#title;)}) title
+    in let zw = JLReqLib.get-length ctx ~(jlreq-length @`1zw`)
+    in let heading = read-heading name ++ suffix ++ read-heading {.} ++ inline-skip zw
+    in let () = JLReqParagraph.set-paragraph-top-text heading
+    in open Colorbox
+    in let style =
+          [ title-filled false
+          ; sharrp-corners-all
+          ; toprule 0pt
+          ; bottomrule 0pt
+          ; rightrule 0pt
+          ; leftrule 5pt
+          ; left-skip 5pt
+          ; left (zw *' 1.5)
+          ; top zw
+          ; bottom zw
+          ; colback Color.white
+          ; colframe rule-color
+          ]
+    in read-block ctx '< +colorbox(style)(body); >
+    
+
 let-math \aleph = ${ℵ}
+let-math \proves = ${\vdash}
+let-math \nproves = ${\nvdash}
 let-math \deffml = ${\mathrel{:\equiv}}
 let-math \FV = ${\mathop{\mathrm{FV}}}
 let-inline \eqn-notag x = {\eqn?:(AZMathEquation.notag)(x);}
@@ -185,6 +217,7 @@ let-mutable conjecture-counter <- 0
 let-block ctx +conjecture = define-theorem `予想` ?:conj-color conjecture-counter ctx
 let-mutable exercise-counter <- 0
 let-block ctx +exercise = define-theorem `演習` ?:exer-color exercise-counter ctx
+let-block ctx +notation = define-theorem-nonumber `記法` ?:defn-color ctx
 let-math \GCH  = ${\mathord{\mathrm{GCH}}}
 open LatexCmds
 

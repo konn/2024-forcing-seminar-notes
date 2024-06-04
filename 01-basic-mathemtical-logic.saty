@@ -266,9 +266,9 @@ document (|
                 )
               });
           * 公理系${\Gamma}からの証明図は、仮定がすべて${\HK}の公理または${\Gamma}の公理である証明図のことである。
-          * ${\HK}で公理系${\Gamma}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${\Gamma \vdash_{\HK} \varphi}）とは、結論が${\varphi}であるような${\Gamma}からの証明図が存在することである。
-          * ${\varphi}が${\HK}の\emph{恒真式}（\emph{tautology}、記号${\vdash_{\HK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
-          * 公理系${T}が\emph{矛盾している}（\emph{inconsistent}）であるとは、${T \vdash \bot}が成り立つこと、すなわち${T}から${\bot}への証明図が存在することである。
+          * ${\HK}で公理系${\Gamma}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${\Gamma \proves_{\HK} \varphi}）とは、結論が${\varphi}であるような${\Gamma}からの証明図が存在することである。
+          * ${\varphi}が${\HK}の\emph{恒真式}（\emph{tautology}、記号${\proves_{\HK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
+          * 公理系${T}が\emph{矛盾している}（\emph{inconsistent}）であるとは、${T \proves \bot}が成り立つこと、すなわち${T}から${\bot}への証明図が存在することである。
             矛盾していない公理系を\emph{無矛盾}（\emph{consistent}）であるといい、公理系${T}が無矛盾であることを記号${\Con(T)}で表す。。
         }
       }
@@ -336,7 +336,7 @@ document (|
     +p{このように、ちょっとした証明でも結構たいへんである。次の演繹定理を使うとある程度証明を楽できる：}
 
     +theorem?*?:({${\HK}の演繹定理})<
-      +p{${\Gamma}を公理系、${\varphi, \psi}を論理式としたとき、${\Gamma, \varphi \vdash_{\HK} \psi}ならば${\Gamma \vdash_{\HK} \varphi \to \psi}。}
+      +p{${\Gamma}を公理系、${\varphi, \psi}を論理式としたとき、${\Gamma, \varphi \proves_{\HK} \psi}ならば${\Gamma \proves_{\HK} \varphi \to \psi}。}
     >
 
     +p{この証明には、次の${\lambda}-抽象を使う：}
@@ -356,11 +356,11 @@ document (|
     +theorem?*?:({${\HK}の演繹定理})<
       +p{${x}を${\Gamma}に現れない${\CL}-変数、としたとき、}
       +eqn-notag(${
-        x: \varphi, \Gamma \vdash_{\HK} M: \psi 
-        \mquad \implies \mquad \Gamma \vdash_{\HK} (\lambda x. M): \varphi \to \psi
+        x: \varphi, \Gamma \proves_{\HK} M: \psi 
+        \mquad \implies \mquad \Gamma \proves_{\HK} (\lambda x. M): \varphi \to \psi
       });
     >
-    +cor?:(`not-intro`)<+p{${T, \varphi \vdash \bot \implies T \vdash \lnot \varphi}。}>
+    +cor?:(`not-intro`)<+p{${T, \varphi \proves \bot \implies T \proves \lnot \varphi}。}>
 
     +p{
       この${\lambda}-抽象は、理論計算機科学で\emph{${\lambda}-計算の項をコンビネータ論理にコンパイルする際に用いられる変換と同じもの}である。${\S, \K}といった項も、コンビネータ論理の基本的な項である。実は、上の二重否定除去の証明図は、最初にHaskellで同じ型を持つプログラムをでっちあげて、コンパイラに部分項の型推論をさせて復元して書いたものである。
@@ -380,12 +380,12 @@ document (|
     >
     +proof<
       +p{
-        まず${T + \varphi}が矛盾した場合を考える。このとき、有限個の${A_0, \ldots, A_{n-1} \in T}があって、${A_0, \ldots, A_{n-1}, \varphi \vdash \bot}となる。
-        特に、演繹定理の\ref(`not-intro`);から${A_0, \ldots, A_{n-1} \vdash \lnot \varphi}が成り立ち、特に${T \vdash \lnot \varphi}である。よって${\lnot \varphi}は${T}の帰結なので、${T + \varphi}は当然無矛盾である。
+        まず${T + \varphi}が矛盾した場合を考える。このとき、有限個の${A_0, \ldots, A_{n-1} \in T}があって、${A_0, \ldots, A_{n-1}, \varphi \proves \bot}となる。
+        特に、演繹定理の\ref(`not-intro`);から${A_0, \ldots, A_{n-1} \proves \lnot \varphi}が成り立ち、特に${T \proves \lnot \varphi}である。よって${\lnot \varphi}は${T}の帰結なので、${T + \varphi}は当然無矛盾である。
       }
 
       +p{
-        逆に${A_0, \ldots, A_{n-1}, \lnot \varphi \vdash \bot}とすると、同様にして${T \vdash \lnot \lnot \varphi}が成り立つ。二重否定除去則${\HK}の定理であるので、再び演繹定理から${T \vdash \varphi}を得る。
+        逆に${A_0, \ldots, A_{n-1}, \lnot \varphi \proves \bot}とすると、同様にして${T \proves \lnot \lnot \varphi}が成り立つ。二重否定除去則${\HK}の定理であるので、再び演繹定理から${T \proves \varphi}を得る。
       }
     >
 
@@ -398,7 +398,7 @@ document (|
       +p{${T}が矛盾していると、公理${\A: \bot \to P}より任意の論理式が証明可能となるので、仮定から${T}は無矛盾であることに注意する。}
       
       +p{
-        ${T + \lnot \varphi}が矛盾していたとする。このとき再び\ref(`not-intro`);から${T \vdash \lnot\lnot \varphi}である。二重否定除去は${\HK}の定理なので、結局${T \vdash \varphi}となり、${T \nvdash \varphi}に反する。
+        ${T + \lnot \varphi}が矛盾していたとする。このとき再び\ref(`not-intro`);から${T \proves \lnot\lnot \varphi}である。二重否定除去は${\HK}の定理なので、結局${T \proves \varphi}となり、${T \nproves \varphi}に反する。
       }
     >
 
@@ -427,15 +427,15 @@ document (|
           * ${\varphi(x_0, \ldots, x_{n-1})}を ${\mathcal{L}}-論理式とする。この時言語${\mathcal{L}}に含まれない新たな関係記号${\bm{R}^{(n)}}を追加した言語${\mathcal{L}'}を考える。
             このとき、${\mathcal{L}'}-理論${T'}を、次で定義する：
             \eqn-notag(${
-              T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \pB{R(\bar{x}) \longleftrightarrow \varphi(\bar{x})} }
+              T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \pB{R(\bar{x}) \liff \varphi(\bar{x})} }
             });
             これを${\varphi}による${T}の\emph{定義による拡張}（\emph{definitional extension}）と呼ぶ。
           * ${\varphi(x_0, \ldots, x_{n-1}, y)}を ${\mathcal{L}}-論理式とし、
-            \eqn-notag(${T \vdash \forall \bar{x} \mhquad \exists\! y \mhquad \varphi(\bar{x}, y)});
+            \eqn-notag(${T \proves \forall \bar{x} \mhquad \exists\! y \mhquad \varphi(\bar{x}, y)});
             が成り立つとする。この時言語${\mathcal{L}}に含まれない新たな関数記号${\bm{f}^{(n)}}を追加した言語${\mathcal{L}'}を考える。
             このとき、${\mathcal{L}'}-理論${T'}を、次で定義する：
             \eqn-notag(${
-              T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \forall y\mhquad \pB{f(\bar{x}) = y \longleftrightarrow \varphi(\bar{x}, y)} }
+              T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \forall y\mhquad \pB{f(\bar{x}) = y \liff \varphi(\bar{x}, y)} }
             });
             これも${\varphi}による${T}の\emph{定義による拡張}（\emph{definitional extension}）と呼ぶ。
         }
@@ -444,7 +444,7 @@ document (|
       +defn<+p{
         ${\mathcal{L} \subseteq \mathcal{L}'}を言語、${T, T'}をそれぞれ言語${\mathcal{L}, \mathcal{L'}}による理論とする。${T'}が${T}の\emph{保存拡大}（\emph{conservative extension}）であるとは、任意の${\mathcal{L}}-論理式${\varphi}について、次が成り立つことである：
         \eqn-notag(${
-          T \vdash \varphi \iff T' \vdash \varphi.
+          T \proves \varphi \iff T' \proves \varphi.
         });
       }>
       +lemma<
@@ -452,13 +452,13 @@ document (|
         +enumerate{
           * 関係記号に関する定義による拡張は保存拡大である。より詳しく、任意の${\mathcal{L}'}-論理式${\varphi}に対して${\mathcal{L}}-論理式${\varphi^*}が存在して、
             \eqn-notag(${
-              T' \vdash \varphi \longleftrightarrow \varphi^{*},
-              \mqquad T' \vdash \varphi \iff T \vdash \varphi^{*}.
+              T' \proves \varphi \liff \varphi^{*},
+              \mqquad T' \proves \varphi \iff T \proves \varphi^{*}.
             });
           * 関数記号に関する定義による拡張は保存拡大である。より詳しく、任意の${\mathcal{L}'}-論理式${\varphi}に対して${\mathcal{L}}-論理式${\varphi^*}が存在して、
             \eqn-notag(${
-              T' \vdash \varphi \longleftrightarrow \varphi^{*},
-              \mqquad T' \vdash \varphi \iff T \vdash \varphi^{*}.
+              T' \proves \varphi \liff \varphi^{*},
+              \mqquad T' \proves \varphi \iff T \proves \varphi^{*}.
             });
         }
       >
@@ -503,10 +503,10 @@ document (|
           }
         * ${\mathcal{L}(\mathcal{M})}-閉論理式${\varphi}について、${\mathcal{M} \models \varphi}を以下のように帰納的に定める：
         \enumerate{
-            * ${\mathcal{M} \nvDash \bot}
+            * ${\mathcal{M} \nmodels \bot}
             * 項${t_0, t_1}について、 ${\mathcal{M} \models t_0 = t_1 \defs t_0^\mathcal{M} = t_1^\mathcal{M}}
             * 関係記号${\bm{R}^{(n)}}と項${t_0, \ldots, t_{n-1}}に対し、${\mathcal{M} \models \bm{R}(t_0, \ldots, t_{n-1}) \defs (t_0^\mathcal{M}, \ldots, t_{n_i-1}^\mathcal{M}) \in R^\mathcal{M}}
-            * ${\varphi, \psi}を${\mathcal{L}}-論理式とするとき、${\mathcal{M} \models \varphi \to \psi \defs \mathcal{M} \nvDash \varphi \lor \mathcal{M} \models \psi}
+            * ${\varphi, \psi}を${\mathcal{L}}-論理式とするとき、${\mathcal{M} \models \varphi \to \psi \defs \mathcal{M} \nmodels \varphi \lor \mathcal{M} \models \psi}
             * ${\varphi}を${\mathcal{L}}-論理式とするとき、
               ${\mathcal{M} \models \forall x \varphi
                 \defs} 任意の${a \in \mathcal{M}}について${\mathcal{M} \models \subst{\varphi}![(${x}, ${\bm{c}_a})]
@@ -715,17 +715,17 @@ document (|
           であったとする。このとき、超フィルターの極大性から、この補集合は${\mathcal{U}}に属する：
           \eqn-notag(${
             S \defeq 
-            \Set{i \in I}{ \exists [u] \in \mathcal{M}\mhquad \mathcal{M}_i \nvDash \psi(u(i))} \in \mathcal{U}
+            \Set{i \in I}{ \exists [u] \in \mathcal{M}\mhquad \mathcal{M}_i \nmodels \psi(u(i))} \in \mathcal{U}
           });
           ${\emptyset \nin \mathcal{U}}より${S \neq \emptyset}であることに注意する。
           ここで、${[v] \in \mathcal{M}}を以下のように定める：
           \eqn-notag(${
             v(i) \defeq
-            \cases!(${|u(i)\mathrel{\text!{for}} [u] \in \mathcal{M} \mathrel{\text!{with}} \mathcal{M}_i \nvDash \psi(u(i))|(i \in S)| \text!{任意の} x \in \mathcal{M}_i |(\text!{otherwise})|})
+            \cases!(${|u(i)\mathrel{\text!{for}} [u] \in \mathcal{M} \mathrel{\text!{with}} \mathcal{M}_i \nmodels \psi(u(i))|(i \in S)| \text!{任意の} x \in \mathcal{M}_i |(\text!{otherwise})|})
           });
-          すると、各${i \in S}について${\mathcal{M}_i \nvDash \psi([v])}がなりたっているので、帰納法の仮定より${\mathcal{M} \nvDash\psi([v])}となる。しかし、${(\ast)}の直前の仮定から${T \defeq \Set{i \in I}{\mathcal{M}_i \models \psi(v(i))} \in 𝒰}である。
+          すると、各${i \in S}について${\mathcal{M}_i \nmodels \psi([v])}がなりたっているので、帰納法の仮定より${\mathcal{M} \nmodels\psi([v])}となる。しかし、${(\ast)}の直前の仮定から${T \defeq \Set{i \in I}{\mathcal{M}_i \models \psi(v(i))} \in 𝒰}である。
           ${𝒰}はフィルターであり、${S \cap T \in 𝒰 \nni \emptyset}なので、${i \in S \cap T}が取れる。
-          しかし、すると${S}の定義から${\mathcal{M}_i \nvDash \psi(v(i))}、${T}の定義から${\mathcal{M}_i \vDash \psi(v(i))}となり、矛盾。
+          しかし、すると${S}の定義から${\mathcal{M}_i \nmodels \psi(v(i))}、${T}の定義から${\mathcal{M}_i \models \psi(v(i))}となり、矛盾。
         }
       >
       +exercise<+p{${\to}, ${\bot}などの場合を補い、上の証明を完成させよ。}>
@@ -817,24 +817,24 @@ document (|
         });
         一方で、我々は証明体系${\HK}における証明可能性、
         \eqn-notag(${
-            T \vdash \varphi
+            T \proves \varphi
         });
         も既に扱っていた。この二つの概念が一致することを示すのが\emph{完全性定理}（\emph{Completeness Theorem}）である：
       }
       +theorem?*?:({一階述語論理の完全性定理、Gödel (1929) の学位論文})<
-        +p{${T \models \varphi \implies T \vdash \varphi}}
+        +p{${T \models \varphi \implies T \proves \varphi}}
       >
       +p{
         この逆向き、つまり「証明可能なら、妥当である」の方向については\emph{健全性定理}（\emph{Soundness Theorem}）と呼ばれることも多い。「成り立たないような命題が証明されてしまうようなヘンな証明体系ではない」という意味で「健全」ということである。
       }
       +exercise<
-        +p{健全性定理${T \vdash \varphi \implies T \models \varphi}を証明せよ。}
+        +p{健全性定理${T \proves \varphi \implies T \models \varphi}を証明せよ。}
         +font-style[bold]<
           +pn{ヒント：証明図の深さに関する帰納法。固有変数条件が効いてくる。}
         >
       >
       +p{
-        健全性は地道にやればできるが、完全性${T \models \varphi \implies T \vdash \varphi}は非自明である。完全性が「完全性」と呼ばれるのは、「全部のモデルで成り立つような命題を完全に取り尽せている」という気持ちが背景にある。
+        健全性は地道にやればできるが、完全性${T \models \varphi \implies T \proves \varphi}は非自明である。完全性が「完全性」と呼ばれるのは、「全部のモデルで成り立つような命題を完全に取り尽せている」という気持ちが背景にある。
         これは一般に対偶を示すのが常套手段である。つまり、${\varphi}が${T}から証明できないとして、${M \models \lnot \varphi}なる${T}-モデル${M}を構成するのだ。
         この証明には、一般的には\emph{Henkin構成}と呼ばれる手法が使われるが、実は可算言語に関する完全性さえ示せれば、後は上記のコンパクト性定理を使って証明できてしまう。
       }
@@ -984,7 +984,27 @@ document (|
     +p{
       しかし、強制法による集合論的な命題の無矛盾性証明においては${\ZF}の無矛盾性は仮定され、完全性定理から無矛盾性について考える上ではモデルの存在のみを考えればよい。
       特に、第二不完全性定理を証明するのに、第一不完全性定理の再形式化を考える必要はなく、意味論的な議論により簡略に証明することができる。また、十分強い${\ZF}以上の集合論を考えているため、Gödel数化などの技術的な道具を使ったり、対応の原始再帰性のような細かい条件を気にする必要もなくなる。
+      我々が目標とするのは、次の定理である：
     }
+
+    +theorem?*?:({不完全性定理、${\ZF}版})<
+      +p{${T}が${\ZF}を拡張する公理系とするとき、${T \nproves \Con(T)}である。}
+    >
+    +p{以下、簡単のため${T = \ZFC}とするが、以下では本質的には選択公理を使っておらず、また同じ議論が${\ZF}を含む理論にも適用できる。}
+
+    
+    +p{上は、次の定理の系として得られる：}
+    +lemma<+p{
+      ${\ZFC \proves \pB{\Con(\ZFC) \to \exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}}
+    }>
+    +proof?:({Proof of Incompleteness Theorem})<
+      +p{
+        ${\ZFC}で作業する。${\ZFC \proves \Con(\ZFC)}とする。すると、上の補題より${\ZFC \proves \pB{\exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}}となる。
+        そこで、そのようなモデル${M \models \ZFC \land \lnot \Con(\ZFC)}を取る。
+        このとき、メタレベルで${\ZFC}からの${\Con(\ZFC)}証明${P}を考えると、${M}は${\ZFC}のモデルであることから、${\code{P}^M \in M}であり、かつ${M \models \code{P}^M \text!{は${\Con(ZFC)}の証明}}となる。
+        よって${M \models \Con(\ZFC)}となるが、これは矛盾である。
+      }
+    >
 
     +remark<
       +p{
@@ -994,14 +1014,17 @@ document (|
         既に見たように、コンパクト性や超積などを用いることで、超準的な自然数や実数を持つようなモデルを創り出すことができた。同様の事は集合論のモデルに対しても適用できる。
         つまり、集合論の「モデル」があったとすると、このモデルは少なくとも我々の知っていて書き下すことのできるような、\emph{標準的な自然数や有限的な対象は全て持っていて}、メタレベルの有限的な対象をモデル内の対象に対応づけるメタ的な方法がある。
         しかし、こうしたモデルは\emph{超準的な（標準的でない）自然数や有限対象}を持っているということが有り得る。
+        ${\mathcal{L}_{\in}}-論理式全体や証明図の全体は可算で、特に自然数との間には自然な全単射があるから、こうした超準モデルの内部には、内側から見ると有限だが、外から見れば無限のように見える「変な論理式」「変な証明図」が存在することになる。
       }
-      +p{
-        例を挙げよう。${\ZFC}は無矛盾であると仮定し、第二不完全性定理を一旦認める。とくに、${\ZFC \nvdash \Con(\ZFC)}である。すると、今度は\ref(`lem:unprovable`);および完全性定理（！）より、${M \models \ZFC + \neg \Con(\ZFC)}を満たすようなモデル${M}が取れる。つまり、${M}は「自分は${\ZFC}のモデルだが、${\ZFC}は矛盾しているよ」と信じ込んでいる（！！！）モデルである。
-      }
-      +p{
-        すると、この${M}の中には、\emph{${\ZFC}の公理から出発して${\bot}に至る「証明図」が存在}する。しかし、今仮定から${\ZFC}は無矛盾なので、この「証明図」は${M}の中で見ると有限的だが、外の我々から見ると超有限的な対象になっているヘンな証明図であり、対応する有限的な対象が我々の世界にはない超準元である。
-      }
-      +p{このように、モデルの取り方によってはその世界には「変な自然数」「変な論理式」「変な証明図」が含まれており、有限概念は一致するとは限らない。その事を念頭に置いて以下の議論に臨まれたい。}
+      % +p{
+      %   例を挙げよう。${\ZFC}は無矛盾であると仮定し、第二不完全性定理を一旦認める。とくに、${\ZFC \nproves \Con(\ZFC)}である。すると、今度は\ref(`lem:unprovable`);および完全性定理（！）より、${M \models \ZFC + \neg \Con(\ZFC)}を満たすようなモデル${M}が取れる。つまり、${M}は「自分は${\ZFC}のモデルだが、${\ZFC}は矛盾しているよ」と信じ込んでいる（！！！）モデルである。
+      % }
+      % +p{
+      %   すると、この${M}の中には、\emph{${\ZFC}の公理から出発して${\bot}に至る「証明図」が存在}する。しかし、今仮定から${\ZFC}は無矛盾なので、この「証明図」は${M}の中で見ると有限的だが、外の我々から見ると超有限的な対象になっているヘンな証明図であり、対応する有限的な対象が我々の世界にはない超準元である。
+      % }
+      +p{このように、モデルの取り方によってはその世界には「変な自然数」「変な論理式」「変な証明図」が含まれており、有限概念は一致するとは限らない。
+      また、そのモデルでの${\in}-関係は外の${\in}と一致するとは限らないので、標準的な自然数や論理式のコードが集合として外側のものと一致するとも限らないことにも注意しよう。
+      こうした事を念頭に置いて以下の議論に臨まれたい。}
     >
 
     +p{
@@ -1014,7 +1037,7 @@ document (|
     +lemma?*?:({対角化定理または不動点定理})<
       +p{任意の${\Phi}-論理式${\Phi}に対して、閉論理式${\delta}で以下が成り立つものが存在する：}
       +eqn-notag(${
-        \ZFC \vdash \delta \longleftrightarrow \Phi(\code{\delta})
+        \ZFC \proves \delta \liff \Phi(\code{\delta})
       });
     >
     +proof<
@@ -1036,18 +1059,28 @@ document (|
           \gamma(x) \deffml \forall z \mhquad \pB{z = s(x, x) \to \Phi(z)}
         });
         ここで、更に${d \defeq \code{\gamma(x)}}と置くと、${s}の定義から${s(d, d) = \code{\gamma(d)}}となる。
-        これらの論理式は全て書き下せるので${\ZF}の定理であり、${\ZFC \vdash s(d, d) = \code{\gamma(d)}}である。
+        これらの論理式は全て書き下せるので${\ZF}の定理であり、${\ZFC \proves s(d, d) = \code{\gamma(d)}}である。
         よって、これを${\Phi}に代入すれば（等号公理）：
         \eqn-notag(${
-          \ZFC \vdash \Phi(s(d, d)) \longleftrightarrow \Phi(\code{\gamma(d)})
+          \ZFC \proves \Phi(s(d, d)) \liff \Phi(\code{\gamma(d)})
         });
         を得る。いま、${\gamma(x) \equiv \Phi(s(x, x))}としていたので、${\delta \deffml \gamma(d)}とおけば：
         \eqn-notag(${
-          \ZFC \vdash \delta \longleftrightarrow \Phi(\delta)
+          \ZFC \proves \delta \liff \Phi(\delta)
         });
         となり、これが求める${\delta}である。
       }
     >
+
+    +remark<+p{${\ZFC}は有限公理化不能であり、特に置換公理は無限個の論理式からなる公理スキームである。よって、考えるモデルによって${\ZFC}の公理全体の集合というものは変わってくる。そこで、以下の表記法を採用する：}>
+    +notation<
+      +p{
+        以下、${\ZFC}と書いたらメタレベルのホンモノの${\ZFC}の公理系をあらわすとし、${M}を集合論のモデルとするとき${(\ZFC)^M}はモデル${M}内での${\ZFC}の公理系とする。
+        また、コード${\code{-}}をどこで考えているかを明示する際にも${\code{-}^M}などと書く。
+      }
+    >
+
+    +p{以下、${V}で作業をする。}
   >
 
   +section{参考文献}<
