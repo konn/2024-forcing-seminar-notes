@@ -12,6 +12,7 @@
 @require: base/list-ext
 @require: latexcmds/latexcmds
 @require: matrix/matrix
+@require: colorbox/colorbox
 @require: arrows/arrows
 @require: arrows/commands
 @require: gr
@@ -1077,7 +1078,7 @@ document (|
       >
       +p{通常、第二不完全性定理は次の第一不完全性定理を${T}の中で再度定式化することで得られる：}
       +theorem?*?:({Gödelの第一不完全性定理})<
-        +p{${T}をペアノ算術${\mathrm{PA}}を含む再帰的な公理系とする。このとき、${T}からは否定も肯定も証明できない独立命題が存在する。}
+        +p{${T}をペアノ算術${\mathrm{PA}}を含む再帰的で無矛盾な公理系とすると、${T}からは否定も肯定も証明できない独立命題が存在する。}
       >
       +p{これらの定理の偉いところは、メタ理論として十分弱い公理系を採用しても証明できるところである。}
 
@@ -1088,12 +1089,22 @@ document (|
       }
 
       +theorem?*?:({不完全性定理、${\ZF}版})<
-        +p{${T}が${\ZF}を拡張する公理系とするとき、${T \nproves \Con(T)}である。}
+        +p{${T}が${\ZF}を拡張する無矛盾な公理系とすると、${T \nproves \Con(T)}である。}
       >
       +p{以下、簡単のため${T = \ZFC}とするが、以下では本質的には選択公理を使っておらず、また同じ議論が${\ZF}を含む理論にも適用できる。}
 
-      
-      +p{上は、次の補題の系として得られる：}
+      +p{${\mathrm{PA}}の場合の証明よりは簡潔だが、三重くらいにメタとオブジェクトを往き来するので細部を追っていると迷ってしまう。なので最初に証明の気持ちを標語的に示しておく：}
+
+      +side-line(Colors.gray 0.5)<+font-style[bold]<
+        +enumerate{
+          * ${\Con(\ZFC)}を仮定するとどこからはじめても極小な${\ZFC + \Con(\ZFC)}のモデル${M}に辿りつく。
+          * 極小性よりそんな${M}の中には${\ZFC}のモデルは一個もいない。
+          * すると完全性定理から${M \models \lnot \Con(\ZFC)}となる。
+          * ${M \models \ZFC}なので、よって${\ZFC \models \Con(\ZFC)}としてしまうと矛盾！
+        }
+      >>
+
+      +p{では証明に入ろう。${\ZFC}版不完全性定理は、次の補題の系として得られる：}
       +lemma?:(`lem:incomp-main-goal`)<+p{
         ${\ZFC \proves \pB{\Con(\ZFC) \to \exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}}
       }>

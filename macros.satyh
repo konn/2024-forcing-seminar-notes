@@ -151,6 +151,23 @@ let-math \Seq m m-cond =
   let rparen = paren-scheme (gr-angle-bracket 0.5pt false) half-height-default in
   math-paren-with-middle lparen rparen mparen [${\mrquad!(mid-space-ratio)#m\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#m-cond\mrquad!(mid-space-ratio)}]
 
+let side-line ctx rule-color = 
+  open Colorbox 
+  in let zw = JLReqLib.get-length ctx ~(jlreq-length @`1zw`) in
+    [ title-filled false
+    ; sharrp-corners-all
+    ; toprule 0pt
+    ; bottomrule 0pt
+    ; rightrule 0pt
+    ; leftrule 5pt
+    ; left-skip 5pt
+    ; left (zw *' 1.5)
+    ; top zw
+    ; bottom zw
+    ; colback Color.white
+    ; colframe rule-color
+    ]
+
 let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   let () = counter <- !counter + 1
   in let num = arabic !counter 
@@ -164,21 +181,11 @@ let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   in let heading = read-heading name ++ read-heading number ++ suffix ++ read-heading {.} ++ inline-skip zw
   in let () = JLReqParagraph.set-paragraph-top-text heading
   in open Colorbox
-  in let style =
-        [ title-filled false
-        ; sharrp-corners-all
-        ; toprule 0pt
-        ; bottomrule 0pt
-        ; rightrule 0pt
-        ; leftrule 5pt
-        ; left-skip 5pt
-        ; left (zw *' 1.5)
-        ; top zw
-        ; bottom zw
-        ; colback Color.white
-        ; colframe rule-color
-        ]
+  in let style = side-line ctx rule-color
   in read-block ctx '< +colorbox(style)(body); >
+
+let-block ctx +side-line col body = 
+  read-block ctx '< +Colorbox.colorbox(side-line ctx col)(body); >
 
 let define-theorem-nonumber ?:config name ?:rule-color  ctx ?:label ?:title body =
     let rule-color = Option.from (Color.gray 0.5) rule-color
