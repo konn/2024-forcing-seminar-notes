@@ -48,18 +48,13 @@ let bibs = [
     )
   );
   (`古森・小野:2010`, 
-    Book(|
+    Book(| default-book with
       author = [`古森 雄一`; `小野寛晰`];
       title = `現代数理論理学序説`;
       publisher = `日本評論社`;
       year = `2010`;
       note = Some `ISBN: 978-4-535-78556-4`;
       month = Some `6`;
-      address = None;
-      edition = None;
-      series = None;
-      volume = None;
-      key = None;
     |)
   );
   (`戸次:2012`, 
@@ -69,21 +64,78 @@ let bibs = [
       publisher = `東京大学出版会`;
       year = `2012`;
       note = Some `ISBN: 978-4-13-062915-7`;
-      month = None;
-      address = None;
-      edition = None;
-      series = None;
-      volume = None;
-      key = None;
     |)
   );
-  (`様相真理`,
-    Book (|  default-book with
-      author = [`佐野勝彦`; `倉橋太志`; `薄葉季路`; `黒川英徳`; `菊池誠`];
-      title = `数学における証明と真理 様相論理と数学基礎論`;
-      year = `2016`;
+  (`菊池:2014`, 
+    Book(| default-book with
+      author = [`菊池誠`];
+      title = `不完全性定理`;
       publisher = `共立出版`;
-      note = Some `ISBN: 978-4-320-11148-6`;
+      year = `2014`;
+      note = Some `ISBN: 978-4-320-11096-0`;
+    |)
+  );
+  (`照井:2015`, 
+    Book(| default-book with
+      author = [`照井一成`];
+      title = `コンピュータは数学者になれるのか？ 数学基礎論から証明とプログラムの理論へ`;
+      publisher = `青土社`;
+      year = `2015`;
+      note = Some `ISBN: 978-4-7917-6851-6`;
+    |)
+  );
+  (`フランセーン:2011`, 
+    Book(| default-book with
+      author = [`トルケル・フランセーン`; `田中一之＝著`];
+      title = `ゲーデルの定理 利用と誤用の不完全ガイド`;
+      publisher = `みすず書房`;
+      year = `2011`;
+      note = Some `ISBN: 978-4622075691. 原題：Gödel's Theorem: An Incomplete Guide to Use and Abuse.`;
+    |)
+  );
+  (`新井:2011`, 
+    Book(| default-book with
+      author = [`新井敏康`];
+      title = `数学基礎論`;
+      publisher = `岩波書店`;
+      year = `2011`;
+      note = Some `ISBN: 978-4-00-005536-9`;
+    |)
+  );
+  (`江田:2010`,
+    Book (|  default-book with
+      author = [`江田勝哉`];
+      title = `数理論理学 使い方と考え方：超準解析の入口まで`;
+      year = `2010`;
+      publisher = `内田老鶴圃`;
+      note = Some `ISBN: 978-4-7536-0151-6`;
+    |)
+  );
+  (`愛知非古典論理`,
+    Book (|  default-book with
+      author = [`青山広`; `愛知非古典論理研究会`];
+      title = `論理体系と代数モデル`;
+      year = `2007`;
+      publisher = `八千代出版`;
+      note = Some `ISBN: 978-4-8429-1433-6`;
+    |)
+  );
+  (`デデキント`,
+    Book (|  default-book with
+      author = [`リヒャルト・デデキント`; `渕野昌＝訳・解説`];
+      title = `数とは何か そして何であるべきか`;
+      year = `2013`;
+      publisher = `筑摩書房`;
+      note = Some `ISBN: 978-4-480-09547-3`;
+    |)
+  );
+  (`林八杉:2006`,
+    Book (|  default-book with
+      author = [`林晋`; `八杉満利子`];
+      title = `ゲーデル不完全性定理`;
+      year = `2006`;
+      publisher = `岩波書店`;
+      note = Some `ISBN: 4-00-339441-0`;
     |)
   );
   (`Takeuti:2012`,
@@ -133,6 +185,12 @@ let bibs = [
         ; year = `2011`
         ; volume = Some `5`
       |)
+  );
+  (`渕野:2016`,
+      WildCard({渕野昌, "Woodin の不完全性定理の証明". \url(`https://fuchino.ddo.jp/notes/woodin-incmpl.pdf`);})
+  );
+  (`Kukieła:2010`,
+      WildCard({Michał Kukieła, an answer to "In model theory, does compactness easily imply completeness?", 2010. \url(`https://mathoverflow.net/a/12908`);})
   )
 ]
 

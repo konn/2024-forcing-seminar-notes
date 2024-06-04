@@ -24,7 +24,11 @@ let-math \ZF = ${\mathrm{ZF}}
 let-math \Z = ${\mathrm{Z}}
 let-math \ZFC = ${\mathrm{ZFC}}
 let-math \BPI = ${\mathrm{BPI}}
+let-math \ulcorner = math-char MathOpen `⌜`
+let-math \urcorner = math-char MathClose `⌝`
+let-math \code arg = ${\ulcorner #arg \urcorner}
 let-math \Sk = ${\mathop{\mathrm{Sk}}}
+let-math \Con = ${\mathop{\mathrm{Con}}}
 let-math \Cl = ${\mathop{\mathrm{Cl}}}
 let-math \AC = ${\mathrm{AC}}
 let-math \NK = ${\mathrm{NK}}
@@ -40,6 +44,7 @@ let-math \muline arg = ${\text!{\uline{${#arg}}}}
 let-math \Cd = ${\mathrm{Cd}}
 let-math \diamondsuit = ${♢}
 let-math \CC = ${\mathrm{CC}}
+let-math \HF = ${\mathrm{HF}}
 let-math \DC = ${\mathrm{DC}}
 let-math \AD = ${\mathrm{AD}}
 let-math \null = ${\mathord{𝗇𝗎𝗅𝗅}}
@@ -115,6 +120,7 @@ let gr-abs-bracket-m thk vlen fsize color =
     (xmin, minus vlen), (xmax, vlen),
     (fun _ -> 0pt)
   )
+
 let-math \Seq m m-cond =
   open AZMathParens in
   let lparen = paren-scheme (gr-angle-bracket 0.5pt true) half-height-default in
@@ -349,3 +355,39 @@ let-math \lt = ${<}
 let-math \gt = ${>}
 let-math \compat = ${\mathrel{∥}}
 let-math \restrict = ${\mathbin{\upharpoonright}}
+let gr-slash-m thk vlen fsize color =
+
+  % 基準となる横の位置 (h) 及び 縦の位置 (v) の座標．
+  let hmin = minus fsize *' 0.2 in
+  let h0 = 0pt in
+  let hmax = fsize *' 0.2 in
+  let va = vlen in
+
+  % 結ぶことになる点の座標．
+  let (x0, y0) = (5pt, va) in
+  let (x1, y1) = (-5pt, minus va) in
+
+  let path =
+    start-path (x0, y0)
+      |> line-to (x1, y1)
+      |> terminate-path
+  in
+  let xmin = hmin in
+  let xmax = hmax in
+  (
+    [ draw-text (0pt, 0pt) (read-inline (get-initial-context 2pt (command \math) |> set-text-color Colors.white) {${/}})
+    ; stroke thk color path],
+    (xmin, minus vlen), (xmax, vlen),
+    (fun _ -> 0pt)
+  )
+let-math \quot over under =
+  open AZMathParens in
+  let over = math-transform (raise-inline 2.5pt) MathOrd over in
+  let under = math-transform (raise-inline -2.5pt) MathOrd under in
+  let lparen = empty-bracket-l in
+  let mparen = paren-scheme (gr-slash-m 0.75pt) half-height-default in
+  let rparen = empty-bracket-r in
+  math-paren-with-middle lparen rparen mparen [${\mrquad!(mid-space-ratio)#over\mrquad!(mid-space-ratio)};  ${\mrquad!(mid-space-ratio)#under\mrquad!(mid-space-ratio)}]
+
+let-math \ultpow index m u =
+  ${\quot {\seq{#index}{#m}}{#u}}

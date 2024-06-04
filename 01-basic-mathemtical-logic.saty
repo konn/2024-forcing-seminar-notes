@@ -33,7 +33,8 @@ let-math \bold-in =
         let neww = w *' 0.75 in
         inline-graphics w h d
             (fun (x, y) ->
-              [ stroke thick cl
+              [ draw-text (x, y) (read-inline (ctx |> set-text-color Colors.white) {${\in}})
+              ; stroke thick cl
                 (Gr.line (x, y +' newh *' .5) (x +' neww, y +' newh *' .5))
               ; stroke thick cl
                   (start-path (x +' neww, y +' newh)
@@ -53,13 +54,52 @@ let-math \bold-in =
       )
     )
 in
+let-math \bold-plus = 
+  text-in-math MathBin
+    (fun ctx -> 
+      ( let sz = get-font-size ctx in
+        let cl = get-text-color ctx in
+        let (w,h,d) = get-natural-metrics (read-inline ctx {${+}}) in
+        let newh = h -' d *' .5 in
+        let thick = 1.25pt in
+        let neww = w in
+        inline-graphics w h d
+            (fun (x, y) ->
+              [ draw-text (x, y) (read-inline (ctx |> set-text-color Colors.white) {${+}})
+              ; stroke thick cl
+                (Gr.line (x, y +' h *' .5) (x +' neww, y +' h *' .5))
+              ; stroke thick cl
+                (Gr.line (x +' w *' .5, y -' d) (x +' neww *' .5, y +' h))
+              ]
+            )
+      )
+    )
+in
+let-math \bold-dot = 
+  text-in-math MathBin
+    (fun ctx -> 
+      ( let sz = get-font-size ctx in
+        let cl = get-text-color ctx in
+        let (w,h,d) = get-natural-metrics (read-inline ctx {${\cdot}}) in
+        let newh = h in
+        let neww = w in
+        inline-graphics w h d
+            (fun (x, y) ->
+              [ draw-text (x, y) (read-inline (ctx |> set-text-color Colors.white) {${\cdot}})
+              ; fill cl
+                (Gr.circle (x +' neww *' .5, y +' newh *' .5) 1.5pt)
+              ]
+            )
+      )
+    )
+in
 
 document (|
   title = {\no-break{強制法セミナー第1回：数理論理学の初歩}};
   author = {Hiromi ISHII (\@mr_konn)};
   date = {2024-06-23};
 |)'<
-  +section{一階述語論理の構文と証明体系}<
+  +section?:(`chap:syntax`){一階述語論理の構文と証明体系}<
 
     +p{
       \emph{一階述語論理}は、予め固定された言語の下で、与えられた集合の元の間の関係を使って記述できるような性質を扱う論理体系である。現代数学は、一階述語論理の下で適切な強さの公理系の集合論\footnote{ここでの「集合論」は${\ZF}に限らない広い意味でのものである。よく、圏論が「集合論に代わる数学の基礎として採用できる」と説明されることがあるが、これはつよつよ圏であるトポスの内部言語を使うことで集合論を代替できる、という話で、${\ZF}とは違う集合論の「実装」を与えることができる、という話である。}を採用すれば全て展開できることが知られている。
@@ -132,6 +172,7 @@ document (|
         \gather?:(AZMathEquation.notag)(${|
           \lnot \varphi \deffml \varphi \to \bot, \mqquad \varphi \land \psi \deffml \lnot (\varphi \to \lnot \psi), \mqquad \varphi \lor \psi \deffml (\varphi \to \psi) \to \psi,
         | \exists x \varphi \deffml \lnot \forall x \lnot \varphi
+        | \exists\! x \varphi \deffml \exists x \mhquad \pB{\varphi \land \forall y \mhquad \pb{\subst{\varphi}![(${x}, ${y})] \to y = x}}
         |});
         このようにするのは、今後論理式の複雑性に関する帰納法で色々な証明を回していく際に、場合分けの数は少ないほうが楽だからである。
       }
@@ -148,7 +189,7 @@ document (|
     }
 
     +example?*?:({環の言語})<
-      +p{単位的環の言語${\mathcal{L}_\text!{ring}}は定数記号${0, 1}、二項関係記号${+, \cdot}を持つ言語である。}
+      +p{単位的環の言語${\mathcal{L}_\text!{ring}}は定数記号${\bm{0}, \bm{1}}、二項関数号${\bold-plus, \bold-dot}を持つ言語である。}
     >
 
     +p{無限言語の例としては、体${K}に対して${K}-線型空間の言語がある：}
@@ -157,8 +198,8 @@ document (|
       +p{${K}を体とするとき、${K}-線型空間の言語は以下から成る：}
       +listing{
         * 定数記号${\bm{0}}
-        * 二項関数記号${\bm{+}}
-        * ${c \in K}ごとに、一項関数記号${\bm{c \cdot}}
+        * 二項関数記号${\bold-plus}
+        * ${c \in K}ごとに、一項関数記号${\bm{c} \bold-dot}
       }
     >
 
@@ -228,7 +269,7 @@ document (|
           * ${\HK}で公理系${\Gamma}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${\Gamma \vdash_{\HK} \varphi}）とは、結論が${\varphi}であるような${\Gamma}からの証明図が存在することである。
           * ${\varphi}が${\HK}の\emph{恒真式}（\emph{tautology}、記号${\vdash_{\HK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
           * 公理系${T}が\emph{矛盾している}（\emph{inconsistent}）であるとは、${T \vdash \bot}が成り立つこと、すなわち${T}から${\bot}への証明図が存在することである。
-            矛盾していない公理系を\emph{無矛盾}（\emph{consistent}）であるという。
+            矛盾していない公理系を\emph{無矛盾}（\emph{consistent}）であるといい、公理系${T}が無矛盾であることを記号${\Con(T)}で表す。。
         }
       }
     >
@@ -350,7 +391,7 @@ document (|
 
     +exercise<+p{上の証明を、${\HK}から${\P}を取り除いた直観主義論理の体系${\mathrm{HJ}}でも通るようにせよ。}>
 
-    +lemma<
+    +lemma?:(`lem:unprovable`)<
       +p{${\HK}において、公理系${T}から${\varphi}が証明不能なら、${T + \lnot \varphi}は無矛盾。}
     >
     +proof<
@@ -375,9 +416,57 @@ document (|
 
       +pn{\font-style[bold]{ヒント：呑んでない人間がいるならそいつを${z}氏とし、全員呑んでいるなら適当に取ればよい。}}
     >
+    +subsection{定義による拡張}<
+      +p{
+        ${\mathcal{L}}-公理系${T}が与えられたとき、${T}から存在が証明できる関数があったとしても、${\mathcal{L}}にそれを指す関数記号があるとは限らない。
+        しかし、我々は日常的に「関数」を定義して変数に束縛し、それを以後自由に使う、というようなことをする。これは、公理系の\emph{定義による拡張}と呼ばれる操作として正当化される：
+      }
+      +defn?*?:({定義による拡張})<
+        +p{${T}を${\mathcal{L}}-理論とする。}
+        +enumerate{
+          * ${\varphi(x_0, \ldots, x_{n-1})}を ${\mathcal{L}}-論理式とする。この時言語${\mathcal{L}}に含まれない新たな関係記号${\bm{R}^{(n)}}を追加した言語${\mathcal{L}'}を考える。
+            このとき、${\mathcal{L}'}-理論${T'}を、次で定義する：
+            \eqn-notag(${
+              T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \pB{R(\bar{x}) \longleftrightarrow \varphi(\bar{x})} }
+            });
+            これを${\varphi}による${T}の\emph{定義による拡張}（\emph{definitional extension}）と呼ぶ。
+          * ${\varphi(x_0, \ldots, x_{n-1}, y)}を ${\mathcal{L}}-論理式とし、
+            \eqn-notag(${T \vdash \forall \bar{x} \mhquad \exists\! y \mhquad \varphi(\bar{x}, y)});
+            が成り立つとする。この時言語${\mathcal{L}}に含まれない新たな関数記号${\bm{f}^{(n)}}を追加した言語${\mathcal{L}'}を考える。
+            このとき、${\mathcal{L}'}-理論${T'}を、次で定義する：
+            \eqn-notag(${
+              T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \forall y\mhquad \pB{f(\bar{x}) = y \longleftrightarrow \varphi(\bar{x}, y)} }
+            });
+            これも${\varphi}による${T}の\emph{定義による拡張}（\emph{definitional extension}）と呼ぶ。
+        }
+      >
+      +p{直感的には、この拡張によって証明能力や表現力は変わらないことが期待される。こういった関係を\emph{保存拡大}という：}
+      +defn<+p{
+        ${\mathcal{L} \subseteq \mathcal{L}'}を言語、${T, T'}をそれぞれ言語${\mathcal{L}, \mathcal{L'}}による理論とする。${T'}が${T}の\emph{保存拡大}（\emph{conservative extension}）であるとは、任意の${\mathcal{L}}-論理式${\varphi}について、次が成り立つことである：
+        \eqn-notag(${
+          T \vdash \varphi \iff T' \vdash \varphi.
+        });
+      }>
+      +lemma<
+        +p{}
+        +enumerate{
+          * 関係記号に関する定義による拡張は保存拡大である。より詳しく、任意の${\mathcal{L}'}-論理式${\varphi}に対して${\mathcal{L}}-論理式${\varphi^*}が存在して、
+            \eqn-notag(${
+              T' \vdash \varphi \longleftrightarrow \varphi^{*},
+              \mqquad T' \vdash \varphi \iff T \vdash \varphi^{*}.
+            });
+          * 関数記号に関する定義による拡張は保存拡大である。より詳しく、任意の${\mathcal{L}'}-論理式${\varphi}に対して${\mathcal{L}}-論理式${\varphi^*}が存在して、
+            \eqn-notag(${
+              T' \vdash \varphi \longleftrightarrow \varphi^{*},
+              \mqquad T' \vdash \varphi \iff T \vdash \varphi^{*}.
+            });
+        }
+      >
+      +exercise<+p{証明せよ。関数版の場合は、入れ子になった項に注意。}>
+    >
   >
 
-  +section{一階述語論理のTarski意味論}<
+  +section?:(`chap:semantics`){一階述語論理のTarski意味論}<
     +p{前節で、言語${\mathcal{L}}の下での一階述語論理の構文と証明体系を導入した。これを具体的な数学の宇宙の対象と結び付け、解釈を考えるのが\emph{Tarski意味論}あるいは単純に${\mathcal{L}}-構造や「モデル」と呼ばれるものである。他にも色々なモデルの与え方はある（例えば強制法のBoole値モデルであるとか、圏論的論理学における函手など）し、意味論といっても結合子の間の調和を考える証明論的意味論など色々なものがあるが、以下ではモデルといったらTarskiモデルを考える。}
 
     +p{言語${\mathcal{L}}の項・論理式を解釈できる集合を${\mathcal{L}}-構造と呼ぶ：}
@@ -436,70 +525,72 @@ document (|
     >
   >
 
-  +section{絶対性、初等性、完全性定理、Löwenheim–Skolemの定理}<
-    +p{前節では${\mathcal{L}}-構造を定義したが、今回はその複数のモデル同士を比べたり、あるいは新しいモデルを構成する方法について取り扱う。}
-    +p{まず、部分環や部分空間などのように、大きなモデルの部分に相当する部分構造（部分モデル）を定義する：}
-    +defn<
-      +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}について、${\mathcal{N}}が${\mathcal{M}}の\emph{部分構造}（\emph{substructure}）または${M}が${N}の\emph{拡大}（\emph{extension}）${\defs}
-        \enumerate{
-          * ${\mathcal{N} \subseteq \mathcal{M}}、
-          * 任意の関係記号${\bm{R}^{(n)}}について${R^\mathcal{N} = R^\mathcal{M} \cap N^{n}}、
-          * 任意の関数記号${\bm{f}^{(m)}}について${f^\mathcal{N} = f^\mathcal{M} \restrict N^{m}}。
+  +section?:(`chap:models`){モデルの性質：モデルの濃度とモデル間の真理の比較、完全性定理}<
+    +subsection{初等性と絶対性、Tarski–Vaughtの判定条件}<
+      +p{前節では${\mathcal{L}}-構造を定義したが、今回はその複数のモデル同士を比べたり、あるいは新しいモデルを構成する方法について取り扱う。}
+      +p{まず、部分環や部分空間などのように、大きなモデルの部分に相当する部分構造（部分モデル）を定義する：}
+      +defn<
+        +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}について、${\mathcal{N}}が${\mathcal{M}}の\emph{部分構造}（\emph{substructure}）または${M}が${N}の\emph{拡大}（\emph{extension}）${\defs}
+          \enumerate{
+            * ${\mathcal{N} \subseteq \mathcal{M}}、
+            * 任意の関係記号${\bm{R}^{(n)}}について${R^\mathcal{N} = R^\mathcal{M} \cap N^{n}}、
+            * 任意の関数記号${\bm{f}^{(m)}}について${f^\mathcal{N} = f^\mathcal{M} \restrict N^{m}}。
+          }
         }
+      >
+      +remark<+p{背景となる理論がある程度固定されている場合、「部分モデル」（submodel）とも呼ぶ。}>
+      +p{
+        つまり、関係は制限したものになっており、関数の解釈について閉じているような関係である。
+        さらに、論理式の解釈についても閉じているような部分・拡大構造を初等部分モデル・初等拡大とよぶ：
+      }
+      +defn?*?:({絶対性、初等部分構造})<
+        +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-構造とし、${\mathcal{N}}は${\mathcal{M}}の部分構造であるとする。}
+        +listing{
+          * ${\mathcal{L}(N)}-論理式${\varphi}が${\mathcal{N}}と${\mathcal{M}}の間で\emph{絶対的}（\emph{absolute}、記号：${\mathcal{N} \prec_{\varphi} \mathcal{M}}）${\defs} ${\mathcal{N} \models \varphi} iff ${\mathcal{M} \models \varphi}。
+          * ${\mathcal{L}(N)}-論理式の集合${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
+          * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{N} \prec \mathcal{M}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{N})} \mathcal{M}}のこと。
+        }
+      >
+  
+      +remark<+p{一般に、「初等××」という概念の「初等」は、「一階述語論理の」というような意味である。}>
+  
+      +p{以上は部分モデル上の初等性だが、良く似た概念に部分モデル関係が成り立つとは限らない構造間の初等同値性がある：}
+  
+      +defn<
+        +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}が${\mathcal{L}}-\emph{初等同値}（\emph{elementarily equivalent}、記号：${\mathcal{M} \equiv_{\mathcal{L}} \mathcal{N}}）${\defs} 任意の${\mathcal{L}}-閉論理式${\varphi}について${\mathcal{M} \models \varphi} iff ${\mathcal{N} \models \varphi}。}
+      >
+  
+      +p{つまり、初等拡大性${\mathcal{N} \prec \mathcal{M}}は、${\mathcal{N}}が${\mathcal{M}}の部分構造であり、${\mathcal{N} \equiv_{\mathcal{L}(\mathcal{N})} \mathcal{M}}
+      であるということだ。}
+  
+      +exercise<+p{部分構造だが、初等部分構造ではないような例を挙げよ。}>
+      +exercise<+p{言語によって（初等）部分構造であったりなかったりする構造の組の例をそれぞれ挙げよ。}>
+  
+      +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で最頻出の道具であり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
+  
+      +lemma?:(`lem:Tarski-Vaught`)?:({Tarski–Vaught判定条件})<
+        +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-部分構造とするとき、次は同値：}
+        +enumerate{
+          * ${\mathcal{N} \prec \mathcal{M}}
+          * ${\varphi(x)}を${x}のみを変数に持つ${\mathcal{L}(\mathcal{N})}-論理式とするとき、
+            \eqn-notag(${\mathcal{M} \models \pB{\exists x\varphi(x)} \implies \exists a \in \mathcal{N} \mhquad \mathcal{M} \models \varphi(a) });
+        }
+      >
+      +remark<+p{「解」${a \in \mathcal{N}}そのものは小さい${\mathcal{N}}の方から取っているが、その真偽の判定は大きな${\mathcal{M}}の方で成り立っているかどうかだけ考えればよい、という点に注意しよう。}>
+      +exercise<
+        +p{上を証明せよ。（\font-style[bold]{ヒント：論理式の複雑性に関する帰納法。）}}
+      >
+      +p{Tarski–Vaught判定条件の系である、次の\emph{初等鎖定理}もよく使う：}
+      +lemma?*?:({初等鎖定理})<
+        +p{${\Seq{M_\alpha}{\alpha < \gamma}}を${\mathcal{L}}-構造の列とし、更に任意の${\alpha < \beta}について${M_\alpha \prec M_\beta}が成り立つする。このとき、${M \defeq \bigcup_\alpha M_\alpha}とおけば、${M_\alpha \prec M}が任意の${\alpha < \gamma}について成り立つ。}
+      >
+      +exercise<+p{示せ。部分構造になることがちゃんと言えれば、あとは簡単。}>
+  
+      +p{
+        初等部分構造や初等拡大を取ったりして色々するのは、モデル理論や集合論の基本的な操作である。以下では、そうした構成の道具を見ていく。
       }
     >
-    +remark<+p{背景となる理論がある程度固定されている場合、「部分モデル」（submodel）とも呼ぶ。}>
-    +p{
-      つまり、関係は制限したものになっており、関数の解釈について閉じているような関係である。
-      さらに、論理式の解釈についても閉じているような部分・拡大構造を初等部分モデル・初等拡大とよぶ：
-    }
-    +defn?*?:({絶対性、初等部分構造})<
-      +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-構造とし、${\mathcal{N}}は${\mathcal{M}}の部分構造であるとする。}
-      +listing{
-        * ${\mathcal{L}(N)}-論理式${\varphi}が${\mathcal{N}}と${\mathcal{M}}の間で\emph{絶対的}（\emph{absolute}、記号：${\mathcal{N} \prec_{\varphi} \mathcal{M}}）${\defs} ${\mathcal{N} \models \varphi} iff ${\mathcal{M} \models \varphi}。
-        * ${\mathcal{L}(N)}-論理式の集合${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
-        * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{N} \prec \mathcal{M}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{N})} \mathcal{M}}のこと。
-      }
-    >
-
-    +remark<+p{一般に、「初等××」という概念の「初等」は、「一階述語論理の」というような意味である。}>
-
-    +p{以上は部分モデル上の初等性だが、良く似た概念に部分モデル関係が成り立つとは限らない構造間の初等同値性がある：}
-
-    +defn<
-      +p{${\mathcal{L}}-構造${\mathcal{M}, \mathcal{N}}が${\mathcal{L}}-\emph{初等同値}（\emph{elementarily equivalent}、記号：${\mathcal{M} \equiv_{\mathcal{L}} \mathcal{N}}）${\defs} 任意の${\mathcal{L}}-閉論理式${\varphi}について${\mathcal{M} \models \varphi} iff ${\mathcal{N} \models \varphi}。}
-    >
-
-    +p{つまり、初等拡大性${\mathcal{N} \prec \mathcal{M}}は、${\mathcal{N}}が${\mathcal{M}}の部分構造であり、${\mathcal{N} \equiv_{\mathcal{L}(\mathcal{N})} \mathcal{M}}
-    であるということだ。}
-
-    +exercise<+p{部分構造だが、初等部分構造ではないような例を挙げよ。}>
-    +exercise<+p{言語によって（初等）部分構造であったりなかったりする構造の組の例をそれぞれ挙げよ。}>
-
-    +p{次の\emph{Tarski–Vaught判定条件}は初等性を判定する上で最頻出の道具であり、初等拡大であるかどうかというのは、解が小さいところから取れるかどうか？という問題と同値であることを述べている：}
-
-    +lemma?:(`lem:Tarski-Vaught`)?:({Tarski–Vaught判定条件})<
-      +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-部分構造とするとき、次は同値：}
-      +enumerate{
-        * ${\mathcal{N} \prec \mathcal{M}}
-        * ${\varphi(x)}を${x}のみを変数に持つ${\mathcal{L}(\mathcal{N})}-論理式とするとき、
-          \eqn-notag(${\mathcal{M} \models \pB{\exists x\varphi(x)} \implies \exists a \in \mathcal{N} \mhquad \mathcal{M} \models \varphi(a) });
-      }
-    >
-    +remark<+p{「解」${a \in \mathcal{N}}そのものは小さい${\mathcal{N}}の方から取っているが、その真偽の判定は大きな${\mathcal{M}}の方で成り立っているかどうかだけ考えればよい、という点に注意しよう。}>
-    +exercise<
-      +p{上を証明せよ。（\font-style[bold]{ヒント：論理式の複雑性に関する帰納法。）}}
-    >
-    +p{Tarski–Vaught判定条件の系である、次の\emph{初等鎖定理}もよく使う：}
-    +lemma?*?:({初等鎖定理})<
-      +p{${\Seq{M_\alpha}{\alpha < \gamma}}を${\mathcal{L}}-構造の列とし、更に任意の${\alpha < \beta}について${M_\alpha \prec M_\beta}が成り立つする。このとき、${M \defeq \bigcup_\alpha M_\alpha}とおけば、${M_\alpha \prec M}が任意の${\alpha < \gamma}について成り立つ。}
-    >
-    +exercise<+p{示せ。部分構造になることがちゃんと言えれば、あとは簡単。}>
-
-    +p{
-      初等部分構造や初等拡大を取ったりして色々するのは、モデル理論や集合論の基本的な操作である。以下では、そうした構成の道具を見ていく。
-    }
-    +subsection{超積、超冪とŁośの定理、コンパクト性定理、完全性定理}<
+    +subsection{超積と超冪によるモデルの構成とŁośの定理}<
       +p{
         \emph{超積}は添え字づけられたモデルの族が与えられた際に、そこから新たなモデルを構成する方法であり、更に最終的に得られるモデルは「殆んど至るところ」で成り立つ真理を反映したものになっている。更に、\emph{超冪}は超積の特別な場合であり、添え字に依らず同じ構造を使って超積をとったものだが、これは強制法や巨大基数の理論の非常に重要な道具である。
       }
@@ -515,7 +606,7 @@ document (|
           * ${\mathcal{F}}は${\mathbb{B}}のフィルター。
           * 以下が成り立つ：
             ** ${\mathbb{0} \nin \mathcal{F}, \mathbb{1} \in \mathcal{F}}
-            ** ${\mathcal{F} \ni b \geq c \implies c \in \mathcal{F}}
+            ** ${\mathcal{F} \ni b \leq c \implies c \in \mathcal{F}}
             ** ${b, c \in \mathcal{F} \implies b \cdot c \in \mathcal{F}}
         }
       >
@@ -548,10 +639,10 @@ document (|
           * ${u, v \in \prod_{i \in I} \mathcal{M}_i}に対して、${u \sim_{\mathcal{U}} v}を次で定める：
             \eqn-notag(${u \sim_{\mathcal{U}} v \defs \Set{i \in I}{u(i) = v(i)} \in \mathcal{U}});
             このとき、${[u]_{\mathcal{U}}}を${\sim_{\mathcal{U}}}に関する${u \in \prod_i \mathcal{M}_i}の同値類とする。
-          * ${\pangle{\mathcal{M}_i}_{i \in I}}の${\mathcal{U}}による\emph{超積}（\emph{ultraproduct}）${\mathcal{N} = \prod_{i \in I} \mathcal{M}_i/\mathcal{U}}とは、次で定義される${\mathcal{L}}-構造である。
+          * ${\pangle{\mathcal{M}_i}_{i \in I}}の${\mathcal{U}}による\emph{超積}（\emph{ultraproduct}）${\mathcal{N} = \quot{\prod_{i \in I} \mathcal{M}_i}{\mathcal{U}}}とは、次で定義される${\mathcal{L}}-構造である。
             \enumerate{
               * \emph{台集合}：
-                \eqn-notag(${\prod_{i \in I} \mathcal{M}_i/\mathcal{U} \defeq \Set{[u]_{\mathcal{U}}}{u \in \prod_{i \in I} \mathcal{M}_i}});
+                \eqn-notag(${\quot{\prod_{i \in I} \mathcal{M}_i}{\mathcal{U}} \defeq \Set{[u]_{\mathcal{U}}}{u \in \prod_{i \in I} \mathcal{M}_i}});
               * \emph{関係記号の解釈}：各${\bm{R}^{(n)}}について、
                 \eqn-notag(${
                   ([u_0], \ldots, [u_{n-1}]) \in R^{\mathcal{N}} 
@@ -565,26 +656,26 @@ document (|
                   \pB{\Seq{f^{\mathcal{M}_i}(u_0(i), \ldots, u_{m-1}(i))}{i \in I}}_\mathcal{U}
                 });
             }
-          * ${\mathcal{M}_i= \mathcal{M}}のとき、${\prod_{i\in I}\mathcal{M}/\mathcal{U}}を${\mathcal{M}}の${\mathcal{U}}による\emph{超冪}（\emph{ultrapower}）と呼び、記号${\seq{I}{\mathcal{M}}/\mathcal{U}}で表す。
+          * ${\mathcal{M}_i= \mathcal{M}}のとき、${\quot{\prod_{i\in I}\mathcal{M}}{\mathcal{U}}}を${\mathcal{M}}の${\mathcal{U}}による\emph{超冪}（\emph{ultrapower}）と呼び、記号${\ultpow{I}{\mathcal{M}}{\mathcal{U}}}で表す。
         }
       >
 
-      +exercise<+p{超積${\prod_i \mathcal{M}_i/\mathcal{U}}の定義がwell-definedであり、実際に${\mathcal{L}}-構造となることを示せ。}>
+      +exercise<+p{超積${\quot{\prod_i \mathcal{M}_i}{\mathcal{U}}}の定義がwell-definedであり、実際に${\mathcal{L}}-構造となることを示せ。}>
 
       +p{
         超積が「殆んど至るところ成立する」ものを集めてきたものだ、といったが、そのことを表現しているのが、次の\ruby[`ウロッシュ`]{|Łoś|}\footnote{Łośはポーランド人の数学者である。ŁはWとLの中間音（そんなのある？）、śは「シュ」みたいに発音するらしい。}の定理である：}
 
       +theorem?*?:({Łośの定理})<
-        +p{${\mathcal{L}\p{\prod_i \mathcal{M}_i/\mathcal{U}}}-論理式${\varphi}について、次が成立：}
+        +p{${\mathcal{L}\p{\quot{\prod_i \mathcal{M}_i}{\mathcal{U}}}}-論理式${\varphi}について、次が成立：}
         +eqn-notag(${
-          \prod_{i \in I} \mathcal{M}_i/\mathcal{U} \models \varphi
+          \quot{\prod_{i \in I} \mathcal{M}_i}{\mathcal{U}} \models \varphi
             \iff \Set{i \in I}{ \mathcal{M}_i \models \varphi} \in \mathcal{U}
         });
       >
       +proof<
         +p{
           超積についてはほとんどの参加者が知らないようなので、ここでは軽く証明の概略を示しておく。
-          \eqn-notag(${\mathcal{M} \defeq \prod_i\mathcal{M}_i/\mathcal{U}});
+          \eqn-notag(${\mathcal{M} \defeq \quot{\prod_i\mathcal{M}_i}{\mathcal{U}}});
           とおいて、${\mathcal{L}(\mathcal{M})}論理式${\varphi}の複雑性に関する帰納法を使って示す。
         }
 
@@ -641,7 +732,7 @@ document (|
 
       +cor<+p{${\mathcal{M}}を${\mathcal{L}(\mathcal{M})}-構造と思って超冪を取ると、
         \eqn-notag(${
-          \mathcal{M} \prec \seq{I}{\mathcal{M}}/\mathcal{U}.
+          \mathcal{M} \prec \ultpow{I}{\mathcal{M}}{\mathcal{U}}.
         });
       }>
       +proof<
@@ -653,7 +744,7 @@ document (|
                         | \emptyset | (\text!{otherwise})|}
                       )
           });
-          よって${\mathcal{M} \models \varphi \iff \Set{i \in I}{\mathcal{M} \models \varphi} = X \in \mathcal{U} \mathrel{\overset{\text!{Łoś}}{\iff}} \seq{I}{\mathcal{M}}/\mathcal{U} \models \varphi}を得る。
+          よって${\mathcal{M} \models \varphi \iff \Set{i \in I}{\mathcal{M} \models \varphi} = X \in \mathcal{U} \mathrel{\overset{\text!{Łoś}}{\iff}} \ultpow{I}{\mathcal{M}}{\mathcal{U}} \models \varphi}を得る。
         }
       >
 
@@ -670,8 +761,10 @@ document (|
       +cor<
         +p{${A \subseteq \mathbb{B}}をBoole代数のフィルター基とするとき、それを拡張する超フィルターが少なくとも一つ存在する。}
       >
+    >
+    +subsection{超積の応用1：コンパクト性定理}<
       
-      +p{こんなもの、何に使うのか？と思うかもしれない。しかし、これは非常に強力な道具であり、例えばモデル理論の最も基本的な定理である、コンパクト性定理や完全性定理の証明に使うことができる。}
+      +p{超積なんて何に使うのか？と思うかもしれない。しかし、これは非常に強力な道具であり、例えばモデル理論の最も基本的な定理である、コンパクト性定理や完全性定理の証明に使うことができる。}
 
       +theorem?*?:({コンパクト性定理\footnote{名前の通り、この定理はモデルの空間にしかるべき位相を入れたときに、その空間がコンパクトであることと同値である。}})<
         +p{公理系${T}がモデルを持つことと、${T}の任意の有限部分集合がモデルを持つことは同値である。}
@@ -696,7 +789,7 @@ document (|
           });
           このとき、${\mathcal{B} \defeq \Set{V_s}{s \in I}}はフィルター基となる。
           なぜなら、${V_s \neq \emptyset}であり、また${V_s \cap V_t = V_{s \cup t} \in \mathcal{B}}となるからである。
-          そこで、${\BPI}により${\mathcal{B} \subseteq \mathcal{U}}なる${I}上の超フィルターを取り、${M \defeq \prod_{i \in I} M_i/\mathcal{U}}と定めよう。
+          そこで、${\BPI}により${\mathcal{B} \subseteq \mathcal{U}}なる${I}上の超フィルターを取り、${M \defeq \quot{\prod_{i \in I} M_i}{\mathcal{U}}}と定めよう。
         }
 
         +pn{\font-style[bold]{Claim}. ${M \models T}である。}
@@ -715,7 +808,8 @@ document (|
           いま${\mathcal{U}}はフィルターで上に閉じているから、結局${S \in \mathcal{U}}となる。
         }
       >
-
+    >
+    +subsection{完全性定理：証明体系と意味論を繋ぐもの}<
       +p{
         さて、前節では、${\mathcal{L}}-構造や公理系${T}のモデルについて定義をし、「全ての${T}のモデルで成り立つ」という意味論的な妥当性を定義した：
         \eqn-notag(${
@@ -727,7 +821,7 @@ document (|
         });
         も既に扱っていた。この二つの概念が一致することを示すのが\emph{完全性定理}（\emph{Completeness Theorem}）である：
       }
-      +theorem?*?:({一階述語論理の完全性定理、Gödelの学位論文})<
+      +theorem?*?:({一階述語論理の完全性定理、Gödel (1929) の学位論文})<
         +p{${T \models \varphi \implies T \vdash \varphi}}
       >
       +p{
@@ -759,7 +853,23 @@ document (|
         }
       >
 
+      +p{我々の主目的は種々の命題の独立性の証明であった。この文脈では、専ら完全性定理は以下の系の形で使う：}
+
+      +cor?*?:({完全性定理})<
+        +p{公理系${T}について次は同値：}
+        +enumerate{
+          * ${T}は無矛盾
+          * ${T}はモデルを持つ
+        }
+      >
+
+      +p{つまり、ある体系の無矛盾性を示したければそのモデルを構成すればよいし、モデルが構成できないのならその体系は矛盾していると思ってよい、ということである。強制法はモデルの構成法であり、無矛盾性証明の道具としての有用性はこの系に立脚している。}
     >
+
+    +subsection{超積の応用2：超準解析}<
+      +p{TODO: 書く}
+    >
+
     +subsection{Löwenheim–Skolemの定理}<
       +p{
         上では超積やコンパクト性定理によって、初等拡大モデルが取れることを見た。しかし、こうした方法で得られるモデルがどのような濃度を持つのかは一般にはよくわからない。というか実は、一般に超冪の濃度が何になり得るのかというのは、巨大基数なども絡んでくる独立命題である。
@@ -784,7 +894,7 @@ document (|
       +p{証明に無限組合せ論で重要な概念を含むので、ここでは下方Löwenheim–Skolemの定理の証明の概略を以下で紹介する。上方の方は演習問題とする。}
       +exercise?*?:({上方Löwenheim–Skolem})<
         +p{上方Löwenheim–Skolemの定理を証明せよ。}
-        +pn{\font-style[bold]{ヒント：コンパクト性定理をつかう。${\kappa}個の新しい定数記号を${\Seq{c_\xi}{\xi < \kappa}}導入して、それらが「pairwiseに全て異なる」という公理を足した公理系を考え、最後に下方Löwenheim–Skolemを使えばよい。}}
+        +pn{\font-style[bold]{ヒント：コンパクト性定理をつかう。${\kappa}個の新しい定数記号${\Seq{c_\xi}{\xi < \kappa}}を導入し、それらが「pairwiseに全て異なる」という公理を足した公理系を考え、最後に下方Löwenheim–Skolemを使えばよい。}}
       >
       +p{下方の基本的な考え方は、存在論理式の「証拠」があれば持ってくるような関数を考えて、それらについて閉じているような部分集合を取ってくるというものである。まず、一般に次の補題が成り立つ：}
       +lemma?:(`lem:closure`)?:({閉包の存在と濃度})<
@@ -855,11 +965,96 @@ document (|
 
   >
 
-  +section{不完全性定理とTarskiの真理定義不可能性定理}<
-    
+  +section?:(`chap:incomp`){不完全性定理とTarskiの真理定義不可能性定理}<
+    +p{本節の主題は、次のGödelの第二不完全性定理である：}
+    +theorem?*?:({Gödelの第二不完全性定理})<
+      +p{${T}をペアノ算術${\mathrm{PA}}を含む再帰的な公理系とする。このとき、${T}からは${\mathrm{Con}(T)}を証明できない。}
+    >
+    +remark<
+      +p{よく通俗的理解では不完全性定理は「理性の限界」を示したという解説のされかたをするが、これは現代の数理論理学を研究する者から見ると些か的外れな理解である。そもそも、Hilbertが算術の無矛盾性証明を23の問題の第二問題として挙げたのは、数学が矛盾すると思っていたからではない。
+      Gödelの不完全性定理が教えるのは、十分に強い公理系は無矛盾性の強さによって階層を成す、という事である。階層を成すのであれば、それを分類したくなるのが数学者の性である。Gödelの不完全性定理は、「理性の限界」などというネガティヴな事項を示したのではなく、公理系たちの成す豊穣な階層が存在するということを示したポジティヴな定理なのである\raisebox(4pt){\font-style[with-font-size(fun sz -> sz *' 0.5)]{[要出典]}}。
+      }
+    >
+    +p{通常、第二不完全性定理は次の第一不完全性定理を${T}の中で再度定式化することで得られる：}
+    +theorem?*?:({Gödelの第二不完全性定理})<
+      +p{${T}をペアノ算術${\mathrm{PA}}を含む再帰的な公理系とする。このとき、${T}からは否定も肯定も証明できない独立命題が存在する。}
+    >
+    +p{これらの定理の偉いところは、メタ理論として十分弱い公理系を採用しても証明できるところである。}
+
+    +p{
+      しかし、強制法による集合論的な命題の無矛盾性証明においては${\ZF}の無矛盾性は仮定され、完全性定理から無矛盾性について考える上ではモデルの存在のみを考えればよい。
+      特に、第二不完全性定理を証明するのに、第一不完全性定理の再形式化を考える必要はなく、意味論的な議論により簡略に証明することができる。また、十分強い${\ZF}以上の集合論を考えているため、Gödel数化などの技術的な道具を使ったり、対応の原始再帰性のような細かい条件を気にする必要もなくなる。
+    }
+
+    +remark<
+      +p{
+        ここで、集合論のモデルにおける自然数や「有限的」な対象の解釈について注意をしておく。
+      }
+      +p{
+        既に見たように、コンパクト性や超積などを用いることで、超準的な自然数や実数を持つようなモデルを創り出すことができた。同様の事は集合論のモデルに対しても適用できる。
+        つまり、集合論の「モデル」があったとすると、このモデルは少なくとも我々の知っていて書き下すことのできるような、\emph{標準的な自然数や有限的な対象は全て持っていて}、メタレベルの有限的な対象をモデル内の対象に対応づけるメタ的な方法がある。
+        しかし、こうしたモデルは\emph{超準的な（標準的でない）自然数や有限対象}を持っているということが有り得る。
+      }
+      +p{
+        例を挙げよう。${\ZFC}は無矛盾であると仮定し、第二不完全性定理を一旦認める。とくに、${\ZFC \nvdash \Con(\ZFC)}である。すると、今度は\ref(`lem:unprovable`);および完全性定理（！）より、${M \models \ZFC + \neg \Con(\ZFC)}を満たすようなモデル${M}が取れる。つまり、${M}は「自分は${\ZFC}のモデルだが、${\ZFC}は矛盾しているよ」と信じ込んでいる（！！！）モデルである。
+      }
+      +p{
+        すると、この${M}の中には、\emph{${\ZFC}の公理から出発して${\bot}に至る「証明図」が存在}する。しかし、今仮定から${\ZFC}は無矛盾なので、この「証明図」は${M}の中で見ると有限的だが、外の我々から見ると超有限的な対象になっているヘンな証明図であり、対応する有限的な対象が我々の世界にはない超準元である。
+      }
+      +p{このように、モデルの取り方によってはその世界には「変な自然数」「変な論理式」「変な証明図」が含まれており、有限概念は一致するとは限らない。その事を念頭に置いて以下の議論に臨まれたい。}
+    >
+
+    +p{
+      以後、（我々の知っている）論理式${\varphi}に対して、その${\ZFC}のモデル内での表現を${\code{\varphi}}と表し、${\varphi}のコードと呼ぶ。いわゆるGödelコード化だと思ってもよいが、${\ZFC}を使っているので、論理式や証明図は列を使って直感的に定式化できる。
+      大事なことは、我々の知っている言語・項・論理式・証明図をそのまま${\ZFC}で素直に定義でき、そのことをちゃんと（めちゃ長いから書かないが）具体的な論理式として書き下すことができる、という点である。
+    }
+
+    +p{不完全性定理の証明で重要な役割を果すのが、次の補題である：}
+
+    +lemma?*?:({対角化定理または不動点定理})<
+      +p{任意の${\Phi}-論理式${\Phi}に対して、閉論理式${\delta}で以下が成り立つものが存在する：}
+      +eqn-notag(${
+        \ZFC \vdash \delta \longleftrightarrow \Phi(\code{\delta})
+      });
+    >
+    +proof<
+      +p{
+        ここで、関数${s: \HF \times \HF \to \HF}を次のように定める：
+        \eqn-notag(${
+          s(a, b) \defeq 
+            \cases!(${
+              |\code{\psi(b)} 
+              | (\text!{if\hquad;} a = \code{\psi(x)}\text!{\hquad; for some unary ${\psi(x)}})
+              |\emptyset|(\text!{otherwise)}
+            |})
+        });
+        つまり、${a}が自由変数を一つだけ持つ論理式のとき、その変数に${b}を代入するような関数が${s}である。
+      }
+      +p{
+        そこで、新たに一変数の論理式${\gamma(x) \deffml \Phi(s(x, x))}を考える。${s}は言語に関数記号が入っているわけではないが、${\ZF}で定義できる関数であり、特に${z = s(x, y)}に相当する論理式が書けるので、定義による拡張から以下のように同値な書き換えができることに注意しよう：
+        \eqn-notag(${
+          \gamma(x) \deffml \forall z \mhquad \pB{z = s(x, x) \to \Phi(z)}
+        });
+        ここで、更に${d \defeq \code{\gamma(x)}}と置くと、${s}の定義から${s(d, d) = \code{\gamma(d)}}となる。
+        これらの論理式は全て書き下せるので${\ZF}の定理であり、${\ZFC \vdash s(d, d) = \code{\gamma(d)}}である。
+        よって、これを${\Phi}に代入すれば（等号公理）：
+        \eqn-notag(${
+          \ZFC \vdash \Phi(s(d, d)) \longleftrightarrow \Phi(\code{\gamma(d)})
+        });
+        を得る。いま、${\gamma(x) \equiv \Phi(s(x, x))}としていたので、${\delta \deffml \gamma(d)}とおけば：
+        \eqn-notag(${
+          \ZFC \vdash \delta \longleftrightarrow \Phi(\delta)
+        });
+        となり、これが求める${\delta}である。
+      }
+    >
   >
 
   +section{参考文献}<
+    +p{
+      第\ref(`chap:syntax`);節で触れた証明論的な話題については、\cite[`古森・小野:2010`; `戸次:2012`];を参考にした。第\ref(`chap:semantics`);、\ref(`chap:models`);節で紹介した意味論的な話題は\cite[`新井:2011`; `江田:2010`; `愛知非古典論理`];に基づいている。また、コンパクト性定理からの任意濃度の理論に対する完全性定理の証明についてはMathoverflowのKukiełaの回答\cite[`Kukieła:2010`];を直接的に参考にした。
+      第\ref(`chap:incomp`);節の不完全性定理や真理定義不可能性定理については、\cite[`デデキント`; `林八杉:2006`; `渕野:2016`; `菊池:2014`; `照井:2015`; `フランセーン:2011`];が詳しい。特に、今回紹介したWoodinによる第二不完全性定理の意味論的な証明は渕野\cite[`渕野:2016`; `デデキント`];を参考にしている。
+    } 
     +makebibliography 
           ?:(|sort-references=true; 
               citestyle=CiteAsNumber;
