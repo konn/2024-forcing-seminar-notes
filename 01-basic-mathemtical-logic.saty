@@ -957,14 +957,10 @@ document (|
       +defn<
         +p{}
         +enumerate{
-          * 任意の実数${r \in \R}について${\pabs{x} > r}となるような超実数${x \in \R*}を\emph{無限大超実数}（\emph{infinite hyperreal})と呼ぶ。
+          * 任意の実数${r \in \R}について${\pabs{x} > r}となる超実数${x \in \R*}を\emph{無限大超実数}（\emph{infinite hyperreal})と呼ぶ。
           * 無限大でない超実数のことを\emph{有限超実数}と呼び、その全体を${\bar{\R}}と表す。
           * 任意の正の実数${x \in \R}について${\pabs{z} < x}となる${z \in \R*}を\emph{無限小超実数}（\emph{infinitesimal hyperreal}）と呼ぶ。
           * 超実数${x, y \in \R*}が\emph{無限に近い}（記号：${x \approx y}）とは、${x - y}が無限小であることをいう。
-          * ${x}の\emph{単子}（\emph{monad}, 記号：${\mu(x)}）を${x}に無限に近い超実数全体とする。すなわち、${\Set{y \in \R*}{x \approx y}}。特に、無限小元の全体は${\mu(0)}となる。
-          * ${x}の\emph{銀河}（\emph{galaxy}, 記号：${G(x)}）を${x}と有限の距離にある超実数体全体とする。すなわち、
-            \eqn-notag(${G(x) \defeq \Set{ y \in \R*}{\exists r \in \R \mhquad \pabs{x - y} < r}.});
-
         }
       >
       +p{${\R*}は体を成すので、${\omega}の逆元も存在する。これは無限小になっている：}
