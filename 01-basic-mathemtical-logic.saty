@@ -1031,7 +1031,8 @@ document (|
         実数列${(a_n \in \R)_{n \in \mathbb{N}}}、実数${a}について次が同値であることを示せ：
         \enumerate{
           * ${\lim_{n \to \infty} a_n = a}
-          * 任意の無限大超実数${\gamma}について${a*_\gamma \approx a}
+          * 任意の無限大超自然数${\gamma}について${a*_\gamma \approx a}
+          * ある無限大超自然数${\gamma}があって、任意の${N \geq \gamma}について${a*_N \approx a}
         }
       }>
       +exercise<+p{
