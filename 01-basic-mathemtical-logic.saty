@@ -1032,8 +1032,6 @@ document (|
         \enumerate{
           * ${\lim_{n \to \infty} a_n = a}
           * 任意の無限大超実数${\gamma}について${a*_\gamma \approx a}
-          * ${a*_\omega \approx a}
-          * ある無限大超実数${\gamma}について${a*_\gamma \approx a}
         }
       }>
       +exercise<+p{
