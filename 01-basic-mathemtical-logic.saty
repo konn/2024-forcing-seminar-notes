@@ -1010,7 +1010,7 @@ document (|
           \eqn-notag(${
             \forall z \in \R \mhquad \pB{\pabs{x - z} < \delta \implies \pabs{f(x) - f(z)} < \epsilon}.
           });
-          すると移行原理：
+          すると移行原理より：
           \eqn-notag(${
             \forall z \in \R* \mhquad \pB{\pabs{x - z} < \delta \implies \pabs{f(x) - f(z)} < \epsilon}.
           });
