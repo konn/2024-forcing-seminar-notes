@@ -894,7 +894,12 @@ document (|
       +p{つまり、ある体系の無矛盾性を示したければそのモデルを構成すればよいし、モデルが構成できないのならその体系は矛盾していると思ってよい、ということである。強制法はモデルの構成法であり、無矛盾性証明の道具としての有用性はこの系に立脚している。}
     >
 
-    +subsection{超積の応用2：超準解析}<
+    +subsection({超積の応用2：超準解析})(
+      let-math \R = ${\mathbb{R}} in
+      let-math \N = ${\mathbb{N}} in
+      let-math \Q = ${\mathbb{Q}} in
+      let-math \st = ${\mathop{\mathrm{st}}} in
+      let-math \L = ${\mathcal{L}} in '<
       +p{
         超積・超冪はモデル理論・集合論を中心に重要な役割を果す道具であるが、他分野への応用もある。ここでは、その例としてA. Robinson\footnote{実は、数理論理学分野の黎明期に深い貢献のあるRobinsonは三人いる。順不同で採り上げると、一人は今回採り上げる超準解析の創始者でもあるAbraham Robinsonである。二人目は、計算可能性理論などに貢献があり、Hilbert第10問題の解決に大きな貢献をしたJulia Robinsonである。三人目は、Julia Robinsonの夫であり、不完全性定理が成立するには${\mathrm{PA}}から帰納法図式を除いたRobinson算術${Q}で十分なことを示したRaphael M. Robinsonである。}によって創始された\emph{超準解析}（\emph{nonstandard analysis}）を紹介する。
       }
@@ -902,10 +907,139 @@ document (|
       +p{
         超準解析の特徴は、\emph{外から見ると無限大・無限小に見える実数・整数を使って解析学を展開する}という点であり、しかも\emph{得られる結果は${\epsilon}-${\delta}論法による通常の解析学と完全に一致する}という点である。
       }
+      +notation<
+        +p{本節では以下の記号を用いる：}
+        +enumerate{
+          * ${\mathcal{U} \subseteq \mathcal{\Pow(\mathbb{N})}}をFréchetフィルター（補有限フィルター）を拡張する${\mathbb{N}}上の超フィルターとする。
+          * 暫く言語${\mathcal{L} \coloneq \pangle{0, 1, \pi, e, \mathbb{N}, \mathbb{Q}, \mathord{\leq}, \mathord{+}, \mathord{\cdot}, \sin, \cos, \tan}}を考え、実数体${\mathbb{R}}は自然な${\mathcal{L}}-構造が入っているものと見做す。ただし、${\mathbb{N}, \mathbb{Q}}はそれぞれ「自然数である」「有理数である」ことを表す単項述語記号である。
+        }
+      >
       +p{
-        以下、${\mathcal{U}}を${\mathbb{N}}上のFréchetフィルターを拡張する超フィルターとする。言語として、取り敢えず当面の間は${\mathcal{L} = \pangle{0, 1, \pi, e, \mathbb{N}, \mathord{+}, \mathord{\cdot}, \sin, \cos, \tan}}を考え、${\mathbb{R}}に期待される${\mathcal{L}}-構造が入っているものと考える（ただし、${\mathbb{N}}は単項述語記号）。
+        以上の仮定の下で、\emph{超実数体}${\mathbb{R}*}を以下のように定義する：
       }
-    >
+      +defn?*?:({超実数体})<
+        +enumerate{
+          * ${\mathbb{R}* \defeq \ultpow{\mathbb{N}}{\mathbb{R}}{\mathcal{U}}}を超実数体と呼び、${\mathbb{R}*}の元を\emph{超実数}（\emph{hyperreal}）と呼ぶ。通常の概念に「超」がついたら、それは${\R*}での解釈であるとする。
+          * ${x \in \mathbb{R}}を定数関数の${\mathcal{U}}-同値類${[\_ \mapsto x]_{\mathcal{U}}}と同一視し、${\R \subseteq \R*}と見做す。
+          * ${\mathbb{R}* \setminus \mathbb{R}}の元を\emph{超準元}（\emph{nonstandard element}）と呼ぶ。
+          * ${\mathbb{R}}の元を\emph{標準}元とよぶ。
+          * ${\omega \defeq [\mathrm{id}]_{\mathcal{U}}}とおく。
+        }
+      >
+      +remark<
+        +p{${\omega}は集合論においては最小の無限順序数を指すが、超準解析の分野では別の意味になる。本セミナーでは上の定義は本節においてのみ用い、他の文脈では常に最小の無限順序数を指すものとする。}
+      >
+      +p{Łośの定理から直ちに次が従う：}
+      +theorem?*?:({移行原理（transfer principle）})<
+        +p{任意の${\mathcal{L}(\mathbb{R})}-論理式${\varphi}について、以下が成り立つ：}
+        +eqn-notag(${\R \models \varphi \iff \R* \models \varphi.});
+      >
+      +cor<+p{${\R*}は順序体を成す。}>
+      +p{
+        このような構成をして何が嬉しいのか？まず上でおもむろに定めた${\omega}は、実はどんな「実数」よりも大きな「\emph{無限大}」の実数となっている：
+      }
+      +lemma<+p{任意の実数${x \in \R}について、${x < \omega}。}>
+      +proof<
+        +p{実数${x}を任意に固定する。Łośの定理より次が示せればよい：}
+        +eqn-notag(${
+          \Set{i \in \mathbb{N}}{[x]_i < \omega_i} \in \mathcal{U}.
+        });
+        +p{しかし、ここで${[x]_i}は定数関数${x}であり、${\omega = \mathrm{id}}であったから、上は次を示せということである：}
+        +eqn-notag(${
+          \Set{i \in \mathbb{N}}{x < i} \in \mathcal{U}.
+        });
+        +p{ある実数以下の自然数は有限個しかないので、明らかに左辺の集合の補集合は有限集合である。${\mathcal{U}}は補有限フィルターの拡張であったから、当然これは${\mathcal{U}}の元であり、証明が完了した。}
+      >
+      +p{${\R*}は体を成すので、${\omega}の逆元も存在する。期待される通り、これはある意味で「無限小」になっている：}
+      +cor<+p{${\epsilon \defeq \omega^{-1} \in \mathbb{R*}}は任意の正実数${0 < x \in \R}に対して${\epsilon < x}を満たす。}>
+      +exercise<+p{これを示せ。}>
+      +p{これはかなり無限大っぽいので、そう名付けることにして、併せて無限小についても定める。}
+      +defn<
+        +p{}
+        +enumerate{
+          * 任意の実数${r \in \R}について${\pabs{x} > r}となるような超実数${x \in \R*}を\emph{無限大超実数}（\emph{infinite hyperreal})と呼ぶ。
+          * 無限大でない超実数のことを\emph{有限超実数}と呼び、その全体を${\bar{\R}}と表す。
+          * 任意の正の実数${x \in \R}について${\pabs{z} < x}となる${z \in \R*}を\emph{無限小超実数}（\emph{infinitesimal hyperreal}）と呼ぶ。
+          * 超実数${x, y \in \R*}が\emph{無限に近い}（記号：${x \approx y}）とは、${x - y}が無限小であることをいう。
+          * ${x}の\emph{単子}（\emph{monad}, 記号：${\mu(x)}）を${x}に無限に近い超実数全体とする。すなわち、${\Set{y \in \R*}{x \approx y}}。特に、無限小元の全体は${\mu(0)}となる。
+          * ${x}の\emph{銀河}（\emph{galaxy}, 記号：${G(x)}）を${x}と有限の距離にある超実数体全体とする。すなわち、
+            \eqn-notag(${G(x) \defeq \Set{ y \in \R*}{\exists r \in \R \mhquad \pabs{x - y} < r}.});
+
+        }
+      >
+      +p{${\R*}は体を成すので、${\omega}の逆元も存在する。これは無限小になっている：}
+      +cor<+p{${\epsilon \defeq \omega^{-1} \in \mathbb{R*}}は無限小超実数である。}>
+      +exercise<+p{これを示せ。}>
+
+      +lemma<+p{${\approx}は${\R*}上の同値関係である}>
+      +exercise<+p{示せ。}>
+
+      +p{さて、今後実数に関する論理式を書いたときに、いちいち${\R \models}とか${\R* \models}とか書くのは面倒である。そこで、以下の略記法を導入する：}
+      +notation<
+        +p{}
+        +enumerate{
+          * ${f}が${\R}上${\mathcal{L}}-論理式で定義可能な関数の時、${f}の${\R*}上での解釈を${f*}と書く。
+          * ${P}が${\R}上${\mathcal{L}}-論理式で定義可能な述語の時、${P}の${\R*}上での解釈を${P*}と書く。
+          * ${\varphi}を${\L(\R)}-論理式とするとき、${\varphi}に現れる関数・述語記号をそれぞれ${\R*}上での${\ast}-付きの解釈に置き換えた論理式を${\varphi*}と書く。
+          * ${\ast}-つきでない記号は${\R}上での解釈と見做す。
+        }
+      >
+      +p{この略記法を使えば、移行原理は次のように書き直せる：}
+      +theorem?*?:({移行原理})<+p{
+        ${\varphi}を${\L(\R)}-論理式とすると次が成立：
+        \eqn-notag(${\varphi \iff \varphi*});
+      }>
+
+      +p{
+        本当に記号を書き換えただけだが、この重要な帰結として、連続性や微分可能性などの命題を示す際に、いったん${\varphi*}に持ち上げて無限大・無限小の超実数を使って議論をする、といったことができるようになる。
+      }
+      +p{例として、次の特徴付けが成り立つ：}
+      +lemma?*?:({連続性の超準的特徴付け})<
+        +p{関数${f: \R \to \R}と実数${x \in \R}について次は同値：}
+        +enumerate{
+          * ${f}は${x}で連続
+          * ${\forall y \in \R*\mhquad x \approx y \implies f*(x) \approx f*(y)}.
+        }
+      >
+      +p{入力が無限に近いなら出力も無限に近い、というのが連続性の気持ちだったことを思うと、これはかなり直感的である。}
+      +p{では連続性の特徴付けを証明しよう。}
+      +proof?:({連続性の超準的特徴付けの証明})<
+        +p{
+          ${(\implies)}: ${x \approx y}となる${y}を固定する。示すべきことは、${f(x) \approx f(y)}であり、特に任意の標準正実数${\epsilon > 0}について${\pabs{f(x) - f(y)} < \epsilon}となることが示せればよい。
+          そこで、任意に標準正実数${\epsilon > 0}をとる。すると、連続性から以下を満たす標準正実数${\delta > 0}が存在する：
+          \eqn-notag(${
+            \forall z \in \R \mhquad \pB{\pabs{x - z} < \delta \implies \pabs{f(x) - f(z)} < \epsilon}.
+          });
+          すると移行原理：
+          \eqn-notag(${
+            \forall z \in \R* \mhquad \pB{\pabs{x - z} < \delta \implies \pabs{f(x) - f(z)} < \epsilon}.
+          });
+          ${d = \pabs{x - y}}とおけば、${\delta}が標準実数であることと${x \approx y}より${d < \delta}なので、${\pabs{f(x) - f(y)} < \epsilon}が従う。
+        }
+        +p{
+          ${(\Longleftarrow)}: 対偶を示す。つまり、${f}が連続でないとして、${x \approx y}だが${f(x) \napprox f(y)}となる${y}を探そう。
+          仮定より、${\epsilon > 0}がとれて、以下が成立する：
+          \eqn-notag(${
+            \forall \delta \in \R_{>0} \exists y \in \R
+              \mhquad [\pabs{x - y} < \delta \land \pabs{f(x) - f(y)} \geq \epsilon].
+          });
+          すると移行原理より：
+          \eqn-notag(${
+            \forall \delta \in \R*_{>0} \exists y \in \R*
+              \mhquad [\pabs{x - y} < \delta \land \pabs{f(x) - f(y)} \geq \epsilon].
+          });
+          そこで、今特に上を${\delta \defeq \omega^{-1}}に適用すれば、${y \in \R*}で${\pabs{x - y} < \omega^{-1}}だが、${\pabs{f(x) - f(y)} \geq \epsilon}となるような${y}が取れる。
+          このとき、${\omega^{-1}}は無限小なので${x \approx y}だが、${\epsilon}は正の標準実数なので${f(x) \napprox f(y)}である。
+        }
+      >
+      +p{他にも微分可能性や、超有限和を使った積分の定式化なども可能である。}
+      +p{
+        また、今回は言語を実関数などをドンドン増やして拡張する形をとったが、実数と実関数などを含む十分大きな集合論の宇宙の切片${H(\kappa)}や${V_\kappa}などの超冪をとれば、言語は${\mathcal{L}_{\in}}だけで必要なものが全部入っている状況がつくれる。また、実数に限らず興味の対象である位相空間などを含むように取れば、そうした空間の超準的な取り扱いも可能であり、上で定義したモナドなどを一般化して、移行原理が成り立つ形で超準位相空間論を展開することも可能である。
+      }
+      +p{
+        また、更に${\mathcal{U}}がよい組合せ論的な性質を持つように取った上で、コンパクト性定理をつかってこうした${V}の切片で成り立つ公理系を貼り合わせて、公理的に超準解析を行うアプローチも存在する。Keislerの教科書\cite[`Keisler:2007`];などは前半にこのアプローチを取り、後半でモデル論をしている。こうした公理系で最も有名なのはEdward Nelson\footnote{Nelsonは不思議な人で、数理論理学、とくに超準解析と算術の部分体系の研究で大きな仕事がある一方、数学の哲学者としてはペアノ算術${\mathrm{PA}}は矛盾するということを強く信じていた\emph{厳格有限主義}（\emph{ultrafinitism}）の主要な論客の一人でもあった。厳格有限主義というのは数学の哲学の一つの立場であり、たとえば、自然数上の冪関数の停止性は、その停止ステップ数の見積りにどうしても冪関数じたいが現れるため循環論法で、実は自然数上全域で定義されないかもしれない、という主張などがある。数学の哲学は数理論理学的な手法を用いて数学の在り方を論じる哲学の一分野であり、数理論理学と密接に関係はするし、Nelsonのように両方をバリバリに研究している研究者もいるが基本的に別分野である。こうした立場からか、超準解析の超有限性を使うことで無限の対象を回避して確率論を展開する、Radically Elementary Probability Theory\cite[`Nelson:Radical`];なども提唱している。超準解析に必要な公理系の強さは${\mathrm{PA}}の比ではないと思うのだが、どう折り合いをつけていたのかはよくわからない。学問的には誠実な人で、一度${\mathrm{PA}}の矛盾を証明したと発表したが、Terence Taoに証明のギャップを指摘され撤回している。}の定式化した\emph{内的集合論}（Internal Set Theory\; IST）\cite[`Nelson:1977`];である。これは${\ZFC}の保存拡大になっているが、超準的な集合と標準的な集合が共存する理論で、「標準元である」ことを表す述語記号「${\st}」を語彙として持ち、形式化された移行原理や他の飽和原理などを公理として持つ。
+      }
+    >);
 
     +subsection{Löwenheim–Skolemの定理}<
       +p{
@@ -1311,6 +1445,7 @@ document (|
   +section{参考文献}<
     +p{
       第\ref(`chap:syntax`);節で触れた証明論的な話題については、\cite[`古森・小野:2010`; `戸次:2012`];を参考にした。第\ref(`chap:semantics`);、\ref(`chap:models`);節で紹介した意味論的な話題は\cite[`新井:2011`; `江田:2010`; `愛知非古典論理`];に基づいている。また、コンパクト性定理からの任意濃度の理論に対する完全性定理の証明についてはMathoverflowのKukiełaの回答\cite[`Kukieła:2010`];を直接的に参考にした。
+      超準解析については、モデル論的なアプローチは\cite[`江田:2010`];に簡単な概要があり、Keisler\cite[`Keisler:2007`];は公理論的なアプローチの踏み込んだ教科書である。また、執筆にあたって\@functional_yy氏の非公開のノート\cite[`ゆいし:超準解析`];も参考にした。
       第\ref(`chap:incomp`);節の不完全性定理や真理定義不可能性定理については、\cite[`デデキント`; `林八杉:2006`; `渕野:2016`; `菊池:2014`; `照井:2015`; `フランセーン:2011`];が詳しい。特に、今回紹介したWoodinによる第二不完全性定理の意味論的な証明は渕野\cite[`渕野:2016`; `デデキント`];を参考にしている。
     } 
     +p{}

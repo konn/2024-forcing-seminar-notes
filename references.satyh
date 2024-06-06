@@ -43,7 +43,7 @@ let-inline \url x = {\href(x){\code(x);}}
 let bibs = [
   (`Hamkins:2012`,
     WildCard({
-      J. D. Hamkins and D. E. Seabold, "Well-founded Boolean ultrapowers as large cardinal embeddings", 2012. URL: 
+      J. D. Hamkins and D. E. Seabold, “Well-founded Boolean ultrapowers as large cardinal embeddings”, 2012. URL: 
         \href(`https://arxiv.org/abs/1206.6075`){\code(`https://arxiv.org/abs/1206.6075`);}.}
     )
   );
@@ -55,6 +55,16 @@ let bibs = [
       year = `2010`;
       note = Some `ISBN: 978-4-535-78556-4`;
       month = Some `6`;
+    |)
+  );
+  (`Nelson:Radical`, 
+    Book(| default-book with
+      author = [`Edward Nelson`];
+      title = `Radically Elementary Probability Theory`;
+      publisher = `Princeton University Press`;
+      year = `1987`;
+      volume = Some(`117`);
+      note = Some `ISBN: 0-691-08474-2`;
     |)
   );
   (`戸次:2012`, 
@@ -120,6 +130,16 @@ let bibs = [
       note = Some `ISBN: 978-4-8429-1433-6`;
     |)
   );
+  (`Keisler:2007`,
+    WildCard {
+      H. Jerome Keisler, “Foundations of Infinitesimal Caculus”, 2007, URL: \url(`http://www.math.wisc.edu/~keisler/foundations.html`);
+    }
+  );
+  (`ゆいし:超準解析`,
+    WildCard {
+      functional_yy, “超準解析”, 2018, unpublished.
+    }
+  );
   (`デデキント`,
     Book (|  default-book with
       author = [`リヒャルト・デデキント`; `渕野昌＝訳・解説`];
@@ -148,7 +168,7 @@ let bibs = [
     |)
   );
   (`alg-d:gch`,
-    WildCard({\code(`alg-d`);, "一般連続体仮説 : 選択公理 \| 壱大整域". \url(`https://alg-d.com/math/ac/gch.html`);})
+    WildCard({\code(`alg-d`);, “一般連続体仮説 : 選択公理 \| 壱大整域”. \url(`https://alg-d.com/math/ac/gch.html`);})
   );
   ( `Woodin:2017`,
     Article
@@ -187,10 +207,22 @@ let bibs = [
       |)
   );
   (`渕野:2016`,
-      WildCard({渕野昌, "Woodin の不完全性定理の証明". \url(`https://fuchino.ddo.jp/notes/woodin-incmpl.pdf`);})
+      WildCard({渕野昌, “Woodin の不完全性定理の証明”. \url(`https://fuchino.ddo.jp/notes/woodin-incmpl.pdf`);})
   );
   (`Kukieła:2010`,
-      WildCard({Michał Kukieła, an answer to "In model theory, does compactness easily imply completeness?", 2010. \url(`https://mathoverflow.net/a/12908`);})
+      WildCard({Michał Kukieła, an answer to “In model theory, does compactness easily imply completeness?”, 2010. \url(`https://mathoverflow.net/a/12908`);})
+  );
+  ( `Nelson:1977`,
+    Article
+    (| default-article with
+      author = [`Edward Nelson`]
+      ; title = `Internal Set Theory: A New Approach to Nonstandard Analysis`
+      ; journal = `Bulletin of the American Mathematical Society`
+      ; pages = (`1165`, `1198`)
+      ; year = `1977`
+      ; volume = Some `83`
+      ; number = Some `6`
+    |)
   )
 ]
 
