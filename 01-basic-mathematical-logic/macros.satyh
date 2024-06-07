@@ -1,0 +1,71 @@
+@import: ../common/macros
+
+let-math \E = ${𝖤}
+let-math \bold-in = 
+  text-in-math MathRel 
+    (fun ctx -> 
+      ( let sz = get-font-size ctx in
+        let cl = get-text-color ctx in
+        let (w,h,d) = get-natural-metrics (read-inline ctx {${\in}}) in
+        let newh = h -' d *' 0.5 in
+        let thick = 1pt in
+        let neww = w *' 0.75 in
+        inline-graphics w h d
+            (fun (x, y) ->
+              [ draw-text (x, y) (read-inline (ctx |> set-text-color Colors.white) {${\in}})
+              ; stroke thick cl
+                (Gr.line (x, y +' newh *' .5) (x +' neww, y +' newh *' .5))
+              ; stroke thick cl
+                  (start-path (x +' neww, y +' newh)
+                  |> line-to (x +' neww *' .5, y +' newh)
+                  |> bezier-to
+                      (x, y +' newh)
+                      (x, y +' newh *' .75)
+                      (x, y +' newh *' .5)
+                  |> bezier-to
+                      (x, y +' newh *' .25)
+                      (x, y)
+                      (x +' neww *' .5, y)
+                  |> line-to (x +' neww, y)
+                  |> terminate-path)
+              ]
+            )
+      )
+    )
+let-math \bold-plus = 
+  text-in-math MathBin
+    (fun ctx -> 
+      ( let sz = get-font-size ctx in
+        let cl = get-text-color ctx in
+        let (w,h,d) = get-natural-metrics (read-inline ctx {${+}}) in
+        let newh = h -' d *' .5 in
+        let thick = 1.25pt in
+        let neww = w in
+        inline-graphics w h d
+            (fun (x, y) ->
+              [ draw-text (x, y) (read-inline (ctx |> set-text-color Colors.white) {${+}})
+              ; stroke thick cl
+                (Gr.line (x, y +' h *' .5) (x +' neww, y +' h *' .5))
+              ; stroke thick cl
+                (Gr.line (x +' w *' .5, y -' d) (x +' neww *' .5, y +' h))
+              ]
+            )
+      )
+    )
+let-math \bold-dot = 
+  text-in-math MathBin
+    (fun ctx -> 
+      ( let sz = get-font-size ctx in
+        let cl = get-text-color ctx in
+        let (w,h,d) = get-natural-metrics (read-inline ctx {${\cdot}}) in
+        let newh = h in
+        let neww = w in
+        inline-graphics w h d
+            (fun (x, y) ->
+              [ draw-text (x, y) (read-inline (ctx |> set-text-color Colors.white) {${\cdot}})
+              ; fill cl
+                (Gr.circle (x +' neww *' .5, y +' newh *' .5) 1.5pt)
+              ]
+            )
+      )
+    )

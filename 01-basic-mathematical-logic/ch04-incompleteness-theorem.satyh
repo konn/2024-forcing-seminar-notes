@@ -1,0 +1,318 @@
+@require: class-jlreq/jlreq
+@require: math
+@require: enumitem/enumitem
+@require: azmath/azmath
+@require: bibyfi/bibyfi
+@require: fss/fss
+@require: ruby/ruby
+@require: latexcmds/latexcmds
+@require: color
+@import: macros
+
+let incompleteness-theorem = '< 
+  +section?:(`chap:incomp`){不完全性定理とTarskiの真理定義不可能性定理}<
+    +p{
+      本節では、数理論理学の基本定理の一つであり、強制法による独立性証明の拠って立つところともいえる\emph{Gödelの第二不完全性定理}と、第零不完全性定理とも呼ばれることのある\emph{Tarskiの真理定義不可能性定理}を扱う。
+      Tarskiの定理については強制法の基礎理論というよりは、強制法の理論を構築し使っていく上で、メタレベルとオブジェクトレベルの区別が重要であることを示唆する定理として理解できる。
+    }
+    +p{
+      不完全性定理については、そのキャッチーさからさまざまな良書がおおいが、一般形を示すには非常に慎重な証明が要されるため、分量が長くなりがちである。そこで本章では、対象を${\ZF}を含むような理論のみに限定し、完全性定理を適用して意味論的な議論を経由することで簡潔な証明を与えることを目標とする。強制法を用いる上では、これがあれば十分である。
+    }
+    +subsection{予備的注意：メタとオブジェクト、二つの論理式、二つの${\ZFC}}<
+      +pn{\emph{TODO：以下二節でしているメタとオブジェクトに関する注意を、ここでマトメてやる}}
+    >
+    +subsection({Tarskiの真理定義不可能性定理})(
+      let-math \Tr = ${\mathrm{Tr}} 
+      in let-math \PA = ${\mathrm{PA}} 
+      in '<
+      +p{不完全性定理の証明を見る前に、そのエッセンスを感じることのできる次のTarskiによる\emph{真理定義不可能性定理}について見てゆく。Tarskiの定理はしばしば\emph{第零不完全性定理}と呼ばれることもある重要な結果である：}
+      +theorem?:(`thm:Tarski-Truth`)?:({Tarskiの真理定義不可能性定理})<
+        +p{
+          ${T}をペアノ算術${\mathrm{PA}}を含む再帰的で無矛盾な理論とする。このとき、${T}からは${T}自身の真理述語${\Tr_T(x)}を定義できない。即ち、任意の${\varphi}について次を満たすような単一の論理式${\Tr_T(x)}は存在しない：
+          \eqn-notag(${
+            T \proves \mathrm{Tr}_T(\code{\varphi}) \liff \varphi.
+          });
+        }
+      >
+      +p{不完全性定理と同様、この定理の証明にはつぎの\emph{対角化定理}が本質的な役割を果す：}
+      +lemma?:(`lem:diag`)?:({対角化定理または不動点定理})<
+        +p{${T}を${\PA}を含む理論とする。このとき、任意の${\Phi}-論理式${\Phi}に対して、閉論理式${\delta}で以下が成り立つものが存在する：}
+        +eqn-notag(${
+          T \proves \delta \liff \Phi(\code{\delta})
+        });
+      >
+      +p{
+        本来、フルの不完全性定理やTarskiの定理に使おうと思う場合、途中で現れる関数などの原始再帰性（弱い計算可能性）などについて大きな注意を払わなければならない。
+        しかし、我々は専ら${\ZF}を拡張するような理論のみについて考えれば十分なため、${\PA}ではなく\emph{${\ZF}を含む理論に限定し諸々の確認をサボって証明する}ことにする。証明のエッセンス自体は変わらないので、詳細を知りたい場合は参考文献\cite[`渕野:2016`; `菊池:2014`; `照井:2015`];などをあたられたい。
+      }
+      +proof?:({対角化定理の証明})<
+        +p{
+          関数${s: V \times V \to V}を「論理式への変数の代入」に相当するような関数とする：
+          \eqn-notag(${
+            s(a, b) \defeq 
+              \cases!(${
+                |\code{\psi(b)} 
+                | (\text!{if\hquad;} a = \code{\psi(x)}\text!{\hquad; for some unary ${\psi(x)}})
+                |\emptyset|(\text!{otherwise)}
+              |})
+          });
+          ${a}が自由変数を一つだけ持つ論理式のとき、その変数に${b}を代入するわけである。
+        }
+        +p{
+          そこで、新たに一変数の論理式${\gamma(x) \deffml \Phi(s(x, x))}を考える。${s}は言語に関数記号が入っているわけではないが、${\ZF}で定義できる関数であり${T}でも定義できる。特に${z = s(x, y)}に相当する論理式が書けるので、定義による拡張（\ref(`lem:defn-ext`);）により以下のように同値な書き換えができることに注意しよう：
+          \eqn-notag(${
+            \gamma(x) \deffml \forall z \mhquad \pB{z = s(x, x) \to \Phi(z)}
+          });
+          ここで、更に${d \defeq \code{\gamma(x)}}と置くと、${s}の定義から${s(d, d) = \code{\gamma(d)}}となる。
+          これらの論理式は全て書き下せるので${\ZF}の定理であり、${\ZFC \proves s(d, d) = \code{\gamma(d)}}である。
+          よって、これを${\Phi}に代入すれば（等号公理）：
+          \eqn-notag(${
+            \ZF \proves \Phi(s(d, d)) \liff \Phi(\code{\gamma(d)})
+          });
+          を得る。いま、${\gamma(x) \equiv \Phi(s(x, x))}としていたので、${\delta \deffml \gamma(d)}とおけば：
+          \eqn-notag(${
+            T \proves \delta \liff \Phi(\delta)
+          });
+          となり、これが求める${\delta}である。
+        }
+      >
+      +p{これさえ示せれば、Tarskiの定理の証明は簡単である：}
+      +proof?:({\ref(`thm:Tarski-Truth`);の証明})<
+        +p{
+          どのように論理式${\Phi(x)}をとっても、それは真理述語になりえないことを示す。
+          そこで、${\lnot \Phi(x)}に対角化定理を適用すると、次を満たす論理式${\delta}が存在する：
+          \eqn-notag(${
+            T \proves \delta \liff \lnot \Phi(\code{\delta}).
+          });
+          今${T}は無矛盾だとしていたので、${\delta}については${T \nproves \Phi(\code{\delta}) \liff \delta}でなくてはならず、真理述語にならない。
+        }
+      >
+
+      +p{
+        予告したように、強制法では様々な拡張モデル上での「真偽値」${\pSQ{\varphi}_{\mathbb{B}}}を定義する。
+        この「真偽値」は\emph{メタレベルでの帰納法}で構成される。特に、\emph{${V}内部で${\varphi}の関数として存在するのではなく}、${\varphi}ごとに別々の関数として定義され、それを\emph{メタレベルから眺めて同じ記号を使って表している}にすぎない。
+      }
+      +p{
+        これは${V}で定義する方法が見付かっていないのではなく、\emph{原理的に${V}の中で斉一的に定義はできない}というのが、真理定義不可能性定理の教えるところである。
+        なぜなら、${\mathbb{B} = \mathbb{2}}と二値Boole代数をとると、${V^{\mathbb{2}} \cong V}となるので、${\pSQ{\varphi}_{\mathbb{2}} = 1 \iff V \models \varphi}となる。よって、もし${\pSQ{-}_{\mathbb{B}}}が一般に関数として定義できてしまうと、これを使って${\ZFC}の真理述語が定義できてしまうことになり、Tarskiの真理定義不可能性\ref(`thm:Tarski-Truth`);に矛盾する。
+      }
+      +p{
+        このように、強制法を使う上では、定義がオブジェクトレベルなのかメタレベルなのかを明確に区別しないと、容易に矛盾に陥っ（たような気分になっ）てしまうので注意が必要である。
+      }
+    >);
+
+    +subsection{${\ZFC}に対する不完全性定理}<
+      +p{本節の主題は、次のGödelの第二不完全性定理である：}
+      +theorem?*?:({Gödelの第二不完全性定理})<
+        +p{${T}をペアノ算術${\mathrm{PA}}を含む再帰的で無矛盾な理論とする。このとき、${T}からは${\mathrm{Con}(T)}を証明できない。}
+      >
+      +remark<
+        +p{よく通俗的理解では不完全性定理は「理性の限界」を示したという解説のされかたをするが、これは現代の数理論理学を研究する者から見ると些か的外れな理解である。
+        Gödelの不完全性定理が教えるのは、十分に強い理論は無矛盾性の強さによって階層を成す、という事である。階層を成すのであれば、それを分類したくなるのが数学者の性である。Gödelの不完全性定理は、「理性の限界」などというネガティヴな事項を示したのではなく、理論たちの成す豊穣な階層が存在するということを示したポジティヴな定理なのである\raisebox(4pt){\font-style[with-font-size(fun sz -> sz *' 0.5)]{[要出典]}}。
+        }
+      >
+      +p{通常、第二不完全性定理は次の第一不完全性定理を${T}の中で再度定式化することで得られる：}
+      +theorem?*?:({Gödelの第一不完全性定理})<
+        +p{${T}をペアノ算術${\mathrm{PA}}を含む再帰的で無矛盾な理論とすると、${T}からは否定も肯定も証明できない独立命題が存在する。}
+      >
+      +p{これらの定理の偉いところは、メタ理論として十分弱い理論を採用しても証明できるところである。}
+
+      +p{
+        しかし、強制法による集合論的な命題の無矛盾性証明においては${\ZF}の無矛盾性は仮定され、完全性定理から無矛盾性について考える上ではモデルの存在のみを考えればよい。
+        特に、第二不完全性定理を証明するのに、第一不完全性定理の再形式化を考える必要はなく、意味論的な議論により簡略に証明することができる。また、十分強い${\ZF}以上の集合論を考えているため、Gödel数化などの技術的な道具を使ったり、対応の原始再帰性のような細かい条件を気にする必要もなくなる。議論は概ねWoodinによるもの（の渕野\cite[`渕野:2016`];による説明）に従う。
+        我々が目標とするのは、次の定理である：
+      }
+
+      +theorem?*?:({不完全性定理、${\ZF}版})<
+        +p{${T}が${\ZF}を拡張する無矛盾な理論とすると、${T \nproves \Con(T)}である。}
+      >
+      +p{以下、簡単のため${T = \ZFC}とするが、以下では本質的には選択公理を使っておらず、また同じ議論が${\ZF}を含む理論にも適用できる。}
+
+      +p{${\mathrm{PA}}の場合の証明よりは簡潔だが、三重くらいにメタとオブジェクトを往き来するので細部を追っていると迷ってしまう。なので最初に証明の気持ちを標語的に示しておく：}
+
+      +side-line(Colors.gray 0.5)<+font-style[bold]<
+        +enumerate{
+          * ${\Con(\ZFC)}を仮定するとどこからはじめても極小な${\ZFC}のモデル${M}に辿りつく。
+          * 極小性よりそんな${M}の中には${\ZFC}のモデルは一個もいない。
+          * すると完全性定理から${M \models \lnot \Con(\ZFC)}となる。
+          * ${M \models \ZFC}なので、${\ZFC \models \Con(\ZFC)}としてしまうと矛盾！
+        }
+      >>
+
+      +p{では証明に入ろう。${\ZFC}版不完全性定理は、次の補題の系として得られる：}
+      +lemma?:(`lem:incomp-main-goal`)<+p{
+        ${\ZFC \proves \pB{\Con(\ZFC) \to \exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}}
+      }>
+      +proof?:({Proof of Incompleteness Theorem})<
+        +p{
+          ${\ZFC}で作業する。${\ZFC \proves \Con(\ZFC)}とする。すると、上の補題より${\ZFC \proves \pB{\exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}}となる。
+          そこで、そのようなモデル${M \models \ZFC \land \lnot \Con(\ZFC)}を取る。
+          このとき、メタレベルで${\ZFC}からの${\Con(\ZFC)}証明${P}を考えると、${M}は${\ZFC}のモデルであることから、${\code{P}^M \in M}であり、かつ${M \models \pB{\code{P}^M \text!{は${\Con(\ZFC)}の証明}}}となる。
+          よって${M \models \Con(\ZFC)}となるが、これは矛盾である。
+        }
+      >
+
+      +remark<
+        +p{
+          ここで、集合論のモデルにおける自然数や「有限的」な対象の解釈について注意をしておく。
+        }
+        +p{
+          既に見たように、コンパクト性や超積などを用いることで、超準的な自然数や実数を持つようなモデルを創り出すことができた。同様の事は集合論のモデルに対しても適用できる。
+          つまり、集合論の「モデル」があったとすると、このモデルは少なくとも我々の知っていて書き下すことのできるような、\emph{標準的な自然数や有限的な対象は全て持っていて}、メタレベルの有限的な対象をモデル内の対象に対応づけるメタ的な方法がある。
+          しかし、こうしたモデルは\emph{超準的な（標準的でない）自然数や有限対象}を持っているということが有り得る。
+          ${\mathcal{L}_{\in}}-論理式全体や証明図の全体は可算で、特に自然数との間には自然な全単射があるから、こうした超準モデルの内部には、内側から見ると有限だが、外から見れば無限のように見える「変な論理式」「変な証明図」が存在することになる。
+        }
+        +p{
+          特に、${\ZFC}が無矛盾だとすると、上の\ref(`lem:incomp-main-goal`);の与える${M}には、なんと${\ZFC}の矛盾証明が含まれている。つまり、${M}は「自分は${\ZFC}のモデルだが、${\ZFC}は矛盾しているよ」と信じ込んでいる（！！！）モデルである。
+          いいかえれば、この${M}の中には\emph{${\ZFC}の公理から出発して${\bot}に至る「証明図」が存在}する。しかし、今仮定から${\ZFC}は無矛盾なので、この「証明図」は\emph{${M}の中で見ると有限的だが、外の我々から見ると超有限的な対象}になっているヘンな証明図であり、対応する有限的な対象が我々の世界にはない超準元である。
+        }
+        +p{このように、モデルの取り方によってはその世界には「変な自然数」「変な論理式」「変な証明図」が含まれており、有限概念は一致するとは限らない。
+        また、そのモデルでの${\in}-関係は外の${\in}と一致するとは限らないので、標準的な自然数や論理式のコードが集合として外側のものと一致するとも限らないことにも注意しよう。
+        こうした事を念頭に置いて以下の議論に臨まれたい。}
+      >
+
+      +p{
+        以後、（我々の知っている）論理式${\varphi}に対して、その${\ZFC}のモデル内での表現を${\code{\varphi}}と表し、${\varphi}のコードと呼ぶ。いわゆるGödelコード化だと思ってもよいが、${\ZFC}を使っているので、論理式や証明図は列を使って直感的に定式化できる。
+        大事なことは、我々の知っている言語・項・論理式・証明図をそのまま${\ZFC}で素直に定義でき、そのことをちゃんと（めちゃ長いから書かないが）具体的な論理式として書き下すことができる、という点である。
+      }
+
+      +remark?*?:({${\Con(\ZFC)}や${M \models \ZFC}を表す論理式について})<
+        +p{
+          ${\ZFC}は有限公理化不能であり、特に置換公理は無限個の論理式からなる公理スキームである。
+          何が${\ZFC}の公理で何が公理でないか、ということは論理式の形を見れば判断できる。
+          つまり、${\varphi \in \ZFC}を表す一階論理式は${\ZFC}内で定義できる。なので、「${\ZFC}からの矛盾の証明がある」という命題も${\ZFC}内で単一の論理式で記述でき、従ってその否定として${\Con(\ZFC)}も単一の論理式で表現できる。
+        }
+        +p{
+          また、集合${M}に対して${M \models \varphi}も${\ZFC}の内部で定義でき、従って${M \models \ZFC}「任意の${\ZFC}の公理${\varphi}に対して${M \models \varphi}が成立」という形で定式化でき、一つの論理式で表現できる。
+        }
+        +p{
+          ただし、ここでいう「${\ZFC}」はあくまで\emph{モデル内で見た${\ZFC}}であることに注意が必要である。
+          というのも、${\ZFC}は有限公理化不能であり、特に置換公理は無限個の論理式からなる公理スキームである。
+        }
+      >
+
+      +remark<+p{${\ZFC}は有限公理化不能であり、特に置換公理は無限個の論理式からなる公理スキームである。よって、考えるモデルによって${\ZFC}の公理全体の集合というものは変わってくる。そこで、以下の表記法を採用する：}>
+      +notation<
+        +p{
+          以下、${\ZFC}と書いたらメタレベルのホンモノの${\ZFC}の理論をあらわすとし、${M}を集合論のモデルとするとき${(\ZFC)^M}はモデル${M}内での${\ZFC}の理論とする。
+          また、コード${\code{-}}をどこで考えているかを明示する際にも${\code{-}^M}などと書く。
+          モデル${M}で見た${\mathcal{L}_{\in}}-論理式の全体を${\Fml^M}, ${\mathcal{L}_\in}-閉論理式の全体を${\Sent^M}などと書く。
+        }
+      >
+
+      +p{
+        以下、${V}で作業をする。${(M, E) \models \ZFC^V}となるようなモデル${(M, E)}を一個固定する。
+        このとき、${M}の中で更に${\mathcal{L}_{\in}}-構造に見えているような${(m, e)}を取る操作を考える。
+        ${m, e \in M}ではあるが、${(M, E)}は${\mathcal{L}_\in}-構造であることだけしかわかっておらず、${E}と${\in}は一般に一致しないので、この${m, e}をそのまま使っても、${V}でそのまま${\mathcal{L}_\in}-構造になっているとは限らない。
+      }
+      +p{そこで、「モデルの中のモデル」を外側で扱うための道具を考える。}
+      +defn<+p{
+        ${m, e \in M}が${(M, E)\models [(m, e): \mathcal{L}_{\in}\text!{-構造}]}となっているとする。この時、${(m*, e*)}を次で定める：
+        \eqn-notag(${
+          m* \defeq \Set{x \in M}{x \mathrel{E} m}, \mqquad
+          e* \defeq \Set{(x, y) \in m* \times m*}{ (M, E) \models x \mathrel{e} y }
+        });
+      }>
+      +p{これは明らかに${\mathcal{L}_{\in}}-構造である。更に、${V}で見た${(m*, e*)}の真偽と${M}で見た${(m, e)}の真偽が一致することがいえる。特に、このことが${\ZFC}から証明できる：}
+      +lemma?:(`lem:extract-model`)<+p{次が成り立つ：}+align?:(AZMathEquation.notag)(${|
+        \ZFC 
+        |\proves 
+          \forall \pangle{M, E} \models \ZFC^V \mhquad
+          \forall m, e \in M \mhquad
+          \forall \varphi(\bar{x}) \in \Fml^V \mhquad
+          \forall \bar{a} \in M \mhquad
+          || 
+          \mphantom{\proves \forall \pangle{M, E}}
+          \pB{\p{\pangle{M, E} \models \bar{a} \in m} \to \pb{\pB{\pangle{M, E} \models \p{\pangle{m, e} \models \varphi(\bar{a})}} \liff \pangle{m*, e*} \models \varphi(\bar{a})} }.
+      |});>
+      +exercise<+p{上の補題を論理式の複雑性に関する帰納法で示せ。}>
+      +p{上の補題により、入れ子構造になったモデルから外側にモデルを持ってくることができるようになる。}
+      +p{
+        次に重要な概念は、ホンモノの一階論理式${\Phi(x)}の\emph{遺伝性}である。
+        ${\Phi(x)}が遺伝的であるとは、${\Phi(x)}を満たすような構造は（その解釈されている宇宙でみた）${\ZFC}のモデルとなり、${\Phi(M)}を満たす${M}の中で見て${\Phi(m)}を満たす${m \in M}があれば、それを${V}に引き戻してきた${m*}も${\Phi(m*)}を満たす、ということである。
+      }
+      +defn<
+        +p{
+          メタレベルの${\mathcal{L}_{\in}}-論理式${\Phi(x)}が\emph{遺伝的}（\emph{hereditary}）であるとは、次を満たすときである：
+          \align?:(AZMathEquation.notag)(${|
+            \ZFC \proves
+          |\forall M \mhquad \pB{\Phi(M) \to M \models \ZFC}
+          | 
+          | \land \forall M \mhquad \forall m \in M \mhquad
+                \pB{\Phi(M) \to \p{M \models \Phi(m)} \to \Phi(m*)}.
+          |});
+        }
+      >
+      +p{定義と\ref(`lem:extract-model`);より、${M \models \ZFC^V}を含意するような任意の一階の性質${\varphi(x)}は遺伝的であることがわかる。特に、${M \models \ZFC^V}自身は遺伝的である。次の補題は、\emph{遺伝的な性質は内側に潜っていくうちにどこかでずっと偽になるものが見付かる}、換言すれば「\emph{遺伝的な性質を満たすモデルがあれば、その性質について極小なモデルがとれる}」ということ（が個別の${\varphi}ごとに${\ZFC}で証明できること）を述べており、\ref(`lem:incomp-main-goal`);を示す鍵となる。証明には対角化定理を使う。}
+
+      +lemma?:(`lem:incomp-key-lemma`)?:({Woodin})<
+        +p{遺伝的な論理式${\Phi(x)}に対して、次が成り立つ：}
+        +eqn-notag(${
+          \ZFC \proves \forall M \pB{ \Phi(M) \to \pb{
+              \p{\forall m \in M \mhquad \lnot \Phi(m)}
+              \lor
+              \exists m \in M \mhquad
+                  \p{\Phi(m*) \land m* \models \forall n \lnot \Phi(n)}
+            }}.
+        });
+      >
+      +proof(let-math \Th = ${\mathrm{Th}} in '<
+        +p{以下、遺伝的な論理式${\Phi(x)}を一つ固定し、${\Th_\Phi}を以下で定める：
+        \eqn-notag(${
+          \Th_\Phi \defeq \Set{\varphi \in \Sent^V}{\forall N \mhquad \pB{\Phi(N) \to N \models \varphi}}.
+        });
+        対角化定理を使い、以下を満たす閉論理式${\eta_\Phi}を取っておく：
+        \eqn(${
+          \ZFC \proves \eta_\Phi \liff \code{\lnot\eta_\Phi} \in \Th_\Phi.
+          \label!(`eta-diag`)
+        });
+        }
+        +pn{
+          \emph{Claim 1}. ${\ZFC \proves \exists N \mhquad \pB{\Phi(N)} \to \exists N\mhquad \pB{\Phi(N) \land N \models \eta_\Phi}}.
+        }
+        +p{
+          つまり、${\Phi(N)}を満たすようなモデルがあるなら、${\eta_\Phi}も満たすように取り直せる、ということである。
+          このことを見よう。${\Phi(N)}なる${N}を取っておく。${N \models \eta_\Phi}となっていればよい。そこで、${N \models \lnot \eta_\Phi}としよう。すると、${N \models \ZFC^V}と\eqref(`eta-diag`);より${N \models \code{\eta_\Phi} \nin \Th_\Phi}となる。よって、${\Th_{\Phi}}の定義から${N \models \exists n \mhquad [\Phi(n) \land n \models \lnot\eta_{\Phi}]}となる。
+          ${n}に対して\ref(`lem:extract-model`);を使えば${n* \models \lnot \eta_{\Phi}}であり、更に${\Phi}の遺伝性から${\Phi(n*)}が成り立つので、これを改めて${N = n*}とおけば求めるものである。
+        }
+
+        +p{
+          更に、主張のような${N}の中では「至るところ${\Phi}が破れている」あるいは標語的に言えば「${\Phi}について極小である」こともわかる：
+        }
+        +pn{\emph{Claim 2}.
+          ${
+            \ZFC \proves \forall N \mhquad \pB{\Phi(N) \to \p{N \models \eta_\Phi} \to N \models \forall n\mhquad \lnot\Phi(n)}
+          }
+        }
+        +pn{
+          これを見よう。${\Phi(N)}より${N \models \ZFC^V}なので、${N \models \eta_\Phi}および\eqref(`eta-diag`);から${N \models \code{\lnot \eta_{\Phi}} \in \Th_{\Phi}}となる。すると${\Th_{\Phi}}の定義から${N \models \forall n \mhquad (\Phi(n) \to n \models \lnot \eta_{\Phi})}となる。上のClaim 1より、ここで${\Phi(n)}なる${n}があると${n \models \eta_{\Phi}}となってしまうので、そのような${n}は存在しない。よってClaim 2も成立する。
+        }
+
+        +p{
+          以上で\ref(`lem:incomp-key-lemma`);の証明の準備は整った。示すべきことは、、${\Phi(N)}なる${N}をとったときに、${N \models \forall n\mhquad \lnot \Phi(n)}が成り立つか、さもなくばさらに内側の${m \in N}について${m*}の内側で至るところ${\Phi}が破れるものがある、ということである。
+        }
+        +p{
+          ${N \models \forall n\mhquad \lnot \Phi(n)}ならよいので、${N \models \exists n \mhquad \Phi(n)}とする。
+          このとき、Claim 2の対偶から、${N \nmodels \eta_\Phi}となるので、\eqref(`eta-diag`);より${N \models \code{\lnot \eta_\Phi} \nin \Th_{\Phi}}となる。すると、${\Th_\Phi}の定義から、${m \in N}で${N \models \Phi(m) \land m \models \eta_{\Phi}}となるものが取れる。すると${\Phi}の遺伝性と\ref(`lem:extract-model`);より、${m* \models \eta_{\Phi}}かつ${\Phi(m*)}となる。よってClaim 2より${m* \models \forall n \lnot \Phi(n)}となり、これが示したかったことである。
+        }
+      >);
+      +p{さて、残るは\ref(`lem:incomp-main-goal`);、つまり次の証明である：
+        \eqn-notag(${\ZFC \proves \pB{\Con(\ZFC) \to \exists M \models \ZFC \mhquad M \models \lnot\Con(\ZFC)}});
+      }
+      +proof<
+        +p{
+          完全性定理は${\ZFC}の定理なので、${\Con(\ZFC)}とモデル${M \models \ZFC^V}の存在は同値であることに注意する。特に、${M \models \ZFC^V}について${M \models \lnot\Con(\ZFC) \iff M \models \forall n\mhquad n \nmodels \ZFC^V}である。
+          }
+        +p{
+          補題を示すため${M \models \ZFC}を取り、${\ZFC+\lnot \Con(\ZFC)}のモデルを得たい。
+          ここで${\Phi(x) \deffml \p{x \models \ZFC}}とおいて\ref(`lem:incomp-key-lemma`);を適用すると、以下のどちらかが成り立つことがわかる：
+          \enumerate{
+            * ${M \models \forall n \p{n \nmodels \ZFC}}
+            * ${m \in M}で${m* \models \ZFC}かつ${m* \models \forall n \mhquad \p{n \nmodels \ZFC}}となるものが存在する。
+          }
+          上の注意から${(1)}の場合は${M}自身が、${(2)}の場合は${m*}が${\ZFC + \lnot\Con(\ZFC)}を満たすモデルとなる。
+        }
+      >
+    >
+  >
+>

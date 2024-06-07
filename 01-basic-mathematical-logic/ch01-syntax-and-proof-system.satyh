@@ -1,0 +1,404 @@
+@require: class-jlreq/jlreq
+@require: math
+@require: enumitem/enumitem
+@require: azmath/azmath
+@require: bibyfi/bibyfi
+@require: fss/fss
+@require: ruby/ruby
+@require: latexcmds/latexcmds
+@require: color
+@require: derive/derive
+@import: macros
+
+let syntax-and-proof-system = '<+section?:(`chap:syntax`){一階述語論理の構文と証明体系}<
+  +p{
+    \emph{一階述語論理}は、予め固定された言語の下で、与えられた集合の元の間の関係を使って記述できるような性質を扱う論理体系である。現代数学は、一階述語論理の下で適切な強さの理論の集合論\footnote{ここでの「集合論」は${\ZF}に限らない広い意味でのものである。よく、圏論が「集合論に代わる数学の基礎として採用できる」と説明されることがあるが、これはつよつよ圏であるトポスの内部言語を使うことで集合論を代替できる、という話で、${\ZF}とは違う集合論の「実装」を与えることができる、という話である。}を採用すれば全て展開できることが知られている。
+  }
+
+  +p{
+    ${\ZF}集合論は一階述語論理で記述される理論であり、集合論では一階述語論理に関する数理論理学の結果を縦横無尽に使う。本稿ではその必要最小限の事実を振り返っておく。
+    まずは、一階述語論理の構文と意味論について簡単に見ていこう。一階述語論理では議論したい理論ごとに言語${\mathcal{L}}を固定して議論をする。一階述語論理における言語とは、何が項で何が論理式なのかを確定させるのに必要な記号の集まりである。
+  }
+
+  +p{
+    本節のより踏み込んだ内容については、証明論寄りの内容は古森・小野\cite[`古森・小野:2010`];や戸次\cite[`戸次:2012`];を参考にされたい。
+  }
+
+  +defn?:(`formula`)?:({一階述語論理の項と論理式})<
+    +p{
+      一階述語論理の言語${\mathcal{L}}は次の構成要素から成る：
+      \listing{
+        * 関数記号${\bm{f}^{(n_0)}_0, \bm{f}^{(n_1)}_1, \bm{f}^{(n_2)}_2, \ldots \mhquad (n_i \in ℕ)}
+        * 述語記号${\bm{R}^{(m_0)}_0, \bm{R}^{(m_1)}_1, \bm{R}^{(m_2)}_2, \ldots \mhquad (m_i \in ℕ) }
+      }
+      上添え字の${(n_i), (m_i)}は記号の一部ではなく、各記号ごとに割り当てられている自然数であり、\emph{項数}（\emph{arity}）と呼ばれ、${\bm{f}^{(n)}}は${n}-項関数記号、${\bm{R}^{(m)}}は${m}-項述語記号と呼ばれる。
+      特に、${0}-項関数記号は\emph{定数記号}と呼ばれ、メタ変数${\bm{c}_i, \bm{d}_i, \ldots}などで表す。
+
+      一般に、記号の集合は有限とは限らず、任意の無限集合であったり、クラスであったりする場合がある。
+    }
+
+    +pn {
+      一階の言語${\mathcal{L}}について、${\mathcal{L}}-\emph{項}（\emph{${\mathcal{L}}-term}）を以下のように帰納的に定義する：
+      \enumerate{
+        * 定数記号${\bm{c}}は${\mathcal{L}}-項である。
+        * 変数${v}は${\mathcal{L}}-項である。
+        * 関数記号${\bm{f}^{n}}および${\mathcal{L}}-項${\tau_0, \ldots, \tau_{n-1}}に対し、${\bm{f}(\tau_0, \ldots, \tau_{n-1})}は${\mathcal{L}}-項である。
+        * 以上で定まるもののみが${\mathcal{L}}-項である。
+      }
+      最後の「以上で定まるもののみが〜」というのは、計算機科学でいう最小不動点の条件と同じである。以後の帰納的定義では省略する。
+    }
+
+    +pn{
+      一階言語${\mathcal{L}}について、${\mathcal{L}}-\emph{原子論理式}（\emph{atomic ${\mathcal{L}}-formula}）を以下のように帰納的に定義する：
+      \enumerate{
+        * ${\bot}は${\mathcal{L}}-原子論理式である。
+        * ${\tau, \tau'}が${\mathcal{L}}-項のとき、${\tau \mathrel{\bm{=}} \tau'}は${\mathcal{L}}-原子論理式である。
+        * ${\bm{R}}が${m}-項述語記号、${\tau_0, \ldots, \tau_{m-1}}が${\mathcal{L}}-項のとき、${\bm{R}(\tau_0, \ldots, \tau_{m-1})}は${\mathcal{L}}-原子論理式である。
+      }
+    }
+
+    +pn{
+      古典一階述語論理の\emph{${\mathcal{L}}-論理式}（\emph{${\mathcal{L}}}-formula）を以下のように機能的に定義する：
+      \enumerate{
+        * ${\mathcal{L}}-原子論理式は${\mathcal{L}}-論理式である。
+        * ${\varphi, \psi}が${\mathcal{L}}-論理式のとき、${\varphi \to \psi}は${\mathcal{L}}-論理式である。
+        * ${x}が変数記号で${\varphi}が${\mathcal{L}}-論理式のとき、${\forall x \mhquad\varphi}は${\mathcal{L}}-論理式である。
+      }
+      自由変数\footnote{変数が自由とか束縛されているとかはみなさんが知っているやつです。}を持たない論理式を\emph{閉論理式}（\emph{closed formula}）または\emph{文}（\emph{sentence}）と呼ぶ。
+    }
+    +p{言語${\mathcal{L}}について、${\mathcal{L}}-論理式の全体のクラスを${\mathcal{L}}と書くことがある。}
+    +p{
+      ${\to}は右結合とする。つまり、${\varphi \to \psi \to \chi}は${\varphi \to (\psi \to \chi)}の略記として解釈される。
+    }
+  >
+
+  +remark<
+    +p{ここでは、オブジェクトレベルの演算・関係と区別するために、関数・述語記号を太字で表している。本節と次節では暫くこの区別を用いるが、慣れてきたら単に両者を混合して普通の字体で書く。}
+  >
+
+  +remark<
+    +p{
+      いま我々は古典論理だけを考えているので、他の論理結合子・量化子は次のような略記法として導入する：
+      \gather?:(AZMathEquation.notag)(${|
+        \lnot \varphi \deffml \varphi \to \bot, \mqquad \varphi \land \psi \deffml \lnot (\varphi \to \lnot \psi), \mqquad \varphi \lor \psi \deffml (\varphi \to \psi) \to \psi,
+      | \exists x \varphi \deffml \lnot \forall x \lnot \varphi
+      | \exists\! x \varphi \deffml \exists x \mhquad \pB{\varphi \land \forall y \mhquad \pb{\subst{\varphi}![(${x}, ${y})] \to y = x}}
+      |});
+      このようにするのは、今後論理式の複雑性に関する帰納法で色々な証明を回していく際に、場合分けの数は少ないほうが楽だからである。
+    }
+  >
+
+  +p{一階の言語の例として、ここではこれからずっと付き合うことになる集合論の言語${\mathcal{L}_{\in}}や環の言語${\mathcal{L}_\text!({ring})}などを挙げておく：}
+
+  +example?*?:({集合論の言語})<
+    +p{集合論の言語${\mathcal{L}_{\in}}は、二項述語記号${\bold-in^{(2)}}のみを持つ言語である。}
+  >
+
+  +p{
+    え？他の記号は要らないの？和集合とか内包表記とか……と思うかもしれないが、${\ZF}理論は十分強力であり、そうした記号を含む論理式があっても、それを含まない形で書き換えることができる。例えば、${x = A \cup B}は${\forall z \mhquad \pB{z \bold-in x \lrarrow z \bold-in A \lor z \bold-in B}}と書き換えることができる。
+  }
+
+  +example?*?:({環の言語})<
+    +p{単位的環の言語${\mathcal{L}_\text!{ring}}は定数記号${\bm{0}, \bm{1}}、二項関数号${\bold-plus, \bold-dot}を持つ言語である。}
+  >
+
+  +p{無限言語の例としては、体${K}に対して${K}-線型空間の言語がある：}
+
+  +example?*?:({${K}-線型空間の言語})<
+    +p{${K}を体とするとき、${K}-線型空間の言語は以下から成る：}
+    +listing{
+      * 定数記号${\bm{0}}
+      * 二項関数記号${\bold-plus}
+      * ${c \in K}ごとに、一項関数記号${\bm{c} \bold-dot}
+    }
+  >
+
+  +p{
+    以上はあくまで何が式で何が項かという構文を定義しただけである。それらの証明可能性を与えるのが\emph{証明体系}である。
+    一階述語論理には互いに同値な複数の証明体系が知られている。型付き${\lambda}-計算に近い自然演繹${\NK}や、コンビネータ論理に近いヒルベルト流の体系${\HK}、簡潔でわかりやすく証明論などで用いられるシーケント計算${\LK}が代表的である。
+  }
+
+  +p{
+    分析の対象としては${\LK}が洗練されているのだが、導入が簡単であり、強制法で扱う上でも楽なのでここではヒルベルト流の体系${\HK}を証明体系として採用することにする。
+  }
+
+  +defn?*?:({古典一階述語論理の証明体系${\HK}})<
+    +p{
+      定数記号の集合${A, B, C, \ldots}と変数記号の集合${x, y, z, \ldots}が与えられた時、これらから定まる\emph{${\CL}-項}（\emph{${\CL}-term}）を以下で定める：
+      \enumerate{
+        * 特別な定数${\K, \S}は${\CL}-項である。
+        * 定数${A, B, C, \ldots}および変数は${x,y, z, \ldots}は${\CL}-項である。
+        * ${L, M}を${\CL}-項とするとき、${(LM)}は${\CL}-項である。
+      }
+      変数を含まない${\CL}-項を\emph{閉${\CL}-項}と呼び、定数${\K, \S}のみから成る閉項を\emph{結合子}または\emph{コンビネータ}（\emph{combinator}）と呼ぶ。${\CL}-項の括弧は左結合とし、一番外側のものは省略する。つまり、${LM(NO)P}は${(((LM)(NO))P)}の略記である。
+      ${\CL}-項を渡るメタ変数として、${L, M, N, \ldots}などを用いる。
+    }
+    +p{
+      古典一階述語論理のヒルベルト流証明体系${\HK}を定義する。${\HK}-式は${\K}, ${\S}, ${\P}, ${\E_{\mathrm{refl}}}, ${\E_{\mathrm{symm}}}, ${\E_{\mathrm{trans}}}, ${\E_{\mathrm{subs}}}, ${\E_{\mathrm{cong}}}, ${\F}, ${\G}, ${\J}を定数として持つ${\CL}-項${L}と一階述語論理式${\varphi}に対して、${L: \varphi}の形のものである。${L}を主部または証明項、${\varphi}を述部または型と呼ぶ。
+
+      ${\HK}は以下の公理図式を持つ：
+      \listing{
+        * \emph{公理図式}：
+          
+          ** ${\K: P \to Q \to P}
+          ** ${\S: (P \to Q \to R) \to (P \to Q) \to P \to R}
+          ** ${\A: \bot \to P}
+          ** ${\P: ((P \to Q) \to P) \to P}
+          ** ${\E_{\mathrm{refl}}: \forall x\mhquad x = x}
+          ** ${\E_{\mathrm{symm}}: \forall x \forall y\mhquad \pB{x = y \to y = x}}
+          ** ${\E_{\mathrm{trans}}: \forall x \forall y \forall z \mhquad \pB{x = y \to y = z \to x = z}}
+          ** 任意の述語記号${\bm{R}^{(n)}}に対し：
+            \eqn-notag(${\E_{\mathrm{subs}}: \forall x_0 \ldots \forall x_{n-1} \forall y_0 \ldots \forall y_{n-1} \mhquad \pB{x_0 = y_0 \to \ldots \to x_{n-1} = y_{n-1} \to \bm{R}(\bar{x}) \to \bm{R}(\bar{y})}});
+          ** 任意の関数記号${\bm{f}^{(n)}}に対し：
+            \eqn-notag(${\E_{\mathrm{cong}}: \forall x_0 \ldots \forall x_{n-1} \forall y_0 \ldots \forall y_{n-1} \mhquad \pB{x_0 = y_0 \to \ldots \to x_{n-1} = y_{n-1} \to \bm{f}(\bar{x}) = \bm{f}(\bar{y})}});
+
+          ** ${\F: \p{\forall x P} \to \subst{P}![(${x}, ${\tau})]}（ただし${\tau}は${\mathcal{L}}-項）
+          ** ${\G: \forall x \p{P \to Q} \to (P \to \forall x Q)}（ただし変数${x}は${P}に自由に現れない）
+      }
+    }
+  >
+
+  +remark<+p{${\E_{-}}たちは\emph{等号公理}と呼ばれる。我々は論理式の定義に${=}を入れているので、これらが上手く振る舞うことを要請するために必要である。定義に${=}を入れない流儀では、この公理は不要である。}>
+
+  +p{
+    これで${\HK}の公理は定まった。続いて${\HK}における「理論（公理系）」「証明」の概念を形式化しよう：
+  }
+
+  +defn?*?:({${\HK}の証明図})<
+    +p{
+      \enumerate{
+        * ${\HK}における言語${\mathcal{L}}の\emph{公理系}または\emph{理論}${\Gamma}とは、証明項がただ一つの定数のみからなる${\CL}-項で、述部が${\mathcal{L}}-閉論理式であるような${\HK}-項の集合である。
+        * ${\HK}の\emph{証明図}とは、${\HK}-項を頂点とする根つき木であって、全ての枝が葉から根に向かって次の\emph{推論規則}のいずれかに従って形成されているものである。根を「\emph{結論}」、葉を「\emph{仮定}」と呼ぶ：
+          ** \emph{三段論法}\footnote{厳密には、ギリシアのアリストテレス論理学における「三段論法」とは「大前提・小前提・結論」からなる（正しいとは限らない）論法の総称であり、モーダス・ポネンスはその中の妥当な典型例の一つである。だから、本来日本語訳として「三段論法」と呼ぶのは若干間違っており、厳密を期すのなら「前件肯定」と呼ぶべきだといえばそうなのだが、もう習慣として定着しているのでここでもそれに倣う。}（\emph{modus ponens}、${\MP}）：
+            \eqn?:(AZMathEquation.notag)(open Derive in open DeriveDSL in ${
+              \proven!(
+                derive ${(LM): Q}
+                |> byOp {${\MP}}
+                |> from [assume ${L: P \to Q}; assume ${M: P}]
+              )
+            });
+          ** \emph{汎化}（\emph{generalization}）：
+            \eqn?:(AZMathEquation.notag)(open Derive in open DeriveDSL in ${
+              \proven!(
+                derive ${\J M: \forall x P}
+                |> byOp {${\Gen} \quad; （ただし仮定の述部に${x}は自由に現れない）}
+                |> from [assume ${M: P}]
+              )
+            });
+        * 理論${\Gamma}からの証明図は、仮定がすべて${\HK}の公理または${\Gamma}の公理である証明図のことである。
+        * ${\HK}理論${\Gamma}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${\Gamma \proves_{\HK} \varphi}）とは、結論が${\varphi}であるような${\Gamma}からの証明図が存在することである。${\Gamma}から証明可能な閉論理式の全体を、${\Gamma}の\emph{定理}と呼ぶ。
+        * ${\varphi}が${\HK}の\emph{恒真式}（\emph{tautology}、記号${\proves_{\HK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
+        * 理論${T}が\emph{矛盾している}（\emph{inconsistent}）であるとは、${T \proves \bot}が成り立つこと、すなわち${T}から${\bot}への証明図が存在することである。
+          矛盾していない理論を\emph{無矛盾}（\emph{consistent}）であるといい、理論${T}が無矛盾であることを記号${\Con(T)}で表す。。
+        * 理論${T}が\emph{完全}であるとは、任意の閉論理式${\varphi}について${\varphi \in T}または${\lnot \varphi \in T}のいずれかが成り立つことである。
+      }
+    }
+  >
+  +remark<+p{面倒なので、特に使わない場合は${\HK}の証明項を省略することがある。}>
+  +remark<+p{モデル理論では、理論といったら専ら完全な理論を指すことが多い（選択公理で拡大すればいいので）。以下では理論の完全性は仮定しない。}>
+
+  +p{次の結果は重要である：}
+
+  +theorem<+p{${\HK}は無矛盾である。つまり、理論${\emptyset}は無矛盾である。}>
+
+  +p{
+    標準的な証明は、${\HK}のメタ計算として見ることのできるGentzen流シーケント計算${\LK}を導入し、${\LK}-証明可能性と${\HK}-証明可能性の一致を証明してから、${\LK}のカット除去定理を示すことで行われる。
+    今回はそんなことやってる暇はないし、使わないので省略する。
+  }
+  +exercise<+p{おるうぇくんに証明してもらおう！}>
+
+
+  +example?*?:({二重否定除去})<
+    +p{述語論理に立ち入る前に、この証明体系で二重否定除去${\lnot \lnot P \to P}が証明可能であることを見てみよう（幅を取るので、${\lnot P \deffml P \to \bot}の略記法を使う）。以下がその証明図である：
+    }
+    
+    +font-style[FssStyle.with-font-size (fun sz -> sz *' 0.75)]<+eqn-notag(open Derive in open DeriveDSL in ${
+      \proven!(
+        derive ${\S(\K\P)(\S(\K\A)): \lnot \lnot P \to P}
+        |> byOp {${\MP}}
+        |> from 
+            [ derive ${\S(\K\P): (\lnot \lnot P \to (\lnot P \to P) \to P)
+            \to (\lnot \lnot P \to \lnot P \to P)
+            \to \lnot \lnot P
+            \to P}
+              |> byOp {${\MP}}
+              |> from
+                  [ derive ${\S: \gamma} 
+                  ; derive ${\K\P: \lnot\lnot P \to (\lnot P \to P) \to P}
+                    |> byOp {${\MP}}
+                    |> from [derive ${\K: \xi}; derive ${\P: (\lnot P \to P) \to P}]
+                  ]
+            ; derive ${\S(\K\A): \lnot\lnot P \to \lnot P \to P}
+                |> byOp {${\MP}}
+                |> from 
+                    [ derive ${S: \zeta}
+                    ; derive ${\K\A: \lnot P \to \bot \to P}
+                      |> byOp {${\MP}}
+                      |> from [derive ${\K: \delta}; derive ${\A: \bot \to P}]
+                    ]
+            ]
+      )
+    });>
+
+    +p{
+      但し、
+      \gather?:(AZMathEquation.notag)(${
+        | \gamma \deffml (\lnot \lnot P \to (\lnot P \to P) \to P)
+      \to (\lnot \lnot P \to \lnot P \to P)
+      \to \lnot \lnot P
+      \to P
+        | \xi \deffml ((\lnot P \to P) \to P) \to \lnot\lnot P \to (\lnot P \to P) \to P
+        | \zeta \deffml (\lnot P \to \bot \to P) \to (\lnot P \to \bot) \to \lnot P \to P
+        | \delta \deffml  (\bot \to P) \to \lnot P \to \bot \to P
+      |}
+      );
+    }
+  >
+
+  +p{このように、ちょっとした証明でも結構たいへんである。次の演繹定理を使うとある程度証明を楽できる：}
+
+  +theorem?*?:({${\HK}の演繹定理})<
+    +p{${\Gamma}を理論、${\varphi, \psi}を論理式としたとき、${\Gamma, \varphi \proves_{\HK} \psi}ならば${\Gamma \proves_{\HK} \varphi \to \psi}。}
+  >
+
+  +p{この証明には、次の${\lambda}-抽象を使う：}
+
+  +defn<
+    +p{${M}を${\CL}-項、${x}を変数としたとき、${x}を含まない${\CL}-項${(\lambda x. M)}を${M}の構成による帰納法で次のように定義する：}
+    +enumerate{
+      * ${\lambda x. M \deffml \K M}, ただし ${x \nin \FV(M)}
+      * ${\lambda x. x \deffml \S\K\K}
+      * ${\lambda x. \J M \deffml \G(\J(\lambda x. M))} 
+      * ${\lambda x. MN \deffml \S(\lambda x. M)(\lambda x. N)}
+    }
+  >
+
+  +p{演繹定理はより詳しく次のように言い換えられる：}
+
+  +theorem?*?:({${\HK}の演繹定理})<
+    +p{${x}を${\Gamma}に現れない${\CL}-変数、としたとき、}
+    +eqn-notag(${
+      x: \varphi, \Gamma \proves_{\HK} M: \psi 
+      \mquad \implies \mquad \Gamma \proves_{\HK} (\lambda x. M): \varphi \to \psi
+    });
+  >
+  +cor?:(`not-intro`)<+p{${T, \varphi \proves \bot \implies T \proves \lnot \varphi}。}>
+
+  +p{
+    この${\lambda}-抽象は、理論計算機科学で\emph{${\lambda}-計算の項をコンビネータ論理にコンパイルする際に用いられる変換と同じもの}である。${\S, \K}といった項も、コンビネータ論理の基本的な項である。実は、上の二重否定除去の証明図は、最初にHaskellで同じ型を持つプログラムをでっちあげて、コンパイラに部分項の型推論をさせて復元して書いたものである。
+    ${\HK}-項の定義の際に「型」という言葉を使ったように、実は直観主義論理の証明項・主部と、型付き${\lambda}-計算の項・型との間には対応関係があり、これを\emph{Curry–Howard対応}とよぶ。
+    我々は\emph{古典}論理を考えているが、これは${\lambda}-計算に続きの計算を表す\emph{継続}を入れたものに対応しており、実は継続オペレータに型を付けようとすると、古典命題論理のトートロジーであるPeirceの法則${((P \to Q) \to P) \to P)}と一致し、これこそが上の論理公理の${\P}である。Peirceの法則は直観主義論理に付け加えると、ちょうど古典論理と一致する。
+  }
+
+
+  +exercise<
+    +p{上で導入した${\HK}から排中律${P \lor \lnot P}が証明可能であることを示せ。また、逆に${\HK}から${\P}を除いた体系に排中律・二重否定除去の一方だけを追加すると、${\P}が証明できることを示せ。}
+  >
+  +exercise?*?:({強い等号公理})<
+    +p{${\HK}において、次が証明可能であることを示せ：}
+    +enumerate{
+      * ${\tau}を項、${z_0, \ldots, z_{n-1}}を変数とするとき、
+        
+        \eqn-notag(${
+          \forall x_0 \ldots \forall x_{n-1} \forall y_{0} \ldots \forall y_{n-1} \mhquad \pB{x_0 = y_0 \to \ldots \to x_{n-1} = y_{n-1} \to \subst{\tau}![((${\bar{z}}, ${\bar{x}}))] = \subst{\tau}![(${\bar{z}}, ${\bar{y}})]}.
+        });
+      * ${\varphi}を論理式、${z_0, \ldots, z_{n-1}}を変数とするとき、
+        \eqn-notag(${
+          \forall x_0 \ldots \forall x_{n-1} \forall y_0 \ldots \forall y_{n-1} \mhquad \pB{x_0 = y_0 \to \ldots \to x_{n-1} = y_{n-1} \to \subst{\varphi}![(${\bar{z}}, ${\bar{x}})] \to \subst{\varphi}![(${\bar{z}}, ${\bar{y}})]}.
+        });
+    }
+  >
+
+  +p{演繹定理の応用として、次の命題が示せる：}
+
+  +lemma?:(`lem:consis-extend`)<
+    +p{${\varphi}を閉論理式とする。理論${T}が無矛盾なら、${T + \varphi}か${T + \lnot \varphi}の少なくとも一方は無矛盾。}
+  >
+  +proof<
+    +p{
+      まず${T + \varphi}が矛盾した場合を考える。このとき、有限個の${A_0, \ldots, A_{n-1} \in T}があって、${A_0, \ldots, A_{n-1}, \varphi \proves \bot}となる。
+      特に、演繹定理の\ref(`not-intro`);から${A_0, \ldots, A_{n-1} \proves \lnot \varphi}が成り立ち、特に${T \proves \lnot \varphi}である。よって${\lnot \varphi}は${T}の帰結なので、${T + \varphi}は当然無矛盾である。
+    }
+
+    +p{
+      逆に${A_0, \ldots, A_{n-1}, \lnot \varphi \proves \bot}とすると、同様にして${T \proves \lnot \lnot \varphi}が成り立つ。二重否定除去則${\HK}の定理であるので、再び演繹定理から${T \proves \varphi}を得る。
+    }
+  >
+
+  +exercise<+p{上の証明を、${\HK}から${\P}を取り除いた直観主義論理の体系${\mathrm{HJ}}でも通るようにせよ。}>
+
+  +lemma?:(`lem:unprovable`)<
+    +p{${\HK}において、理論${T}から${\varphi}が証明不能なら、${T + \lnot \varphi}は無矛盾。}
+  >
+  +proof<
+    +p{${T}が矛盾していると、公理${\A: \bot \to P}より任意の論理式が証明可能となるので、仮定から${T}は無矛盾であることに注意する。}
+    
+    +p{
+      ${T + \lnot \varphi}が矛盾していたとする。このとき再び\ref(`not-intro`);から${T \proves \lnot\lnot \varphi}である。二重否定除去は${\HK}の定理なので、結局${T \proves \varphi}となり、${T \nproves \varphi}に反する。
+    }
+  >
+
+  +remark<+p{実は、この定理は${\mathrm{HJ}}では成立しない。この事を使って、直観主義論理上で「ゼロではなくはない冪零無限小元」を使って解析学を展開する\emph{滑らか無限小解析}（\emph{smooth infinitesimal analysis}）およびその上に構築された\emph{綜合的微分幾何学}（\emph{synthetic diferrential geometry}）という分野がある。}>
+
+  +exercise?*?:({酒場の法則})<
+    +p{
+      古典一階述語論理のヘンなトートロジーとして有名なものに、一項述語記号${P}をもつ言語で表現できる「酒場の法則」がある：
+      \eqn?:(AZMathEquation.notag)(${
+        \exists z \mhquad[P(z) \to \forall x P(x)]
+      });
+      ${P(x)}を「${x}が呑んだくれている」と読むと、これが「酒場の法則」と呼ばれている理由がわかる：「どんな酒場にも、そいつが呑んだくれているなら、他の客も全員呑んだくれているような客${z}氏がいる」。
+      演繹定理を駆使して、${\HK}でこの法則を示せ。
+    }
+
+    +pn{\font-style[bold]{ヒント：呑んでない人間がいるならそいつを${z}氏とし、全員呑んでいるなら適当に取ればよい。}}
+  >
+
+  +subsection{定義による拡張}<
+    +p{
+      ${\mathcal{L}}-理論${T}が与えられたとき、${T}から存在が証明できる関数があったとしても、${\mathcal{L}}にそれを指す関数記号があるとは限らない。
+      しかし、我々は日常的に「関数」を定義して変数に束縛し、それを以後自由に使う、というようなことをする。これは、理論の\emph{定義による拡張}と呼ばれる操作として正当化される：
+    }
+    +defn?*?:({定義による拡張})<
+      +p{${T}を${\mathcal{L}}-理論とする。}
+      +enumerate{
+        * ${\varphi(x_0, \ldots, x_{n-1})}を ${\mathcal{L}}-論理式とする。この時言語${\mathcal{L}}に含まれない新たな述語記号${\bm{R}^{(n)}}を追加した言語${\mathcal{L}'}を考える。
+          このとき、${\mathcal{L}'}-理論${T'}を、次で定義する：
+          \eqn-notag(${
+            T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \pB{R(\bar{x}) \liff \varphi(\bar{x})} }
+          });
+          これを${\varphi}による${T}の\emph{定義による拡張}（\emph{definitional extension}）と呼ぶ。
+        * ${\varphi(x_0, \ldots, x_{n-1}, y)}を ${\mathcal{L}}-論理式とし、
+          \eqn-notag(${T \proves \forall \bar{x} \mhquad \exists\! y \mhquad \varphi(\bar{x}, y)});
+          が成り立つとする。この時言語${\mathcal{L}}に含まれない新たな関数記号${\bm{f}^{(n)}}を追加した言語${\mathcal{L}'}を考える。
+          このとき、${\mathcal{L}'}-理論${T'}を、次で定義する：
+          \eqn-notag(${
+            T' \defeq T \cup \pb{ \forall \bar{x}\mhquad \forall y\mhquad \pB{f(\bar{x}) = y \liff \varphi(\bar{x}, y)} }
+          });
+          これも${\varphi}による${T}の\emph{定義による拡張}（\emph{definitional extension}）と呼ぶ。
+      }
+    >
+    +p{直感的には、この拡張によって証明能力や表現力は変わらないことが期待される。こういった関係を\emph{保存拡大}という：}
+    +defn<+p{
+      ${\mathcal{L} \subseteq \mathcal{L}'}を言語、${T, T'}をそれぞれ言語${\mathcal{L}, \mathcal{L'}}による理論とする。${T'}が${T}の\emph{保存拡大}（\emph{conservative extension}）であるとは、任意の${\mathcal{L}}-論理式${\varphi}について、次が成り立つことである：
+      \eqn-notag(${
+        T \proves \varphi \iff T' \proves \varphi.
+      });
+    }>
+    +lemma?:(`lem:defn-ext`)<
+      +p{}
+      +enumerate{
+        * 述語記号に関する定義による拡張は保存拡大である。より詳しく、任意の${\mathcal{L}'}-論理式${\varphi}に対して${\mathcal{L}}-論理式${\varphi*}が存在して、
+          \eqn-notag(${
+            T' \proves \varphi \liff \varphi^{*},
+            \mqquad T' \proves \varphi \iff T \proves \varphi^{*}.
+          });
+        * 関数記号に関する定義による拡張は保存拡大である。より詳しく、任意の${\mathcal{L}'}-論理式${\varphi}に対して${\mathcal{L}}-論理式${\varphi*}が存在して、
+          \eqn-notag(${
+            T' \proves \varphi \liff \varphi^{*},
+            \mqquad T' \proves \varphi \iff T \proves \varphi^{*}.
+          });
+      }
+    >
+    +exercise<+p{証明せよ。関数版の場合は、入れ子になった項に注意。}>
+  >
+>>

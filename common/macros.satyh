@@ -15,7 +15,7 @@
 @require: colorbox/colorbox
 @require: fss/fss
 @require: uline/uline
-@import: colors
+@import: ../colors
 
 let output-cross-reference ctx l =
   let ref-txt = 
