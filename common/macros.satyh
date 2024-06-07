@@ -414,6 +414,7 @@ let-math \lt = ${<}
 let-math \gt = ${>}
 let-math \compat = ${\mathrel{∥}}
 let-math \restrict = ${\mathbin{\upharpoonright}}
+let-math \concat = ${\mathbin{\mrquad!(-0.25)\text!{}^⌢\mrquad!(-0.25)}}
 let gr-slash-m thk vlen fsize color =
 
   % 基準となる横の位置 (h) 及び 縦の位置 (v) の座標．

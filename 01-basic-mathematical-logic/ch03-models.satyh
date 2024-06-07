@@ -354,7 +354,7 @@ let models = '<
     +p{つまり、ある体系の無矛盾性を示したければそのモデルを構成すればよいし、モデルが構成できないのならその体系は矛盾していると思ってよい、ということである。強制法はモデルの構成法であり、無矛盾性証明の道具としての有用性はこの系に立脚している。}
   >
 
-  +subsection({超積の応用2：超準解析})(
+  +subsection?:(`sec:nonstandard`)({超積の応用2：超準解析})(
     let-math \R = ${\mathbb{R}} in
     let-math \N = ${\mathbb{N}} in
     let-math \Q = ${\mathbb{Q}} in
@@ -521,7 +521,7 @@ let models = '<
       できる、というのが\emph{\ruby[`レーヴェンハイム`; ` `; `スコーレム`][{Löwenheim};{–};{Skolem}];の定理}である。
       これを述べるために、言語の濃度の概念を定義する：
     }
-    +defn<
+    +defn?:(`lang-card`)<
       +p{言語${\mathcal{L} = \pangle{\bm{R}^{(n_i)}_i, \bm{f}^{(m_j)}_j}_{i \in I, j \in J}}の\emph{濃度}${\pabs{\mathcal{L}}}を${\pabs{\mathcal{L}}\defeq \pabs{I} + \pabs{J} + \aleph_0}と定める。}
     >
     +remark<+p{基数の和・積は単純に${\max}と一致する。論理式は任意有限長あり得るので、記号の数が有限でも最低${\aleph_0}個は論理式があるということに注意しよう。}>

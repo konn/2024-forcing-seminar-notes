@@ -1,6 +1,8 @@
 @import: ../common/macros
 
 let-math \E = ${𝖤}
+let-math \L = ${\mathcal{L}}
+let-math \N = ${\mathbb{N}}
 let-math \bold-in = 
   text-in-math MathRel 
     (fun ctx -> 
