@@ -216,7 +216,7 @@ let boolean-valued-model = '<
 
         \eqn?:(AZMathEquation.notag)(${V^{\mathbb{B}} \models \forall D \in \check{V}\mhquad \pB{D \subseteq \check{\mathbb{B}}: \text!{稠密} \implies \adot{G} \cap \check{D} \neq \emptyset}});
 
-        \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！これこそ正に我々の欲しかったものだ。更に、${V^\mathbb{B}}の中では、自分自身は${\check{V}}と生成超フィルター${G}を含む最小の宇宙${V[G]}になっているように見えている。${V}で${(V, \mathbb{B})}-生成フィルターは取れない（たとえば${V}の全ての実数と異なる実数を付加する強制法を考えよ！）ので、${V[G]}は（${\mathbb{B}}が非自明なら）${V} を真に拡張する宇宙になっていることがわかる。
+        \emph{${V^\mathbb{B}}の中で${\adot{G}}は${(V, \mathbb{B})}-生成超フィルターになっている}のだ\footnote{前節の用語でいえば、${\mathcal{D} \coloneq \Set{D \in V}{D: \mathbb{B}\text!{で稠密}}}と置いたとき、${\adot{G}}は${V^\mathbb{B}}で${\mathcal{D}}-generic、ということだ}！\quad;これこそ正に我々の欲しかったものだ。更に、${V^\mathbb{B}}の中では、自分自身は${\check{V}}と生成超フィルター${G}を含む最小の宇宙${V[G]}になっているように見えている。${V}で${(V, \mathbb{B})}-生成フィルターは取れない（たとえば${V}の全ての実数と異なる実数を付加する強制法を考えよ！）ので、${V[G]}は（${\mathbb{B}}が非自明なら）${V} を真に拡張する宇宙になっていることがわかる。
       }
     >
 
@@ -247,7 +247,7 @@ let boolean-valued-model = '<
         Boole値解析の例を示そう。いま、${(X, \mathcal{B}, \mu)}を${\sigma}-有限な${\sigma}-加法的測度空間とし、${\mathbf{MB} \defeq \mathcal{B}/\null}を測度代数と呼ぶ。ここで、${\null}は${\mu}-測度零集合の成す${\mathcal{B}}上のイデアルである。${\sigma}-有限性から${\null}は${\sigma}-飽和性という特別な性質を満たし、${\mathbf{MB}}が可算和・共通部分などで閉じていることから、${\mathbf{MB}}は完備Boole代数となる。
       }
       +p{
-        これを考えると何が嬉しいのかというと、実は\emph{${V^\mathbf{MB}}における実数${\dot{x} \in \mathbb{R}^{V^{\mathbf{MB}}}}は、${V}における可測関数${\mathcal{F}_{\dot{x}}: X \to \mathbb{R}}と一対一に対応する}のだ\footnote{ここでいう「実数」は集合論者のいう${\seq{\omega}{2}}や${\seq{\omega}{\omega}}の元ではなく、世間一般的な実数、つまり実数体${\mathbb{R}}の元（もっと詳しく言えばDedekind切断）である。}！
+        これを考えると何が嬉しいのかというと、実は\emph{${V^\mathbf{MB}}における実数${\dot{x} \in \mathbb{R}^{V^{\mathbf{MB}}}}は、${V}における可測関数${\mathcal{F}_{\dot{x}}: X \to \mathbb{R}}と一対一に対応する}のだ\footnote{ここでいう「実数」は集合論者のいう${\seq{\omega}{2}}や${\seq{\omega}{\omega}}の元ではなく、世間一般的な実数、つまり実数体${\mathbb{R}}の元（もっと詳しく言えばDedekind切断）である。}！\quad;
         すると、${V^{\mathbf{MB}}}における実数列${\p{\adot{u}_i \in \mathbb{R}}_{i < \omega}}は、${V}での可測関数の列${\p{f_i: X \to \mathbb{R}}_{i < \omega}}に対応する。
         このとき、${V^{\mathbf{MB}}}で${\adot{u}_i \longrightarrow v \mhquad (i \to \infty)}が成り立つことと、${V}で${\mathcal{F}(x)_{u_i} \mathrel{\overset{\text!{a.e.}}{\longrightarrow}} \mathcal{F}(x)_v \mhquad (i \to \infty)}が成り立つことは同値であることがわかる。
       }
