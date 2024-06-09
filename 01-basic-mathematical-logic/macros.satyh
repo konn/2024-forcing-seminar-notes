@@ -1,8 +1,48 @@
+@require: base/list-ext
+@require: derive/derive
 @import: ../common/macros
 
 let-math \E = ${𝖤}
 let-math \L = ${\mathcal{L}}
+let smallcap ctx inp =
+  let go i = 
+        match i with
+        | 97 -> `ᴀ`
+        | 98 -> `ʙ`
+        | 99 -> `ᴄ`
+        | 100 -> `ᴅ`
+        | 101 -> `ᴇ`
+        | 102 -> `ꜰ`
+        | 103 -> `ɢ`
+        | 104 -> `ʜ`
+        | 105 -> `ɪ`
+        | 106 -> `ᴊ`
+        | 107 -> `ᴋ`
+        | 108 -> `ʟ`
+        | 109 -> `ᴍ`
+        | 110 -> `ɴ`
+        | 111 -> `ᴏ`
+        | 112 -> `ᴘ`
+        | 113 -> `ǫ`
+        | 114 -> `ʀ`
+        | 115 -> `ꜱ`
+        | 116 -> `ᴛ`
+        | 117 -> `ᴜ`
+        | 118 -> `ᴠ`
+        | 119 -> `ᴡ`
+        | 120 -> `x`
+        | 121 -> `ʏ`
+        | 122 -> `ᴢ`
+        | i -> string-unexplode [i] in
+  List.fold-left
+    (fun i x -> i ++ read-inline ctx (embed-string (go x))
+    )
+    (read-inline ctx {})
+    (string-explode inp)
+let-inline ctx \textsc inp = smallcap ctx inp
+let-math \mathsc inp = text-in-math MathOrd (fun ctx -> smallcap ctx inp)
 let-math \N = ${\mathbb{N}}
+let-math \Refl = ${}
 let-math \bold-in = 
   text-in-math MathRel 
     (fun ctx -> 
@@ -71,3 +111,22 @@ let-math \bold-dot =
             )
       )
     )
+
+let derive-unary tol tor b-c froml fromr =
+  let w-to-l ctx = get-natural-width (embed-math ctx tol) in
+  let w-to-r ctx = get-natural-width (embed-math ctx tor) in
+  let w-from-l ctx = get-natural-width (embed-math ctx froml) in
+  let w-from-r ctx = get-natural-width (embed-math ctx fromr) in
+  let wl ctx = if w-to-l ctx >' w-from-l ctx then w-to-l ctx else w-from-l ctx in
+  let wr ctx = if w-to-r ctx >' w-from-r ctx then w-to-r ctx else w-from-r ctx in
+  let to-pad-l = text-in-math MathOrd (fun ctx -> inline-skip (wl ctx -' w-to-l ctx)) in
+  let to-pad-r = text-in-math MathOrd (fun ctx -> inline-skip (wr ctx -' w-to-r ctx)) in
+  let from-pad-l = text-in-math MathOrd (fun ctx -> inline-skip (wl ctx -' w-from-l ctx)) in
+  let from-pad-r = text-in-math MathOrd (fun ctx -> inline-skip (wr ctx -' w-from-r ctx)) in
+  let to = ${#to-pad-l #tol \vdash #tor #to-pad-r} in
+  let assump = ${#from-pad-l #froml \vdash #fromr #from-pad-r} in
+  open Derive in
+  open DeriveDSL in
+  ${\proven!(derive to |> byOp {${#b-c}} |> from [assume assump])}
+
+let-math \derive-unary tol tor b-c froml fromr = derive-unary tol tor b-c froml fromr
