@@ -15,6 +15,7 @@
 @require: colorbox/colorbox
 @require: fss/fss
 @require: uline/uline
+@require: code
 @import: ../colors
 
 let output-cross-reference ctx l =
@@ -36,6 +37,7 @@ let-math \ZFC = ${\mathrm{ZFC}}
 let-math \BPI = ${\mathrm{BPI}}
 let-math \ulcorner = math-char MathOpen `⌜`
 let-math \urcorner = math-char MathClose `⌝`
+let-inline \pre a = {\code(a);}
 let-math \code arg = ${\ulcorner #arg \urcorner}
 let-math \Sk = ${\mathop{\mathrm{Sk}}}
 let-math \Con = ${\mathop{\mathrm{Con}}}
