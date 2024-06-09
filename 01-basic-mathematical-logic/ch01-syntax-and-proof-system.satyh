@@ -119,11 +119,9 @@ let syntax-and-proof-system =
     以上はあくまで何が式で何が項かという構文を定義しただけである。それらの証明可能性を与えるのが\emph{証明体系}である。
     一階述語論理には互いに同値な複数の証明体系が知られている。型付き${\lambda}-計算と対応する自然演繹${\NK}や、コンビネータ論理に近いHilbert流の体系${\HK}、簡潔でわかりやすく証明論などで用いられるシーケント計算${\LK}が代表的である。
   }
-  +p{本セミナーでは、証明が扱いやすいシーケント計算${\LK}や、その派生型である片側シーケント計算を標準的な証明体系として扱うことにする。}
-
 
   +subsection{Gentzen流シーケント計算${\LK}}<
-    +p{まず、Gentzen流シーケント計算${\LK}を導入する。}
+    +p{今回は、証明が扱いやすいシーケント計算${\LK}を標準的な証明体系として扱うことにする。}
     +defn<
       +enumerate{
         * ${\LK}の論理公理を以下で定める：
@@ -135,7 +133,7 @@ let syntax-and-proof-system =
               \proven!(derive ${x = y\vdash y = x} |> byOp {${(\mathsc!(`Sym`))}})
               \mqquad
               \proven!(derive ${x = y, y = z\vdash x = z} |> byOp {${(\mathsc!(`Trans`))}})
-            | \proven!(derive ${x_0 = y_0, \ldots, x_{n-1} = y_{n-1} \vdash \mathbf{R}(\bar{x}) \to \mathbf{R}(\bar{y})} |> byOp {${(\mathsc!(`Subs`))}})
+            | \proven!(derive ${x_0 = y_0, \ldots, x_{n-1} = y_{n-1},  \mathbf{R}(\bar{x}) \vdash \mathbf{R}(\bar{y})} |> byOp {${(\mathsc!(`Subs`))}})
             | \proven!(derive ${x_0 = y_0, \ldots, x_{n-1} = y_{n-1} \vdash \mathbf{f}(\bar{x}) = \mathbf{f}(\bar{y})} |> byOp {${(\mathsc!(`Cong`))}})
             |});
           ${(\mathsc!(`Refl`))}から${(\mathsc!(`Cong`))}までの公理を\emph{等号公理}と呼ぶ。
@@ -324,13 +322,6 @@ let syntax-and-proof-system =
     >
     +remark<+p{実は、この定理は${\mathrm{LJ}}では成立しない。この事を使って、直観主義論理上で「ゼロではなくはない冪零無限小元」を使って解析学を展開する\emph{滑らか無限小解析}（\emph{smooth infinitesimal analysis}）およびその上に構築された\emph{綜合的微分幾何学}（\emph{synthetic diferrential geometry}）という分野がある。}>
     +cor?:(`lem:unprovable`)<+p{${\LK}において、${T}から${\varphi}が証明できないなら、${T +  \lnot \varphi}は無矛盾である。}>
-  >
-
-  +subsection{片側シーケントの体系${\mathbf{G}}} <
-    +p{前節では古典一階述語論理の体系${\LK}を導入した。本節では、主に証明論の文脈で用いられる、古典一階述語論理の片側シーケントの体系${\mathbf{G}}を導入する。基本的な考え方としては、${\mathbf{G}}では${\LK}のシーケント${\Gamma \vdash \Delta}のかわりに、論理式を全て右辺に移した${\Delta, \lnot \Gamma}を考えるというものである\footnote{逆に左辺に移して${\Gamma, \lnot \Delta}を考えると、意味論的なタブローから得られるシーケント計算になる。}。}
-    +p{
-      ${\mathbf{G}}は本来${\LK}のカット除去定理の証明の文脈でよく使われるものであるが、利点として、今後Boole値モデルや完全性定理などを証明する上で、確認すべき規則が少なくなるというものがある。あと、おるうぇ君が片側シーケント推しなのでじゃあそうするか〜という事にしました。
-    }
   >
 
   +subsection{定義による拡張}<
