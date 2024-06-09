@@ -248,6 +248,20 @@ let syntax-and-proof-system =
       });
       +p{出来上がった証明図を眺めてみて、${\mathrm{LJ}}では通らないことを確認せよ。}
     >
+    +exercise?*?:({強い等号公理})<
+      +p{${\LK}において、次が証明可能であることを示せ：}
+      +enumerate{
+        * ${\tau}を項、${z_0, \ldots, z_{n-1}}を変数とするとき、
+          
+          \eqn-notag(${
+            \forall x_0 \ldots \forall x_{n-1} \forall y_{0} \ldots \forall y_{n-1} \mhquad \pB{x_0 = y_0 \to \ldots \to x_{n-1} = y_{n-1} \to \subst{\tau}![((${\bar{z}}, ${\bar{x}}))] = \subst{\tau}![(${\bar{z}}, ${\bar{y}})]}.
+          });
+        * ${\varphi}を論理式、${z_0, \ldots, z_{n-1}}を変数とするとき、
+          \eqn-notag(${
+            \forall x_0 \ldots \forall x_{n-1} \forall y_0 \ldots \forall y_{n-1} \mhquad \pB{x_0 = y_0 \to \ldots \to x_{n-1} = y_{n-1} \to \subst{\varphi}![(${\bar{z}}, ${\bar{x}})] \to \subst{\varphi}![(${\bar{z}}, ${\bar{y}})]}.
+          });
+      }
+    >
     +exercise?*?:({酒場の法則})<
       +p{
         古典一階述語論理のヘンなトートロジーとして有名なものに、一項述語記号${P}をもつ言語で表現できる「酒場の法則」がある：
