@@ -48,21 +48,20 @@ let semantics-of-fol = '< +section?:(`chap:semantics`){一階述語論理のTars
       \enumerate{
           * ${\mathcal{M} \nmodels \bot}
           * 項${t_0, t_1}について、 ${\mathcal{M} \models t_0 = t_1 \defs t_0^\mathcal{M} = t_1^\mathcal{M}}
-          * 述語記号${\bm{R}^{(n)}}と項${t_0, \ldots, t_{n-1}}に対し、${\mathcal{M} \models \bm{R}(t_0, \ldots, t_{n-1}) \defs (t_0^\mathcal{M}, \ldots, t_{n_i-1}^\mathcal{M}) \in R^\mathcal{M}}
+          * 述語記号${\bm{R}^{(n)}}と項${t_0, \ldots, t_{n-1}}に対し、${\mathcal{M} \models \bm{R}(t_0, \ldots, t_{n-1}) \defs (t_0^\mathcal{M}, \ldots, t_{n-1}^\mathcal{M}) \in R^\mathcal{M}}
           * ${\varphi, \psi}を${\mathcal{L}}-論理式とするとき、${\mathcal{M} \models \varphi \to \psi \defs \mathcal{M} \nmodels \varphi \lor \mathcal{M} \models \psi}
           * ${\varphi}を${\mathcal{L}}-論理式とするとき、
-            ${\mathcal{M} \models \forall x \varphi
-              \defs} 任意の${a \in \mathcal{M}}について${\mathcal{M} \models \subst{\varphi}![(${x}, ${\bm{c}_a})]
+            ${\mathcal{M} \models \exists x \varphi
+              \defs} ある${a \in \mathcal{M}}があって${\mathcal{M} \models \subst{\varphi}![(${x}, ${\bm{c}_a})]
             }
         }
     }
   >
   +p{${T}を${\mathcal{L}}-理論としたとき、いよいよ${T}-モデルの定義ができる：}
-
   +defn<
     +p{${T}を${\mathcal{L}}-理論、${\mathcal{M}}を${\mathcal{L}}-構造、${\varphi}を${\mathcal{L}}-論理式とする。}
     +listing{
-      * ${\mathcal{M}}が${T}の\emph{モデル}（\emph{model}）である（記号：${\mathcal{M} \models T}）${\defs}任意の${\varphi \in T} \footnote{${\HK}における理論は厳密にはラベルつきの閉論理式の集合であった。以下では、ラベルを無視して論理式だけを見る。}について${\mathcal{M} \models \varphi}。
+      * ${\mathcal{M}}が${T}の\emph{モデル}（\emph{model}）である（記号：${\mathcal{M} \models T}）${\defs}任意の${\varphi \in T}について${\mathcal{M} \models \varphi}。
       * ${\varphi}が${T}で\emph{妥当}（\emph{valid}）である${T \models \varphi} ${\defs} 任意の${\mathcal{L}}-構造${\mathcal{M}}について${\mathcal{M} \models T \implies  \mathcal{M} \models \varphi}。
     }
   >

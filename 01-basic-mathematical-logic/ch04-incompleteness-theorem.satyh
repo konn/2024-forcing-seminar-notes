@@ -360,8 +360,8 @@ let incompleteness-theorem = '<
         }
         +p{
           つまり、${\Phi(N)}を満たすようなモデルがあるなら、${\eta_\Phi}も満たすように取り直せる、ということである。
-          このことを見よう。${\Phi(N)}なる${N}を取っておく。${N \models \eta_\Phi}となっていればよい。そこで、${N \models \lnot \eta_\Phi}としよう。すると、${N \models \ZFC}と\eqref(`eta-diag`);より${N \models \code{\eta_\Phi} \nin \Th_\Phi}となる。よって、${\Th_{\Phi}}の定義から${N \models \exists n \mhquad [\Phi(n) \land n \models \lnot\eta_{\Phi}]}となる。
-          ${n}に対して\ref(`lem:extract-model`);を使えば${n* \models \lnot \eta_{\Phi}}であり、更に${\Phi}の遺伝性から${\Phi(n*)}が成り立つので、これを改めて${N = n*}とおけば求めるものである。
+          このことを見よう。${\Phi(N)}なる${N}を取っておく。${N \models \eta_\Phi}となっていればよい。そこで、${N \models \lnot \eta_\Phi}としよう。すると、${N \models \ZFC}と\eqref(`eta-diag`);より${N \models \code{\lnot \eta_\Phi} \nin \Th_\Phi}となる。よって、${\Th_{\Phi}}の定義から${N \models \exists n \mhquad [\Phi(n) \land n \models \eta_{\Phi}]}となる。
+          ${n}に対して\ref(`lem:extract-model`);を使えば${n* \models \eta_{\Phi}}であり、更に${\Phi}の遺伝性から${\Phi(n*)}が成り立つので、これを改めて${N = n*}とおけば求めるものである。
         }
 
         +p{
@@ -375,9 +375,8 @@ let incompleteness-theorem = '<
         +pn{
           これを見よう。${\Phi(N)}より${N \models \ZFC}なので、${N \models \eta_\Phi}および\eqref(`eta-diag`);から${N \models \code{\lnot \eta_{\Phi}} \in \Th_{\Phi}}となる。すると${\Th_{\Phi}}の定義から${N \models \forall n \mhquad (\Phi(n) \to n \models \lnot \eta_{\Phi})}となる。上のClaim 1より、ここで${\Phi(n)}なる${n}があると${n \models \eta_{\Phi}}となってしまうので、そのような${n}は存在しない。よってClaim 2も成立する。
         }
-
         +p{
-          以上で\ref(`lem:incomp-key-lemma`);の証明の準備は整った。示すべきことは、、${\Phi(N)}なる${N}をとったときに、${N \models \forall n\mhquad \lnot \Phi(n)}が成り立つか、さもなくばさらに内側の${m \in N}について${m*}の内側で至るところ${\Phi}が破れるものがある、ということである。
+          以上で\ref(`lem:incomp-key-lemma`);の証明の準備は整った。示すべきことは、${\Phi(N)}なる${N}をとったときに、${N \models \forall n\mhquad \lnot \Phi(n)}が成り立つか、さもなくばさらに内側の${m \in N}について${m*}が${\Phi}について極小なものがとれる、ということである。
         }
         +p{
           ${N \models \forall n\mhquad \lnot \Phi(n)}ならよいので、${N \models \exists n \mhquad \Phi(n)}とする。

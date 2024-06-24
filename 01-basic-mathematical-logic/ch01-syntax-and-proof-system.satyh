@@ -64,7 +64,7 @@ let syntax-and-proof-system =
       \enumerate{
         * ${\mathcal{L}}-原子論理式は${\mathcal{L}}-論理式である。
         * ${\varphi, \psi}が${\mathcal{L}}-論理式のとき、${\varphi \to \psi}は${\mathcal{L}}-論理式である。
-        * ${x}が変数記号で${\varphi}が${\mathcal{L}}-論理式のとき、${\forall x \mhquad\varphi}は${\mathcal{L}}-論理式である。
+        * ${x}が変数記号で${\varphi}が${\mathcal{L}}-論理式のとき、${\exists x \varphi}は${\mathcal{L}}-論理式である。
       }
       自由変数\footnote{変数が自由とか束縛されているとかはみなさんが知っているやつです。}を持たない論理式を\emph{閉論理式}（\emph{closed formula}）または\emph{文}（\emph{sentence}）と呼ぶ。
     }
@@ -123,6 +123,7 @@ let syntax-and-proof-system =
   +subsection{Gentzen流シーケント計算${\LK}}<
     +p{今回は、証明が扱いやすいシーケント計算${\LK}を標準的な証明体系として扱うことにする。}
     +defn<
+      +p{}
       +enumerate{
         * ${\LK}の論理公理を以下で定める：
             \gather?:(AZMathEquation.notag)(${|
@@ -139,7 +140,7 @@ let syntax-and-proof-system =
           ${(\mathsc!(`Refl`))}から${(\mathsc!(`Cong`))}までの公理を\emph{等号公理}と呼ぶ。
           以下、${\Gamma, \Delta, \Xi, \Theta}を論理式の有限集合を渡るメタ変数とする。
         * ${\Gamma \vdash \Delta}の形の式を\emph{シーケント}または\emph{推件式}（\emph{sequent}）と呼ぶ。
-        * シーケントの集合${T}を\emph{理論}または\emph{公理系}と呼ぶ。
+        * 論理式の集合${T}を\emph{理論}または\emph{公理系}と呼ぶ。
         * ${\LK}の\emph{証明図}とは、推件式を頂点とする辺ラベルつき根つき木であって、全ての枝が次の\emph{推論規則}のいずれかに従って形成されているものである。根を「\emph{結論}」、葉を「\emph{仮定}」と呼ぶ。\linebreak;
 
         \emph{構造規則}：
@@ -165,12 +166,12 @@ let syntax-and-proof-system =
             \derive-unary{\Gamma}{\Delta, \exists x \varphi}{(\exists\mathrm{R})}{\Gamma}{\Delta, \subst{\varphi}![(${x}, ${t})]}
           |});
           但し${(\exists \mathrm{L})}において${x}は${\Gamma, \Delta}に自由変数として現れないものとする。
-        * 理論${T}からの証明図は、仮定がすべて${\LK}の公理または${T}の公理である証明図のことである。
-        * 理論${T}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${T \proves_{\LK} \varphi}）とは、結論が${\varphi}であるような${T}からの証明図が存在することである。${T}から証明可能な閉論理式の全体を、${T}の\emph{定理}と呼ぶ。
+        * 理論${T}からの証明図は、結論の左辺が${T}の有限部分集合であるような証明図である。
+        * 理論${T}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${T \proves_{\LK} \varphi}）とは、${T}の有限集合${\Gamma \Subset T}存在して、結論が${\Gamma \vdash \varphi}であるような証明図が存在することである。${T}から証明可能な閉論理式の全体を、${T}の\emph{定理}と呼ぶ。
         * ${\varphi}が${\LK}の\emph{恒真式}（\emph{tautology}、記号${\proves_{\LK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
-        * 理論${T}が\emph{矛盾している}（\emph{inconsistent}）であるとは、${T \proves \bot}が成り立つこと、すなわち${T}から${\bot}への証明図が存在することである。
+        * 理論${T}が\emph{矛盾している}（\emph{inconsistent}）とは、${T \proves \emptyset}が成り立つこと、すなわち${T}から${\emptyset}への証明図が存在することである。
           矛盾していない理論を\emph{無矛盾}（\emph{consistent}）であるといい、理論${T}が無矛盾であることを記号${\Con(T)}で表す。
-        * 理論${T}が\emph{完全}であるとは、任意の閉論理式${\varphi}について${\varphi \in T}または${\lnot \varphi \in T}のいずれかが成り立つことである。
+        * 理論${T}が\emph{完全}であるとは、任意の閉論理式${\varphi}について${T \proves \varphi}または${T \proves \lnot \varphi}のいずれかが成り立つことである。
       }
     >
     +p{気持ちとしては、${\Gamma \vdash \Delta}は「${\Gamma}が全部成り立つなら、${\Delta}の少なくとも一つが成り立つ」${\bigwedge \Gamma \to \bigvee \Delta}の意味である。}
@@ -242,7 +243,7 @@ let syntax-and-proof-system =
       +eqn-notag(${
         \proven!(derive ${\vdash \varphi \vee \lnot \varphi} |> byOp {${(\mathrm{LEM})}})
         \mqquad
-        \proven!(derive ${((\varphi \to \psi) \to \varphi) \to \varphi} |> byOp {${(\mathrm{P})}})
+        \proven!(derive ${\vdash ((\varphi \to \psi) \to \varphi) \to \varphi} |> byOp {${(\mathrm{P})}})
       });
       +p{出来上がった証明図を眺めてみて、${\mathrm{LJ}}では通らないことを確認せよ。}
     >
@@ -284,7 +285,7 @@ let syntax-and-proof-system =
     >
     +proof<
       +p{
-        まず${T + \varphi, T + \lnot \varphi}が矛盾するとして、${T}が矛盾することを示す。このとき、有限の${\Gamma, \Delta \Subset T}が存在して、
+        ${T + \varphi, T + \lnot \varphi}が共に矛盾するとして、${T}が矛盾することを示す。このとき、有限の${\Gamma, \Delta \Subset T}が存在して、
         \eqn-notag(${
           \proven!(assume ${\varphi, \Gamma \vdash} |> from [assume ${\vdots}])
           \mqquad

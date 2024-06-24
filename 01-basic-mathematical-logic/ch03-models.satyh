@@ -32,7 +32,7 @@ let models = '<
       +p{${\mathcal{N} \subseteq \mathcal{M}}を${\mathcal{L}}-構造とし、${\mathcal{N}}は${\mathcal{M}}の部分構造であるとする。}
       +listing{
         * ${\mathcal{L}(N)}-論理式${\varphi}が${\mathcal{N}}と${\mathcal{M}}の間で\emph{絶対的}（\emph{absolute}、記号：${\mathcal{N} \prec_{\varphi} \mathcal{M}}）${\defs} ${\mathcal{N} \models \varphi} iff ${\mathcal{M} \models \varphi}。
-        * ${\mathcal{L}(N)}-論理式の集合${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
+        * ${\mathcal{L}(N)}-論理式のクラス${\Gamma}について、${\Gamma}が${N}と${M}の間で\emph{絶対的}（${N \prec_\Gamma M}）${\defs}任意の${\varphi \in \Gamma}について${\mathcal{N} \prec_{\varphi} \mathcal{M}}。
         * ${\mathcal{N}}が${\mathcal{M}}の\emph{初等部分構造}（\emph{elementary substructure}）または${\mathcal{M}}が${\mathcal{N}}の\emph{初等拡大}（\emph{elementary extension}）である（記号：${\mathcal{N} \prec \mathcal{M}}）とは、${\mathcal{N} \prec_{\mathcal{L}(\mathcal{N})} \mathcal{M}}のこと。
       }
     >
@@ -167,7 +167,7 @@ let models = '<
       +p{${\varphi}が述語記号のときは定義から明らか。}
 
       +p{
-        ${\varphi \equiv \forall x \psi(x)}のときを考える。帰納法の仮定は、任意の${[u] \in \mathcal{M}}について
+        ${\varphi \equiv \exists x \psi(x)}のときを考える。帰納法の仮定は、任意の${[u] \in \mathcal{M}}について
 
         \eqn-notag(${
           \mathcal{M} \models \psi([u]) \iff \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \in \mathcal{U}
@@ -175,42 +175,53 @@ let models = '<
   
         である。しかるに：
         \alignat?:(AZMathEquation.notag)(2)(${|
-          \mathcal{M} \models \forall x \psi(x)
-            | \iff \forall [u] \in \mathcal{M} \mhquad \mathcal{M} \models \varphi([u]) | \mquad | (\text!{${\models}の定義})
-        | | \iff \forall [u] \in \mathcal{M} \mhquad  \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \in \mathcal{U} |  | (\text!{帰納法の仮定}) 
-        || \iff \Set{i \in I}{ \forall [u] \in \mathcal{M}\mhquad \mathcal{M}_i \models \psi(u(i))} \in \mathcal{U} || (\ast)
-        || \iff \Set{i \in I}{ \mathcal{M}_i \models \forall x \psi(x)} \in \mathcal{U} | | (\text!{各${M_i \neq \emptyset}、${\mathcal{M}_i \models \forall}の定義より})
+          \mathcal{M} \models \exists x \psi(x)
+            | \iff \exists [u] \in \mathcal{M} \mhquad \mathcal{M} \models \varphi([u]) | \mquad | (\text!{${\models}の定義})
+        | | \iff \exists [u] \in \mathcal{M} \mhquad  \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \in \mathcal{U} |  | (\text!{帰納法の仮定}) 
+        || \iff \Set{i \in I}{ \exists u_i \in \mathcal{M}_i\mhquad \mathcal{M}_i \models \psi(u_i)} \in \mathcal{U} || (\ast)
+        || \iff \Set{i \in I}{ \mathcal{M}_i \models \exists x \psi(x)} \in \mathcal{U} | | (\text!{各${M_i \neq \emptyset}、${\mathcal{M}_i \models \exists}の定義より})
         |});
         ${(\ast)}の部分に詳しい説明が必要だろう。
         }
         +p{
-          ${(\Longleftarrow)}の向き：定義より、
+          ${(\Longleftarrow)}の向きは簡単である。${J \defeq \Set{i \in I}{ \exists u_i \mhquad \mathcal{M}_i \models \psi(u_i)}}とおいて、${u \in \prod_i \mathcal{M}_i} を次で定めよう：
           \eqn-notag(${
-            \Set{i \in I}{ \forall [u] \in \mathcal{M}\mhquad \mathcal{M}_i \models \psi(u(i))} = \bigcap_{[v] \in \mathcal{M}} \Set{i \in I}{ \mathcal{M}_i \models \psi(v(i))} 
+            u(i) \defeq
+            \cases!(${|u_i | (i \in J\text!{ のとき、その証拠となる} u_i) 
+                      | \text!{適当な} \mathcal{M}_i \text!{の元} |(\text!{otherwise})|})
           });
-          である。いま、任意の${[u] \in \mathcal{M}}について
+          われわれは選択公理を認めているので、このような${u}は常に取れる。このとき、${[u]_{\mathcal{U}}}を考えれば、
           \eqn-notag(${
-            \mathcal{U} \ni \bigcap_{[v] \in \mathcal{M}} \Set{i \in I}{ \mathcal{M}_i \models \psi(v(i))}  \subseteq \Set{i \in I}{ \mathcal{M}_i \models \psi(u(i))} 
+            \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))}
+            \supseteq S \in \mathcal{U}
           });
-          であり、${\mathcal{U}}はフィルター、特に上に閉じているから、${\Set{i \in I}{ \mathcal{M}_i \models \psi(u(i))} \in \mathcal{U}}を得る。
+          であり、${\mathcal{U}}が上に閉じていることから${\Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \in \mathcal{U}}である。
         }
       +p{
-        ${(\implies)}の向き：ここで超フィルターであることを使う。仮に、
-        \eqn-notag(${\Set{i \in I}{ \forall [u] \in \mathcal{M}\mhquad \mathcal{M}_i \models \psi(u(i))} \nin \mathcal{U}});
-        であったとする。このとき、超フィルターの極大性から、この補集合は${\mathcal{U}}に属する：
+        ${(\implies)}の向き：ここで超フィルターであることを使う。対偶を示そう。そこで、
+        \eqn(${
+          \Set{i \in I}{ \exists u_i \in \mathcal{M}_i\mhquad \mathcal{M}_i \models \psi(u(i))} \nin \mathcal{U}
+          \label!(`los-contra-premise`)
+        });
+        であったとする。示したいのは次である：
+        \eqn-notag(${
+          \forall [u] \in \mathcal{M} \mhquad \Set{i \in I}{\mathcal{M}_i \models \psi(u(i))} \nin \mathcal{U}
+        });
+        更に、${\mathcal{U}}の極大性から、これは次を示すことと同値である：
+        \eqn(${
+          \forall [u] \in \mathcal{M} \mhquad \Set{i \in I}{\mathcal{M}_i \nmodels \psi(u(i))} \in \mathcal{U}
+          \label!(`los-contra-goal`)
+        });
+        そこで\eqref(`los-contra-premise`);を仮定すると、超フィルターの極大性から、この補集合は${\mathcal{U}}に属する：
         \eqn-notag(${
           S \defeq 
-          \Set{i \in I}{ \exists [u] \in \mathcal{M}\mhquad \mathcal{M}_i \nmodels \psi(u(i))} \in \mathcal{U}
+          \Set{i \in I}{ \forall u_i \in \mathcal{M}_i \mhquad \mathcal{M}_i \nmodels \psi(u_i)} \in \mathcal{U}
         });
-        ${\emptyset \nin \mathcal{U}}より${S \neq \emptyset}であることに注意する。
-        ここで、${[v] \in \mathcal{M}}を以下のように定める：
+        特に、どのように${u \in \prod_i \mathcal{M}_i}をとっても、任意の${i \in S}について${\mathcal{M}_i \nmodels \psi(u(i))}である。よって、
         \eqn-notag(${
-          v(i) \defeq
-          \cases!(${|u(i)\mathrel{\text!{for}} [u] \in \mathcal{M} \mathrel{\text!{with}} \mathcal{M}_i \nmodels \psi(u(i))|(i \in S)| \text!{任意の} x \in \mathcal{M}_i |(\text!{otherwise})|})
+          \Set{i \in I}{\mathcal{M}_i \nmodels \psi(u(i))} \supseteq S \in \mathcal{U}
         });
-        すると、各${i \in S}について${\mathcal{M}_i \nmodels \psi([v])}がなりたっているので、帰納法の仮定より${\mathcal{M} \nmodels\psi([v])}となる。しかし、${(\ast)}の直前の仮定から${T \defeq \Set{i \in I}{\mathcal{M}_i \models \psi(v(i))} \in 𝒰}である。
-        ${𝒰}はフィルターであり、${S \cap T \in 𝒰 \nni \emptyset}なので、${i \in S \cap T}が取れる。
-        しかし、すると${S}の定義から${\mathcal{M}_i \nmodels \psi(v(i))}、${T}の定義から${\mathcal{M}_i \models \psi(v(i))}となり、矛盾。
+        である。${u \in \prod_i \mathcal{M}_i}の取り方は任意であったので、\eqref(`los-contra-goal`);が示された。
       }
     >
     +exercise<+p{${\to}, ${\bot}などの場合を補い、上の証明を完成させよ。}>
@@ -624,5 +635,4 @@ let models = '<
       }
     >);
   >
-
 >>
