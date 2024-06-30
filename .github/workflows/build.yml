@@ -86,6 +86,7 @@ jobs:
         DISCORD_CHANNEL: ${{secrets.DISCORD_CHANNEL}}
         KV_CLIENT_ID: ${{secrets.KV_CLIENT_ID}}
         KV_CLIENT_SECRET: ${{secrets.KV_CLIENT_SECRET}}
+        KV_ENDPOINT: ${{secrets.KV_ENDPOINT}}
       run: |
         pushd "${DEST}"
         ../discord-uploader
