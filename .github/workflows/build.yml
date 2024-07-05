@@ -26,6 +26,8 @@ jobs:
     name: Typeset ${{matrix.name}}
     needs: [enumerate]
     runs-on: ubuntu-latest
+    env: 
+      SHAKE_SATYSFI_VERSION: v0.1.0.1
     strategy:
       matrix: ${{fromJson(needs.enumerate.outputs.inputs)}}
       fail-fast: false
@@ -36,8 +38,8 @@ jobs:
       env: 
         GH_TOKEN: ${{ github.token }}
       run: |
-        TARBALL=shake-satysfi-v0.1.0.0-x86_64-linux.tar.gz
-        gh -R konn/shake-satysfi release download v0.1.0.0 --pattern "${TARBALL}"
+        TARBALL=shake-satysfi-${{env.SHAKE_SATYSFI_VERSION}}-x86_64-linux.tar.gz
+        gh -R konn/shake-satysfi release download ${{env.SHAKE_SATYSFI_VERSION}} --pattern "${TARBALL}"
         tar xzvf "${TARBALL}"
     - name: Cache .shake
       uses: actions/cache@v4
