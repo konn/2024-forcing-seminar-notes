@@ -40,7 +40,7 @@ jobs:
         gh -R konn/shake-satysfi release download v0.1.0.0 --pattern "${TARBALL}"
         tar xzvf "${TARBALL}"
     - name: Cache .shake
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: .shake
         key: ${{ runner.os }}-shake-${{ hashFiles('**/*.saty', '**/*.satyh')}}
