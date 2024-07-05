@@ -5,11 +5,153 @@
 @require: bibyfi/bibyfi-IEEETran
 @require: fss/fss
 @import: presets
+@import: common/macros
 
-document (|
+let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
+let-math \varpi = ${𝜛}
+let-math \vartheta = ${𝜗}
+let-math \mscript x = ${\mrfontsize!(0.8){#x}}
+
+in document (|
   title = {\no-break{強制法セミナー第1回：強制法の基礎理論}};
   author = {Hiromi ISHII (\@mr_konn)};
-  date = {2024-XX-X};
+  date = {2024-XX-XX};
 |)('<
-  
+  +section{集合のBoole値モデル}<
+    +defn<
+      +p{${\mathbb{B}}を完備Boole代数とするとき、\emph{${\mathbb{B}}-名称}の全体${V^\mathbb{B}}を次のように超限帰納法で定める：}
+      +alignat?:(AZMathEquation.notag)(2)(${
+      | V^{\mathbb{B}}_0 | \defeq \emptyset | |
+      | V^{\mathbb{B}}_{\alpha + 1} |\defeq \Pow\p{V^{\mathbb{B}}_{\alpha} \times \mathbb{B}} | |
+      | V^{\mathbb{B}}_{\gamma} |\defeq \bigcup_{\alpha < \gamma} V^{\mathbb{B}}_{\alpha} || (\gamma: \text!{limit})
+      |});
+      +p{${V^{\mathbb{B}}}の元を渡るメタ変数としてドットつきの文字${\dot{a}, \dot{b}, \ldots, \dot{A}, \dot{B}, \ldots}を使う。また、基礎理論を作るときだけ、${\sigma, \tau, \varpi, \vartheta}も使う。}
+      +p{${\dot{x} \in V^{\mathbb{B}}}の${\mathbb{B}}-\emph{階数}（${\mathbb{B}}-\emph{rank}）を、${\dot{x} \in V^{\mathbb{B}}_{\alpha+1}}なる最小の${\alpha}として定める。}
+    >
+    +remark<
+      +p{
+        第0回では、集合の特性関数の多値化という点を強調するため、${V^\mathbb{B}}-名称はランクの低い${\mathbb{B}}-名称から${\mathbb{B}}への\emph{関数}として定めていた。一方、上の定義はあくまでも${\mathbb{B}}-名称は${\mathbb{B}}-集合と${\mathbb{B}}の元の対からなる任意の集合として定めており、初回の定義よりも広いものになっている。
+        ${\mathbb{B}}が完備Boole代数であるときは、上の定義による${\mathbb{B}}-名称${\dot{x}}が与えられたとき、以下のように関数となるように${\mathbb{B}}-名称${\dot{x}'}を取り直すことができる：
+        }
+      +eqn-notag(${\dot{x}'(\dot{y}) \defeq \sum_{(\dot{\mscript{y}}, b) \in \mathord{\dot{\mscript{x}}}} b. });
+      +p{
+        わざわざ上限を取らずに、ここでより広い定義を取っているのは、一般の擬順序による強制法を考える場合、そうした上限が常に存在するとは限らず、今回の定式化の方を使う必要があるためである。もちろん、擬順序の場合になってから名称の定義を変更してもよいが、そうするよりは最初からより一般的な定義を採用する形にした。
+      }
+    >
+    +p{もとの宇宙${V}の元を${V^{\mathbb{B}}}に埋め込むために、${x \in V}に対する\emph{check-name} ${\check{x}}を次のように再帰的に定義する：}
+    +defn<
+      +p{
+        集合${x}の\emph{check-name} ${\check{x}}を、${\in}-関係に関する超限帰納法により次のように定める：
+        \eqn-notag(${
+          \check{x} \defeq \Set{ (\check{y}, \mathbb{1}) }{ y \in x}
+        });
+        以下、check-nameの全体を${\check{V} \defeq \Set{\check{x}}{x \in V}}により表す。
+      }
+    >
+
+    +p{さて、${V^{\mathbb{B}}}は${V}を拡張するような${\mathbb{B}}-値集合の宇宙として振る舞うことが期待されるのだった。このために、${V^{\mathbb{B}}}の性質を記述するための強制法の言語${\FL}を定義しよう。}
+    +defn<
+      +p{\emph{強制法の言語${\FL}}は、二項述語記号${\in}、単項述語記号${\check{V}}を持つ言語である。}
+      +p{以後、${x \in \check{V}}は${\check{V} (x)}の略記とする。}
+    >
+    +p{記号から類推できるように、${\in}は所属関係を、${\check{V}}は基礎モデルの元であることを表す述語記号として想定されている。}
+    +remark<+p{実は、${\check{V}}は${V^{\mathbb{B}}}で定義可能クラスとなっていることが知られている（Bukovskýの定理）。この証明は擬順序の反鎖条件という組合せ論的性質と強制拡大の基礎モデルに対する被覆性質の関連を使うもので興味深いが、基礎理論を終えてから立ち戻ることにする。}>
+
+    +p{さて、強制法で用いる言語が定まったので、${V^\mathbb{B}}における${\FL}-論理式の真偽値を定義しよう。}
+    +defn<
+      +p{${\FL}-原子論理式の真偽値${\pSQ{-}_\mathbb{B}}を${\mathbb{B}}-階数に関する帰納法で以下のように定める：}
+      +gather?:(AZMathEquation.notag)(${
+      | \pSQ{\check{x} \in \check{y}}_\mathbb{B} 
+          \defeq 
+          \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{y}}} b \cdot \pSQ{\dot{x} = \dot{z}}_\mathbb{B},
+          \mquad
+          \pSQ{\dot{x} = \dot{y}}_\mathbb{B} 
+          \defeq \pSQ{\dot{x} \subseteq \dot{y}}_\mathbb{B} \cdot \pSQ{\dot{y} \subseteq \dot{x}}_\mathbb{B},
+          \mquad
+          \pSQ{\dot{x} \in \check{V}}_\mathbb{B} \defeq \sum_{z \in V} \pSQ{\dot{x} = \check{z}}_\mathbb{B}
+      | \pSQ{\dot{x} \subseteq \dot{y}}_\mathbb{B} 
+          \defeq \prod_{\dot{\mscript{z}} \in \dom(\dot{\mscript{x}})}
+            \p{ -\pSQ{\dot{z} \in \dot{x}}_{\mathbb{B}} + \pSQ{\dot{z} \in \dot{y}}_{\mathbb{B} }}.
+      |});
+      +p{${V^{\mathbb{B}}}の元をパラメータに持つ${\FL}-論理式${\varphi}の真偽値${\pSQ{\varphi}_\mathbb{B}}を、論理式の構成に関するメタレベルの帰納法で以下のように定める：}
+      +gather?:(AZMathEquation.notag)(${|
+        \pSQ{\bot} \defeq \mathbb{0}, \mqquad \pSQ{\varphi \to \psi} \defeq -\pSQ{\varphi} + \pSQ{\psi}, \mqquad
+        \pSQ{\exists x \varphi(x)} \defeq \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \pSQ{\varphi(\dot{x})}_\mathbb{B}.
+      |});
+      +p{${p \in \mathbb{B}}と${\FL}-論理式${\varphi}について、${p \leq \pSQ{\varphi}}が成り立つとき、\emph{${p}が${\varphi}を強制する}といい、記号${p \forces \varphi}で表す。また、${\pSQ{\varphi} = \mathbb{1}}が成り立つとき、${V^{\mathbb{B}} \models \varphi}と書く。}
+    >
+    +remark<
+      +p{
+        完備Boole代数は、任意の\emph{部分集合}が上限・下限を持つようなBoole代数であった。ところで、上の定義では${\dot{x} \in \check{V}}や${\exists x \varphi}の定義で、上限は\emph{クラス}を渡っているように見える。これはちゃんと定義になっているだろうか？\quad;と心配になるかもしれない。
+      }
+      +p{
+        簡単に言えば、パラメータ自体は真クラスを渡っているが、${\mathbb{B}}自体はあくまでも集合であり、\emph{集合の部分クラスは集合だから大丈夫}、というのが答えである。より詳しく言えば、${\ZFC}（というか、${\mathrm{Z}}）の\emph{分出公理（内包公理）}のおかげで我々は安心してこの操作が出来ている。たとえば、${\dot{x} \in \check{V}}の真偽値の定義を（上限記号以外は）略記せずに書くと次のようになる：
+        \eqn-notag(${
+          \pSQ{\dot{x} \in \check{V}}_\mathbb{B} \defeq \sum_{z \in V} \pSQ{\dot{x} = \check{z}}_\mathbb{B}
+          = \sum \Set{b \in \mathbb{B}}{ \exists z \in V\mhquad b = \pSQ{\dot{x} = \check{z}}_{\mathbb{B}}}.
+        });
+        上限の渡る範囲が${\mathbb{B}}の部分であることが明確になっている。${\exists x \varphi}の場合も同様なので、自分で書き下して納得してみるとよいだろう。
+      }
+    >
+
+    +p{
+      このように${V^{\mathbb{B}}}に「真偽値」によるそれらしい意味論を与えたが、前回までに導入した証明体系が健全であることを見ておこう。
+      我々は公式の証明体系としてシーケント計算を導入したが、直観としては、${\psi \vdash \psi}がLKで証明可能なら、${\pSQ{\varphi} \leq \pSQ{\psi}}が成り立つということを示したい。
+    }
+    +lemma<
+      +p{
+        ${\Gamma, \Delta}を自由変数が${x_0, \ldots, x_{n-1}}しか含まない${\FL}-論理式の有限集合とする。このとき、${\Gamma \vdash \Delta}がLKで証明可能なら、任意の${\sigma_0, \ldots, \sigma_{n-1} \in V^{\mathbb{B}}}について${\prod_{\phi(\bar{\mscript{x}}) \in \Gamma}\pSQ{\varphi(\bar{\sigma})}_{\mathbb{B}} \leq \sum_{\psi(\bar{\mscript{x}}) \in \Delta} \pSQ{\psi(\bar{\sigma})}_{\mathbb{B}}}が成り立つ。
+      }
+    >
+    +proof<
+      +p{T.B.D. 書く}
+    >
+    +p{このことから、${V^{\mathbb{B}}}は少なくとも演繹について閉じていることがわかった。次にしなくてはならないことは、${V^{\mathbb{B}}}が${\ZFC}の公理を満たしていることである。}
+    +theorem<+p{${V \models \ZF}なら${V^{\mathbb{B}} \models \ZF}}>
+    +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
+    +theorem<
+      +p{${\ZF}-論理式${\varphi(x_0, \ldots, x_{n-1})}と${a_0, \ldots, a_{n-1} \in V}について、以下が成り立つ：}
+      +eqn-notag(${
+        V \models \varphi(a_0, \ldots, a_{n-1}) \iff V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{a}_0, \ldots, \check{a}_{n-1}).
+      });
+    >
+    +theorem<
+      +p{${V^{\mathbb{B}} \models \pB{\check{V}: \text!{推移的クラス}, \On \subset \check{V}}}.}
+    >
+    +subsection{推移的クラスと${\Delta_1}-絶対性}<
+      +defn?*?:({Levy階層})<
+        +p{
+          論理式の階層${\Delta_0 = \Pi_0 = \Sigma_0 \subsetneq \Delta_1 \subsetneq \Pi_1, \Sigma_1 \subsetneq \Delta_2 \subsetneq \ldots}を次のように定める：
+          \listing{
+            * ${\exists x \in A}の形の量化子を有界であるという。
+            * 全ての量化子が有界な論理式を${\Delta_0}-論理式と呼ぶ。${\Pi_0 = \Sigma_0 = \Delta_0}とする（が、あまりこの記号は用いられない）。
+            * ${\Pi_n}-論理式${\varphi}について、${\exists \bar{x} \varphi}の形の論理式を${\Sigma_{n+1}}-論理式と呼ぶ。
+            * ${\Sigma_n}-論理式${\psi}について、${\forall \bar{x} \psi}の形の論理式を${\Pi_{n+1}}-論理式と呼ぶ。
+            * 論理式${\chi}が理論${T}上${\Delta_{n}}であるとは、${\Sigma_{n}}-論理式${\varphi}と${\Pi_{n}}-論理式${\varphi}が存在して、${T \vdash \varphi \liff \chi \liff \psi }が成り立つこと。
+          }
+        }
+      >
+    >
+  >
+  +section{Boole値モデル${V^{\mathbb{B}}}と${(V, \mathbb{B})}-生成フィルター}<
+    +defn<
+      +p{
+        ${(V, \mathbb{B})}-生成フィルターの標準的な名称${\dot{G}}を次で定める：
+        }
+      +eqn-notag(${
+        \dot{G} \defeq \Set{ (\check{b}, b) }{ b \in \mathbb{B} }.
+      });
+      +p{
+        また、${\mathbb{B}}-名称${\dot{x}}について、超フィルター${U}による解釈${\dot{x}_U}を以下で定める：
+        \eqn-notag(${
+          \dot{x}_U \defeq \Set{ \dot{y}_U }{ \exists b \in U \mhquad (\dot{y}, b) \in \dot{x} }.
+        });
+      }
+    >
+    +theorem?*?:({真理補題})<
+      +p{${V^{\mathbb{B}} \models \pB{\varphi \liff \check{\pSQ{\varphi}} \in \dot{G}}}}
+    >
+  >
+  +section{稠密埋め込みと擬順序による強制法}<
+  >
 >)

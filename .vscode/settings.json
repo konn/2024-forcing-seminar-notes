@@ -4,7 +4,8 @@
     "commands": [
       {
         "match": ".*\\.(saty|satyh|satyg)$",
-        "cmd": "find . -maxdepth 1 -name '*.saty' | sed s/\\.saty$/.pdf/ | xargs shake-satysfi"
+        "cmd": "find . -maxdepth 1 -name '*.saty' | sed s/\\.saty$/.pdf/ | xargs shake-satysfi",
+        "isAsync": true
       }
     ]
   }
