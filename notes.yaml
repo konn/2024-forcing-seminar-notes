@@ -3,3 +3,6 @@ notes:
   file: "00-introduction-to-set-theory-and-logic.pdf"
 - name: 強制法セミナー第1回：数理論理学の初歩
   file: "01-basic-mathemtical-logic.pdf"
+- name: 強制法セミナー第2回：強制法の理論
+  file: "02-forcing-theory.pdf"
+  draft: true

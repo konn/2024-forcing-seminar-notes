@@ -1,0 +1,15 @@
+@require: class-jlreq/jlreq
+@require: math
+@require: azmath/azmath
+@require: bibyfi/bibyfi
+@require: bibyfi/bibyfi-IEEETran
+@require: fss/fss
+@import: presets
+
+document (|
+  title = {\no-break{強制法セミナー第1回：強制法の基礎理論}};
+  author = {Hiromi ISHII (\@mr_konn)};
+  date = {2024-XX-X};
+|)('<
+  
+>)

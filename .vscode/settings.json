@@ -1,3 +1,11 @@
 {
-  "satysfi-workshop.build.rootFile": "01-basic-mathemtical-logic.saty"
+  "satysfi-workshop.build.when": "never",
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": ".*\\.(saty|satyh|satyg)$",
+        "cmd": "find . -maxdepth 1 -name '*.saty' | sed s/\\.saty$/.pdf/ | xargs shake-satysfi"
+      }
+    ]
+  }
 }
