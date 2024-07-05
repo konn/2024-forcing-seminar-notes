@@ -51,7 +51,7 @@ jobs:
     - name: Typeset
       run: |
         find . -name '*.pdf' -exec rm {} \;
-        docker run -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest /satysfi/shake-satysfi ${{matrix.name}}.pdf
+        docker run -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest bash -c "cat ${{matrix.name}}.saty ; /satysfi/shake-satysfi ${{matrix.name}}.pdf"
     - name: Upload PDF
       uses: actions/upload-artifact@v4
       with:
