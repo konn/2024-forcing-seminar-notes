@@ -27,7 +27,7 @@ jobs:
     needs: [enumerate]
     runs-on: ubuntu-latest
     env: 
-      SHAKE_SATYSFI_VERSION: v0.1.0.2
+      SHAKE_SATYSFI_VERSION: v0.1.0.3
     strategy:
       matrix: ${{fromJson(needs.enumerate.outputs.inputs)}}
       fail-fast: false
