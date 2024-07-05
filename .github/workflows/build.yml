@@ -32,8 +32,24 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Download Builder
+      env: 
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        TARBALL=shake-satysfi-v0.1.0.0-x86_64-linux.tar.gz
+        gh -R konn/shake-satysfi release download v0.1.0.0 --pattern "${TARBALL}"
+        tar xzvf "${TARBALL}"
+    - name: Cache .shake
+      uses: actions/cache@v2
+      with:
+        path: .shake
+        key: ${{ runner.os }}-shake-${{ hashFiles('**/*.saty', '**/*.satyh')}}
+        restore-keys: |
+          ${{ runner.os }}-shake-
     - name: Typeset
-      run: docker run -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest satysfi ${{matrix.input}}
+      run: |
+        rm *.pdf
+        docker run -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest /satysfi/shake-satysfi/satysfi ${{matrix.input}}
     - name: Upload PDF
       uses: actions/upload-artifact@v4
       with:
