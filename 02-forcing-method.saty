@@ -149,7 +149,13 @@ in document (|
       }
     >
     +theorem?*?:({真理補題})<
-      +p{${V^{\mathbb{B}} \models \pB{\varphi \liff \check{\pSQ{\varphi}} \in \dot{G}}}}
+      +p{
+        ${\varphi}を${V^{\mathbb{B}}}の元をパラメータに持つ${\FL}-論理式、${b \in \mathbb{B}}とする。
+        \enumerate{
+          * ${b = \pSQ{\check{b} \in \dot{G}}}
+          * ${V^{\mathbb{B}} \models \pB{\varphi \liff \check{\pSQ{\varphi}} \in \dot{G}}}
+        }
+      }
     >
   >
   +section{稠密埋め込みと擬順序による強制法}<
