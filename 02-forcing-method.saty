@@ -1,11 +1,11 @@
 @require: class-jlreq/jlreq
 @require: math
-@require: azmath/azmath
 @require: bibyfi/bibyfi
 @require: bibyfi/bibyfi-IEEETran
 @require: fss/fss
 @import: presets
 @import: common/macros
+@require: azmath/azmath
 
 let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
 let-math \varpi = ${𝜛}
@@ -129,8 +129,80 @@ in document (|
             * ${\Sigma_n}-論理式${\psi}について、${\forall \bar{x} \psi}の形の論理式を${\Pi_{n+1}}-論理式と呼ぶ。
             * 論理式${\chi}が理論${T}上${\Delta_{n}}であるとは、${\Sigma_{n}}-論理式${\varphi}と${\Pi_{n}}-論理式${\varphi}が存在して、${T \vdash \varphi \liff \chi \liff \psi }が成り立つこと。
           }
+          ${\Gamma}を論理式のクラスとするとき、集合${x}が${\Gamma}-概念であるとは、${x}が${\Gamma}-論理式で定義できることである。
         }
       >
+    >
+    +remark<
+      +p{${\Delta_0}-論理式で定義できる概念は、つまり与えられたパラメータの範囲だけ調べれば真偽が決定できるような局所的な性質である。なので、与えられた二つの集合論のモデル${M \subseteq N}の${\in}-関係が小さい方のモデルの範囲で見たときに完全に一致するのなら、${\Delta_0}-論理式の真偽（そして任意の${\Delta_0}-概念）は${M}と${N}の間で一致してくれそうである。この「${\in}-関係が小さいモデルで一致する」というのを精緻化したのが、次の「推移的モデル」の概念である：}
+    >
+    +defn<
+      +p{クラス${M}が\emph{推移的}（\emph{transitive}）であるとは、${x \in y \in M \implies x \in M}を満たすことである。${M}が特に集合論のモデルであるとき、そのような${M}を\emph{推移的モデル}（\emph{transitive model}）と呼ぶ。}
+    >
+    +theorem<
+      +p{${M \subseteq N}を集合論の推移的モデルとする。このとき、任意の${\Delta_0}-概念は${M, N}の間で絶対的である。}
+    >
+    +proof<
+      +p{論理式の複雑性に関する帰納法。}
+    >
+    +p{${\Delta_0}-概念には次のようなものが挙げられる：}
+    +theorem<
+      +p{次の概念はすべて${\Delta_0}である：}
+      +enumerate{
+        * ${x = \emptyset}。つまり、${x = 0}。
+        * ${x \subseteq y}。
+        * 「${x}は推移的」
+        * ${x = \set{y, z}}
+        * ${x = \pangle{y, z}}
+        * ${x = y \cup z}
+        * ${x = y \cap z}
+        * ${x = y \cup \set{y}}。特に、${x = x + 1}
+        * 任意の遺伝的有限集合${S}について、「${x = S}」。
+      }
+    >
+    +p{概念の${\Delta_0}-性を判定するには、次の定理が役に経つ：}
+    +lemma<
+      +p{和集合公理の下で、${k < \omega, \varphi}について以下は${\Delta_0}：}
+      +gather?:(AZMathEquation.notag)(${|
+        \exists x \in \underbrace{\bigcup \cdots \bigcup}_{k\text!{-copies}} y \mhquad \varphi
+      |});
+    >
+    +cor<
+      +p{以下はBSTで${\Delta_0}-概念であり、従ってBSTの推移的モデルで絶対的：}
+      +listing{
+        * ${x}は順序対、${x}は非順序対
+        * ${x}は関数
+        * ${x}は関係
+        * ${x}は順序数
+        * ${x}は後続順序数
+        * ${x}は極限順序数
+        * ${x}は自然数
+        * ${x = \omega}
+        * ${x \subseteq \omega}
+        * ${x = \bigcup y}
+        * ${y = \dom(f), y = \cod(f)}
+        * ${f}は全単射
+        * ${f}は関数で、${x \in \dom(f)}で${f(x) = y}
+        * 次で定義した場合の「${x}は有限集合」：${\exists n < \omega \exists f \mhquad f: n \to x \text!{全単射}}
+        * 次で定義した場合の「${x}は遺伝的有限」：
+        
+          \eqn-notag(${\exists n < \omega \exists t \in \HF\exists f: n \to t \mhquad \pB{ f: \text!{全単射} \land t: \text!{推移的集合} \land x \subseteq t}});
+      }
+    >
+    +defn<
+      +p{構造${\pangle{\HF, \mathord{\in}}}上で定義される${n}-項関係を\emph{算術的}（\emph{arithmetical}）と言う。}
+    >
+    +lemma<
+      +p{以下はBSTで絶対的：}
+      +enumerate{
+        * 二引数関数${x, y \mapsto x \cup y}および${x, y \mapsto x \cap y}
+        * 単項関数${x \mapsto \bigcup x}および${x \mapsto \bigcap x}（ただし${x = \emptyset}のときは未定義とする）。
+        * 対関数${x, y \mapsto \pangle{x, y}}および${x, y \mapsto \pb{x, y}}。
+        * 二引数関数${x, y \mapsto x \times y}。
+        * 任意の算術的関係
+        * ${\mathcal{L}}を言語とするとき、「${\varphi}は${\mathcal{L}}-論理式」
+        * 「${M \models \varphi}」
+      }
     >
   >
   +section{Boole値モデル${V^{\mathbb{B}}}と${(V, \mathbb{B})}-生成フィルター}<
