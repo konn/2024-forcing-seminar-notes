@@ -27,7 +27,7 @@ jobs:
     needs: [enumerate]
     runs-on: ubuntu-latest
     env: 
-      SHAKE_SATYSFI_VERSION: v0.1.0.3
+      SHAKE_SATYSFI_VERSION: v0.1.1.0
     strategy:
       matrix: ${{fromJson(needs.enumerate.outputs.inputs)}}
       fail-fast: false
@@ -50,7 +50,7 @@ jobs:
           ${{ runner.os }}-shake-${{matrix.name}}-
     - name: Typeset
       run: |
-        docker run -e LANGUAGE=ja_JP.UTF-8 -e LANG=ja_JP.UTF-8 -e LC_CTYPE=ja_JP.UTF-8 -e LC_ALL=ja_JP.UTF-8 -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest bash -c "pwd; cat ${{matrix.name}}.saty ; /satysfi/shake-satysfi ${{matrix.name}}.pdf"
+        docker run -e LANGUAGE=ja_JP.UTF-8 -e LANG=ja_JP.UTF-8 -e LC_CTYPE=ja_JP.UTF-8 -e LC_ALL=ja_JP.UTF-8 -v $(pwd):/satysfi --rm ghcr.io/${{github.repository}}:latest bash -c "pwd; cat ${{matrix.name}}.saty ; /satysfi/shake-satysfi _build/${{matrix.name}}.pdf"
     - name: Upload PDF
       uses: actions/upload-artifact@v4
       with:
