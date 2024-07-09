@@ -286,7 +286,7 @@ in document (|
     >
     +theorem<+p{${V \models \ZF}なら${V^{\mathbb{B}} \models \ZF}}>
     +proof<
-      +p{内包、外延性、和、対、冪、基礎、収集公理が成り立つことを示す。本証明中では、選択公理は使わない。}
+      +p{内包、外延性、無限、和、対、冪、基礎、収集公理が成り立つことを示す。本証明中では、選択公理は使わない。}
       +p{\emph{外延性}は${=}や${\in}の解釈の定義から明らかに成り立つ。}
       +p{
         まずは\emph{内包公理}を示す。というのも、この先${f(x) = \dot{y}}となるような${\dot{y}}をつくるときに、${\pB{f(\dot{x}) \subseteq \dot{p}}}となるような${\dot{p}}を作るだけで済み、経済的だからである。
@@ -323,11 +323,12 @@ in document (|
         よって${\pSQ{\dot{x} \in \dot{C}} \leq \pSQ{\dot{x} \in \dot{A} \land \varphi(\dot{x})} \leq \pSQ{\dot{x} \in \dot{C}}}が言え、${\dot{C}}が${\dot{A}}と${\varphi(x)}についての内包公理の証拠となることがわかった。
       }
       +p{
-        和、対、冪については、${\dot{x}, \dot{y} \in V^{\mathbb{B}}}に対して${\bigcup \dot{x}}や${\set{\dot{x}, \dot{y}}}、${\Pow(\dot{x})}として振る舞う名前を直接作ってやればよい。特に、対はとても簡単である（ヒント：${\mathbb{1}}を使おう）。}
+        和、対、冪については、${\dot{x}, \dot{y} \in V^{\mathbb{B}}}に対して${\bigcup \dot{x}}や${\set{\dot{x}, \dot{y}}}、${\Pow(\dot{x})}として振る舞う名前を直接作ってやればよい。特に、対はとても簡単である（ヒント：${\mathbb{1}}を使おう）。
+      }
 
       +p{
         例として、ここでは\emph{冪集合公理}が成り立つことを見よう。${\dot{x}}が任意に与えられたときに、${\pSQ{\Pow(\dot{x}) = \dot{p}} = \mathbb{1}}となるような${\dot{p}}をでっちあげる。
-        しかし、\emph{内包公理を既に示してある}ので、${\pSQ{\Pow(\dot{x}) \subseteq \dot{p}} = \mathbb{1}}となるような${\dot{p}}さえ取れれば、あとは内包公理で必要なものだけを取り出してくればよいので十分である。
+        \emph{内包公理を既に示してある}ので、${\pSQ{\Pow(\dot{x}) \subseteq \dot{p}} = \mathbb{1}}となるような${\dot{p}}さえ取れれば十分である。
         これは次のようにすればよい：
         \eqn-notag(${
           \dot{p} \defeq \Set{ (\dot{z}, \pSQ{\dot{z} \subseteq \dot{x}}) }{ \dot{z} \subseteq \dom(\dot{x}) \times \mathbb{B}}.
@@ -342,8 +343,12 @@ in document (|
         |});
         よって示せた。
       }
+      +p{無限公理は${\check{\omega}}がそのまま証拠となる。}
       +p{
         \emph{基礎の公理}を示す。${\dot{A}}を任意にとり${\pSQ{\dot{A} \neq \emptyset \to \exists z \in \dot{A} \forall x \in z \mhquad x \nin \dot{A}} = \mathbb{1}}を示せばよい。
+
+        本質的には、${\dot{A}}の${\mathbb{B}}-階数最小の名称をとってくればよいだけだが、必ずしも全ての${\dom(\dot{A})}の元が確率${\mathbb{1}}で${\dot{A}}に含まれるわけではないので、すこし工夫が必要になる。
+
         そこで、
         \eqn-notag(${\pSQ{\dot{A} \neq \emptyset \to \exists z \in \dot{A} \forall x \in z \mhquad x \nin \dot{A}} < \mathbb{1}});
         として矛盾をしめす。
@@ -365,8 +370,33 @@ in document (|
         とくに${b \cdot \pSQ{\dot{x} \in \dot{A}} > \mathbb{0}}となる${\dot{x} \in \dom(\dot{z})}が存在する。しかし、${\dot{x} \in \dom(\dot{z})}より${\rank_{\mathbb{B}}(\dot{x}) < \rank_{\mathbb{B}}(\dot{z})}となり、これは${\dot{x}}の${\mathbb{B}}-階数の極小性に矛盾する。
       }
 
+      +p{
+        \emph{収集公理}を示す。つまり、${\varphi(x, y)}を${\FL}-論理式、${\dot{X}}を${\mathbb{B}}-名称としたとき、次を満たすような${\dot{Y}}の存在を示せばよい：
+        \eqn-notag(${
+          \pSQ{\forall x \in \dot{X} \pB{ \p{\exists y \mhquad \varphi(x, y)} \to \p{\exists y \in \dot{Y} \mhquad \varphi(x, y)} }} = \mathbb{1}.
+        });
+        このために、${V}での置換公理を使う。そこで、次の論理式${\Phi(x, y)}を考える：
+        \eqn-notag(${
+          \Phi(x, b, y) \deffml x \in \dom(\dot{X}) \land b \in \mathbb{B} \land y \in V^{\mathbb{B}} \land \pSQ{\varphi(x, y)} = b
+        });
+        ${V}での置換公理を${\Phi}と${\dom(\dot{X}) \times \mathbb{B}}に適用すれば、集合${S \subset V^{\mathbb{B}}}で次を満たすものがとれる：
+        \eqn-notag(${
+          \forall \dot{x} \in \dom(\dot{X}) \forall b \in \mathbb{B} \mhquad \pB{ \exists \dot{y} \mhquad\pSQ{\varphi(\dot{x}, \dot{y})} = b \implies \exists y \in S \mhquad \pSQ{\varphi(\dot{x}, \dot{y})} = b}
+        });
+        そこで${\dot{Y} \defeq \Set{ (\dot{y}, \mathbb{1})}{ \dot{y} \in S}}とおいて、これが求めるものであることを示す。そこで適当に${\dot{x} \in \dom(\dot{X})}を取り、次を示せばよい：
+        \eqn-notag(${
+          \pSQ{\exists y \mhquad \varphi(\dot{x}, y)} \leq \pSQ{\exists y \in \dot{Y} \mhquad \varphi(\dot{x}, y)}
+        });
+        これは結局次の不等式と同値である：
+        \eqn-notag(${
+          \sum_{\dot{\mscript{y}} \in V^{\mathbb{B}}} \pSQ{\varphi(\dot{x}, \dot{y})} \leq \sum_{\dot{\mscript{y}} \in \dot{\mscript{Y}}} \pSQ{\varphi(\dot{x}, \dot{y})}
+        });
+        しかし、${\dom(\dot{Y})}は${\pSQ{\varphi(\dot{x}, \dot{y})}}のありうる値すべてを実現するのに十分な元を含むので、両辺は明らかに一致する。
+      }
+
     >
-    +exercise<+p{残りの公理の成立を示し、証明を完遂させよ。また、余力があれば、証明中で定義した名称をどう修正すると${\mathbb{B}}が一般の擬順序の場合でも証明が通るようになるか考えよ。}>
+    +exercise<+p{省略した部分を埋め、証明を完成させよ。また、余力があれば、証明中で定義した名称をどう修正すると${\mathbb{B}}が一般の擬順序の場合でも証明が通るようになるか考えよ。}>
+    +p{強制法により${\ZF}が保たれるのと同じように、${\AC}も強制法により保たれる\footnote{逆に${\ZF + \lnot \AC}のモデルから${\AC}を強制できるか？という問題は、${V}が特定の形をしていない限り巨大基数公理とかかわってくる問題になる。選択公理があるとかなり強制法が便利になるかわり、そのものを強制しようとおもうと大変なのである。}：}
     +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
     +theorem?*?:({Maximal Principle})<
       +p{
