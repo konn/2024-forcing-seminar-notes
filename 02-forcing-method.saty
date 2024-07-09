@@ -1,4 +1,5 @@
 @require: class-jlreq/jlreq
+@require: derive/derive
 @require: math
 @require: bibyfi/bibyfi
 @require: bibyfi/bibyfi-IEEETran
@@ -11,7 +12,7 @@ let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
 let-math \varpi = ${𝜛}
 let-math \vartheta = ${𝜗}
 let-math \mscript x = ${\mrfontsize!(0.8){#x}}
-
+let-math \rank = ${\mathprefix{\mathrm{rank}}}
 in document (|
   title = {\no-break{強制法セミナー第1回：強制法の基礎理論}};
   author = {Hiromi ISHII (\@mr_konn)};
@@ -26,7 +27,7 @@ in document (|
       | V^{\mathbb{B}}_{\gamma} |\defeq \bigcup_{\alpha < \gamma} V^{\mathbb{B}}_{\alpha} || (\gamma: \text!{limit})
       |});
       +p{${V^{\mathbb{B}}}の元を渡るメタ変数としてドットつきの文字${\dot{a}, \dot{b}, \ldots, \dot{A}, \dot{B}, \ldots}を使う。また、基礎理論を作るときだけ、${\sigma, \tau, \varpi, \vartheta}も使う。}
-      +p{${\dot{x} \in V^{\mathbb{B}}}の${\mathbb{B}}-\emph{階数}（${\mathbb{B}}-\emph{rank}）を、${\dot{x} \in V^{\mathbb{B}}_{\alpha+1}}なる最小の${\alpha}として定める。}
+      +p{${\dot{x} \in V^{\mathbb{B}}}の${\mathbb{B}}-\emph{階数}（${\mathbb{B}}-\emph{rank}）${\rank_{\mathbb{B}}(\dot{x})}を、${\dot{x} \in V^{\mathbb{B}}_{\alpha+1}}なる最小の${\alpha}として定める。}
     >
     +remark<
       +p{
@@ -104,19 +105,218 @@ in document (|
       }
     >
     +proof<
-      +p{T.B.D. 書く}
+      +p{証明図の段数に関する帰納法により示す。論理公理のうち${A \vdash A}および${\bot \proves \emptyset}が${V^{\mathbb{B}}}で成り立つことは明らか。等号公理は${V^{\mathbb{B}}}-階数に関する帰納法で示せる。}
+      +p{
+        一般の場合について示す。最後に使われた規則について場合分けする。以下、${\Gamma}を論理式の有限集合とするとき、${\prod \pSQ{\Gamma} \defeq \prod \Set{\pSQ{\varphi}}{\varphi \in \Gamma}}, ${\sum \pSQ{\Gamma} \defeq \sum \Set{\pSQ{\varphi}}{\varphi \in \Gamma}}と略記する。
+        弱化規則は明らか。
+      }
+      +pn{
+        \uline{${(\mathsc!(`Cut`))}}：以下の形の推論図である：
+        \eqn-notag(open Derive in open DeriveDSL in ${
+          \proven!(
+            derive(${\Gamma, \Theta \vdash \Delta, \Xi})
+              |> byOp {${(\mathsc!(`Cut`))}}
+              |> from 
+                  [ assume ${\Gamma \vdash \Delta, \varphi}
+                  ; assume ${\varphi, \Theta \vdash \Xi}
+                  ]
+          )
+        });
+        帰納法の仮定は次の通り：
+        \eqn-notag(${
+          \prod\pSQ{\Gamma} \leq \sum \pSQ{\Delta} + \pSQ{\varphi},\mqquad
+          \pSQ{\varphi} \cdot \prod\pSQ{\Theta} \leq \sum \pSQ{\Xi}
+        });
+        しかるに：
+        \alignat?:(AZMathEquation.notag)(2)(${
+        | \prod \pSQ{\Gamma} \cdot \prod \pSQ{\Theta} 
+        | \leq \p{\sum\pSQ{\Delta} +\pSQ{\varphi}} \cdot \prod \pSQ{\Theta} 
+        | \mhquad | (\text!{帰納法の仮定})
+        |
+        | = \sum \pSQ{\Delta} \cdot \pSQ{\Theta} + \pSQ{\varphi} \cdot \prod \pSQ{\Theta}
+        | | (\text!{和・積の分配法則})
+        |
+        | \leq \sum \pSQ{\Delta} \cdot \prod \pSQ{\Theta} + \sum \pSQ{\Xi}
+        | | (\text!{帰納法の仮定})
+        | 
+        | \leq \sum \pSQ{\Delta} + \sum \pSQ{\Xi}
+        | | (\text!{${+}の単調性})
+        |});
+      }
+      +pn{
+        \uline{${(\mathord{\to}\mathrm{L})}}: 
+        \eqn-notag(open Derive in open DeriveDSL in ${
+          \proven!(
+            derive(${\varphi \to \psi, \Gamma, \Theta \vdash \Delta, \Xi})
+              |> byOp {${(\mathord{\to}\mathrm{L})}}
+              |> from 
+                  [ assume ${\Gamma, \vdash \Delta, \varphi}
+                  ; assume ${\psi, \Theta \vdash \Xi}
+                  ]
+          )
+        });
+        ${\mathsc!(`Cut`)}をちょっと変えればできる。
+      }
+      +pn{
+        \uline{${(\mathord{\to}\mathrm{R})}}: 
+        \eqn-notag(open Derive in open DeriveDSL in ${
+          \derive-unary{\Gamma}{\Delta, \varphi \to \psi}{(\mathord{\to}\mathrm{R})}{\varphi, \Gamma}{\Delta, \psi}
+        });
+        帰納法の仮定は次の通りである：
+        \eqn-notag(${
+          \varphi \cdot \prod \pSQ{\Gamma} \leq \sum \pSQ{\Delta} + \pSQ{\psi}
+        });
+        から次を示せばよい：
+        \eqn-notag(${
+          \pSQ{\Gamma} \leq \sum \pSQ{\Delta} + \pSQ{\varphi \to \psi}
+        });
+        しかるに、
+        \alignat?:(AZMathEquation.notag)(2)(${
+        | \prod \pSQ{\Gamma}
+          | = \pSQ{\varphi} \cdot \prod\pSQ{\Gamma} + (- \pSQ{\varphi}) \cdot \prod\pSQ{\Gamma}
+        | \mqquad | (\text!{Boole代数の基本法則})
+        | | \leq \pSQ{\varphi} \cdot \prod\pSQ{\Gamma} + (- \pSQ{\varphi})
+        | | (\text!{${+}の単調性})
+        | | \leq \prod\pSQ{\Delta} + \pSQ{\psi} + (- \pSQ{\varphi})
+        | | (\text!{帰納法の仮定})
+        | | = \sum \pSQ{\Delta} + \pSQ{\varphi \to \psi}
+        | | (\text!{${\pSQ{\varphi \to \psi}}の定義})
+        |});
+        よってOK。
+      }
+      +pn{
+        ${(\exists \mathrm{L})}: ${x \nin \FV(\Gamma) \cup \FV(\Delta)}とする。
+        \eqn-notag(open Derive in open DeriveDSL in ${
+          \derive-unary{\exists x \varphi(x), \Gamma}{\Delta}{(\exists\mathrm{L})}{\varphi(x), \Gamma}{\Delta}
+        });
+        ここで帰納法の仮定が非自明になる。任意の${\dot{x} \in V^{\mathbb{B}}}について以下が成り立つ、というのが帰納法の仮定である：
+        \eqn-notag(${
+          \varphi(\dot{x}) \cdot \prod \pSQ{\Gamma} \leq \sum \pSQ{\Delta}
+        });
+        ${\sum}は単調なので、両辺を${\dot{x}}を渡って上限を取れば：
+        \eqn-notag(${
+          \sum_{\dot{x} \in V^{\mathbb{B}}} \pb{\varphi(\dot{x}) \cdot \prod \pSQ{\Gamma}} \leq \sum_{\dot{x} \in V^{\mathbb{B}}}\sum \pSQ{\Delta}
+        });
+        しかし、仮定より変数${x}は${\Gamma, \Delta}に自由に現れないので結局次を得る：
+        \eqn-notag(${
+          \pSQ{\exists x \varphi(x)} \cdot \prod \pSQ{\Gamma} =
+          \pb{\sum_{\dot{x} \in V^{\mathbb{B}}} \varphi(\dot{x})} \cdot \prod \pSQ{\Gamma}
+          = \sum_{\dot{x} \in V^{\mathbb{B}}} \pb{\varphi(\dot{x}) \cdot \prod \pSQ{\Gamma}} \leq \sum_{\dot{x} \in V^{\mathbb{B}}}\sum \pSQ{\Delta}
+          = \sum \pSQ{\Delta}.
+        });
+      }
+      +pn{
+        ${(\exists \mathrm{R})}: アタリマエ。
+      }
+
     >
-    +p{このことから、${V^{\mathbb{B}}}は少なくとも演繹について閉じていることがわかった。次にしなくてはならないことは、${V^{\mathbb{B}}}が${\ZFC}の公理を満たしていることである。}
-    +theorem<+p{${V \models \ZF}なら${V^{\mathbb{B}} \models \ZF}}>
-    +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
+    +exercise<
+      +p{省略したケースを補い、上の証明を完成させよ。}
+    >
+    +p{
+      以上から、${V^{\mathbb{B}}}は少なくとも演繹について閉じていることがわかり、特に三段論法（というかModus Ponens）を自由に使ってよいことがわかった。
+      次に、${V^{\mathbb{B}}}の中で${\check{V}}がどう見えているかを調べてみよう。まず、${\check{V}}は${V}と「全く同じ命題を満たす」ことがわかる：
+    }
     +theorem<
       +p{${\ZF}-論理式${\varphi(x_0, \ldots, x_{n-1})}と${a_0, \ldots, a_{n-1} \in V}について、以下が成り立つ：}
-      +eqn-notag(${
-        V \models \varphi(a_0, \ldots, a_{n-1}) \iff V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{a}_0, \ldots, \check{a}_{n-1}).
-      });
+      +enumerate{
+        * ${\pSQ{\varphi(\check{a}_0, \ldots, \check{a}_{n-1})}_\mathbb{B} \in \set{\mathbb{0}, \mathbb{1}}}.
+        * ${
+          V \models \varphi(a_0, \ldots, a_{n-1}) \iff V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{a}_0, \ldots, \check{a}_{n-1}).
+          }
+      }      
     >
+    +p{まず、次の補題が成り立つことを注意する：}
+    +lemma<+p{${\pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}}}>
+    +exercise<+p{示せ。${V^{\mathbb{B}}}が演繹について閉じていること、一般の等号公理が成り立つことなどを使えばよい。}>
+    +proof<
+      +p{論理式の複雑性に関する帰納法。非自明なので${\exists x \varphi(x)}の場合だけ示す。}
+      +p{
+        ${V \models \exists x \varphi(x)}とすると、${V}は普通の二値モデルなので${x \in V}で${V \models \varphi(x)}を満たすものがとれる。すると、帰納法の仮定より${V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{x})}が成り立つ。
+        よって${\check{x} \in \check{V} \subseteq V^{\mathbb{B}}}より
+        \eqn-notag(${\mathbb{1} = \pSQ{\varphi^{\check{\mscript{V}}}(\check{x})} = \pSQ{\check{x} \in \check{V}}  \cdot \pSQ{\varphi^{\check{\mscript{V}}}(\check{x})} \leq \sum_{\dot{x}} \pb{\pSQ{\dot{x} \in \check{V}} \cdot \pSQ{\varphi^{\check{\mscript{V}}}(\dot{x})}_{\mathbb{B}}} = \pSQ{\exists x \in \check{V}\mhquad \varphi(x)}});
+        となるのでよい。
+      }
+      +p{
+        逆向きを示す：${\pSQ{\exists x \mhquad \pB{x \in \check{V} \land \varphi(x)}} = \mathbb{1}}とする。この時上の演習から：
+        \eqn-notag(${\mathbb{1} = \pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}});
+        よって、ある${x \in V}が存在し、${\pSQ{\varphi^{\check{\mscript{V}}}(x)} > \mathbb{0}}となる。すると、帰納法の仮定より${\pSQ{\varphi^V(\check{x})} = \mathbb{1}}となり、再び帰納法の仮定から${V \models \varphi(x)}が成り立つ。よって${V \models \exists x \varphi(x)}を得る。
+      }
+    >
+    +exercise<+p{残りのケースを補い、証明を完成させよ。}>
     +theorem<
       +p{${V^{\mathbb{B}} \models \pB{\check{V}: \text!{推移的クラス}, \On \subset \check{V}}}.}
+    >
+    +theorem<+p{${V \models \ZF}なら${V^{\mathbb{B}} \models \ZF}}>
+    +proof<
+      +p{内包、外延性、和、対、冪、基礎、収集公理が成り立つことを示す。}
+      +p{外延性は${=}や${\in}の解釈の定義から明らかに成り立つ。}
+      +p{
+        まずは内包公理を示す。というのも、この先${f(x) = \dot{y}}となるような${\dot{y}}をつくるときに、${\pB{f(\dot{x}) \subseteq \dot{p}}}となるような${\dot{p}}を作るだけで済み、経済的だからである。
+        ${\varphi(x)}を${V^{\mathbb{B}}}をパラメータに持つ${\FL}-論理式、${\dot{A}}を${\mathbb{B}}-名称とする。名称${\dot{C}}で任意の${\dot{x}}について次が成り立つものを取れればよい：
+        \eqn-notag(${
+          \pSQ{\dot{x} \in \dot{C}} = \pSQ{\varphi(\dot{x}) \land \dot{x} \in \dot{A}}.
+        });
+        結論から言えば、次で十分である：
+        \eqn-notag(${
+          \dot{C} \defeq \Set{ \pangle{\dot{z}, \pSQ{\dot{z} \in \dot{A} \land \varphi(\dot{z})}} }{ \dot{z} \in \dom(\dot{A})}.
+        });
+        実際：
+        \alignat?:(AZMathEquation.notag)(2)(${
+        | \pSQ{\dot{x} \in \dot{C}} 
+          | = \sum_{\dot{\mscript{z}} \in \dom(\dot{\mscript{A}})} \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\dot{z} \in \dot{A} \land \varphi(\dot{z})}
+          | \mhquad | (\text!{by definition})
+        | | \leq \pSQ{\dot{x} \in \dot{A} \land \varphi(\dot{x})}
+          | | (\text!{等号公理})
+        | | = \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+          | | (\text!{by definition})
+        | | \leq \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+          | | (\because\mhquad (\dot{y}, c) \in \dot{A} \implies c \leq \pSQ{\dot{y} \in \dot{A}})
+        | | = 
+          \sum_{\dot{\mscript{z}} \in \dom(\dot{\mscript{A}})} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+          | | (\text!{${b}が右辺に現れないので})
+        | | \leq
+          \sum_{\dot{\mscript{z}} \in \dom(\dot{\mscript{A}})} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\varphi(\dot{z})} \cdot \pSQ{\dot{x} = \dot{z}}
+          || (\text!{等号公理、冪等性、交換則})
+        | | = \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{C}}} b \cdot \pSQ{\dot{x} = \dot{z}}
+          | | (\text!{${C}の定義})
+        | | = \pSQ{\dot{x} \in \dot{C}}
+          | | (\text!{by definition})
+        |});
+        よって${\pSQ{\dot{x} \in \dot{C}} \leq \pSQ{\dot{x} \in \dot{A} \land \varphi(\dot{x})} \leq \pSQ{\dot{x} \in \dot{C}}}が言え、${\dot{C}}が${\dot{A}}と${\varphi(x)}についての内包公理の証拠となることがわかった。
+      }
+      +p{
+        和、対、冪については、${\dot{x}, \dot{y} \in V^{\mathbb{B}}}に対して${\bigcup \dot{x}}や${\set{\dot{x}, \dot{y}}}、${\Pow(\dot{x})}として振る舞う名前を直接作ってやればよい。特に、対はとても簡単である（ヒント：${\mathbb{1}}を使おう）。}
+
+      +p{
+        例として、ここでは冪集合公理が成り立つことを見よう。${\dot{x}}が任意に与えられたときに、${\pSQ{\Pow(\dot{x}) = \dot{p}} = \mathbb{1}}となるような${\dot{p}}をでっちあげる。
+        しかし、\emph{内包公理を既に示してある}ので、${\pSQ{\Pow(\dot{x}) \subseteq \dot{p}} = \mathbb{1}}となるような${\dot{p}}さえ取れれば、あとは内包公理で必要なものだけを取り出してくればよいので十分である。
+        これは次のようにすればよい：
+        \eqn-notag(${
+          \dot{p} \defeq \Set{ (\dot{z}, \pSQ{\dot{z} \subseteq \dot{x}}) }{ \dot{z} \subseteq \dom(\dot{x}) \times \mathbb{B}}.
+        });
+        そこで${\dot{z}}を任意に取り、${\pSQ{\dot{z} \subseteq \dot{x}} \leq \pSQ{\dot{z} \in \dot{p}}}を示そう。
+        ここで、上の内包公理の証明で${\dot{A} = \dot{x}}、${\varphi(z) \equiv z \in \dot{z}}として得られるものを${\dot{z}'}とおくと、${\pSQ{\dot{z}' = \dot{z} \cap \dot{x}} = \mathbb{1}}となっている。
+        よって、特に${\pSQ{\dot{z} \subseteq \dot{x}} = \pSQ{\dot{z} = \dot{z}'}}となる。他方、取り方より${\pSQ{\dot{z}' \subseteq \dot{x}} = \mathbb{1}}なので、定義より${(\dot{z}', \mathbb{1}) \in \dot{p}}である。以上を踏まえれば、
+        \align?:(AZMathEquation.notag)(${
+        | \pSQ{\dot{z} \subseteq \dot{x}}
+        | = \pSQ{\dot{z} = \dot{z}'}  = \mathbb{1} \cdot \pSQ{\dot{z} = \dot{z}'}
+        | | \leq \sum_{(\dot{\mscript{w}}, b) \in \dot{\mscript{p}}} b \cdot \pSQ{\dot{z} = \dot{w}} = \pSQ{\dot{z} \in \dot{p}}
+        |});
+        よって示せた。
+      }
+      +p{\emph{TODO:} 残りも示す。}
+    >
+    +exercise<+p{残りの公理の成立を示し、証明を完遂させよ。また、余力があれば、証明中で定義した名称をどう修正すると${\mathbb{B}}が一般の擬順序の場合でも証明が通るようになるか考えよ。}>
+    +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
+    +theorem?*?:({Maximal Principle})<
+      +p{
+        ${V \models \AC}とする。次は同値：
+        \enumerate{
+          * ${V^{\mathbb{B}} \models \exists x \varphi(x)}
+          * ある${\dot{x} \in V^{\mathbb{B}}}が存在して${V^{\mathbb{B}} \models \varphi(\dot{x})}となる。
+        }
+      }
     >
     +subsection{${V}と${V^{\mathbb{B}}}で何が一致するのか：推移的クラスと${\Delta_1}-絶対性}<
       +p{さて、以上で${V^{\mathbb{B}}}の中には${\check{V}}という${V}の現し身があり、${V}と${\check{V}}で真偽は一致するのだった。${V^{\mathbb{B}}}も${\check{V}}も${\ZF}のモデルになっているようだが、両者の間でどんな概念が常に一致するのだろうか？}
@@ -221,7 +421,7 @@ in document (|
         });
       }
       +p{
-        他方で、整礎ならばランク関数${\mathrm{rk}: A \to \On}が取れるのだった。
+        他方で、整礎ならばランク関数${\mathrm{\rho}: A \to \On}が取れるのだった。
         とくに、${x \mathrel{R} y \implies f(x) < f(y)}を満たす関数${f: A \to \On}が必ずとれ、またこのような${f}が存在すれば${R}は必ず整礎となる。
         順序数の概念は絶対的であったので、以上を踏まえれば${R}の整礎性は次の${\Sigma_1}-論理式と同値である：
         \eqn-notag(${
