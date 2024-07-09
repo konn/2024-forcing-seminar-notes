@@ -213,6 +213,46 @@ in document (|
     +exercise<
       +p{省略したケースを補い、上の証明を完成させよ。}
     >
+
+    +lemma?:(`lem:bd-qfer`)<
+      +p{以下が成り立つ：}
+      +enumerate{
+        * ${(\dot{x}, b) \in \dot{A} \implies b \leq \pSQ{\dot{x} \in \dot{A}}}.
+        * ${\pSQ{\exists x \in \dot{A} \mhquad \varphi(x)} = \sum_{(\dot{\mscript{x}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{x})}}.
+        * ${\pSQ{\forall x \in \dot{A} \mhquad \varphi(x)} = \prod_{(\dot{\mscript{x}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{x})}}.
+      }
+    >
+    +proof<
+      +p{${(1)}: ${\pSQ{\dot{x} = \dot{x}} = \mathbb{1}}なので明らか。}
+      +p{
+        ${(2)}が言えれば${(3)}は補元を取れば明らかなので、${(2)}を示す。しかるに、
+        \alignat?:(AZMathEquation.notag)(2)(${
+        | \pSQ{\exists x \in \dot{A} \mhquad \varphi(x)}
+          | = \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \pSQ{\dot{x} \in \dot{A}} \cdot \pSQ{\varphi(\dot{x})}
+          | \mqquad | (\text!{by definition})
+        | | = \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+          | | (\text!{定義、分配則})
+        | | \leq \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{z})}
+          | | (\text!{等号公理})
+        | | = \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{z})}
+          | |
+        | | \leq \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\varphi(\dot{z})}
+          | | (1)
+        | | \leq \sum_{\dot{\mscript{z}} \in V^{\mathbb{B}}} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\varphi(\dot{z})}
+          | | (\text!{上限の範囲が広がっただけ})
+        |});
+        よって示せた。
+      }
+    >
+
+    +cor?:(`cor:V-qfer`)<+p{
+      \enumerate{
+        * ${\pSQ{\check{x} \in \check{V}} = \mathbb{1}}
+        * ${\pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}}
+        * ${\pSQ{\forall x \in \check{V} \mhquad \varphi(x)} = \prod_{x \in V} \pSQ{\varphi(\check{x})}}
+      }
+    }>
+
     +p{
       以上から、${V^{\mathbb{B}}}は少なくとも演繹について閉じていることがわかり、特に三段論法（というかModus Ponens）を自由に使ってよいことがわかった。
       次に、${V^{\mathbb{B}}}の中で${\check{V}}がどう見えているかを調べてみよう。まず、${\check{V}}は${V}と「全く同じ命題を満たす」ことがわかる：
@@ -226,9 +266,6 @@ in document (|
           }
       }      
     >
-    +p{まず、次の補題が成り立つことを注意する：}
-    +lemma<+p{${\pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}}}>
-    +exercise<+p{示せ。${V^{\mathbb{B}}}が演繹について閉じていること、一般の等号公理が成り立つことなどを使えばよい。}>
     +proof<
       +p{論理式の複雑性に関する帰納法。非自明なので${\exists x \varphi(x)}の場合だけ示す。}
       +p{
@@ -238,7 +275,7 @@ in document (|
         となるのでよい。
       }
       +p{
-        逆向きを示す：${\pSQ{\exists x \mhquad \pB{x \in \check{V} \land \varphi(x)}} = \mathbb{1}}とする。この時上の演習から：
+        逆向きを示す：${\pSQ{\exists x \mhquad \pB{x \in \check{V} \land \varphi(x)}} = \mathbb{1}}とする。この時\ref(`cor:V-qfer`);から：
         \eqn-notag(${\mathbb{1} = \pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}});
         よって、ある${x \in V}が存在し、${\pSQ{\varphi^{\check{\mscript{V}}}(x)} > \mathbb{0}}となる。すると、帰納法の仮定より${\pSQ{\varphi^V(\check{x})} = \mathbb{1}}となり、再び帰納法の仮定から${V \models \varphi(x)}が成り立つ。よって${V \models \exists x \varphi(x)}を得る。
       }
@@ -249,10 +286,10 @@ in document (|
     >
     +theorem<+p{${V \models \ZF}なら${V^{\mathbb{B}} \models \ZF}}>
     +proof<
-      +p{内包、外延性、和、対、冪、基礎、収集公理が成り立つことを示す。}
-      +p{外延性は${=}や${\in}の解釈の定義から明らかに成り立つ。}
+      +p{内包、外延性、和、対、冪、基礎、収集公理が成り立つことを示す。本証明中では、選択公理は使わない。}
+      +p{\emph{外延性}は${=}や${\in}の解釈の定義から明らかに成り立つ。}
       +p{
-        まずは内包公理を示す。というのも、この先${f(x) = \dot{y}}となるような${\dot{y}}をつくるときに、${\pB{f(\dot{x}) \subseteq \dot{p}}}となるような${\dot{p}}を作るだけで済み、経済的だからである。
+        まずは\emph{内包公理}を示す。というのも、この先${f(x) = \dot{y}}となるような${\dot{y}}をつくるときに、${\pB{f(\dot{x}) \subseteq \dot{p}}}となるような${\dot{p}}を作るだけで済み、経済的だからである。
         ${\varphi(x)}を${V^{\mathbb{B}}}をパラメータに持つ${\FL}-論理式、${\dot{A}}を${\mathbb{B}}-名称とする。名称${\dot{C}}で任意の${\dot{x}}について次が成り立つものを取れればよい：
         \eqn-notag(${
           \pSQ{\dot{x} \in \dot{C}} = \pSQ{\varphi(\dot{x}) \land \dot{x} \in \dot{A}}.
@@ -289,7 +326,7 @@ in document (|
         和、対、冪については、${\dot{x}, \dot{y} \in V^{\mathbb{B}}}に対して${\bigcup \dot{x}}や${\set{\dot{x}, \dot{y}}}、${\Pow(\dot{x})}として振る舞う名前を直接作ってやればよい。特に、対はとても簡単である（ヒント：${\mathbb{1}}を使おう）。}
 
       +p{
-        例として、ここでは冪集合公理が成り立つことを見よう。${\dot{x}}が任意に与えられたときに、${\pSQ{\Pow(\dot{x}) = \dot{p}} = \mathbb{1}}となるような${\dot{p}}をでっちあげる。
+        例として、ここでは\emph{冪集合公理}が成り立つことを見よう。${\dot{x}}が任意に与えられたときに、${\pSQ{\Pow(\dot{x}) = \dot{p}} = \mathbb{1}}となるような${\dot{p}}をでっちあげる。
         しかし、\emph{内包公理を既に示してある}ので、${\pSQ{\Pow(\dot{x}) \subseteq \dot{p}} = \mathbb{1}}となるような${\dot{p}}さえ取れれば、あとは内包公理で必要なものだけを取り出してくればよいので十分である。
         これは次のようにすればよい：
         \eqn-notag(${
@@ -305,7 +342,29 @@ in document (|
         |});
         よって示せた。
       }
-      +p{\emph{TODO:} 残りも示す。}
+      +p{
+        \emph{基礎の公理}を示す。${\dot{A}}を任意にとり${\pSQ{\dot{A} \neq \emptyset \to \exists z \in \dot{A} \forall x \in z \mhquad x \nin \dot{A}} = \mathbb{1}}を示せばよい。
+        そこで、
+        \eqn-notag(${\pSQ{\dot{A} \neq \emptyset \to \exists z \in \dot{A} \forall x \in z \mhquad x \nin \dot{A}} < \mathbb{1}});
+        として矛盾をしめす。
+        
+        このとき補元をとれば、
+        \eqn-notag(${
+          b \defeq \pSQ{\dot{A} \neq \emptyset \land \forall z \in \dot{A} \exists x \in z \mhquad x \in \dot{A}} > \mathbb{0}
+        });
+        である。
+        このとき、${\dot{z}}で${\pSQ{\dot{z} \in \dot{A}} \cdot b > \mathbb{0}}となるものが存在する。そこで、${\dot{z}}をそのような中で${V^{\mathbb{B}}}-階数最小のものとする。すると、
+        \alignat?:(AZMathEquation.notag)(2)(${
+        | \mathbb{0} |< \pSQ{\dot{z} \in \dot{A}} \cdot b \cdot b \leq
+            \pSQ{\exists x \in \dot{z} \mhquad x \in \dot{A}} \cdot b | \mqquad |
+        | | = \sum_{(\dot{\mscript{x}}, c) \in \dot{\mscript{z}}} c \cdot \pSQ{\dot{x} \in \dot{A}} \cdot b
+        | | (\text!{\ref(`lem:bd-qfer`);の${(2)}、分配則})
+        | | \leq \sum_{\dot{\mscript{x}} \in \dom(\dot{\mscript{z}})} b \cdot \pSQ{\dot{x} \in \dot{A}}
+        | | (\text!{${\sum}の単調性})
+        |});
+        とくに${b \cdot \pSQ{\dot{x} \in \dot{A}} > \mathbb{0}}となる${\dot{x} \in \dom(\dot{z})}が存在する。しかし、${\dot{x} \in \dom(\dot{z})}より${\rank_{\mathbb{B}}(\dot{x}) < \rank_{\mathbb{B}}(\dot{z})}となり、これは${\dot{x}}の${\mathbb{B}}-階数の極小性に矛盾する。
+      }
+
     >
     +exercise<+p{残りの公理の成立を示し、証明を完遂させよ。また、余力があれば、証明中で定義した名称をどう修正すると${\mathbb{B}}が一般の擬順序の場合でも証明が通るようになるか考えよ。}>
     +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
