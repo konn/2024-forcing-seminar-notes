@@ -118,12 +118,14 @@ in document (|
     +theorem<
       +p{${V^{\mathbb{B}} \models \pB{\check{V}: \text!{推移的クラス}, \On \subset \check{V}}}.}
     >
-    +subsection{推移的クラスと${\Delta_1}-絶対性}<
+    +subsection{${V}と${V^{\mathbb{B}}}で何が一致するのか：推移的クラスと${\Delta_1}-絶対性}<
+      +p{さて、以上で${V^{\mathbb{B}}}の中には${\check{V}}という${V}の現し身があり、${V}と${\check{V}}で真偽は一致するのだった。${V^{\mathbb{B}}}も${\check{V}}も${\ZF}のモデルになっているようだが、両者の間でどんな概念が常に一致するのだろうか？}
+      +p{大事なのは、前節最後の定理が示したように${V^{\mathbb{B}}}が${\check{V}}の推移的クラスになっていることである。十分に強い${\ZF}の推移的モデルの間では、色々な概念が一致する（絶対的である）ことがわかる。本節では、主に${\Delta_1}と呼ばれる論理式のクラスで表現できる概念が、${V}と${V^{\mathbb{B}}}の間で一致することを見る。特に、自然数や有限性、順序数、整礎性、「対であること」「関数であること」などといった基本的な概念が${V}と${V^{\mathbb{B}}}で一致することを確認する。}
       +defn?*?:({Levy階層})<
         +p{
           論理式の階層${\Delta_0 = \Pi_0 = \Sigma_0 \subsetneq \Delta_1 \subsetneq \Pi_1, \Sigma_1 \subsetneq \Delta_2 \subsetneq \ldots}を次のように定める：
           \listing{
-            * ${\exists x \in A}の形の量化子を有界であるという。
+            * ${\exists x \in t}の形の量化子を有界であるという。
             * 全ての量化子が有界な論理式を${\Delta_0}-論理式と呼ぶ。${\Pi_0 = \Sigma_0 = \Delta_0}とする（が、あまりこの記号は用いられない）。
             * ${\Pi_n}-論理式${\varphi}について、${\exists \bar{x} \varphi}の形の論理式を${\Sigma_{n+1}}-論理式と呼ぶ。
             * ${\Sigma_n}-論理式${\psi}について、${\forall \bar{x} \psi}の形の論理式を${\Pi_{n+1}}-論理式と呼ぶ。
@@ -131,6 +133,7 @@ in document (|
           }
           ${\Gamma}を論理式のクラスとするとき、集合${x}が${\Gamma}-概念であるとは、${x}が${\Gamma}-論理式で定義できることである。
         }
+        +p{論理式${\varphi(x, y)}が関数${f}を定めるとき、つまり${\forall x \exists\! y \varphi(x,y)}が成り立つとき、関数${f}がモデル${M \subseteq N}の間で絶対的であるとは、${f}は${M, N}どちらで見ても関数であり、${\dom^M(f) \subseteq \dom^N(f)}かつ任意の${x \in M}について${f^M(x) = f^N(x)}が成り立つことである。}
       >
     >
     +remark<
@@ -162,10 +165,13 @@ in document (|
     >
     +p{概念の${\Delta_0}-性を判定するには、次の定理が役に経つ：}
     +lemma<
-      +p{和集合公理の下で、${k < \omega, \varphi}について以下は${\Delta_0}：}
-      +gather?:(AZMathEquation.notag)(${|
-        \exists x \in \underbrace{\bigcup \cdots \bigcup}_{k\text!{-copies}} y \mhquad \varphi
-      |});
+      +p{和集合公理の下で、${k < \omega}および${\Delta_0}-論理式${\varphi}について${
+        \exists x \in \mathop{\mathord{\bigcup}^{(k)}} y \mhquad \varphi
+      }も${\Delta_0}で表現可能。ただし：
+      \eqn-notag(${
+        \mathord{\bigcup}^{(0)} x = x, \mquad \mathord{\bigcup}^{(k+1)} x = \bigcup \p{\mathop{\mathord{\bigcup}^{(k)}} x}.
+      });
+      }
     >
     +cor<
       +p{以下はBSTで${\Delta_0}-概念であり、従ってBSTの推移的モデルで絶対的：}
@@ -192,16 +198,73 @@ in document (|
     +defn<
       +p{構造${\pangle{\HF, \mathord{\in}}}上で定義される${n}-項関係を\emph{算術的}（\emph{arithmetical}）と言う。}
     >
+    +p{${\Delta_1}-概念も絶対である：}
     +lemma<
-      +p{以下はBSTで絶対的：}
+      +p{${\Delta_1}-概念はBSTの推移モデルについて絶対的である。}
+    >
+    +proof<
+      +p{
+        ${\varphi(x), \psi(x)}を${\Delta_0}-論理式とし、${T \proves \forall x \varphi(x) \liff \chi \liff \exists x \psi(x)}とする。${M \subseteq N \models T}を推移的モデルとする。
+        ${M \models \chi}から${N \models \chi}を示すには${\exists x \psi(x)}との同値性と${\psi(x)}の${\Delta_0}-性を使って${M}での証拠が${N}でも証拠になっていることからわかる。逆に${N \models \chi}から${M \models \chi}を示すには、${N \models \forall x \varphi(x)}と${M \subseteq N}より任意の${x \in M}についても${N \models \varphi(x)}が言え、${\Delta_0}からこれが${M}でも成り立つことからわかる。
+      }
+    >
+    +remark<+p{${\Delta_1}-論理式は、${\HK}に制限すると決定可能命題や計算可能関数のクラスと一致する。よって、上の命題から次が言える：}>
+    +cor<+p{推移的モデルの間で、計算可能関数は絶対的。}>
+    +p{${\Delta_1}-絶対性のほかの重要な応用は、整礎性の絶対性を保証してくれることである：}
+    +lemma<+p{${M \subseteq N}を${\ZF - \mathrm{P}}の推移的モデル、${R \in M}を${A \in M}上の二項関係とするとき、「${R}は${A}上の整礎関係」は絶対的。}>
+    +proof<
+      +p{
+        整礎関係を「${A}の任意の空でない部分集合が${R}-極小元を持つ」という形で定式化すれば、これは${\Pi_1}である：
+        \eqn-notag(${
+          \forall X \mhquad
+            \pB{\emptyset \neq X \subseteq A \implies \exists x \in X \forall y \in X \mhquad \lnot y R x}
+        });
+      }
+      +p{
+        他方で、整礎ならばランク関数${\mathrm{rk}: A \to \On}が取れるのだった。
+        とくに、${x \mathrel{R} y \implies f(x) < f(y)}を満たす関数${f: A \to \On}が必ずとれ、またこのような${f}が存在すれば${R}は必ず整礎となる。
+        順序数の概念は絶対的であったので、以上を踏まえれば${R}の整礎性は次の${\Sigma_1}-論理式と同値である：
+        \eqn-notag(${
+          \exists f \exists \alpha \in \On \pB{
+            f: A \to \alpha \land \forall x, y \in A \mhquad x \mathrel{R} y \implies f(x) < f(y)
+          }
+        });
+      }
+      +p{以上より、${R}の整礎性は${\Delta_1}-概念なので、推移的モデルについて絶対的である。}
+    >
+    +p{絶対的な論理式・整礎関係を使って超限帰納法で定義できるような概念も推移モデルの間で絶対的である：}
+    +lemma?*?:({超限帰納法で定義される関数の絶対性})<
+      +p{
+        ${M \subseteq N}を${\ZF - \mathrm{P}}の推移的モデル、${A}を定義可能なクラス、${G(x, y)}が定義可能な関数、${R}を${A}上でset-likeな整礎関係（つまり、任意の${x \in A}について${x\mathord{\downarrow} = \Set{y}{y \mathrel{R} x}}が集合であるような整礎関係）とする。更に、${G, A, R}は${M, N}の間で絶対的であるとする。
+        ここで、関数${F(x)}が${F(x) \defeq G(x, F \restrict \p{x\mathord{\downarrow}})}を満たす超限帰納法で定義された関数のとき、${F}も${M}と${N}の間で絶対的である。
+      }
+    >
+    +proof<
+      +p{${F^M(a) \neq F^N(a)}となるような最小な${a}を取れば${(F\restrict a\mathord{\downarrow})^M = (F\restrict a\mathord{\downarrow})^N}となる。すると${G, R, A}の絶対性より${F^M(a) = G^M(a, F \restrict (a \mathord{\downarrow})) = G^N(a, F \restrict (a \mathord{\downarrow}))}となり矛盾。}
+    >
+    +p{これまでの議論の系として以下の絶対性が得られる：}
+    +lemma<
+      +p{以下は${\ZF - \mathrm{P}}の推移的モデルの間で絶対的：}
       +enumerate{
         * 二引数関数${x, y \mapsto x \cup y}および${x, y \mapsto x \cap y}
+        * ランク関数${x \mapsto \rho(x)}
         * 単項関数${x \mapsto \bigcup x}および${x \mapsto \bigcap x}（ただし${x = \emptyset}のときは未定義とする）。
+        * 推移閉包関数${x \mapsto \mathrm{trcl}(x)}
         * 対関数${x, y \mapsto \pangle{x, y}}および${x, y \mapsto \pb{x, y}}。
         * 二引数関数${x, y \mapsto x \times y}。
         * 任意の算術的関係
-        * ${\mathcal{L}}を言語とするとき、「${\varphi}は${\mathcal{L}}-論理式」
-        * 「${M \models \varphi}」
+        * ${\mathcal{L}}を言語とするとき、「${\varphi}は${\mathcal{L}}-論理式」「${M \models \varphi}」
+      }
+    >
+    +p{以上を踏まえれば、${V^\mathbb{B}}と${V}の間で上で述べたような概念は全て一致する。}
+    +cor<
+      +p{上で挙げた概念はぜんぶ${V}と${V^{\mathbb{B}}}の間で絶対的。特に大事なのは：}
+      +enumerate{
+        * 順序数の概念。
+        * 集合の和・直積・共通部分、順序・非順序対。
+        * 自然数、有限集合、遺伝的有限集合の概念。決定可能な命題・計算可能な関数。
+        * 順序数の算術。
+        * 関係の整礎性、整列性、超限再帰で定義された関数・関係。
       }
     >
   >
@@ -270,8 +333,8 @@ in document (|
     +proof<
       +p{${(1) \implies (2)}: 極大反鎖は前稠密なのであたりまえ。}
       +p{${(2) \implies (3)}: ${D}を稠密集合とする。このとき、${\mathcal{A} \subseteq D}となるような中で極大な反鎖${\mathcal{A}}を取れば、これは${\mathbb{B}}の極大反鎖になっている。}
-      +p{${(3) \implies (4)}：条件が強くなっているだけなのであたりまえ。}
-      +p{${(4) \implies (1)}：${D}を前稠密集合とすると、${E \defeq \Set{ b \leq d }{ d \in D }}は稠密開集合である。仮定より${b \in G \cap E}が取れるが、これは定義より${G \cap E \ni b \leq d}となる${d \in D}が取れることを意味する。${G}はフィルターなので、特に上に閉じているから、結局${d \in G \cap D}となる。}
+      +p{${(3) \implies (4)}: 条件が強くなっているだけなのであたりまえ。}
+      +p{${(4) \implies (1)}: ${D}を前稠密集合とすると、${E \defeq \mathord{D\mathord{\downarrow}} = \Set{ b \leq d }{ d \in D }}は稠密開集合である。仮定より${b \in G \cap E}が取れるが、これは定義より${G \cap E \ni b \leq d}となる${d \in D}が取れることを意味する。${G}はフィルターなので、特に上に閉じているから、結局${d \in G \cap D}となる。}
     >
     +theorem<
       +p{${M}を十分強い集合論のモデルとする。${\mathbb{B} \in M}を完備Boole代数、${G}を${(M, \mathbb{B})}-生成的フィルターとするとき、${G}は${\mathbb{B}}の超フィルターである。}
@@ -294,6 +357,39 @@ in document (|
 
     +cor<
       +p{${V^{\mathbb{B}} \models \forall x \exists \sigma \in \check{V} \mhquad x = \sigma_{\dot{\mrfontsize!(0.6){G}}}}が成り立つので、つまり${V^{\mathbb{B}} \models \text!{「私は${\check{V}[\dot{G}]}です」}}}
+    >
+
+    +p{「面白い」ような完備Boole代数${\mathbb{B}}については、${(V, \mathbb{B})}-生成フィルターは決して${V}には属さないことがわかる：}
+
+    +defn<
+      +p{${p \in \mathbb{P}}が擬順序${\mathbb{P}}の\emph{原子}（\emph{atom}）${\defs}任意の${q, r \leq p}について${q \compat r}。}
+    >
+
+    +remark<
+      +p{完備Boole代数の場合、${p}が原子であることは、${\mathbb{B}^+}の極小元であることと同値である。}
+    >
+
+    +lemma?:(`lem:atomless-dense`)<
+      +p{${\mathbb{P}}が原子を持たず、${F \subseteq \mathbb{B}}がフィルターなら、${\mathbb{B} \setminus F}は稠密である。}
+    >
+    +proof<
+      +p{まず、${F}がフィルター、${q \mathrel{\bot} r}の${q \in \mathbb{B} \setminus F}または${r \in \mathbb{B} \setminus F}の少なくとも一方は成り立たなければならない。なぜなら、どちらも属さないなら${q, r \in F}となり、${0 = q \cdot r \in F}となって${0 \nin F}に矛盾するからである。}
+      +p{そこで${\mathbb{P}}が原子を持たないとすると、どんな${p \in \mathbb{P}}についても${q \mathrel{\bot} r}となる${q, r \leq p}が取れる。よって上の議論から${q \in \mathbb{P} \setminus F}か${r \in \mathbb{P} \setminus F}の少なくとも一方が成り立つ。よって${\mathbb{P} \setminus F}は稠密である。
+      }
+    >
+
+    +cor<
+      +p{
+        次は同値：
+        \enumerate{
+          * ${\mathbb{B}}が原子を持たない
+          * ${(V, \mathbb{B})}-生成フィルターは${V}に存在しない。
+        }
+      }
+    >
+    +proof<
+      +p{${(1) \implies (2)}は上の\ref(`lem:atomless-dense`);から${G \in V}とすると${G \cap (\mathbb{B} \setminus G) = \emptyset}となり${G}の生成性に矛盾するので明らか。}
+      +p{${(2) \implies (1)}については、対偶を示せばよい。${p}が原子としたときに${p \in F}となるフィルター${F}を取れば、これは${p}の極小性から任意の稠密集合と交わる。そんなフィルターは${V}内で取れるので、これが求めるものである。}
     >
   >
   +section{稠密埋め込みと擬順序による強制法}<
