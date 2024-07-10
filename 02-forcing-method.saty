@@ -68,6 +68,7 @@ in document (|
         * 二項de Morgan則：${-(a + b) = (-a) \cdot (-b), \mquad -(a \cdot b) = (-a) + (-b)}
         * 単調性：${a \leq b \implies a + c \leq b + c \mathbin{&} a \cdot c \leq b \cdot c}
         * 反変性：${a \leq b \iff -b \leq -a}
+        * 冪等律：${a \cdot a = a = a + a}
         * 随伴律：${a \cdot b \leq c \iff a \leq b \loli c}
         * 対合律：${-(-a) = a}
         * ${a \leq (b \loli c) \cdot (c \loli b) \iff a \cdot b = a \cdot c}
