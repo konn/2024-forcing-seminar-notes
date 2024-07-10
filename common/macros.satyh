@@ -510,3 +510,9 @@ let derive-unary tol tor b-c froml fromr =
   ${\proven!(derive to |> byOp {${#b-c}} |> from [assume assump])}
 
 let-math \derive-unary tol tor b-c froml fromr = derive-unary tol tor b-c froml fromr
+
+let-math \mydot x = math-in-math MathOrd 
+  (fun ctx -> (
+    let sz = ctx |> get-font-size
+    in ${\mfontsize!(sz){\dot{#x}}}
+  ))
