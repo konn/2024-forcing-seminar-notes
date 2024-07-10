@@ -839,7 +839,7 @@ in document (|
     +p{
       前節までは、主に完備Boole代数による強制法を考えてきた。実用上はより一般の擬順序による強制法が使われることが多い。本節では、完備Boole代数による強制法理論から擬順序による定式化を導出する。
     }
-    +theorem?*?:({強制法定理})<
+    +theorem?*?:({定義可能性定理})<
       +p{
         \enumerate{
           * ${p \forces \dot{x} \in \dot{y} \iff \Set{q \in \mathbb{P}}{ \exists (\dot{z}, b) \in \dot{y} \mhquad[q \leq b \land q \forces \dot{z} = \dot{x}]}}が${p}以下で稠密。
