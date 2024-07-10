@@ -893,8 +893,8 @@ in document (|
       }
     >
     +proof<
-      +p{${(1) \implies (2)}は上の\ref(`lem:atomless-dense`);から${G \in V}とすると${G \cap (\mathbb{B} \setminus G) = \emptyset}となり${G}の生成性に矛盾するので明らか。}
-      +p{${(2) \implies (1)}については、対偶を示せばよい。${p}が原子としたときに${p \in F}となるフィルター${F}を取れば、これは${p}の極小性から任意の稠密集合と交わる。そんなフィルターは${V}内で取れるので、これが求めるものである。}
+      +p{${(1) \implies (2)}：\ref(`lem:atomless-dense`);から${G \in V}とすると${G \cap (\mathbb{B} \setminus G) = \emptyset}となり${G}の生成性に矛盾する。}
+      +p{${(2) \implies (1)}：対偶を示す。${p}が原子としたとき、${F \defeq \Set{b \in \mathbb{B}}{p \leq b}}はフィルターであり、これは${p}の極小性から任意の稠密集合と交わる。明らかに${F \in V}なので、これが${V}に属す${(V,\mathbb{B})}-生成フィルターである。}
     >
   >
   +section{稠密埋め込みと擬順序による強制法}<
