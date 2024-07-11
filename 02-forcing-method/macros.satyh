@@ -1,3 +1,5 @@
+@require: azmath/azmath
+@require: arrows/commands
 @import: ../common/macros
 
 let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
@@ -6,3 +8,11 @@ let-math \vartheta = ${𝜗}
 let-math \loli = ${\mathbin{⊸}}
 let-math \mscript x = ${\mrfontsize!(0.8){#x}}
 let-math \rank = ${\mathprefix{\mathrm{rank}}}
+let-math \comp = ${\mathrel{⋖}}
+let-math \dense-to = ${\hookrightarrow_{\mathrm{d}}}
+let-math \incompat = ${\mathrel{\bot}}
+let-math \comp-to = 
+  open ArrowCommands in ${\xrightarrow!(Arrow.solid(|line-width = .05; head-size=0.25|)){\comp}}
+let-math \B = ${\mathbb{B}}
+let-math \P = ${\mathbb{P}}
+let-math \Q = ${\mathbb{Q}}

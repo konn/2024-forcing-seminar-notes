@@ -24,5 +24,39 @@ let forcing-with-posets = '<
         * ${p \forces \varphi \iff \Set{r \leq p}{r \forces \varphi}: \text!{dense below ${p}}}
         * ${p \nforces \varphi \iff \exists r \leq p \mhquad r \forces \lnot \varphi}}
     }>
+
+    +notation<
+      +p{
+        以下、${\mathbb{P}, \mathbb{Q}, \mathbb{R}, \ldots}などの${P}移行の黒板太字は（Boole代数かもしれない）擬順序を、${\mathbb{B}, \mathbb{C}, \mathbb{D}}などはBoole代数を表すものとする。
+      }
+    >
+
+    +defn< +p{
+      \listing{
+        * ${\mathbb{P}^+}を${\mathbb{P}}の最小でない元全体とする：${\mathbb{P}^+ \defeq \Set{p \in \mathbb{P}}{\exists q \in \mathbb{P}\mhquad p \nleq q}}.
+        * ${f: \mathbb{P} \to \mathbb{Q}}が\emph{完備埋め込み}（\emph{complete embedding}、記号：${f: \mathbb{P} \comp-to \mathbb{Q}}）${\defs}
+          \enumerate{
+            * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
+            * 単調性：${p \leq_\P q \implies f(p) \leq_\Q f(q)},
+            * ${\mathcal{A}}が${\P}の極大反鎖なら、${f[\mathcal{A}]}も${\Q}で極大反鎖である。
+            }
+        * ${d: \P \to \Q}が\emph{稠密埋め込み}（\emph{dense embedding}、記号：${d: \P \dense-to \Q}）${\defs}
+          \enumerate{
+            * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
+            * 単調性：${p \leq_\P q \implies d(p) \leq_\Q d(q)},
+            * ${\incompat}-準同型：${p \incompat_\P q \implies d(p) \incompat_\Q d(q)},
+            * ${d[\P] \subseteq \Q}は${\Q}で稠密。
+          }
+        * ${\pi: \Q \to \P}が\emph{射影}（\emph{projection}）${\defs}
+          \enumerate{
+            * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
+            * 単調性：${p \leq_\P q \implies \pi(p) \leq_\Q \pi(q)},
+            * ${p \leq_\P \pi(q) \implies \exists q' \leq_\Q q \mhquad \p{\pi(q') \leq_\P p} }b 
+            * ${\pi[\Q] \subseteq \P}は${\P}で稠密。
+          }
+      }
+    }
+  >
+  
 >
 >
