@@ -159,12 +159,12 @@ let forcing-in-a-nutshell = '< +section{フィルターと忙しい人のため�
   ${\mathbb{P}}を擬順序集合とする。
   \enumerate{
     * ${D \subseteq \mathbb{P}}が${\mathbb{P}}で\emph{稠密}\footnote{これは、下閉集合を基本開集合として生成される位相で稠密集合になっている、という条件と同値である}（\emph{dense}）${\defs}どんな${p \in \mathbb{P}}に対しても、${q \leq p}となる${q \in D}が存在する。
-    * ${\mathcal{D}}を集合族とする。フィルター${G \subseteq \mathbb{P}}が\emph{${\mathcal{D}}-生成フィルター}（\emph{${\mathcal{D}}-generic filter}）${\defs} ${D \in \mathcal{D}}なる任意の${\mathbb{P}}-稠密集合${D \subseteq \mathbb{P}}について${D \cap G \neq \emptyset}となること。
+    * ${\mathcal{D}}を集合族とする。フィルター${G \subseteq \mathbb{P}}が\emph{${\mathcal{D}}-生成的フィルター}（\emph{${\mathcal{D}}-generic filter}）${\defs} ${D \in \mathcal{D}}なる任意の${\mathbb{P}}-稠密集合${D \subseteq \mathbb{P}}について${D \cap G \neq \emptyset}となること。
   }}
 >
 
 +p{
-  今の状況を上の定義を使って言い換えれば、${D_n}たちは${\mathbf{C}}の稠密集合であり、今回の目的は${\Set{D_n}{n < \omega}}-生成フィルターを取ろう、ということだった訳だ。その上で便利なのが次の定義と補題である：
+  今の状況を上の定義を使って言い換えれば、${D_n}たちは${\mathbf{C}}の稠密集合であり、今回の目的は${\Set{D_n}{n < \omega}}-生成的フィルターを取ろう、ということだった訳だ。その上で便利なのが次の定義と補題である：
 }
 
 +defn<
@@ -217,7 +217,7 @@ let forcing-in-a-nutshell = '< +section{フィルターと忙しい人のため�
 }
 
 +p{
-  今回は一つこの世にある実数のブラックリストからそこに載っていない実数を一個とりだしてくるのに稠密集合と生成フィルターを使った方法を使った。
+  今回は一つこの世にある実数のブラックリストからそこに載っていない実数を一個とりだしてくるのに稠密集合と生成的フィルターを使った方法を使った。
   一方で、連続体仮説は「実数はいくつあるのか？」という問題だった。なので、連続体仮説を破るには、素朴に考えるとたとえば新しく${\aleph_2}個の実数をつけ足すことができればよさそうだ。
   ここに、上で使った手法を応用できないだろうか？\quad;たとえば、実数${x \in \reals}を一つ固定したとき、以下の集合を考えてみよう：
   \eqn(${D_x \coloneq \Set{p \in \mathbf{C}}{\exists i < \omega \mhquad p(i) \neq x(i)}});
