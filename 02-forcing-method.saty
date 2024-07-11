@@ -5,8 +5,9 @@
 @require: bibyfi/bibyfi-IEEETran
 @require: fss/fss
 @import: presets
-@import: common/macros
+@import: 02-forcing-method/preamble
 @require: azmath/azmath
+@import: 02-forcing-method/ch01-algebraic-properties-of-boolean-algebras
 
 let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
 let-math \varpi = ${𝜛}
@@ -15,72 +16,11 @@ let-math \loli = ${\mathbin{⊸}}
 let-math \mscript x = ${\mrfontsize!(0.8){#x}}
 let-math \rank = ${\mathprefix{\mathrm{rank}}}
 in document (|
-  title = {\no-break{強制法セミナー第1回：強制法の基礎理論}};
+  title = {\no-break{強制法セミナー第2回：強制法の基礎理論}};
   author = {Hiromi ISHII (\@mr_konn)};
   date = {2024-XX-XX};
 |)('<
-  +section{Boole代数の基本性質}<
-    +defn?:(`def:boole`)<
-      +p{
-        以下を満たす${\mathbb{B} = (\mathbb{B}, \mathbb{0}, \mathbb{1}, \mathord{-}, \mathord{+}, \mathord{\cdot}, \mathord{\leq})}をBoole代数と呼ぶ：
-
-        \enumerate{
-          * ${\leq}は${B}上の半順序である。
-          * ${\mathbb{0}, \mathbb{1}}はそれぞれ${\leq}に関する最小・最大元である。
-          * 任意の二元${p, q \in \mathbb{B}}に対して、${p + q, p \cdot q}はそれぞれ二元の上限・下限を与える。
-            ** つまり${p, q \leq p \cdot q}かつ${\forall r \mhquad \pB{p, q \leq r \implies p \cdot q \leq r}}が成り立つ。${+}についてはこの双対を取った性質が成り立つ。
-          * ${p \in \mathbb{B}}に対し、${p}の\emph{補元}（\emph{complement}）${-p}は、${p + (-p) = \mathbb{1}}および${p \cdot (-p) = \mathbb{0}}を満たす。
-        }
-        更に${\mathbb{B}}の濃度${\kappa}-未満の任意の部分集合${A \subseteq \mathbb{B}}に上限${\sum A}・下限${\prod A}が存在するとき、${\mathbb{B}}を\emph{${\kappa}-完備Boole代数}と呼び、濃度の制限なく上限・下限が存在するBoole代数を\emph{完備Boole代数}（cBa）と呼ぶ。
-      }
-    > 
-    +p{（完備とは限らない）一般のBoole代数について、以下の代数法則が成り立つ：}
-    +lemma?:(`lem:characterise-boole`)<
-      +p{${\mathbb{B}}をBoole代数とし、${a, b, c, d \in \mathbb{B}}とすると以下が成立：}
-      +enumerate{
-        * 結合律：${a + (b + c) = (a + b) + c, \mquad a \cdot (b \cdot c) = (a \cdot b) \cdot c}
-        * 交換律：${a + b = b + a, \mquad a \cdot b = b \cdot a}
-        * 両方向の分配律：${a + (b \cdot c) = (a + b) \cdot (a + c), \mquad a \cdot (b + c) = (a \cdot b) + (a \cdot b)}
-        * 吸収律：${a + (a \cdot b) = a, \mquad a \cdot (a + b) = a}
-        * 補元：${-a + a = \mathbb{1}, \mquad (-a) \cdot a = \mathbb{0}}
-        * 単位律：${a + \mathbb{0} = a = \mathbb{0} + a, \mquad a \cdot \mathbb{1} = a = \mathbb{1} \cdot a}
-        * ${a \cdot b = a \iff a \leq b \iff a + b = b}
-      }
-    >
-    +p{実は、上の公理はBoole代数を代数的に特徴づける：}
-    +exercise<+p{
-      ${B}を集合、${\mathbb{0}, \mathbb{1} \in B, \mquad \mathord{-}: B \to B, \mquad \mathord{+}, \mathord{\cdot}: B \times B \to B}とする。
-      \enumerate{
-        * \ref(`lem:characterise-boole`);を示せ。
-        * 代数系${(B, -, +, \cdot, \mathbb{0}, \mathbb{1})}が\ref(`lem:characterise-boole`);の${(1)}から${(5)}の法則を満たすなら、${(6)}も成り立つことを示せ。また${a + b = b \iff a \cdot b = a}が成り立つことも示せ。
-        * 上の状況の下で、${(7)}のいずれか一方の条件によって${\leq}を定義すると${B}上の半順序となり、この順序について\ref(`def:boole`);の意味でのBoole代数なることを示せ。
-      }
-    }>
-    +p{以下、Boole値モデルを扱う上で頻出となるBoole代数の基本性質を列挙しておく：}
-    +lemma<
-      +p{${\mathbb{B}}をBoole代数とし、${a, b, c \in \mathbb{B}, A, B \subseteq \mathbb{B}}とする。以下の略記法を用いる：
-      \gather?:(AZMathEquation.notag)(${|a \loli b \defeq -a + b, \mquad a \cdot A = \Set{a \cdot b}{b \in A}|a + A \defeq \Set{a + b}{b \in A}, \mquad -A = \Set{-b}{b \in A}|});
-      このとき以下が成立：
-      }
-      +enumerate{
-        * ${a \cdot b \leq a \leq a + b}
-        * ${a \leq (a \cdot b) + (-b)}
-        * 二項de Morgan則：${-(a + b) = (-a) \cdot (-b), \mquad -(a \cdot b) = (-a) + (-b)}
-        * 単調性：${a \leq b \implies a + c \leq b + c \mathbin{&} a \cdot c \leq b \cdot c}
-        * 反変性：${a \leq b \iff -b \leq -a}
-        * 冪等律：${a \cdot a = a = a + a}
-        * 随伴律：${a \cdot b \leq c \iff a \leq b \loli c}
-        * 対合律：${-(-a) = a}
-        * ${a \leq (b \loli c) \cdot (c \loli b) \iff a \cdot b = a \cdot c}
-        * 無限項対二項分配律（和）：${A}が下限を持つなら${a + A}も下限を持ち、${\prod (a + A) = a + \prod A}。
-        * 無限項対二項分配律（積）：${A}が上限を持つなら${a \cdot A}も上限を持ち、${\sum (a \cdot A) = a \cdot \sum A}。
-        * 多項de Morgan則（和積）：${A}が上限${\sum A}を持つ${\iff}${-A}が下限を持つ。さらに、このどちらか（よって両方）が存在するとき、${- \sum A = \prod (-A), \mhquad \sum A = -\prod (-A)}。
-        * 多項de Morgan則（積和）：上で${\prod, \sum}を入れかえた双対。
-      }
-    >
-    +exercise<+p{上を示せ。}>
-    +remark<+p{分配律を無限項対無限項にしたものは成り立つとは限らない。これは、対応する強制法が基数を保つ条件と密接に関連がある。}>
-  >
+  #basic-boolean-algebra;
   +section{集合のBoole値モデル}<
     +defn<
       +p{${\mathbb{B}}を完備Boole代数とするとき、\emph{${\mathbb{B}}-名称}の全体${V^\mathbb{B}}を次のように超限帰納法で定める：}

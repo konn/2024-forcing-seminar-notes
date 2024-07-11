@@ -1,0 +1,8 @@
+@import: ../common/macros
+
+let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
+let-math \varpi = ${𝜛}
+let-math \vartheta = ${𝜗}
+let-math \loli = ${\mathbin{⊸}}
+let-math \mscript x = ${\mrfontsize!(0.8){#x}}
+let-math \rank = ${\mathprefix{\mathrm{rank}}}
