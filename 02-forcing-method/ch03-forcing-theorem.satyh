@@ -1,0 +1,259 @@
+@import: preamble
+
+let forcing-theorem = '<  +section{強制法定理：${V^{\mathbb{B}}}が${\ZFC}のモデルとなること}<
+  +p{さて、かねての宣言通り、いよいよ${V^{\mathbb{B}}}が集合論の公理系を満たしていることを見ていく。}
+  +theorem<
+    +p{${V \models \ZF}なら${V^{\mathbb{B}} \models \ZF}}
+  >
+  +proof<
+    +p{内包、外延性、無限、和、対、冪、基礎、収集公理が成り立つことを示す。本証明中では、選択公理は使わない。}
+    +p{\emph{外延性}は${=}や${\in}の解釈の定義から明らかに成り立つ。}
+    +p{
+      まずは\emph{内包公理}を示す。というのも、この先${f(x) = \dot{y}}となるような${\dot{y}}をつくるときに、${\pB{f(\dot{x}) \subseteq \dot{p}}}となるような${\dot{p}}を作るだけで済み、経済的だからである。
+      ${\varphi(x)}を${V^{\mathbb{B}}}をパラメータに持つ${\FL}-論理式、${\dot{A}}を${\mathbb{B}}-名称とする。名称${\dot{C}}で任意の${\dot{x}}について次が成り立つものを取れればよい：
+      \eqn-notag(${
+        \pSQ{\dot{x} \in \dot{C}} = \pSQ{\varphi(\dot{x}) \land \dot{x} \in \dot{A}}.
+      });
+      結論から言えば、次で十分である：
+      \eqn-notag(${
+        \dot{C} \defeq \Set{ \pangle{\dot{z}, \pSQ{\dot{z} \in \dot{A} \land \varphi(\dot{z})}} }{ \dot{z} \in \dom(\dot{A})}.
+      });
+      実際：
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \pSQ{\dot{x} \in \dot{C}} 
+        | = \sum_{\dot{\mscript{z}} \in \dom(\dot{\mscript{A}})} \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\dot{z} \in \dot{A} \land \varphi(\dot{z})}
+        | \mhquad | (\text!{by definition})
+      | | \leq \pSQ{\dot{x} \in \dot{A} \land \varphi(\dot{x})}
+        | | (\text!{等号公理})
+      | | = \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+        | | (\text!{by definition})
+      | | \leq \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+        | | (\because\mhquad (\dot{y}, c) \in \dot{A} \implies c \leq \pSQ{\dot{y} \in \dot{A}})
+      | | = 
+        \sum_{\dot{\mscript{z}} \in \dom(\dot{\mscript{A}})} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+        | | (\text!{${b}が右辺に現れないので})
+      | | \leq
+        \sum_{\dot{\mscript{z}} \in \dom(\dot{\mscript{A}})} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\varphi(\dot{z})} \cdot \pSQ{\dot{x} = \dot{z}}
+        || (\text!{等号公理、冪等性、交換則})
+      | | = \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{C}}} b \cdot \pSQ{\dot{x} = \dot{z}}
+        | | (\text!{${C}の定義})
+      | | = \pSQ{\dot{x} \in \dot{C}}
+        | | (\text!{by definition})
+      |});
+      よって${\pSQ{\dot{x} \in \dot{C}} \leq \pSQ{\dot{x} \in \dot{A} \land \varphi(\dot{x})} \leq \pSQ{\dot{x} \in \dot{C}}}が言え、${\dot{C}}が${\dot{A}}と${\varphi(x)}についての内包公理の証拠となることがわかった。
+    }
+    +p{
+      和、対、冪については、${\dot{x}, \dot{y} \in V^{\mathbb{B}}}に対して${\bigcup \dot{x}}や${\set{\dot{x}, \dot{y}}}、${\Pow(\dot{x})}として振る舞う名前を直接作ってやればよい。特に、対はとても簡単である（ヒント：${\mathbb{1}}を使おう）。
+    }
+
+    +p{
+      例として、ここでは\emph{冪集合公理}が成り立つことを見よう。${\dot{x}}が任意に与えられたときに、${\pSQ{\Pow(\dot{x}) = \dot{p}} = \mathbb{1}}となるような${\dot{p}}をでっちあげる。
+      \emph{内包公理を既に示してある}ので、${\pSQ{\Pow(\dot{x}) \subseteq \dot{p}} = \mathbb{1}}となるような${\dot{p}}さえ取れれば十分である。
+      これは次のようにすればよい：
+      \eqn-notag(${
+        \dot{p} \defeq \Set{ (\dot{z}, \pSQ{\dot{z} \subseteq \dot{x}}) }{ \dot{z} \subseteq \dom(\dot{x}) \times \mathbb{B}}.
+      });
+      そこで${\dot{z}}を任意に取り、${\pSQ{\dot{z} \subseteq \dot{x}} \leq \pSQ{\dot{z} \in \dot{p}}}を示そう。
+      ここで、上の内包公理の証明で${\dot{A} = \dot{x}}、${\varphi(z) \equiv z \in \dot{z}}として得られるものを${\dot{z}'}とおくと、${\pSQ{\dot{z}' = \dot{z} \cap \dot{x}} = \mathbb{1}}となっている。
+      よって、特に${\pSQ{\dot{z} \subseteq \dot{x}} = \pSQ{\dot{z} = \dot{z}'}}となる。他方、取り方より${\pSQ{\dot{z}' \subseteq \dot{x}} = \mathbb{1}}なので、定義より${(\dot{z}', \mathbb{1}) \in \dot{p}}である。以上を踏まえれば、
+      \align?:(AZMathEquation.notag)(${
+      | \pSQ{\dot{z} \subseteq \dot{x}}
+      | = \pSQ{\dot{z} = \dot{z}'}  = \mathbb{1} \cdot \pSQ{\dot{z} = \dot{z}'}
+      | | \leq \sum_{(\dot{\mscript{w}}, b) \in \dot{\mscript{p}}} b \cdot \pSQ{\dot{z} = \dot{w}} = \pSQ{\dot{z} \in \dot{p}}
+      |});
+      よって示せた。
+    }
+    +p{無限公理は${\check{\omega}}がそのまま証拠となる。}
+    +p{
+      \emph{基礎の公理}を示す。${\dot{A}}を任意にとり${\pSQ{\dot{A} \neq \emptyset \to \exists z \in \dot{A} \forall x \in z \mhquad x \nin \dot{A}} = \mathbb{1}}を示せばよい。
+
+      本質的には、${\dot{A}}の${\mathbb{B}}-階数最小の名称をとってくればよいだけだが、必ずしも全ての${\dom(\dot{A})}の元が確率${\mathbb{1}}で${\dot{A}}に含まれるわけではないので、すこし工夫が必要になる。
+
+      そこで、
+      \eqn-notag(${\pSQ{\dot{A} \neq \emptyset \to \exists z \in \dot{A} \forall x \in z \mhquad x \nin \dot{A}} < \mathbb{1}});
+      として矛盾をしめす。
+      
+      このとき補元をとれば、
+      \eqn-notag(${
+        b \defeq \pSQ{\dot{A} \neq \emptyset \land \forall z \in \dot{A} \exists x \in z \mhquad x \in \dot{A}} > \mathbb{0}
+      });
+      である。
+      このとき、${\dot{z}}で${\pSQ{\dot{z} \in \dot{A}} \cdot b > \mathbb{0}}となるものが存在する。そこで、${\dot{z}}をそのような中で${V^{\mathbb{B}}}-階数最小のものとする。すると、
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \mathbb{0} |< \pSQ{\dot{z} \in \dot{A}} \cdot b \cdot b \leq
+          \pSQ{\exists x \in \dot{z} \mhquad x \in \dot{A}} \cdot b | \mqquad |
+      | | = \sum_{(\dot{\mscript{x}}, c) \in \dot{\mscript{z}}} c \cdot \pSQ{\dot{x} \in \dot{A}} \cdot b
+      | | (\text!{\ref(`lem:bd-qfer`);の${(2)}、分配則})
+      | | \leq \sum_{\dot{\mscript{x}} \in \dom(\dot{\mscript{z}})} b \cdot \pSQ{\dot{x} \in \dot{A}}
+      | | (\text!{${\sum}の単調性})
+      |});
+      とくに${b \cdot \pSQ{\dot{x} \in \dot{A}} > \mathbb{0}}となる${\dot{x} \in \dom(\dot{z})}が存在する。しかし、${\dot{x} \in \dom(\dot{z})}より${\rank_{\mathbb{B}}(\dot{x}) < \rank_{\mathbb{B}}(\dot{z})}となり、これは${\dot{x}}の${\mathbb{B}}-階数の極小性に矛盾する。
+    }
+
+    +p{
+      \emph{収集公理}を示す。つまり、${\varphi(x, y)}を${\FL}-論理式、${\dot{X}}を${\mathbb{B}}-名称としたとき、次を満たすような${\dot{Y}}の存在を示せばよい：
+      \eqn-notag(${
+        \pSQ{\forall x \in \dot{X} \pB{ \p{\exists y \mhquad \varphi(x, y)} \to \p{\exists y \in \dot{Y} \mhquad \varphi(x, y)} }} = \mathbb{1}.
+      });
+      このために、${V}での置換公理を使う。そこで、次の論理式${\Phi(x, y)}を考える：
+      \eqn-notag(${
+        \Phi(x, b, y) \deffml x \in \dom(\dot{X}) \land b \in \mathbb{B} \land y \in V^{\mathbb{B}} \land \pSQ{\varphi(x, y)} = b
+      });
+      ${V}での置換公理を${\Phi}と${\dom(\dot{X}) \times \mathbb{B}}に適用すれば、集合${S \subset V^{\mathbb{B}}}で次を満たすものがとれる：
+      \eqn-notag(${
+        \forall \dot{x} \in \dom(\dot{X}) \forall b \in \mathbb{B} \mhquad \pB{ \exists \dot{y} \mhquad\pSQ{\varphi(\dot{x}, \dot{y})} = b \implies \exists y \in S \mhquad \pSQ{\varphi(\dot{x}, \dot{y})} = b}
+      });
+      そこで${\dot{Y} \defeq \Set{ (\dot{y}, \mathbb{1})}{ \dot{y} \in S}}とおいて、これが求めるものであることを示す。そこで適当に${\dot{x} \in \dom(\dot{X})}を取り、次を示せばよい：
+      \eqn-notag(${
+        \pSQ{\exists y \mhquad \varphi(\dot{x}, y)} \leq \pSQ{\exists y \in \dot{Y} \mhquad \varphi(\dot{x}, y)}
+      });
+      これは結局次の不等式と同値である：
+      \eqn-notag(${
+        \sum_{\dot{\mscript{y}} \in V^{\mathbb{B}}} \pSQ{\varphi(\dot{x}, \dot{y})} \leq \sum_{\dot{\mscript{y}} \in \dot{\mscript{Y}}} \pSQ{\varphi(\dot{x}, \dot{y})}
+      });
+      しかし、${\dom(\dot{Y})}は${\pSQ{\varphi(\dot{x}, \dot{y})}}のありうる値すべてを実現するのに十分な元を含むので、両辺は明らかに一致する。
+    }
+
+  >
+  +exercise<+p{省略した部分を埋め、証明を完成させよ。また、余力があれば、証明中で定義した名称をどう修正すると${\mathbb{B}}が一般の擬順序の場合でも証明が通るようになるか考えよ。}>
+  +p{強制法により${\ZF}が保たれるのと同じように、${\AC}も強制法により保たれる\footnote{逆に${\ZF + \lnot \AC}のモデルから${\AC}を強制できるか？という問題は、${V}が特定の形をしていない限り巨大基数公理とかかわってくる問題になる。選択公理があるとかなり強制法が便利になるかわり、そのものを強制しようとおもうと大変なのである。}：}
+  +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
+  +proof<
+    +p{
+      ${V^{\mathbb{B}}}で整列可能定理が成立することを示せばよい。以下、${\dot{X}}を一つ固定し、${\pSQ{\dot{X}: \text!{整列可能}} = \mathbb{1}}を示していく。特に、ある順序数${\gamma}と写像${f: \gamma \to S}があって、${\dot{X} \subseteq f[S]}となっていることが示せればよい。
+    }
+    +p{
+      いま、${V}で選択公理を仮定しているので、順序数${\gamma}を適当にとり、${\dom(\dot{X}) =\Set{\dot{x}_\xi}{ \xi < \gamma}}と並べておく。このとき、${\dot{f}}を以下のように定める：
+      \eqn-notag(${
+        \dot{f} \defeq \Set{ (\mathrm{otp}(\check{\xi}, \dot{x}_\xi), \mathbb{1}) }{ \xi < \gamma}.
+      });
+      ただし、${\mathrm{otp}: V^{\mathbb{B}} \times V^{\mathbb{B}} \to V^{\mathbb{B}}}は二つの${\mathbb{B}}-名称${\dot{x}, \dot{y}}が与えられたときに、その非順序対の名称を返すような関数である。
+    }
+    +p{
+      いま、\ref(`cor:many-delta0-abs`);より${\check{\gamma}}は${V^{\mathbb{B}}}でも順序数であることに注意しよう。また定め方より次が成り立っている：
+      \eqn-notag(${
+        \pSQ{\dot{f}: \gamma \to V^{\mathbb{B}}} = \mathbb{1},\mqquad
+        \forall \xi < \gamma \mhquad \pSQ{\dot{f}(\check{\xi}) = \dot{x}_\xi} = \mathbb{1}.
+      });
+      更に、${\dot{x}}を任意に取れば、定め方から明らかに
+      \align?:(AZMathEquation.notag)(${
+        | \pSQ{\dot{x} \in \dot{X}} 
+        | = \sum_{\xi < \gamma, (\dot{\mscript{x}}_\xi, b) \in \dot{\mscript{X}}} b \cdot \pSQ{\dot{x}_\xi = \dot{x}} 
+        | | \leq \sum_{\xi < \gamma} \pSQ{\dot{x}_\xi = \dot{x}} 
+        | | = \sum_{\xi < \gamma} \pSQ{\dot{x}_\xi = \dot{x}}  \cdot \pSQ{\dot{f}(\check{\xi}) = \dot{x}_\xi}
+        | | = \sum_{\xi < \gamma} \pSQ{f(\check{\xi}) = \dot{x}}
+        | | = \pSQ{\dot{x} \in f[\gamma]}
+        |});
+      よって示せた。
+    }
+  >
+  +lemma<+p{
+    ${V}で${\dot{x} \in V^{\mathbb{B}}}が${V}で${\rank_{\mathbb{B}}(\dot{x}) = \alpha} を満たすとき、${V^{\mathbb{B}} \models \rho^{V^{\mathbb{B}}}(\dot{x}) \leq \alpha}
+  }>
+  +proof<
+    +p{
+      ${\mathbb{B}}-階数に関する帰納法で示す。帰納法の仮定は、任意の${\xi < \gamma}について${\forall \dot{z} \in V^{\mathbb{B}}_{\xi + 1} \mhquad V^{\mathbb{B}} \models \rho^{V^{\mathbb{B}}}(\dot{z}) \leq \xi}である。
+      ${\rank_{\mathbb{B}}(\dot{x}) = \xi}を取る。このとき定義より、
+      \eqn-notag(${
+        V^{\mathbb{B}} \models \rho(\dot{x}) = \sup \Set{\rho(\dot{y}) + 1}{ \dot{y} \in \dot{x}}.
+      });
+      である。すると、帰納法の仮定より任意の${\dot{y} \in \dom(\dot{x})}について${V^{\mathbb{B}} \models \rank_{\mathbb{B}}(\dot{y}) < \gamma}である。よってとくに、
+      \eqn-notag(${
+        \pSQ{\forall \dot{y} \in \dot{x} \mhquad \rho^{V^{\mathbb{B}}}(\dot{y}) \leq \xi} = \prod_{(\dot{\mscript{y}}, b) \in \dot{x}} (-b + \pSQ{\rank_{\mathbb{B}}(\dot{y}) < \gamma})
+        = \prod_{(\dot{\mscript{y}}, b) \in \dot{x}} 1 = 1
+      });
+      今${V^{\mathbb{B}}}は${\ZF}のモデルだったので、${V^{\mathbb{B}} \models \rho(\dot{x}) \leq \gamma}が従う。
+    }
+  >
+  +lemma<+p{${V^{\mathbb{B}} \models \On \subseteq \check{V}}}>
+  +proof<
+    +p{${\dot{\alpha}}を${\mathbb{B}}-名称とし、${V}で${\gamma \defeq \rank_{\mathbb{B}}(\dot{\alpha}) + 1}とする。すると上の補題から${V^{\mathbb{B}} \models \rho(\dot{\alpha}) < \gamma}である。
+    順序数上の順序は${\in}と一致するので、これは${V^{\mathbb{B}} \models \rho(\dot{\alpha}) \in \gamma}ということである。
+    }
+    +p{
+      一方で、順序数${\alpha}について${\rho(\alpha) = \alpha}が成り立つことは${\ZF}の定理であるから、
+      \eqn-notag(${
+        \pSQ{\dot{\alpha} \in \On} 
+        \leq \pSQ{ \dot{\alpha} = \rho(\dot{\alpha}) \in \check{\gamma} \in \check{V}}
+        \leq \pSQ{\dot{\alpha} \in \check{V}}
+      });
+      以上より${\pSQ{\dot{\alpha} \in \On \to \dot{\alpha} \in \check{V}} = \mathbb{1}}を得る。
+    }
+  >
+  +p{これまでの結果をまとめた次の定理が概ね「強制法定理」と呼ばれるものである。}
+  +theorem?*?:({強制法定理})<
+    +p{${\mathbb{B} \in V}を${V}における完備Boole代数とする。このとき次が成り立つ：}
+    +enumerate{
+      * ${V  \models \ZF}ならば${V^\mathbb{B} \models \ZF}。
+      * ${V  \models \ZFC}ならば${V^\mathbb{B} \models \ZFC}。
+      * ${\check{V}}は${V^{\mathbb{B}}}の中で推移的なクラスであり、${\On^{V^\mathbb{B}} = \On^{\check{\mscript{V}}}}。
+      * ${V}での真偽と${V^{\mathbb{B}}}でみた${\check{V}}の真理は一致する。つまり、任意の${\ZF}-論理式${\varphi(x_0, \ldots, x_{n-1})}と${x_i \in V}について：
+        \eqn-notag(${
+          V \models \varphi(x_0, \ldots, x_{n-1}) \iff V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{x}_0, \ldots, \check{x}_{n-1}).
+        });
+    }
+  >
+  +p{ところで、${\exists}の${V^{\mathbb{B}}}での解釈は上限で定義されていた。特に、${V^{\mathbb{B}} \models \exists x \varphi(x)}であった場合、${\pSQ{\varphi(\dot{x})} > \mathbb{0}}を満たすような${\dot{x}}は定義より直ちに取れる。つまり、「成り立ち得る」${\dot{x}}見付けることは容易い。一方で二値的（Tarski）モデルの場合のように、${V^{\mathbb{B}} \models \varphi(\dot{x})}が成り立つようなただ一つの${\dot{x}}が取れるかは直ちには明らかではない。実は、このような${\dot{x}}の存在は選択公理と同値である。}
+  +theorem?*?:({Maximal Principle})<
+    +p{
+      ${V \models \AC}とする。${\varphi(x)}を${\FL}-論理式とした時、次を満たす${\dot{x}}が存在：
+      
+      \eqn-notag(${
+        \pSQ{\exists x \varphi(x)} = \pSQ{\varphi(\dot{x})}
+      });
+    }
+  >
+  +p{これには次の補題を使う：}
+  +lemma?*?:({Mixing Lemma})<+p{
+    ${\mathbb{B}}を完備Boole代数とし、${\mathcal{A} \subseteq \mathbb{B}}を反鎖、${\Seq{\dot{x}_a}{ a \in \mathcal{A}}}を${\mathcal{A}}で添え字づけられた${\mathbb{B}}-名称の族とする。このとき、次を満たす名称${\dot{x}}が存在する：
+    \eqn-notag(${
+      \forall a \in \mathcal{A} \mhquad a \leq \pSQ{\dot{x} = \dot{x}_a}.
+    });
+  }>
+  +proof<
+    +p{
+      以下で定めればよい：
+      \eqn-notag(${
+        \dot{x} \defeq \bigcup_{a \in \mathcal{A}}
+          \Set{(\dot{y}, b \cdot a)}{ (\dot{y}, b) \in \dot{x}_a}
+      });
+      ここで、${\mathcal{A}}は反鎖なので、
+      \eqn-notag(${a \cdot a' = \cases{|a|a = a'|\mathbb{0}|a \neq a'|}});
+      が成り立つことに注意する。このとき${\dot{z}}を任意にとれば：
+      \alignat?:(AZMathEquation.notag)(2)(${
+        | a \cdot \pSQ{\dot{z} \in \dot{x}} 
+          | = a \cdot \sum_{(\dot{\mscript{w}}, b) \in \dot{\mscript{x}}} b \cdot \pSQ{\dot{z} = \dot{w}}
+          | \mqquad | 
+        | | =\sum_{\matrix-body![${|\mscript{a' \in \mathcal{A}}|}; ${|\mscript{(\dot{y}, c) \in \dot{x}_{a'}}|}]}  a \cdot c \cdot a' \cdot \pSQ{\dot{z} = \dot{y}}
+          | | (\text!{定義と分配則})
+        | | = \sum_{\mscript{(\dot{y}, c) \in \dot{x}_{a}}}  a \cdot c \cdot \pSQ{\dot{z} = \dot{y}} = a \cdot \sum_{\mscript{(\dot{y}, c) \in \dot{x}_{a}}} c \cdot \pSQ{\dot{z} = \dot{y}}
+          | | (a \cdot a' = a \cdot \delta_{a,a'})
+        | | = a \cdot \pSQ{\dot{z} \in \dot{x}_a}
+          | |
+      |});
+      よって${a \leq \pSQ{\dot{x} = \dot{x}_a}}が言えた。
+    }
+  >
+  +proof?:({Proof of Maximal Principle.})<
+    +p{定義より${\pSQ{\varphi(\dot{x})} \leq \pSQ{\exists x \varphi(x)}}は任意の任意の${\dot{x}}について成り立つので、特に${\pSQ{\exists x \varphi(x)} \leq \pSQ{\varphi(\dot{x})}}を満たす${\dot{x}}を見付ければよい。また、${\pSQ{\exists x \varphi(x)} = \mathbb{0}}の時は自明なので、以下${b \defeq \pSQ{\exists x \varphi(x)} > \mathbb{0}}として議論を進める。}
+    +p{
+      いま、${D \defeq \Set{\pSQ{\varphi(\dot{x})}}{\dot{x} \in V^{\mathbb{B}}, \pSQ{\varphi(\dot{x})} > 0 }}
+      とおけば、${b = \sum D}、つまり${D}は${b}以下で前稠密である。
+      そこで、${\mathcal{A} \subseteq D}を${D \mathord{\downarrow}}に含まれる中で極大な反鎖とすれば、${\sum  \mathcal{A} = \sum \mathcal{D} = b}である。
+      更に、各${a \in \mathcal{A}}に対して${\dot{x}_a}を${\pSQ{\varphi(\dot{x}) = a}}を満たすような${\dot{x}}の一つとして取る。
+    }
+    +p{
+      すると、Mixing Lemmaより${\dot{x}}で任意の${a \in \mathcal{A}}について${a \leq \pSQ{\dot{x} = \dot{x}_a}}を満たすものが取れる。
+      よって、
+      \eqn-notag(${
+        b = \sum \mathcal{A} 
+          = \sum_{a \in \mathcal{A}} \pSQ{\varphi(\dot{x}_a)}
+          \leq \sum_{a \in \mathcal{A}} \pSQ{\varphi(\dot{x}_a)} \cdot \pSQ{\dot{x} = \dot{x}_a}
+          = \sum_{a \in \mathcal{A}} \pSQ{\varphi(\dot{x})}
+          = \pSQ{\varphi(\dot{x})}
+      });
+    }
+    +pn{}
+  >
+>
+>

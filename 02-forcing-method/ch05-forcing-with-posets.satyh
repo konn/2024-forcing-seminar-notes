@@ -1,0 +1,28 @@
+@import: preamble
+
+let forcing-with-posets = '<
++section{稠密埋め込みと擬順序による強制法}<
+    +p{
+      前節までは、主に完備Boole代数による強制法を考えてきた。実用上はより一般の擬順序による強制法が使われることが多い。本節では、完備Boole代数による強制法理論から擬順序による定式化を導出する。
+    }
+    +theorem?*?:({定義可能性定理})<
+      +p{
+        \enumerate{
+          * ${p \forces \dot{x} \in \dot{y} \iff \Set{q \in \mathbb{P}}{ \exists (\dot{z}, b) \in \dot{y} \mhquad[q \leq b \land q \forces \dot{z} = \dot{x}]}}が${p}以下で稠密。
+          * ${p \forces \dot{x} = \dot{y} \iff \forall \dot{z} \in \dom(\dot{x}) \cup \dom(\dot{y})\forall q \leq p \mhquad \pB{\p{q \forces \dot{z} \in \dot{x}} \liff \p{q \forces \dot{z} \in \dot{y}}}}。
+          * ${p \forces \dot{x} \in \check{V} \iff \Set{q}{\exists z \in V \mhquad \p{q \forces \dot{x} = \check{z}}}}が${p}以下で稠密。
+          * ${p \forces \lnot \varphi \iff \forall q \leq p \mhquad q \nforces \varphi}
+          * ${p \forces \varphi \lor \psi \iff \Set{q}{\p{q \forces \varphi} \lor \p{q \forces \psi}}}が${p}以下で稠密。
+          * ${p \forces \varphi \land \psi \iff p \forces \varphi} かつ ${p \forces \psi}。
+          * ${p \forces \varphi \to \psi \iff \nexists q \leq p \mhquad \pB{\p{q \forces \varphi} \land \p{q \forces \lnot\psi}}}。
+          * ${p \forces \exists x \varphi(x) \iff \Set{q}{\exists \dot{x} \mhquad \p{q \forces \varphi(\dot{x})}}}が${p}以下で稠密。
+        }
+      }
+    >
+    +cor<+p{
+      \enumerate{
+        * ${p \forces \varphi \iff \Set{r \leq p}{r \forces \varphi}: \text!{dense below ${p}}}
+        * ${p \nforces \varphi \iff \exists r \leq p \mhquad r \forces \lnot \varphi}}
+    }>
+>
+>

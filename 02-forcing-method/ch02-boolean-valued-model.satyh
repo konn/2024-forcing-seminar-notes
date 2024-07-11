@@ -1,0 +1,440 @@
+@import: preamble
+
+let boolean-valued-model = '<+section{集合のBoole値モデル}<
+  +defn<
+    +p{${\mathbb{B}}を完備Boole代数とするとき、\emph{${\mathbb{B}}-名称}の全体${V^\mathbb{B}}を次のように超限帰納法で定める：}
+    +alignat?:(AZMathEquation.notag)(2)(${
+    | V^{\mathbb{B}}_0 | \defeq \emptyset | |
+    | V^{\mathbb{B}}_{\alpha + 1} |\defeq \Pow\p{V^{\mathbb{B}}_{\alpha} \times \mathbb{B}} | |
+    | V^{\mathbb{B}}_{\gamma} |\defeq \bigcup_{\alpha < \gamma} V^{\mathbb{B}}_{\alpha} || (\gamma: \text!{limit})
+    |});
+    +p{${V^{\mathbb{B}}}の元を渡るメタ変数としてドットつきの文字${\dot{a}, \dot{b}, \ldots, \dot{A}, \dot{B}, \ldots}を使う。また、基礎理論を作るときだけ、${\sigma, \tau, \varpi, \vartheta}も使う。}
+    +p{${\dot{x} \in V^{\mathbb{B}}}の${\mathbb{B}}-\emph{階数}（${\mathbb{B}}-\emph{rank}）${\rank_{\mathbb{B}}(\dot{x})}を、${\dot{x} \in V^{\mathbb{B}}_{\alpha+1}}なる最小の${\alpha}として定める。}
+  >
+  +remark<
+    +p{
+      第0回では、集合の特性関数の多値化という点を強調するため、${V^\mathbb{B}}-名称はランクの低い${\mathbb{B}}-名称から${\mathbb{B}}への\emph{関数}として定めていた。一方、上の定義はあくまでも${\mathbb{B}}-名称は${\mathbb{B}}-集合と${\mathbb{B}}の元の対からなる任意の集合として定めており、初回の定義よりも広いものになっている。
+      ${\mathbb{B}}が完備Boole代数であるときは、上の定義による${\mathbb{B}}-名称${\dot{x}}が与えられたとき、以下のように関数となるように${\mathbb{B}}-名称${\dot{x}'}を取り直すことができる：
+      }
+    +eqn-notag(${\dot{x}'(\dot{y}) \defeq \sum_{(\dot{\mscript{y}}, b) \in \mathord{\dot{\mscript{x}}}} b. });
+    +p{
+      わざわざ上限を取らずに、ここでより広い定義を取っているのは、一般の擬順序による強制法を考える場合、そうした上限が常に存在するとは限らず、今回の定式化の方を使う必要があるためである。もちろん、擬順序の場合になってから名称の定義を変更してもよいが、そうするよりは最初からより一般的な定義を採用する形にした。
+    }
+  >
+  +p{もとの宇宙${V}の元を${V^{\mathbb{B}}}に埋め込むために、${x \in V}に対する\emph{check-name} ${\check{x}}を次のように再帰的に定義する：}
+  +defn<
+    +p{
+      集合${x}の\emph{check-name} ${\check{x}}を、${\in}-関係に関する超限帰納法により次のように定める：
+      \eqn-notag(${
+        \check{x} \defeq \Set{ (\check{y}, \mathbb{1}) }{ y \in x}
+      });
+      以下、check-nameの全体を${\check{V} \defeq \Set{\check{x}}{x \in V}}により表す。
+    }
+  >
+
+  +p{さて、${V^{\mathbb{B}}}は${V}を拡張するような${\mathbb{B}}-値集合の宇宙として振る舞うことが期待されるのだった。このために、${V^{\mathbb{B}}}の性質を記述するための強制法の言語${\FL}を定義しよう。}
+  +defn<
+    +p{\emph{強制法の言語${\FL}}は、二項述語記号${\in}、単項述語記号${\check{V}}を持つ言語である。}
+    +p{以後、${x \in \check{V}}は${\check{V} (x)}の略記とする。}
+  >
+  +p{記号から類推できるように、${\in}は所属関係を、${\check{V}}は基礎モデルの元であることを表す述語記号として想定されている。}
+  +remark<+p{実は、${\check{V}}は${V^{\mathbb{B}}}で定義可能クラスとなっていることが知られている（Bukovskýの定理）。この証明は擬順序の反鎖条件という組合せ論的性質と強制拡大の基礎モデルに対する被覆性質の関連を使うもので興味深いが、基礎理論を終えてから立ち戻ることにする。}>
+
+  +p{さて、強制法で用いる言語が定まったので、${V^\mathbb{B}}における${\FL}-論理式の真偽値を定義しよう。}
+  +defn<
+    +p{${\FL}-原子論理式の真偽値${\pSQ{-}_\mathbb{B}}を${\mathbb{B}}-階数に関する帰納法で以下のように定める：}
+    +gather?:(AZMathEquation.notag)(${
+    | \pSQ{\dot{x} \in \dot{y}}_\mathbb{B} 
+        \defeq 
+        \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{y}}} b \cdot \pSQ{\dot{x} = \dot{z}}_\mathbb{B},
+        \mquad
+        \pSQ{\dot{x} = \dot{y}}_\mathbb{B} 
+        \defeq \pSQ{\dot{x} \subseteq \dot{y}}_\mathbb{B} \cdot \pSQ{\dot{y} \subseteq \dot{x}}_\mathbb{B},
+        \mquad
+        \pSQ{\dot{x} \in \check{V}}_\mathbb{B} \defeq \sum_{z \in V} \pSQ{\dot{x} = \check{z}}_\mathbb{B}
+    | \pSQ{\dot{x} \subseteq \dot{y}}_\mathbb{B} 
+        \defeq \prod_{\dot{\mscript{z}} \in \dom(\dot{\mscript{x}})}
+          \p{ -\pSQ{\dot{z} \in \dot{x}}_{\mathbb{B}} + \pSQ{\dot{z} \in \dot{y}}_{\mathbb{B} }}.
+    |});
+    +p{${V^{\mathbb{B}}}の元をパラメータに持つ${\FL}-論理式${\varphi}の真偽値${\pSQ{\varphi}_\mathbb{B}}を、論理式の構成に関するメタレベルの帰納法で以下のように定める：}
+    +gather?:(AZMathEquation.notag)(${|
+      \pSQ{\bot} \defeq \mathbb{0}, \mqquad \pSQ{\varphi \to \psi} \defeq -\pSQ{\varphi} + \pSQ{\psi}, \mqquad
+      \pSQ{\exists x \varphi(x)} \defeq \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \pSQ{\varphi(\dot{x})}_\mathbb{B}.
+    |});
+    +p{${p \in \mathbb{B}}と${\FL}-論理式${\varphi}について、${p \leq \pSQ{\varphi}}が成り立つとき、\emph{${p}が${\varphi}を強制する}といい、記号${p \forces \varphi}で表す。また、${\pSQ{\varphi} = \mathbb{1}}が成り立つとき、${V^{\mathbb{B}} \models \varphi}と書く。}
+  >
+  +remark<
+    +p{
+      完備Boole代数は、任意の\emph{部分集合}が上限・下限を持つようなBoole代数であった。ところで、上の定義では${\dot{x} \in \check{V}}や${\exists x \varphi}の定義で、上限は\emph{クラス}を渡っているように見える。これはちゃんと定義になっているだろうか？\quad;と心配になるかもしれない。
+    }
+    +p{
+      簡単に言えば、パラメータ自体は真クラスを渡っているが、${\mathbb{B}}自体はあくまでも集合であり、\emph{集合の部分クラスは集合だから大丈夫}、というのが答えである。より詳しく言えば、${\ZFC}（というか、${\mathrm{Z}}）の\emph{分出公理（内包公理）}のおかげで我々は安心してこの操作が出来ている。たとえば、${\dot{x} \in \check{V}}の真偽値の定義を（上限記号以外は）略記せずに書くと次のようになる：
+      \eqn-notag(${
+        \pSQ{\dot{x} \in \check{V}}_\mathbb{B} \defeq \sum_{z \in V} \pSQ{\dot{x} = \check{z}}_\mathbb{B}
+        = \sum \Set{b \in \mathbb{B}}{ \exists z \in V\mhquad b = \pSQ{\dot{x} = \check{z}}_{\mathbb{B}}}.
+      });
+      上限の渡る範囲が${\mathbb{B}}の部分であることが明確になっている。${\exists x \varphi}の場合も同様なので、自分で書き下して納得してみるとよいだろう。
+    }
+  >
+
+  +p{
+    このように${V^{\mathbb{B}}}に「真偽値」によるそれらしい意味論を与えたが、前回までに導入した証明体系が健全であることを見ておこう。
+    我々は公式の証明体系としてシーケント計算を導入したが、直観としては、${\psi \vdash \psi}がLKで証明可能なら、${\pSQ{\varphi} \leq \pSQ{\psi}}が成り立つということを示したい。
+  }
+  +lemma<
+    +p{
+      ${\Gamma, \Delta}を自由変数が${x_0, \ldots, x_{n-1}}しか含まない${\FL}-論理式の有限集合とする。このとき、${\Gamma \vdash \Delta}がLKで証明可能なら、任意の${\sigma_0, \ldots, \sigma_{n-1} \in V^{\mathbb{B}}}について${\prod_{\phi(\bar{\mscript{x}}) \in \Gamma}\pSQ{\varphi(\bar{\sigma})}_{\mathbb{B}} \leq \sum_{\psi(\bar{\mscript{x}}) \in \Delta} \pSQ{\psi(\bar{\sigma})}_{\mathbb{B}}}が成り立つ。
+    }
+  >
+  +proof<
+    +p{証明図の段数に関する帰納法により示す。論理公理のうち${A \vdash A}および${\bot \proves \emptyset}が${V^{\mathbb{B}}}で成り立つことは明らか。等号公理は${V^{\mathbb{B}}}-階数に関する帰納法で示せる。}
+    +p{
+      一般の場合について示す。最後に使われた規則について場合分けする。以下、${\Gamma}を論理式の有限集合とするとき、${\prod \pSQ{\Gamma} \defeq \prod \Set{\pSQ{\varphi}}{\varphi \in \Gamma}}, ${\sum \pSQ{\Gamma} \defeq \sum \Set{\pSQ{\varphi}}{\varphi \in \Gamma}}と略記する。
+      弱化規則は明らか。
+    }
+    +pn{
+      \uline{${(\mathsc!(`Cut`))}}：以下の形の推論図である：
+      \eqn-notag(open Derive in open DeriveDSL in ${
+        \proven!(
+          derive(${\Gamma, \Theta \vdash \Delta, \Xi})
+            |> byOp {${(\mathsc!(`Cut`))}}
+            |> from 
+                [ assume ${\Gamma \vdash \Delta, \varphi}
+                ; assume ${\varphi, \Theta \vdash \Xi}
+                ]
+        )
+      });
+      帰納法の仮定は次の通り：
+      \eqn-notag(${
+        \prod\pSQ{\Gamma} \leq \sum \pSQ{\Delta} + \pSQ{\varphi},\mqquad
+        \pSQ{\varphi} \cdot \prod\pSQ{\Theta} \leq \sum \pSQ{\Xi}
+      });
+      しかるに：
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \prod \pSQ{\Gamma} \cdot \prod \pSQ{\Theta} 
+      | \leq \p{\sum\pSQ{\Delta} +\pSQ{\varphi}} \cdot \prod \pSQ{\Theta} 
+      | \mhquad | (\text!{帰納法の仮定})
+      |
+      | = \sum \pSQ{\Delta} \cdot \pSQ{\Theta} + \pSQ{\varphi} \cdot \prod \pSQ{\Theta}
+      | | (\text!{和・積の分配法則})
+      |
+      | \leq \sum \pSQ{\Delta} \cdot \prod \pSQ{\Theta} + \sum \pSQ{\Xi}
+      | | (\text!{帰納法の仮定})
+      | 
+      | \leq \sum \pSQ{\Delta} + \sum \pSQ{\Xi}
+      | | (\text!{${+}の単調性})
+      |});
+    }
+    +pn{
+      \uline{${(\mathord{\to}\mathrm{L})}}: 
+      \eqn-notag(open Derive in open DeriveDSL in ${
+        \proven!(
+          derive(${\varphi \to \psi, \Gamma, \Theta \vdash \Delta, \Xi})
+            |> byOp {${(\mathord{\to}\mathrm{L})}}
+            |> from 
+                [ assume ${\Gamma, \vdash \Delta, \varphi}
+                ; assume ${\psi, \Theta \vdash \Xi}
+                ]
+        )
+      });
+      ${\mathsc!(`Cut`)}をちょっと変えればできる。
+    }
+    +pn{
+      \uline{${(\mathord{\to}\mathrm{R})}}: 
+      \eqn-notag(open Derive in open DeriveDSL in ${
+        \derive-unary{\Gamma}{\Delta, \varphi \to \psi}{(\mathord{\to}\mathrm{R})}{\varphi, \Gamma}{\Delta, \psi}
+      });
+      帰納法の仮定は次の通りである：
+      \eqn-notag(${
+        \varphi \cdot \prod \pSQ{\Gamma} \leq \sum \pSQ{\Delta} + \pSQ{\psi}
+      });
+      から次を示せばよい：
+      \eqn-notag(${
+        \pSQ{\Gamma} \leq \sum \pSQ{\Delta} + \pSQ{\varphi \to \psi}
+      });
+      しかるに、
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \prod \pSQ{\Gamma}
+        | = \pSQ{\varphi} \cdot \prod\pSQ{\Gamma} + (- \pSQ{\varphi}) \cdot \prod\pSQ{\Gamma}
+      | \mqquad | (\text!{Boole代数の基本法則})
+      | | \leq \pSQ{\varphi} \cdot \prod\pSQ{\Gamma} + (- \pSQ{\varphi})
+      | | (\text!{${+}の単調性})
+      | | \leq \prod\pSQ{\Delta} + \pSQ{\psi} + (- \pSQ{\varphi})
+      | | (\text!{帰納法の仮定})
+      | | = \sum \pSQ{\Delta} + \pSQ{\varphi \to \psi}
+      | | (\text!{${\pSQ{\varphi \to \psi}}の定義})
+      |});
+      よってOK。
+    }
+    +pn{
+      ${(\exists \mathrm{L})}: ${x \nin \FV(\Gamma) \cup \FV(\Delta)}とする。
+      \eqn-notag(open Derive in open DeriveDSL in ${
+        \derive-unary{\exists x \varphi(x), \Gamma}{\Delta}{(\exists\mathrm{L})}{\varphi(x), \Gamma}{\Delta}
+      });
+      ここで帰納法の仮定が非自明になる。任意の${\dot{x} \in V^{\mathbb{B}}}について以下が成り立つ、というのが帰納法の仮定である：
+      \eqn-notag(${
+        \varphi(\dot{x}) \cdot \prod \pSQ{\Gamma} \leq \sum \pSQ{\Delta}
+      });
+      ${\sum}は単調なので、両辺を${\dot{x}}を渡って上限を取れば：
+      \eqn-notag(${
+        \sum_{\dot{x} \in V^{\mathbb{B}}} \pb{\varphi(\dot{x}) \cdot \prod \pSQ{\Gamma}} \leq \sum_{\dot{x} \in V^{\mathbb{B}}}\sum \pSQ{\Delta}
+      });
+      しかし、仮定より変数${x}は${\Gamma, \Delta}に自由に現れないので結局次を得る：
+      \eqn-notag(${
+        \pSQ{\exists x \varphi(x)} \cdot \prod \pSQ{\Gamma} =
+        \pb{\sum_{\dot{x} \in V^{\mathbb{B}}} \varphi(\dot{x})} \cdot \prod \pSQ{\Gamma}
+        = \sum_{\dot{x} \in V^{\mathbb{B}}} \pb{\varphi(\dot{x}) \cdot \prod \pSQ{\Gamma}} \leq \sum_{\dot{x} \in V^{\mathbb{B}}}\sum \pSQ{\Delta}
+        = \sum \pSQ{\Delta}.
+      });
+    }
+    +pn{
+      ${(\exists \mathrm{R})}: アタリマエ。
+    }
+
+  >
+  +exercise<
+    +p{省略したケースを補い、上の証明を完成させよ。}
+  >
+
+  +lemma?:(`lem:bd-qfer`)<
+    +p{以下が成り立つ：}
+    +enumerate{
+      * ${(\dot{x}, b) \in \dot{A} \implies b \leq \pSQ{\dot{x} \in \dot{A}}}.
+      * ${\pSQ{\exists x \in \dot{A} \mhquad \varphi(x)} = \sum_{(\dot{\mscript{x}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{x})}}.
+      * ${\pSQ{\forall x \in \dot{A} \mhquad \varphi(x)} = \prod_{(\dot{\mscript{x}}, b) \in \dot{\mscript{A}}} \p{-b + \pSQ{\varphi(\dot{x})}}}.
+    }
+  >
+  +proof<
+    +p{${(1)}: ${\pSQ{\dot{x} = \dot{x}} = \mathbb{1}}なので明らか。}
+    +p{
+      ${(2)}が言えれば${(3)}は補元を取れば明らかなので、${(2)}を示す。しかるに、
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \pSQ{\exists x \in \dot{A} \mhquad \varphi(x)}
+        | = \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \pSQ{\dot{x} \in \dot{A}} \cdot \pSQ{\varphi(\dot{x})}
+        | \mqquad | (\text!{by definition})
+      | | = \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\dot{x} = \dot{z}} \cdot \pSQ{\varphi(\dot{x})}
+        | | (\text!{定義、分配則})
+      | | \leq \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{z})}
+        | | (\text!{等号公理})
+      | | = \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} b \cdot \pSQ{\varphi(\dot{z})}
+        | |
+      | | \leq \sum_{(\dot{\mscript{z}}, b) \in \dot{\mscript{A}}} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\varphi(\dot{z})}
+        | | (1)
+      | | \leq \sum_{\dot{\mscript{z}} \in V^{\mathbb{B}}} \pSQ{\dot{z} \in \dot{A}} \cdot \pSQ{\varphi(\dot{z})}
+        | | (\text!{上限の範囲が広がっただけ})
+      |});
+      よって示せた。
+    }
+  >
+
+  +cor?:(`cor:V-qfer`)<+p{
+    \enumerate{
+      * ${\pSQ{\check{x} \in \check{V}} = \mathbb{1}}
+      * ${\pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}}
+      * ${\pSQ{\forall x \in \check{V} \mhquad \varphi(x)} = \prod_{x \in V} \pSQ{\varphi(\check{x})}}
+    }
+  }>
+
+  +p{
+    以上から、${V^{\mathbb{B}}}は少なくとも演繹について閉じていることがわかり、特に三段論法（というかModus Ponens）を自由に使ってよいことがわかった。
+  }
+  +p{我々の目標は、強制法により${\ZFC}の新しいモデルをつくることであった。なので、${V}で${\ZFC}が成り立つなら、${V^{\mathbb{B}}}の中でも${\ZFC}が成り立つことを示すのが当面の目標である。}
+  +p{結論から言えば、${\ZF}や${\ZFC}の公理は、基礎モデル${\check{V}}で成り立つのなら${V^{\mathbb{B}}}でも成り立つ。逆に言えば、${V^{\mathbb{B}}}で成り立つ公理は、${\check{V}}の性質に依存する。この事を念頭に、${V^{\mathbb{B}}}の中で${\check{V}}がどう見えているかを調べてみよう。まず、${\check{V}}は${V}と「全く同じ命題を満たす」ことがわかる：
+  }
+  +theorem<
+    +p{${\ZF}-論理式${\varphi(x_0, \ldots, x_{n-1})}と${a_0, \ldots, a_{n-1} \in V}について、以下が成り立つ：}
+    +enumerate{
+      * ${\pSQ{\varphi(\check{a}_0, \ldots, \check{a}_{n-1})}_\mathbb{B} \in \set{\mathbb{0}, \mathbb{1}}}.
+      * ${
+        V \models \varphi(a_0, \ldots, a_{n-1}) \iff V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{a}_0, \ldots, \check{a}_{n-1}).
+        }
+    }      
+  >
+  +proof<
+    +p{論理式の複雑性に関する帰納法。非自明なので${\exists x \varphi(x)}の場合だけ示す。}
+    +p{
+      ${V \models \exists x \varphi(x)}とすると、${V}は普通の二値モデルなので${x \in V}で${V \models \varphi(x)}を満たすものがとれる。すると、帰納法の仮定より${V^{\mathbb{B}} \models \varphi^{\check{\mscript{V}}}(\check{x})}が成り立つ。
+      よって${\check{x} \in \check{V} \subseteq V^{\mathbb{B}}}より
+      \eqn-notag(${\mathbb{1} = \pSQ{\varphi^{\check{\mscript{V}}}(\check{x})} = \pSQ{\check{x} \in \check{V}}  \cdot \pSQ{\varphi^{\check{\mscript{V}}}(\check{x})} \leq \sum_{\dot{x}} \pb{\pSQ{\dot{x} \in \check{V}} \cdot \pSQ{\varphi^{\check{\mscript{V}}}(\dot{x})}_{\mathbb{B}}} = \pSQ{\exists x \in \check{V}\mhquad \varphi(x)}});
+      となるのでよい。
+    }
+    +p{
+      逆向きを示す：${\pSQ{\exists x \mhquad \pB{x \in \check{V} \land \varphi(x)}} = \mathbb{1}}とする。この時\ref(`cor:V-qfer`);から：
+      \eqn-notag(${\mathbb{1} = \pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}});
+      よって、ある${x \in V}が存在し、${\pSQ{\varphi^{\check{\mscript{V}}}(x)} > \mathbb{0}}となる。すると、帰納法の仮定より${\pSQ{\varphi^V(\check{x})} = \mathbb{1}}となり、再び帰納法の仮定から${V \models \varphi(x)}が成り立つ。よって${V \models \exists x \varphi(x)}を得る。
+    }
+  >
+  +exercise<+p{残りのケースを補い、証明を完成させよ。}>
+  +cor<+p{${V \models \ZF \iff \check{V} \models \ZF}。また、${V \models \AC \iff \check{V} \models \AC}。}>
+  +theorem<
+    +p{${V^{\mathbb{B}} \models \pB{\check{V}: \text!{推移的クラス}}}.}
+  >
+  +proof<
+    +p{
+      ${\dot{x}, \dot{y}}を任意に取れば、
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \pSQ{\dot{x} \in \dot{y} \in \check{V}}
+        | = \pSQ{\dot{x} \in \dot{y}} \cdot \sum_{w \in V} \pSQ{\dot{y} = \check{w}}
+        |\mqquad | (\text!{\ref(`cor:V-qfer`);より})
+      | | = \sum_{w \in V} \pSQ{\dot{x} \in \dot{y}} \cdot \pSQ{\dot{y} = \check{w}}
+        |\mqquad | (\text!{分配則})
+      | | \leq \sum_{w \in V} \pSQ{\dot{x} \in \check{w}}
+        |\mqquad | (\text!{等号公理})
+      | | = \pSQ{\dot{x} \in \check{V}}
+        |\mqquad | (\text!{\ref(`cor:V-qfer`);より})
+      |});
+      よって${V^{\mathbb{B}} \models \pB{\check{V}: \text!{推移的クラス}}}が示せた。
+    }
+  >
+  +subsection{${V}と${V^{\mathbb{B}}}で何が一致するのか：推移的クラスと${\Delta_1}-絶対性}<
+    +p{さて、以上で${V^{\mathbb{B}}}の中には${\check{V}}という${V}の現し身があり、${V}と${\check{V}}で真偽は一致することがわかった。
+    特に、${V^{\mathbb{B}}}も${\check{V}}も${\ZF}のモデルになっているようだが、両者の間でどんな概念が常に一致するのだろうか？}
+    +p{大事なのは、前節最後の定理が示したように${V^{\mathbb{B}}}が${\check{V}}の推移的クラスになっていることである。十分に強い${\ZF}の推移的モデルの間では、色々な概念が一致する（絶対的である）ことがわかる。本節では、主に${\Delta_1}と呼ばれる論理式のクラスで表現できる概念が、${V}と${V^{\mathbb{B}}}の間で一致することを見る。特に、自然数や有限性、順序数、整礎性、「対であること」「関数であること」などといった基本的な概念が${V}と${V^{\mathbb{B}}}で一致することを確認する。}
+    +defn?*?:({Levy階層})<
+      +p{
+        論理式の階層${\Delta_0 = \Pi_0 = \Sigma_0 \subsetneq \Delta_1 \subsetneq \Pi_1, \Sigma_1 \subsetneq \Delta_2 \subsetneq \ldots}を次のように定める：
+        \listing{
+          * ${\exists x \in t}の形の量化子を有界であるという。
+          * 全ての量化子が有界な論理式を${\Delta_0}-論理式と呼ぶ。${\Pi_0 = \Sigma_0 = \Delta_0}とする（が、あまりこの記号は用いられない）。
+          * ${\Pi_n}-論理式${\varphi}について、${\exists \bar{x} \varphi}の形の論理式を${\Sigma_{n+1}}-論理式と呼ぶ。
+          * ${\Sigma_n}-論理式${\psi}について、${\forall \bar{x} \psi}の形の論理式を${\Pi_{n+1}}-論理式と呼ぶ。
+          * 論理式${\chi}が理論${T}上${\Delta_{n}}であるとは、${\Sigma_{n}}-論理式${\varphi}と${\Pi_{n}}-論理式${\varphi}が存在して、${T \vdash \varphi \liff \chi \liff \psi }が成り立つこと。
+        }
+        ${\Gamma}を論理式のクラスとするとき、集合${x}が${\Gamma}-概念であるとは、${x}が${\Gamma}-論理式で定義できることである。
+      }
+      +p{論理式${\varphi(x, y)}が関数${f}を定めるとき、つまり${\forall x \exists\! y \varphi(x,y)}が成り立つとき、関数${f}がモデル${M \subseteq N}の間で絶対的であるとは、${f}は${M, N}どちらで見ても関数であり、${\dom^M(f) \subseteq \dom^N(f)}かつ任意の${x \in M}について${f^M(x) = f^N(x)}が成り立つことである。}
+    >
+  >
+  +remark<
+    +p{${\Delta_0}-論理式で定義できる概念は、つまり与えられたパラメータの範囲だけ調べれば真偽が決定できるような局所的な性質である。なので、与えられた二つの集合論のモデル${M \subseteq N}の${\in}-関係が小さい方のモデルの範囲で見たときに完全に一致するのなら、${\Delta_0}-論理式の真偽（そして任意の${\Delta_0}-概念）は${M}と${N}の間で一致してくれそうである。この「${\in}-関係が小さいモデルで一致する」というのを精緻化したのが、次の「推移的モデル」の概念である：}
+  >
+  +defn<
+    +p{クラス${M}が\emph{推移的}（\emph{transitive}）であるとは、${x \in y \in M \implies x \in M}を満たすことである。${M}が特に集合論のモデルであるとき、そのような${M}を\emph{推移的モデル}（\emph{transitive model}）と呼ぶ。}
+  >
+  +theorem<
+    +p{${M \subseteq N}を集合論の推移的モデルとする。このとき、任意の${\Delta_0}-概念は${M, N}の間で絶対的である。}
+  >
+  +proof<
+    +p{論理式の複雑性に関する帰納法。}
+  >
+  +p{${\Delta_0}-概念には次のようなものが挙げられる：}
+  +theorem<
+    +p{次の概念はすべて${\Delta_0}である：}
+    +enumerate{
+      * ${x = \emptyset}。つまり、${x = 0}。
+      * ${x \subseteq y}。
+      * 「${x}は推移的」
+      * ${x = \set{y, z}}
+      * ${x = \pangle{y, z}}
+      * ${x = y \cup z}
+      * ${x = y \cap z}
+      * ${x = y \cup \set{y}}。特に、${x = x + 1}
+      * 任意の遺伝的有限集合${S}について、「${x = S}」。
+    }
+  >
+  +p{概念の${\Delta_0}-性を判定するには、次の定理が役に経つ：}
+  +lemma<
+    +p{和集合公理の下で、${k < \omega}および${\Delta_0}-論理式${\varphi}について${
+      \exists x \in \mathop{\mathord{\bigcup}^{(k)}} y \mhquad \varphi
+    }も${\Delta_0}で表現可能。ただし：
+    \eqn-notag(${
+      \mathord{\bigcup}^{(0)} x = x, \mquad \mathord{\bigcup}^{(k+1)} x = \bigcup \p{\mathop{\mathord{\bigcup}^{(k)}} x}.
+    });
+    }
+  >
+  +cor?:(`cor:many-delta0-abs`)<
+    +p{以下はBSTで${\Delta_0}-概念であり、従ってBSTの推移的モデルで絶対的：}
+    +listing{
+      * ${x}は順序対、${x}は非順序対
+      * ${x}は関数
+      * ${x}は関係
+      * ${x}は順序数
+      * ${x}は後続順序数
+      * ${x}は極限順序数
+      * ${x}は自然数
+      * ${x = \omega}
+      * ${x \subseteq \omega}
+      * ${x = \bigcup y}
+      * ${y = \dom(f), y = \cod(f)}
+      * ${f}は全単射
+      * ${f}は関数で、${x \in \dom(f)}で${f(x) = y}
+      * 次で定義した場合の「${x}は有限集合」：${\exists n < \omega \exists f \mhquad f: n \to x \text!{全単射}}
+      * 次で定義した場合の「${x}は遺伝的有限」：
+      
+        \eqn-notag(${\exists n < \omega \exists t \in \HF\exists f: n \to t \mhquad \pB{ f: \text!{全単射} \land t: \text!{推移的集合} \land x \subseteq t}});
+    }
+  >
+  +defn<
+    +p{構造${\pangle{\HF, \mathord{\in}}}上で定義される${n}-項関係を\emph{算術的}（\emph{arithmetical}）と言う。}
+  >
+  +p{${\Delta_1}-概念も絶対である：}
+  +lemma<
+    +p{${\Delta_1}-概念はBSTの推移モデルについて絶対的である。}
+  >
+  +proof<
+    +p{
+      ${\varphi(x), \psi(x)}を${\Delta_0}-論理式とし、${T \proves \forall x \varphi(x) \liff \chi \liff \exists x \psi(x)}とする。${M \subseteq N \models T}を推移的モデルとする。
+      ${M \models \chi}から${N \models \chi}を示すには${\exists x \psi(x)}との同値性と${\psi(x)}の${\Delta_0}-性を使って${M}での証拠が${N}でも証拠になっていることからわかる。逆に${N \models \chi}から${M \models \chi}を示すには、${N \models \forall x \varphi(x)}と${M \subseteq N}より任意の${x \in M}についても${N \models \varphi(x)}が言え、${\Delta_0}からこれが${M}でも成り立つことからわかる。
+    }
+  >
+  +remark<+p{${\Delta_1}-論理式は、${\HK}に制限すると決定可能命題や計算可能関数のクラスと一致する。よって、上の命題から次が言える：}>
+  +cor<+p{推移的モデルの間で、計算可能関数は絶対的。}>
+  +p{${\Delta_1}-絶対性のほかの重要な応用は、整礎性の絶対性を保証してくれることである：}
+  +lemma<+p{${M \subseteq N}を${\ZF - \mathrm{P}}の推移的モデル、${R \in M}を${A \in M}上の二項関係とするとき、「${R}は${A}上の整礎関係」は絶対的。}>
+  +proof<
+    +p{
+      整礎関係を「${A}の任意の空でない部分集合が${R}-極小元を持つ」という形で定式化すれば、これは${\Pi_1}である：
+      \eqn-notag(${
+        \forall X \mhquad
+          \pB{\emptyset \neq X \subseteq A \implies \exists x \in X \forall y \in X \mhquad \lnot y R x}
+      });
+    }
+    +p{
+      他方で、整礎ならばランク関数${\mathrm{\rho}: A \to \On}が取れるのだった。
+      とくに、${x \mathrel{R} y \implies f(x) < f(y)}を満たす関数${f: A \to \On}が必ずとれ、またこのような${f}が存在すれば${R}は必ず整礎となる。
+      順序数の概念は絶対的であったので、以上を踏まえれば${R}の整礎性は次の${\Sigma_1}-論理式と同値である：
+      \eqn-notag(${
+        \exists f \exists \alpha \in \On \pB{
+          f: A \to \alpha \land \forall x, y \in A \mhquad x \mathrel{R} y \implies f(x) < f(y)
+        }
+      });
+    }
+    +p{以上より、${R}の整礎性は${\Delta_1}-概念なので、推移的モデルについて絶対的である。}
+  >
+  +p{絶対的な論理式・整礎関係を使って超限帰納法で定義できるような概念も推移モデルの間で絶対的である：}
+  +lemma?*?:({超限帰納法で定義される関数の絶対性})<
+    +p{
+      ${M \subseteq N}を${\ZF - \mathrm{P}}の推移的モデル、${A}を定義可能なクラス、${G(x, y)}が定義可能な関数、${R}を${A}上でset-likeな整礎関係（つまり、任意の${x \in A}について${x\mathord{\downarrow} = \Set{y}{y \mathrel{R} x}}が集合であるような整礎関係）とする。更に、${G, A, R}は${M, N}の間で絶対的であるとする。
+      ここで、関数${F(x)}が${F(x) \defeq G(x, F \restrict \p{x\mathord{\downarrow}})}を満たす超限帰納法で定義された関数のとき、${F}も${M}と${N}の間で絶対的である。
+    }
+  >
+  +proof<
+    +p{${F^M(a) \neq F^N(a)}となるような最小な${a}を取れば${(F\restrict a\mathord{\downarrow})^M = (F\restrict a\mathord{\downarrow})^N}となる。すると${G, R, A}の絶対性より${F^M(a) = G^M(a, F \restrict (a \mathord{\downarrow})) = G^N(a, F \restrict (a \mathord{\downarrow}))}となり矛盾。}
+  >
+  +p{これまでの議論の系として以下の絶対性が得られる：}
+  +lemma<
+    +p{以下は${\ZF - \mathrm{P}}の推移的モデルの間で絶対的：}
+    +enumerate{
+      * 二引数関数${x, y \mapsto x \cup y}および${x, y \mapsto x \cap y}
+      * 集合のランク関数${x \mapsto \rho(x)}
+      * 単項関数${x \mapsto \bigcup x}および${x \mapsto \bigcap x}（ただし${x = \emptyset}のときは未定義とする）。
+      * 推移閉包関数${x \mapsto \mathrm{trcl}(x)}
+      * 対関数${x, y \mapsto \pangle{x, y}}および${x, y \mapsto \pb{x, y}}。
+      * 二引数関数${x, y \mapsto x \times y}。
+      * 任意の算術的関係
+      * ${\mathcal{L}}を言語とするとき、「${\varphi}は${\mathcal{L}}-論理式」「${M \models \varphi}」
+    }
+  >
+  +p{以上を踏まえれば、${V^\mathbb{B}}と${V}の間で上で述べたような概念は全て一致する。}
+  +cor<
+    +p{上で挙げた概念はぜんぶ${V}と${V^{\mathbb{B}}}の間で絶対的。特に大事なのは：}
+    +enumerate{
+      * 順序数の概念。
+      * 集合の和・直積・共通部分、順序・非順序対。
+      * 自然数、有限集合、遺伝的有限集合の概念。決定可能な命題・計算可能な関数。
+      * 順序数の算術。
+      * 関係の整礎性、整列性、超限再帰で定義された関数・関係。
+    }
+  >
+>
+>

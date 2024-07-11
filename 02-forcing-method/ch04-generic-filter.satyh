@@ -1,0 +1,127 @@
+@import: preamble
+
+let generic-filter = '<
++section{Boole値モデル${V^{\mathbb{B}}}と${(V, \mathbb{B})}-生成フィルター}<
+  +defn<
+    +p{
+      ${(V, \mathbb{B})}-生成フィルターの標準的な名称${\dot{G}}を次で定める：
+      }
+    +eqn-notag(${
+      \dot{G} \defeq \Set{ (\check{b}, b) }{ b \in \mathbb{B} }.
+    });
+    +p{
+      また、${\mathbb{B}}-名称${\dot{x}}について、超フィルター${U}による解釈${\dot{x}_U}を以下で定める：
+      \eqn-notag(${
+        \dot{x}_U \defeq \Set{ \dot{y}_U }{ \exists b \in U \mhquad (\dot{y}, b) \in \dot{x} }.
+      });
+    }
+  >
+  +theorem?*?:({真理補題})<
+    +p{
+      ${\varphi}を${V^{\mathbb{B}}}の元をパラメータに持つ${\FL}-論理式、${b \in \mathbb{B}}とする。
+      \enumerate{
+        * ${b = \pSQ{\check{b} \in \dot{G}}}
+        * ${V^{\mathbb{B}} \models \pB{\varphi \liff \check{\pSQ{\varphi}} \in \dot{G}}}。よって特に${p \forces \varphi \iff V^{\mathbb{B}} \models \pB{\check{p} \in \dot{G} \to \varphi}}
+      }
+    }
+  >
+  +defn<
+    +p{${\mathbb{B}}を完備Boole代数とする。}
+    +listing{
+      * ${\mathbb{B}^+ \defeq \Set{ b \in \mathbb{B} }{ b \neq \mathbb{0}}}.
+      * ${D \subseteq \mathbb{B}}が\emph{前稠密}（\emph{predense}）${\defs \sum D = \mathbb{1}}.
+      * ${U \subseteq \mathbb{B}}が\emph{開集合}${\defs c \leq b \in U \implies c \in U}.
+      * ${D \subseteq \mathbb{B}^+}が\emph{稠密}（\emph{dense}）${\defs}任意の${b \in \mathbb{B}^+}について、${d \leq b}となる${d \in D}が取れる。
+      * ${\mathcal{A} \subseteq \mathbb{B}^+}が\emph{反鎖}（\emph{antichain}）${\defs}任意の相異なる${p, q \in \mathbb{B}}について${p \cdot q = \mathbb{0}}.
+      * ${\mathcal{A} \subseteq \mathbb{B}^+}が\emph{極大反鎖}（\emph{maximal antichain}）${\defs} ${\mathcal{A}}は反鎖であり、包含関係${\subseteq}について極大。
+      * ${\mathcal{F}}を集合の族とする。${\mathbb{B}}のフィルター${G \subseteq \mathbb{B}}が${\mathcal{F}}-\emph{生成的}フィルター（${\mathcal{F}}-\emph{generic filter}）である${\defs}任意の${\mathbb{B}}の前稠密集合${D \in \mathcal{F}}について${D \cap G \neq \emptyset}。
+
+        特に、${M}が${\mathbb{B} \in M}なる十分強い（あるいは弱い）集合論のモデルであるとき、${(M, \mathbb{B})}-\emph{生成的}フィルターとは、${\Set{A \in M}{A \subseteq \mathbb{B}}}-生成的フィルターのことを指す。
+    }
+  >
+  +lemma<
+    +p{
+      \enumerate{
+        * ${D \subseteq \mathbb{B}^+}が前稠密${\iff}任意の${b \in \mathbb{B}^+}について、${d \in D}で${d \compat b}となるものが取れる。
+        * 極大反鎖は前稠密である。
+        * 稠密集合は前稠密である。
+      }
+    }
+  >
+  +remark<
+    +p{稠密集合・前稠密集合は「ほとんど至るところ」で成り立つ普遍的な性質に対応していると思える。一方で、極大反鎖は完全な「場合分け」を与えていることに相当する。
+    つまるところ、生成的フィルターとは、「ほとんどすべて」の元が満たすような性質は全部満たすような条件に対応しており、また次の補題で見るように、満たすべき場合分けが与えられればどの枝が選ばれているのか完全に決定するようなものである。この意味で、生成的フィルターは\ruby([`ジェネリック`])({|一般的|});な条件に対応している。
+    }
+  >
+  +lemma<
+    +p{${\mathbb{B}}を完備Boole代数とし、${M}を${\mathbb{B} \in M}となる十分強い集合論のモデル（選択公理、冪集合、対、和、分出公理あたりがあれば大丈夫）とする。このとき、次は同値：
+    }
+    +enumerate{
+      * ${G}は${(M, \mathbb{B})}-生成的フィルター。つまり、${G}は${M}に属する任意の${\mathbb{B}}-前稠密集合と交わる。
+      * 任意の${\mathbb{B}}-極大反鎖${\mathcal{A} \in M}について${\mathcal{A} \cap G \neq \emptyset}。
+      * 任意の${\mathbb{B}}-稠密集合${D \in M}について${D \cap G \neq \emptyset}。
+      * 任意の${\mathbb{B}}-稠密開集合${D \in M}について${D \cap G \neq \emptyset}。
+    }
+  >
+  +proof<
+    +p{${(1) \implies (2)}: 極大反鎖は前稠密なのであたりまえ。}
+    +p{${(2) \implies (3)}: ${D}を稠密集合とする。このとき、${\mathcal{A} \subseteq D}となるような中で極大な反鎖${\mathcal{A}}を取れば、これは${\mathbb{B}}の極大反鎖になっている。}
+    +p{${(3) \implies (4)}: 条件が強くなっているだけなのであたりまえ。}
+    +p{${(4) \implies (1)}: ${D}を前稠密集合とすると、${E \defeq \mathord{D\mathord{\downarrow}} = \Set{ b \leq d }{ d \in D }}は稠密開集合である。仮定より${b \in G \cap E}が取れるが、これは定義より${G \cap E \ni b \leq d}となる${d \in D}が取れることを意味する。${G}はフィルターなので、特に上に閉じているから、結局${d \in G \cap D}となる。}
+  >
+  +theorem<
+    +p{${M}を十分強い集合論のモデルとする。${\mathbb{B} \in M}を完備Boole代数、${G}を${(M, \mathbb{B})}-生成的フィルターとするとき、${G}は${\mathbb{B}}の超フィルターである。}
+  >
+  +proof<
+    +p{任意の${p \in \mathbb{B}^+}について${\set{p, -p}}は極大反鎖なので、${G}と交わる。}
+    +p{擬順序の場合も通用する証明にしたい場合は、かわりに${\Set{q \in \mathbb{P}}{q \leq p \vee q \mathrel{\bot} p}}を考えてもよい。}
+  >
+
+  +theorem<
+    +p{
+      ${V^{\mathbb{B}} \models \dot{G}: (V, \mathbb{B})\text!{-生成的}}。つまり、
+      ${V^{\mathbb{B}} \models \forall D \in \check{V} \mhquad\pB{D \subseteq \mathbb{B}:  \text!{稠密開} \to D \cap \dot{G} \neq \emptyset}}.
+    }
+  >
+
+  +theorem<
+    +p{任意の${\sigma \in V^{\mathbb{B}}}について${V^{\mathbb{B}} \models \sigma = \check{\sigma}_{\dot{\mrfontsize!(0.6){G}}}}。}
+  >
+
+  +cor<
+    +p{${V^{\mathbb{B}} \models \forall x \exists \sigma \in \check{V} \mhquad x = \sigma_{\dot{\mrfontsize!(0.6){G}}}}が成り立つので、つまり${V^{\mathbb{B}} \models \text!{「私は${\check{V}[\dot{G}]}です」}}}
+  >
+
+  +p{「面白い」ような完備Boole代数${\mathbb{B}}については、${(V, \mathbb{B})}-生成フィルターは決して${V}には属さないことがわかる：}
+
+  +defn<
+    +p{${p \in \mathbb{P}}が擬順序${\mathbb{P}}の\emph{原子}（\emph{atom}）${\defs}任意の${q, r \leq p}について${q \compat r}。}
+  >
+
+  +remark<
+    +p{完備Boole代数の場合、${p}が原子であることは、${\mathbb{B}^+}の極小元であることと同値である。}
+  >
+
+  +lemma?:(`lem:atomless-dense`)<
+    +p{${\mathbb{P}}が原子を持たず、${F \subseteq \mathbb{B}}がフィルターなら、${\mathbb{B} \setminus F}は稠密である。}
+  >
+  +proof<
+    +p{まず、${F}がフィルター、${q \mathrel{\bot} r}の${q \in \mathbb{B} \setminus F}または${r \in \mathbb{B} \setminus F}の少なくとも一方は成り立たなければならない。なぜなら、どちらも属さないなら${q, r \in F}となり、${0 = q \cdot r \in F}となって${0 \nin F}に矛盾するからである。}
+    +p{そこで${\mathbb{P}}が原子を持たないとすると、どんな${p \in \mathbb{P}}についても${q \mathrel{\bot} r}となる${q, r \leq p}が取れる。よって上の議論から${q \in \mathbb{P} \setminus F}か${r \in \mathbb{P} \setminus F}の少なくとも一方が成り立つ。よって${\mathbb{P} \setminus F}は稠密である。
+    }
+  >
+
+  +cor<
+    +p{
+      次は同値：
+      \enumerate{
+        * ${\mathbb{B}}が原子を持たない
+        * ${(V, \mathbb{B})}-生成フィルターは${V}に存在しない。
+      }
+    }
+  >
+  +proof<
+    +p{${(1) \implies (2)}：\ref(`lem:atomless-dense`);から${G \in V}とすると${G \cap (\mathbb{B} \setminus G) = \emptyset}となり${G}の生成性に矛盾する。}
+    +p{${(2) \implies (1)}：対偶を示す。${p}が原子としたとき、${F \defeq \Set{b \in \mathbb{B}}{p \leq b}}はフィルターであり、これは${p}の極小性から任意の稠密集合と交わる。明らかに${F \in V}なので、これが${V}に属す${(V,\mathbb{B})}-生成フィルターである。}
+  >
+>>
