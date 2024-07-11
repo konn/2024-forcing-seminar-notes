@@ -14,5 +14,6 @@ let-math \incompat = ${\mathrel{\bot}}
 let-math \comp-to = 
   open ArrowCommands in ${\xrightarrow!(Arrow.solid(|line-width = .05; head-size=0.25|)){\comp}}
 let-math \B = ${\mathbb{B}}
+let-math \C = ${\mathbb{C}}
 let-math \P = ${\mathbb{P}}
 let-math \Q = ${\mathbb{Q}}

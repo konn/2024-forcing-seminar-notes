@@ -1,11 +1,11 @@
 @import: preamble
 
 let forcing-with-posets = '<
-+section{稠密埋め込みと擬順序による強制法}<
++section?:(`chap:posets`){稠密埋め込みと擬順序による強制法}<
     +p{
       前節までは、主に完備Boole代数による強制法を考えてきた。実用上はより一般の擬順序による強制法が使われることが多い。本節では、完備Boole代数による強制法理論から擬順序による定式化を導出する。
     }
-    +theorem?*?:({定義可能性定理})<
+    +theorem?:(`lem:definability`)?:({定義可能性定理})<
       +p{
         \enumerate{
           * ${p \forces \dot{x} \in \dot{y} \iff \Set{q \in \mathbb{P}}{ \exists (\dot{z}, b) \in \dot{y} \mhquad[q \leq b \land q \forces \dot{z} = \dot{x}]}}が${p}以下で稠密。
@@ -19,21 +19,21 @@ let forcing-with-posets = '<
         }
       }
     >
-    +cor<+p{
+    +cor?:(`cor:forces-deriv`)<+p{
       \enumerate{
+        * ${p \forces \exists x \in \check{A} \mhquad \varphi(x) \iff \Set{q}{\exists a \in A \mhquad \p{q \forces \varphi(\check{a})}}}が${p}以下で稠密。
         * ${p \forces \varphi \iff \Set{r \leq p}{r \forces \varphi}: \text!{dense below ${p}}}
         * ${p \nforces \varphi \iff \exists r \leq p \mhquad r \forces \lnot \varphi}}
     }>
 
     +notation<
       +p{
-        以下、${\mathbb{P}, \mathbb{Q}, \mathbb{R}, \ldots}などの${P}移行の黒板太字は（Boole代数かもしれない）擬順序を、${\mathbb{B}, \mathbb{C}, \mathbb{D}}などはBoole代数を表すものとする。
+        以下、${\mathbb{P}, \mathbb{Q}, \mathbb{R}, \ldots}などの${P}以降の黒板太字は（Boole代数かもしれない）擬順序を、${\mathbb{B}, \mathbb{C}, \mathbb{D}}などはBoole代数を表すものとする。
       }
     >
 
     +defn< +p{
       \listing{
-        * ${\mathbb{P}^+}を${\mathbb{P}}の最小でない元全体とする：${\mathbb{P}^+ \defeq \Set{p \in \mathbb{P}}{\exists q \in \mathbb{P}\mhquad p \nleq q}}.
         * ${f: \mathbb{P} \to \mathbb{Q}}が\emph{完備埋め込み}（\emph{complete embedding}、記号：${f: \mathbb{P} \comp-to \mathbb{Q}}）${\defs}
           \enumerate{
             * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
@@ -45,18 +45,155 @@ let forcing-with-posets = '<
             * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
             * 単調性：${p \leq_\P q \implies d(p) \leq_\Q d(q)},
             * ${\incompat}-準同型：${p \incompat_\P q \implies d(p) \incompat_\Q d(q)},
-            * ${d[\P] \subseteq \Q}は${\Q}で稠密。
+            * ${d[\P^+]}は${\Q}で稠密。
           }
-        * ${\pi: \Q \to \P}が\emph{射影}（\emph{projection}）${\defs}
-          \enumerate{
-            * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
-            * 単調性：${p \leq_\P q \implies \pi(p) \leq_\Q \pi(q)},
-            * ${p \leq_\P \pi(q) \implies \exists q' \leq_\Q q \mhquad \p{\pi(q') \leq_\P p} }b 
-            * ${\pi[\Q] \subseteq \P}は${\P}で稠密。
-          }
+        * 擬順序${\P}の\emph{Boole完備化}（\emph{Boolean completion}）${\B(\P)}とは、稠密埋め込み${d: \P \dense-to \B(\P)}が存在するような完備Boole代数${\B(\P)}のことである。
       }
     }
   >
-  
+  +exercise<+p{稠密埋め込みは完備埋め込みである。}>
+  +p{
+    Boole完備化の一意存在は、無限組合せ論パートで既におるうぇ君がやっている：
+  }
+  +lemma<+p{擬順序${\P}のBoole完備化${\B(\P)}は常に存在し、同型を除いて一意である。}>
+
+  +remark< +p{
+    我々が完備Boole代数によるBoole値モデルを経由する形で強制法を定式化したのは、このBoole完備化が常に存在し\footnote{基礎モデルで選択公理が成り立たない場合に強制法をしたい場合上の命題が常に成り立つとは限らないが、その場合も強制法関係${\vdash}の定義から出発すれば問題ない。}、更に\emph{強制法が稠密埋め込みで不変}だからである。
+    より詳しく、上の定義可能性補題（\ref(`lem:definability`);）で見た強制法関係の特徴付けを逆に${p \vdash \varphi}の「定義」として採用した場合、適切な名称の読み替えの下で稠密埋め込みはこの真偽を保ち、生成的フィルターも一対一に対応することがわかる。
+  }>
+
+  +remark<
+    +p{
+      ${f: \P \to \B}で${\B}がBoole代数のとき、完備埋め込みおよび稠密埋め込みは、暗に${f[\mathbb{P}^+] \subseteq \B^+}を要請していることに注意する。これは、完備埋め込みの場合は「反鎖」を${\P^+}の部分集合として定義しているからであり、稠密埋め込みは稠密集合が${\Q^+}の部分集合として定義しているからである。
+    }
+    +p{
+      こういったことを一々気にするのは面倒くさい。Boole代数でないような擬順序で強制法を使う場合、考える擬順序はほとんどすべての例で最小限を持たないものである。そこで、以下では断わらない限り擬順序は最小限を持たない、${\P = \P^+}となるようなものであると思って扱うことにする。この立場に立っても、証明を微妙に変えてやれば最小限を持つような擬順序にも対応できる。あるいはあらかじめなくなるまで最小限を取り除いてやってから適用している、と思ってもよい。
+    }
+  >
+  +p{
+    稠密埋め込みの定義は${\P, \Q}に関して${\Delta_0}-論理式で書けるので、「${f: \P \to \Q}が稠密埋め込みである」という概念は強制拡大の前後で不変である。
+    一方、完備埋め込みは上の定義が直感的でわかりやすいが、${\P, \Q}に関する${\Delta_1}-論理式で書けるかは直ちにはわからず、強制拡大の前後で性質が変わらないか不安に思うかもしれない。しかし、次の特徴付けが知られており、これは明らかに${\P, \Q}に関して${\Delta_0}である：
+  }
+  +lemma<
+    +p{${f: \P \to \Q}について次は同値：}
+    +enumerate{
+      * ${f}は完備埋め込み
+      * ${f}は以下を満たす：
+        \enumerate{
+          * ${\mathbb{1}}の保存：${f(\mathbb{1}_\P) = \mathbb{1}_\Q},
+          * 単調性：${p \leq_\P q \implies f(p) \leq_\Q f(q)},
+          * ${\incompat}-準同型：${p \incompat_\P q \implies f(p) \incompat_\Q f(q)},
+          * 任意の${q \in \mathbb{Q}}に対し、${f}による${q}の${\P}への\emph{簡約}（\emph{reduction}）${q* \in \P}が存在し、次を満たす：
+          
+            \eqn-notag(${\forall p \in \P\mhquad \pB{f(p) \incompat_\Q q \to p \incompat q^*}});
+        }
+    }
+  >
+  +exercise< +p{上の補題を示せ。} >
+  +p{
+    直感的には、\emph{強制法は稠密埋め込みで不変}である。
+    より詳しく、上の定義可能性補題（\ref(`lem:definability`);）で見た強制法関係の特徴付けを逆に${p \vdash \varphi}の「定義」として採用した場合、適切な名称の読み替えの下で稠密埋め込みはこの真偽を保ち、生成的フィルターも一対一に対応することがわかる。
+  }
+  +p{
+    より一般的に、完備埋め込み${f: \P \to  \Q}の存在は、実は「${\Q}による強制法で${\P}の生成的フィルターも付加される」という形で特徴づけることができ、稠密の場合この対応が同型になるのである。
+  }
+  +defn<
+    +p{
+      ${e: \P \comp-to \Q}を完備埋め込みとする。
+    }
+    +enumerate{
+      * ${\dot{x} \in V^\P}に対して、${e_\ast(\dot{x}) \in V^\Q}を以下のように${\mathbb{B}}-階数に関する帰納法で定義する：
+        \eqn-notag(${
+          e_\ast(\dot{x}) \defeq \Set{ (e_\ast(\dot{y}), e(p)) }{ (\dot{y}, p) \in \dot{x}}
+        });
+      * ${F \subseteq \P}を${\P}のフィルターとするとき、${\tilde{e}(F) \subseteq \Q}を以下で定める：
+        \eqn-notag(${\tilde{e}(F) \defeq \Set{ q \in \Q }{ \exists p \in F \mhquad \p{e(p) \leq_\Q q} } });
+        つまり、${\tilde{e}(F)}は${e[F]}が${\Q}で生成するフィルターである。
+    }
+  >
+
+  +lemma<
+    +p{
+      ${e: \P \to \Q}が完備埋め込みなら、
+        \eqn-notag(${V^{\Q} \models e^{-1}[\dot{G}_{\Q}]: (V, \P)\text!{-generic}});
+    }
+  >
+  +proof<
+    +p{完備埋め込みが極大反鎖を保つことから直ちに従う。}
+  >
+  +p{実は、擬順序が\emph{分離的}という条件を満たすとき、上の逆も成り立つ：}
+  +defn<
+    +p{擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs \forall p, q \in \P \mhquad \pB{p \leq q \iff \forall r \leq p \mhquad \p{r \compat q}}}。}
+  >
+  +exercise<+p{Boole代数は分離的であることを示せ。}>
+  +p{強制法から見た上の定義の嬉しさは次の補題が明らかにしてくれる：}
+  +lemma?:(`lem:force-leq-sep`)<+p{${p, q \in \P}とするとき、次は同値：
+    \enumerate{ 
+      * ${p \forces \pB{\check{q} \in \dot{G}}}
+      * ${\forall r \leq p \mhquad \p{r \compat q}}
+    }
+  }>
+  +exercise<+p{上を示せ。定義に従って導出すれば従う。}>
+  +lemma<
+    +p{
+      ${\Q}が分離的擬順序で写像${e: \P \to \Q}が次を満たすとする：
+      \eqn-notag(${V^{\Q} \models e^{-1}[\dot{G}_{\Q}]: (V, \P)\text!{-generic filter}});
+      このとき、${e}は完備埋め込みである。
+    }
+  >
+  +proof<
+    +p{単調性を示す。${p \leq_\P q}とすると、${V^{\Q} \models \pB{p \in e^{-1}[\dot{G}_\Q] \to q \in e^{-1}[\dot{G}_\Q]}}が成り立ち、特に定義より${V^{\Q} \models \pB{e(p) \in \dot{G}_\Q \to e(q) \in \dot{G}_\Q}}となる。
+      よって、${\Q}の分離性と\ref(`lem:force-leq-sep`);より${e(p) \leq e(q)}を得る。
+    }
+    +p{${e(\mathbb{1}) \in \dot{G}_\Q}より${\mathbb{1}}上の議論と同様に${\forall q \mhquad q \leq e(\mathbb{1})}が言え、${e(\mathbb{1}_{\mathbb{P}}) = \mathbb{1}_\Q}が常に成り立つ。}
+    +p{
+      一旦${\bot}を保つことも見ておく。対偶を示す：${e(p) \compat e(q)}ならば${p \compat q}であることを示す。${e(p) \compat e(q)}なので、${r \leq_\Q e(p), e(q)}となる${r \in \Q}をとっておく。すると、${r \forces e(p), e(q) \in \dot{G}_\Q}であり、定義より${r \forces p, q \in e^{-1}[\dot{G}_\Q]}となる。このとき、${\forces e^{-1}[\dot{G}_\Q]: \text!{filter}}であるので、${r \forces p \compat q}でなくてはならない。${r \compat q}は${V}に属する元である${\P, p, q, \leq}を使って${\Delta_0}-論理式で書けるので、結局${V}で見ても${p \compat q}が成り立つ。
+    }
+    +p{
+      以上から${e}は反鎖を反鎖に移すことがわかったので、極大性が保たれることを言えばよい。
+      ${\mathcal{A}}を${\mathbb{P}}の極大反鎖とし、${q \in \Q}を適当にとり、${r \in e[\mathcal{A}]}で${r \compat q}となるものがとれればよい。
+      
+      いま仮定から${q \forces \mathcal{A} \cap e^{-1}[\dot{G}_\Q] \neq \emptyset}であり、これは定義より${q \forces \exists r \in \check{e[\mathcal{A}]} \mhquad \pB{ r \in \dot{G}_\Q}}と同値である。すると、\ref(`cor:forces-deriv`);から${s \leq q}と${r \in e[\mathcal{A}]}で${s \forces \check{r} \in \dot{G}_\Q}を満たすものが取れる。
+      このとき${s \forces \check{r}, \check{q} \in \dot{G}_\Q}より特に${s \forces \check{r} \compat \check{q}}となり、${\Delta_0}絶対性より${V}で見ても${r \compat q}が成り立つ。
+    }
+  >
+  +remark<+p{ここでみたように、「存在するなら、その下に証拠とそれを強制する条件が取れるから〜」という形の議論を、\emph{稠密性論法}（\emph{density argument}）と呼ぶ。「稠密性から取り直せるので、最初から${\mathbb{1}}で強制できていると思って議論しちゃうよ」みたいなものが典型例である。}>
+  +p{更に、上では${e}を個別に固定したが、${\Q}に関する条件を更に強くすれば、単純に「${\Q}が${\P}の${(V, \P)}-生成的フィルターを付加する」という条件と「完備埋め込みがなんでもいいから存在する」は同値になる：}
+
+  +lemma<
+    +p{
+      ${\P}が擬順序、${\B}が完備Boole代数のとき、次は同値：
+      \enumerate{
+        * ${\P}から${\B}への完備埋め込みが存在する
+        * ${V^{\B} \models \exists \dot{H}: \text!{${(V, \mathbb{P})}-generic}}
+      }
+    }
+  >
+  +proof<
+    +p{${(1) \implies (2)}はすでに見たので、${(2) \implies (1)}を示す。結論から言うと、次の写像が求めるものである：}
+    +eqn-notag(${
+      e(p) \defeq \pSQ{\check{p} \in \dot{H}}
+    });
+    +p{
+      めちゃくちゃ素直な定義である。単調性や${\mathbb{1}}を保つことは自明である。${\bot}を保つこともこれまでと同様に（というか${\B}がBoole代数なのでもっと簡単に）示せる。
+    }
+    +p{
+      あとは${\mathcal{A}}を${\P}の極大反鎖として${e[\mathcal{A}]}が${\B}でも極大であることが言えればよい。特に、${e[\mathcal{A}]}が前稠密であるということが示せればよいが、今${\B}は完備Boole代数なので${\sum e[\mathcal{A}] = \mathbb{1}}が示せればよい。しかるに：
+      \alignat?:(AZMathEquation.notag)(2)(${
+      | \sum e[\mathcal{A}]
+        | = \sum_{a \in \mathcal{A}} e(a) = \sum_{a \in \mathcal{A}} \pSQ{\check{a} \in \dot{H}}
+        | \mqquad | (\text!{定義})
+      | | = \pSQ{\exists a \in \check{\mathcal{A}} \mhquad \check{a} \in \dot{H}}
+        | | (\text!{\ref(`cor:V-qfer`); (2)})
+      | | = \pSQ{\check{\mathcal{A}} \cap \dot{H} \neq \emptyset} = \mathbb{1}
+        | | (\text!{${\dot{H}}: ${(V, \P)}-生成的、${\mathcal{A}}: 極大反鎖より})
+      | });
+      よって示せた。
+    }
+  >
+  +remark< +p{
+    擬順序${\P}と${V^{\mathbb{P}} \models \pB{\dot{\Q}: \text!{擬順序}}}となるような擬順序の${\P}-名称${\dot{\Q}}が与えられたときに、「${\P}の後に今度は${\dot{\Q}}で強制拡大する」という操作を一つにまとめた（${V}での）\emph{二段階反復擬順序}${\P \ast \dot{Q}}が定義できる。
+    実は、${\P}から${\Q}に完備埋め込みが存在するとき、\emph{商の${\P}-名称}${(\Q : \P)}を定義することができる。これは${V^{\P}}の中で「${\check{\Q}}のうち${V^{\Q}}にいくのに足りない分」になるような名前である。より詳しく、${\Q}から${\P \ast (\Q : \P)}への稠密埋め込みが存在し、特に両者は強制法として同値になる、ということが示せる。このように、完備埋め込みの存在は、「一方の強制法が他方の強制法の途中に現れる」という状況を特徴づけるとても良い概念であることがわかる。
+  }>
 >
 >
