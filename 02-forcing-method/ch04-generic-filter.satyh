@@ -1,10 +1,10 @@
 @import: preamble
 
 let generic-filter = '<
-+section{Boole値モデル${V^{\mathbb{B}}}と${(V, \mathbb{B})}-生成フィルター}<
++section{Boole値モデル${V^{\mathbb{B}}}と${(V, \mathbb{B})}-生成的フィルター}<
   +defn<
     +p{
-      ${(V, \mathbb{B})}-生成フィルターの標準的な名称${\dot{G}}を次で定める：
+      ${(V, \mathbb{B})}-生成的フィルターの標準的な名称${\dot{G}}を次で定める：
       }
     +eqn-notag(${
       \dot{G} \defeq \Set{ (\check{b}, b) }{ b \in \mathbb{B} }.
@@ -52,7 +52,7 @@ let generic-filter = '<
     +enumerate{
       * ${\B^+ = \Set{b \in \B}{b > 0}}.
       * ${b \incompat c \iff b \cdot c = 0}。また、${b \compat c \iff b \cdot c > 0}.
-      * ${\B}が完備のとき、${D \subseteq \B}が前稠密${\defs \sum D = \mathbb{1}}
+      * ${\B}が完備のとき、${D \subseteq \B}が前稠密${\iff \sum D = \mathbb{1}}
     }
   >
   +exercise<+p{示せ。}>
@@ -109,7 +109,7 @@ let generic-filter = '<
     +p{${V^{\mathbb{B}} \models \forall x \exists \sigma \in \check{V} \mhquad x = \sigma_{\dot{\mrfontsize!(0.6){G}}}}が成り立つので、つまり${V^{\mathbb{B}} \models \text!{「私は${\check{V}[\dot{G}]}です」}}}
   >
 
-  +p{「面白い」ような完備Boole代数${\mathbb{B}}については、${(V, \mathbb{B})}-生成フィルターは決して${V}には属さないことがわかる：}
+  +p{「面白い」ような完備Boole代数${\mathbb{B}}については、${(V, \mathbb{B})}-生成的フィルターは決して${V}には属さないことがわかる：}
 
   +defn<
     +p{${p \in \mathbb{P}}が擬順序${\mathbb{P}}の\emph{原子}（\emph{atom}）${\defs}任意の${q, r \leq p}について${q \compat r}。}
@@ -133,12 +133,12 @@ let generic-filter = '<
       次は同値：
       \enumerate{
         * ${\mathbb{B}}が原子を持たない
-        * ${(V, \mathbb{B})}-生成フィルターは${V}に存在しない。
+        * ${(V, \mathbb{B})}-生成的フィルターは${V}に存在しない。
       }
     }
   >
   +proof<
     +p{${(1) \implies (2)}：\ref(`lem:atomless-dense`);から${G \in V}とすると${G \cap (\mathbb{B} \setminus G) = \emptyset}となり${G}の生成性に矛盾する。}
-    +p{${(2) \implies (1)}：対偶を示す。${p}が原子としたとき、${F \defeq \Set{b \in \mathbb{B}}{p \leq b}}はフィルターであり、これは${p}の極小性から任意の稠密集合と交わる。明らかに${F \in V}なので、これが${V}に属す${(V,\mathbb{B})}-生成フィルターである。}
+    +p{${(2) \implies (1)}：対偶を示す。${p}が原子としたとき、${F \defeq \Set{b \in \mathbb{B}}{p \leq b}}はフィルターであり、これは${p}の極小性から任意の稠密集合と交わる。明らかに${F \in V}なので、これが${V}に属す${(V,\mathbb{B})}-生成的フィルターである。}
   >
 >>
