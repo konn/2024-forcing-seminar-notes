@@ -61,7 +61,7 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
       \pSQ{\bot} \defeq \mathbb{0}, \mqquad \pSQ{\varphi \to \psi} \defeq -\pSQ{\varphi} + \pSQ{\psi}, \mqquad
       \pSQ{\exists x \varphi(x)} \defeq \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \pSQ{\varphi(\dot{x})}_\mathbb{B}.
     |});
-    +p{${p \in \mathbb{B}}と${\FL}-論理式${\varphi}について、${p \leq \pSQ{\varphi}}が成り立つとき、\emph{${p}が${\varphi}を強制する}といい、記号${p \forces \varphi}で表す。また、${\pSQ{\varphi} = \mathbb{1}}が成り立つとき、${V^{\mathbb{B}} \models \varphi}と書く。}
+    +p{${p \in \mathbb{B}}と${\FL}-論理式${\varphi}について、${p \leq \pSQ{\varphi}}が成り立つとき、\emph{${p}が${\varphi}を強制する}といい、記号${p \forces \varphi}で表す。また、${\mathbb{1} \forces \varphi}が成り立つとき（つまり${\pSQ{\varphi} = \mathbb{1}}となるとき）、${V^{\mathbb{B}} \models \varphi}または${\forces \varphi}と書く。}
   >
   +remark<
     +p{
