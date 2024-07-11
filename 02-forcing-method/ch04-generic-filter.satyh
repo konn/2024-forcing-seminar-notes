@@ -26,21 +26,38 @@ let generic-filter = '<
     }
   >
   +defn<
-    +p{${\mathbb{B}}を完備Boole代数とする。}
+    +p{${\mathbb{P}}を擬順序とする。}
     +listing{
-      * ${\mathbb{B}^+ \defeq \Set{ b \in \mathbb{B} }{ b \neq \mathbb{0}}}.
-      * ${D \subseteq \mathbb{B}}が\emph{前稠密}（\emph{predense}）${\defs \sum D = \mathbb{1}}.
-      * ${U \subseteq \mathbb{B}}が\emph{開集合}${\defs c \leq b \in U \implies c \in U}.
-      * ${D \subseteq \mathbb{B}^+}が\emph{稠密}（\emph{dense}）${\defs}任意の${b \in \mathbb{B}^+}について、${d \leq b}となる${d \in D}が取れる。
-      * ${\mathcal{A} \subseteq \mathbb{B}^+}が\emph{反鎖}（\emph{antichain}）${\defs}任意の相異なる${p, q \in \mathbb{B}}について${p \cdot q = \mathbb{0}}.
-      * ${\mathcal{A} \subseteq \mathbb{B}^+}が\emph{極大反鎖}（\emph{maximal antichain}）${\defs} ${\mathcal{A}}は反鎖であり、包含関係${\subseteq}について極大。
-      * ${\mathcal{F}}を集合の族とする。${\mathbb{B}}のフィルター${G \subseteq \mathbb{B}}が${\mathcal{F}}-\emph{生成的}フィルター（${\mathcal{F}}-\emph{generic filter}）である${\defs}任意の${\mathbb{B}}の前稠密集合${D \in \mathcal{F}}について${D \cap G \neq \emptyset}。
+      * ${\mathbb{P}^+ \defeq \Set{ p \in \mathbb{P} }{ \exists q \in \P \mhquad [p \nleq q]}}.
+      * ${p, q \in \P}が\emph{両立する}（\emph{compatible}、記号：${p \compat_\P q}）${\defs \exists r \in \P^+ \mhquad \p{r \leq p, q}}.
+        
+      * ${p, q }が両立しないとき、記号${p \incompat_\P q}と書く。
+      * ${D \subseteq \P^+}が\emph{前稠密}（\emph{predense}）${\defs \forall p \in \P^+ \exists q \in D \mhquad \p{p \compat_\P q}}.
+      * ${U \subseteq \P}が\emph{開集合}${\defs c \leq b \in U \implies c \in U}.
+      * ${D \subseteq \mathbb{P}^+}が\emph{稠密}（\emph{dense}）${\defs}任意の${p \in \mathbb{P}^+}について、${q \leq p}となる${q \in D}が取れる。
+      * ${\mathcal{A} \subseteq \mathbb{P}^+}が\emph{反鎖}（\emph{antichain}）${\defs}任意の相異なる${p, q \in \mathcal{A}}について${p \incompat q}.
+      * ${\mathcal{A} \subseteq \mathbb{P}^+}が\emph{極大反鎖}（\emph{maximal antichain}）${\defs} ${\mathcal{A}}は反鎖であり、包含関係${\subseteq}について極大。
+      * ${\mathcal{F}}を集合の族とする。${\mathbb{P}}のフィルター${G \subseteq \mathbb{P}}が${\mathcal{F}}-\emph{生成的}フィルター（${\mathcal{F}}-\emph{generic filter}）である${\defs}任意の${\mathbb{P}}の前稠密集合${D \in \mathcal{F}}について${D \cap G \neq \emptyset}。
 
-        特に、${M}が${\mathbb{B} \in M}なる十分強い（あるいは弱い）集合論のモデルであるとき、${(M, \mathbb{B})}-\emph{生成的}フィルターとは、${\Set{A \in M}{A \subseteq \mathbb{B}}}-生成的フィルターのことを指す。
+        特に、${M}が${\mathbb{P} \in M}なる十分強い（あるいは弱い）集合論のモデルであるとき、${(M, \mathbb{P})}-\emph{生成的}フィルターとは、${\Set{A \in M}{A \subseteq \mathbb{P}}}-生成的フィルターのことを指す。
+    }
+  >
+  +remark<
+    +p{上の定義は一般の擬順序でもBoole代数でも使えるように定義しているが、擬順序による強制法を考える場合は最小元を持たない場合が多く、ほとんどすべての例で${\P^+ = \P}となっている。
+    なので、Boole代数による強制法を明示的に考えているのでない限り、議論の上で${\P^+}の元かどうかを気にする必要はほとんどない。一方、ランダム強制法などの場合は完備Boole代数による強制法を考えるので、そういう場合はちゃんと気にする必要がある。
     }
   >
   +lemma<
-    +p{
+    +p{${\B}がBoole代数とし、${b, c \in \B}のとき、以下が成り立つ：}
+    +enumerate{
+      * ${\B^+ = \Set{b \in \B}{b > 0}}.
+      * ${b \incompat c \iff b \cdot c = 0}。また、${b \compat c \iff b \cdot c > 0}.
+      * ${\B}が完備のとき、${D \subseteq \B}が前稠密${\defs \sum D = \mathbb{1}}
+    }
+  >
+  +exercise<+p{示せ。}>
+  +lemma<
+    +p{${\B}をBoole代数とする。
       \enumerate{
         * ${D \subseteq \mathbb{B}^+}が前稠密${\iff}任意の${b \in \mathbb{B}^+}について、${d \in D}で${d \compat b}となるものが取れる。
         * 極大反鎖は前稠密である。
