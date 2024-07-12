@@ -1,0 +1,26 @@
+@require: enumitem/enumitem
+
+module EnumUtils : sig
+  type enum-series
+  val new-series : unit -> enum-series
+  val with-series : enum-series -> (context -> int list -> itemconfig) -> (context -> int list -> itemconfig)
+  val paren-arabic : context -> int list -> itemconfig
+  val dot-arabic : context -> int list -> itemconfig
+  direct +enum-with: [enum-series; itemize] block-cmd
+end = struct
+  open EnumitemAlias
+  type enum-series  = Counter of int ref
+  let new-series () = let-mutable a <- 0 in Counter(a)
+  let-rec 
+    map-last  
+        | f [] = []
+        | f [x] = [f x]
+        | f (x :: ys) = x :: map-last f ys
+  let with-series (Counter(a)) f ctx nums =
+    let () = a <- !a + 1 in
+    let offset = !a in
+    f ctx (map-last (fun n -> offset) nums)
+  let-block ctx +enum-with ctr r =
+    read-block ctx '<+enumerate?:(with-series ctr dot-arabic)(r);>
+end
+

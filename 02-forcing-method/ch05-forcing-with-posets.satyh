@@ -1,4 +1,5 @@
 @import: preamble
+@import: ../common/enum-utils
 
 let forcing-with-posets = '<
 +section?:(`chap:posets`){稠密埋め込みと擬順序による強制法}<
@@ -51,7 +52,7 @@ let forcing-with-posets = '<
       }
     }
   >
-  +exercise<+p{稠密埋め込みは完備埋め込みである。}>
+  +exercise?:(`exc:dense-is-comp`)<+p{稠密埋め込みは完備埋め込みである。}>
   +p{
     Boole完備化の一意存在は、無限組合せ論パートで既におるうぇ君がやっている：
   }
@@ -114,12 +115,16 @@ let forcing-with-posets = '<
 
   +lemma<
     +p{
-      ${e: \P \to \Q}が完備埋め込みなら、
-        \eqn-notag(${V^{\Q} \models e^{-1}[\dot{G}_{\Q}]: (V, \P)\text!{-generic}});
+      ${e: \P \to \Q}が完備埋め込みとする時、次が成立：
+      \enumerate{
+        * ${V^{\Q} \models e^{-1}[\dot{G}_{\Q}]: (V, \P)\text!{-generic}}
+        * ${\sigma \in V^\P}に対して、${V^\Q \models \check{e_\ast}(\check{\sigma})_{\mscript{\dot{G}}_\Q} = \check{\sigma}_{e^{-1}[\dot{\mscript{G}}_\Q]}}が成り立つ。
+      }
     }
   >
   +proof<
-    +p{完備埋め込みが極大反鎖を保つことから直ちに従う。}
+    +p{${(1)}: 完備埋め込みが極大反鎖を保つことから直ちに従う。}
+    +p{${(2)}: ${\B}-階数に関する帰納法で示せる。}
   >
   +p{実は、擬順序が\emph{分離的}という条件を満たすとき、上の逆も成り立つ：}
   +defn<
@@ -194,6 +199,49 @@ let forcing-with-posets = '<
   +remark< +p{
     擬順序${\P}と${V^{\mathbb{P}} \models \pB{\dot{\Q}: \text!{擬順序}}}となるような擬順序の${\P}-名称${\dot{\Q}}が与えられたときに、「${\P}の後に今度は${\dot{\Q}}で強制拡大する」という操作を一つにまとめた（${V}での）\emph{二段階反復擬順序}${\P \ast \dot{Q}}が定義できる。
     実は、${\P}から${\Q}に完備埋め込みが存在するとき、\emph{商の${\P}-名称}${(\Q : \P)}を定義することができる。これは${V^{\P}}の中で「${\check{\Q}}のうち${V^{\Q}}にいくのに足りない分」になるような名前である。より詳しく、${\Q}から${\P \ast (\Q : \P)}への稠密埋め込みが存在し、特に両者は強制法として同値になる、ということが示せる。このように、完備埋め込みの存在は、「一方の強制法が他方の強制法の途中に現れる」という状況を特徴づけるとても良い概念であることがわかる。
+  }>
+  +p{さて、これまで完備埋め込みの性質を見てきたが、これは先の宣言通り、稠密埋め込みが強制法を保つことを示すためである：}
+  +defn<
+    +p{
+      ${d: \P \dense-to \Q}が稠密埋め込み、${\dot{x} \in V^\Q}とするとき、${d^\ast(\dot{x}) \in V^\P}を以下のように${\mathbb{B}}-階数に関する帰納法で定義する：
+      \eqn-notag(${
+        d^\ast(\dot{x}) \defeq \Set{ (d^\ast(\dot{y}), q) }{ (\dot{y}, q) \in \dot{x}, d(p) \leq_\Q q}
+      });
+    
+    }
+  >
+  +theorem(
+    open EnumitemAlias in open EnumUtils in
+    let ctr = new-series () in '<
+    +p{${d: \P \dense-to \Q}を稠密埋め込みとする。}
+    +enum-with(ctr){
+      * ${V^{\mathbb{P}}}において次が成立： ${H \defeq \tilde{d}(G_\P)}は${(V, \Q)}-生成的フィルターで、${G_\P = d^{-1}[H]}。
+      * ${V^{\mathbb{Q}}}において次が成立： ${H \defeq d^{-1}[G_\Q]}は${(V, \P)}-生成的フィルターで、かつ${G_\Q = \tilde{d}(H)}。
+    }
+    +pn{
+      以上で${G_\P \mapsto \tilde{e}(G_\P), G_\Q \mapsto e^{-1}[G_\Q]}はある意味で逆演算であることがわかった。そこで、この対応を念頭に、この定理では以下${\dot{G}_\P, \dot{G}_\Q}は共に${\P}-名称としても${\Q}-名称としても用いることにする。たとえば、${\P}-名称としての${G_\P}は普通の標準的名称であり、${\P}-名称としての${\dot{G}_\Q}は${\tilde{d}(G_\P)}を指す${\P}-名称とする。逆に${\dot{G}_\P}を${\Q}-名称として用いたとき、これは${d^{-1}[G_\Q]}の名称を指すものとする。
+    }
+    +enum-with(ctr){
+      * ${\sigma \in V^\P, \tau \in V^\Q}とするとき、${V^\P \models \check{\tau}_{\dot{\mscript{G}}_\Q} = d^\ast(\check{\tau})_{\dot{\mscript{G}}_\P}}かつ
+      ${V^\Q \models \check{\sigma}_{\dot{\mscript{G}}_\P} = d_\ast(\check{\sigma})_{\dot{\mscript{G}}_\P}}
+      * ${\dot{x}_0, \ldots, \dot{x}_{n-1} \in V^{\P}}、${\varphi(x_0, \ldots, x_{n-1})}を${\FL}-論理式とするとき、
+        \eqn-notag(${p \forces_\P \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1}) \iff d(p) \forces_\Q \varphi(d_\ast(\dot{x}_0), \ldots, d_\ast(\dot{x}_{n-1}))});
+      % * ${\dot{y}_0, \ldots, \dot{y}_{n-1} \in V^{\Q}}、${\varphi(y_0, \ldots, y_{n-1})}を${\FL}-論理式とするとき、
+      %   \eqn-notag(${
+      %     q \forces_\Q \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1})
+      %     \iff \forall p \in \P \mhquad \pB{ d(p) \leq q \implies p \forces_\P \varphi(d^\ast(\dot{x}_0), \ldots, d^\ast(\dot{x}_{n-1}))} 
+      %   });
+    }
+  >);
+  +proof<
+    +p{
+      ${(1)}: 面倒くさいので、${\Q}が完備Boole代数のときだけ示す。
+      
+    }
+    +p{${(2)}: 稠密埋め込みは完備埋め込みであることと\ref(`exc:dense-is-comp`);）から直ちに従う。}
+  >
+  +exercise<+p{
+    一般の擬順序の間の稠密埋め込みについても、上の定理を示せ。
   }>
   +p{TODO: 稠密埋め込みに関する種々の定義、補題}
   +p{TODO: Maximal Principleと選択公理の同値性}
