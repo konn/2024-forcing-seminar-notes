@@ -244,6 +244,44 @@ let forcing-with-posets = '<
     一般の擬順序の間の稠密埋め込みについても、上の定理を示せ。
   }>
   +p{TODO: 稠密埋め込みに関する種々の定義、補題}
-  +p{TODO: Maximal Principleと選択公理の同値性}
+  +lemma?*?:({Maximal Principle, 擬順序版})<
+    +p{${\varphi(x)}を${\FL_\P}-論理式、${\P}を擬順序、${p \in \P}とする。このとき、
+    \eqn-notag(${p \forces \exists x \varphi(x) \iff \exists \dot{x} \in V^\P\mhquad \pB{p \forces \varphi(\dot{x})}});
+    }
+  >
+  +proof<+p{完備化を取ったあと完備Boole代数版を適用し、その名称を引き戻してくればよい。}>
+  +theorem<
+    +p{${\ZF}上次は同値：}
+    +enumerate{
+      * ${\AC}
+      * 擬順序の Maximal Principle
+    }
+  >
+  +proof<
+    +p{${(1) \implies (2)}は明らか。${(2) \implies (1)}を示せば十分。}
+    +p{
+      ${\seq{X_i}{i \in I}}を空でない集合からなる族とする。擬順序${\P}を次で定義する：
+        \gather?:(AZMathEquation.notag)(${|
+          \P \defeq \set{ \mathbb{1} } \sqcup I
+        | p \leq q \defs p = q \vee q = \mathbb{1}
+        |});
+      つまり、最大元が一つだけあって、その下に${I}の各元が極小元としてぶら下がって極大反鎖を成しているような擬順序である。${\P}-名称${\dot{X}}を次で定める：
+        \eqn-notag(${\dot{X} \defeq \Set{ (\check{X}_i, i) }{ i \in I }});
+      つまり、${i \forces \dot{X} = \check{X}_i}となるような名称である。各${X_i}は空でないので、このとき次が成り立つ：
+        \eqn-notag(${\mathbb{1} \forces \exists x \mhquad \p{x \in \dot{X}}});
+      すると、Maximal Principleにより、${\dot{x} \in V^\P}で${\mathbb{1} \forces \dot{x} \in \dot{X}}となるものが取れる。
+    }
+    +p{
+      このとき${i \in I}を任意にとると、${\dot{X}}と${\dot{x}}の取り方より${i \forces \dot{x} \in \check{X}_i}である。
+      これは
+      \eqn-notag(${
+        D \defeq \Set{ q \leq i }{ \exists x \in X_i \mhquad \p{q \forces \check{x} \in \check{X}_i}}
+      });
+      が${i}以下で稠密であるということである。しかし、今${i}は極小元なので結局${i \in D}となる他なく、従って${x \in X_i}で${i \forces \dot{x} = \check{x}}となるものが取れる。しかも、このような${x}は一意である。なぜなら、ほかにも${i \forces \dot{x} = \check{x}'}となるような${x' \in X_i}が存在したとすると、等号公理から${i \forces \check{x} = \check{x}'}となるが、これは${\Delta_0}-論理式なので${V}で見ても${x = x'}が成り立つからである。そこで、この一意な${x \in X_i}を${x_i}と書くことにする。
+    }
+    +p{
+      以上から、${\dot{x}}から選択関数${\p{x_i}_{i \in I} \in \prod_i X_i}が定義できた。
+    }
+  >
 >
 >
