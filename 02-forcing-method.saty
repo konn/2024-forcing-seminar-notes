@@ -4,6 +4,7 @@
 @import: 02-forcing-method/ch03-forcing-theorem
 @import: 02-forcing-method/ch04-generic-filter
 @import: 02-forcing-method/ch05-forcing-with-posets
+@import: 02-forcing-method/ch06-forcing-over-transitive-models
 
 document (|
   title = {\no-break{強制法セミナー第2回：強制法の基礎理論}};
@@ -15,4 +16,5 @@ document (|
   #forcing-theorem;
   #generic-filter;
   #forcing-with-posets;
+  #forcing-over-transitive-models;
 >)

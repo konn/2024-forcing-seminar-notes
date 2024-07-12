@@ -16,7 +16,7 @@ let generic-filter = '<
       });
     }
   >
-  +theorem?*?:({真理補題})<
+  +theorem?:(`lem:truth-lemma`)?:({真理補題})<
     +p{
       ${\varphi}を${V^{\mathbb{B}}}の元をパラメータに持つ${\FL}-論理式、${b \in \mathbb{B}}とする。
       \enumerate{

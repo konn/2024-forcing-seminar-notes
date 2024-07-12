@@ -6,41 +6,17 @@ let forcing-with-posets = '<
     +p{
       前節までは、主に完備Boole代数による強制法を考えてきた。実用上はより一般の擬順序による強制法が使われることが多い。本節では、完備Boole代数による強制法理論から擬順序による定式化を導出する。
     }
-    +theorem?:(`lem:definability`)?:({定義可能性定理})<
-      +p{
-        \enumerate{
-          * ${p \forces \dot{x} \in \dot{y} \iff \Set{q \in \mathbb{P}}{ \exists (\dot{z}, b) \in \dot{y} \mhquad[q \leq b \land q \forces \dot{z} = \dot{x}]}}が${p}以下で稠密。
-          * ${p \forces \dot{x} = \dot{y} \iff \forall \dot{z} \in \dom(\dot{x}) \cup \dom(\dot{y})\forall q \leq p \mhquad \pB{\p{q \forces \dot{z} \in \dot{x}} \liff \p{q \forces \dot{z} \in \dot{y}}}}。
-          * ${p \forces \dot{x} \in \check{V} \iff \Set{q}{\exists z \in V \mhquad \p{q \forces \dot{x} = \check{z}}}}が${p}以下で稠密。
-          * ${p \forces \lnot \varphi \iff \forall q \leq p \mhquad q \nforces \varphi}
-          * ${p \forces \varphi \lor \psi \iff \Set{q}{\p{q \forces \varphi} \lor \p{q \forces \psi}}}が${p}以下で稠密。
-          * ${p \forces \varphi \land \psi \iff p \forces \varphi} かつ ${p \forces \psi}。
-          * ${p \forces \varphi \to \psi \iff \nexists q \leq p \mhquad \pB{\p{q \forces \varphi} \land \p{q \forces \lnot\psi}}}。
-          * ${p \forces \exists x \varphi(x) \iff \Set{q}{\exists \dot{x} \mhquad \p{q \forces \varphi(\dot{x})}}}が${p}以下で稠密。
-        }
-      }
-    >
-    +cor?:(`cor:forces-deriv`)<+p{
-      \enumerate{
-        * ${p \forces \exists x \in \check{A} \mhquad \varphi(x) \iff \Set{q}{\exists a \in A \mhquad \p{q \forces \varphi(\check{a})}}}が${p}以下で稠密。
-        * ${p \forces \varphi \iff \Set{r \leq p}{r \forces \varphi}: \text!{dense below ${p}}}
-        * ${p \nforces \varphi \iff \exists r \leq p \mhquad r \forces \lnot \varphi}}
-    }>
 
     +notation<
       +p{
-        以下、${\mathbb{P}, \mathbb{Q}, \mathbb{R}, \ldots}などの${P}以降の黒板太字は（Boole代数かもしれない）擬順序を、${\mathbb{B}, \mathbb{C}, \mathbb{D}}などはBoole代数を表すものとする。
+        以下、特に断わらない限り、${\mathbb{P}, \mathbb{Q}, \mathbb{R}, \ldots}などの${P}以降の黒板太字は（Boole代数かもしれない）擬順序を、${\mathbb{B}, \mathbb{C}, \mathbb{D}}などはBoole代数を表すものとする。
       }
     >
 
+    +p{無限組合せ論パートで、任意の擬順序${\P}についてその\emph{Boole完備化}${\B(\P)}が同型を除いて一意に存在することは既に見た。関連する定義は本節でも使うので復習しておこう：}
+
     +defn< +p{
       \listing{
-        * ${f: \mathbb{P} \to \mathbb{Q}}が\emph{完備埋め込み}（\emph{complete embedding}、記号：${f: \mathbb{P} \comp-to \mathbb{Q}}）${\defs}
-          \enumerate{
-            * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
-            * 単調性：${p \leq_\P q \implies f(p) \leq_\Q f(q)},
-            * ${\mathcal{A}}が${\P}の極大反鎖なら、${f[\mathcal{A}]}も${\Q}で極大反鎖である。
-            }
         * ${d: \P \to \Q}が\emph{稠密埋め込み}（\emph{dense embedding}、記号：${d: \P \dense-to \Q}）${\defs}
           \enumerate{
             * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
@@ -53,15 +29,66 @@ let forcing-with-posets = '<
     }
   >
   +exercise?:(`exc:dense-is-comp`)<+p{稠密埋め込みは完備埋め込みである。}>
-  +p{
-    Boole完備化の一意存在は、無限組合せ論パートで既におるうぇ君がやっている：
-  }
   +lemma<+p{擬順序${\P}のBoole完備化${\B(\P)}は常に存在し、同型を除いて一意である。}>
 
-  +remark< +p{
-    我々が完備Boole代数によるBoole値モデルを経由する形で強制法を定式化したのは、このBoole完備化が常に存在し\footnote{基礎モデルで選択公理が成り立たない場合に強制法をしたい場合上の命題が常に成り立つとは限らないが、その場合も強制法関係${\vdash}の定義から出発すれば問題ない。}、更に\emph{強制法が稠密埋め込みで不変}だからである。
-    より詳しく、上の定義可能性補題（\ref(`lem:definability`);）で見た強制法関係の特徴付けを逆に${p \vdash \varphi}の「定義」として採用した場合、適切な名称の読み替えの下で稠密埋め込みはこの真偽を保ち、生成的フィルターも一対一に対応することがわかる。
+  +p{
+    我々が完備Boole代数によるBoole値モデルを経由する形で強制法を定式化したのは、このBoole完備化が常に存在し\footnote{基礎モデルで選択公理が成り立たない場合に強制法をしたい場合上の命題が常に存在するとは限らないが、その場合も強制法関係${\vdash}の定義から出発すれば問題ない。}、更に\emph{強制法が稠密埋め込みで不変}だからである。本節では、このことを詳しく説明していく。
+  }
+  +p{
+    さて、Boole値モデルでは最初に真偽値${\pSQ{\varphi} \in \B}を定義し、その上で強制関係を${p \forces \varphi \iff p \leq \pSQ{\varphi}}として定義していた。
+    この定義から出発して、Boole演算を使わずに擬順序だけで強制関係${p \forces \varphi}を特徴づけたものが、次のDefinability Lemma（\ref(`lem:definability`);）である：
+  }
+
+  +theorem?:(`lem:definability`)?:({Definability Lemma})<
+    +p{
+      \enumerate{
+        * ${p \forces \dot{x} \in \dot{y} \iff \Set{q \in \mathbb{P}}{ \exists (\dot{z}, b) \in \dot{y} \mhquad[q \leq b \land q \forces \dot{z} = \dot{x}]}}が${p}以下で稠密。
+        * ${p \forces \dot{x} = \dot{y} \iff \forall \dot{z} \in \dom(\dot{x}) \cup \dom(\dot{y})\forall q \leq p \mhquad \pB{\p{q \forces \dot{z} \in \dot{x}} \liff \p{q \forces \dot{z} \in \dot{y}}}}。
+        * ${p \forces \dot{x} \in \check{V} \iff \Set{q}{\exists z \in V \mhquad \p{q \forces \dot{x} = \check{z}}}}が${p}以下で稠密。
+        * ${p \forces \lnot \varphi \iff \forall q \leq p \mhquad q \nforces \varphi}
+        * ${p \forces \varphi \lor \psi \iff \Set{q}{\p{q \forces \varphi} \lor \p{q \forces \psi}}}が${p}以下で稠密。
+        * ${p \forces \varphi \land \psi \iff p \forces \varphi} かつ ${p \forces \psi}。
+        * ${p \forces \varphi \to \psi \iff \nexists q \leq p \mhquad \pB{\p{q \forces \varphi} \land \p{q \forces \lnot\psi}}}。
+        * ${p \forces \exists x \varphi(x) \iff \Set{q}{\exists \dot{x} \mhquad \p{q \forces \varphi(\dot{x})}}}が${p}以下で稠密。
+      }
+    }
+  >
+  +proof<
+    +p{\emph{TODO}: ${\in}と${\exists}だけ証明する}
+  >
+  +exercise<+p{Definability Lemmaの残りの節を埋め、証明を完成させよ。}>
+  +p{
+    上は全て同値関係であるので、${\forces}をそもそもDefinability Lemmaの各節で定義してしまえば、上の補題は逆に${p \forces \varphi \iff p \leq \pSQ{\varphi}}の証明だと思うことができる。この${\forces}の定義はBoole代数はおろか一般の擬順序でも通用する定義になっているので、以降本セミナーでは上のDefinability Lemmaこそが強制関係${\forces}の定義だと考えることにする。
+  }
+  +defn<
+    +p{擬順序${\P}上の強制関係${p \forces \varphi}を、Definability Lemma（\ref(`lem:definability`);）の各節により定義する。}
+  >
+  +p{Definability Lemmaによる強制関係の定義から、以下が直ちに従う：}
+  +cor?:(`cor:forces-deriv`)< +p{
+    \enumerate{
+      * ${p \forces \varphi \iff \forall q \leq p \mhquad \p{q \forces \varphi}}
+      * ${p \forces \varphi \to \psi \iff \forall q \leq p \mhquad \pB{\p{q \forces \varphi} \to \exists r \leq q \mhquad \p{q \forces \psi}}}
+      * ${p \forces \exists x \in \check{A} \mhquad \varphi(x) \iff \Set{q}{\exists a \in A \mhquad \p{q \forces \varphi(\check{a})}}}が${p}以下で稠密。
+      * ${p \forces \varphi \iff \Set{r \leq p}{r \forces \varphi}: \text!{dense below ${p}}}
+      * ${p \nforces \varphi \iff \exists r \leq p \mhquad r \forces \lnot \varphi}}
   }>
+  +exercise<+p{証明を完成させよ。}>
+  +p{
+    以下の目標は、\emph{強制法の稠密埋め込みによる不変性}を示すことである。特に、この定義による擬順序の強制法を考えたとき、稠密埋め込みによって生成的フィルターの間に一対一の対応関係がつき、名称を適切に読み替えることで命題の真偽も保たれる、ということを示していく。これが示されてしまえば、Boole値モデルについて示した健全性定理や強制法定理などの種々の性質が、擬順序による強制法でも自動的に成り立つことがわかる。
+  }
+
+  +p{以下では種々の擬順序や完備Boole代数の間の埋め込みについて議論をする。その上で稠密埋め込みと並んで重要な役割を果すのが\emph{完備埋め込み}である。}
+
+  +defn<
+    +p{
+      ${f: \mathbb{P} \to \mathbb{Q}}が\emph{完備埋め込み}（\emph{complete embedding}、記号：${f: \mathbb{P} \comp-to \mathbb{Q}}）${\defs}
+        \enumerate{
+          * ${p(\mathbb{1}_\P) = \mathbb{1}_\Q},
+          * 単調性：${p \leq_\P q \implies f(p) \leq_\Q f(q)},
+          * ${\mathcal{A}}が${\P}の極大反鎖なら、${f[\mathcal{A}]}も${\Q}で極大反鎖である。
+          }
+    }
+  >
 
   +remark<
     +p{
@@ -91,10 +118,6 @@ let forcing-with-posets = '<
     }
   >
   +exercise< +p{上の補題を示せ。} >
-  +p{
-    直感的には、\emph{強制法は稠密埋め込みで不変}である。
-    より詳しく、上の定義可能性補題（\ref(`lem:definability`);）で見た強制法関係の特徴付けを逆に${p \vdash \varphi}の「定義」として採用した場合、適切な名称の読み替えの下で稠密埋め込みはこの真偽を保ち、生成的フィルターも一対一に対応することがわかる。
-  }
   +p{
     より一般的に、完備埋め込み${f: \P \to  \Q}の存在は、実は「${\Q}による強制法で${\P}の生成的フィルターも付加される」という形で特徴づけることができ、稠密の場合この対応が同型になるのである。
   }
@@ -126,19 +149,55 @@ let forcing-with-posets = '<
     +p{${(1)}: 完備埋め込みが極大反鎖を保つことから直ちに従う。}
     +p{${(2)}: ${\B}-階数に関する帰納法で示せる。}
   >
-  +p{実は、擬順序が\emph{分離的}という条件を満たすとき、上の逆も成り立つ：}
+  +p{実は、擬順序が\emph{分離的}という条件を満たすとき、上の逆も成り立つことがわかる。そのことを見るために、暫く分離的擬順序と付随する順序関係について議論する。}
   +defn<
     +p{擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs \forall p, q \in \P \mhquad \pB{p \leq q \iff \forall r \leq p \mhquad \p{r \compat q}}}。}
   >
   +exercise<+p{Boole代数は分離的であることを示せ。}>
+  +notation<
+    +p{一般の擬順序について、このセミナーでは以後${p \unlhd q \defs \forall r \leq p \mhquad \p{r \compat q}}と書くことにする。}
+  >
+  +exercise<+p{一般の擬順序${\P}において、${\unlhd}は${\leq}を拡張する（つまり${x \leq y \implies x \unlhd y}となるような）${\P}上の擬順序となることを示せ。}>
   +p{強制法から見た上の定義の嬉しさは次の補題が明らかにしてくれる：}
-  +lemma?:(`lem:force-leq-sep`)<+p{${p, q \in \P}とするとき、次は同値：
+  +lemma?:(`lem:insep-char`)<+p{${p, q \in \P}とするとき、次は同値：
     \enumerate{ 
       * ${p \forces \pB{\check{q} \in \dot{G}}}
       * ${\forall r \leq p \mhquad \p{r \compat q}}
     }
   }>
-  +exercise<+p{上を示せ。定義に従って導出すれば従う。}>
+  +exercise<+p{上を示せ。定義に従って計算すれば従う。}>
+
+  +p{つまり、分離的な擬順序というのは、「生成的フィルター${G}によって分離できない」という二項関係${\unlhd}が元々の擬順序${\leq}と完全に一致するような擬順序であったという訳だ。}
+  +p{実のところ、こと強制関係においては${\leq}と${\unlhd}には殆んど差がない、というのが次の補題である（\ref(`cor:forces-deriv`);の${(1)}と比較せよ）：}
+
+  +lemma?:(`lem:forces-insep`)<
+    +p{${p \forces \varphi \iff \forall q \unlhd p \pB{q \forces \varphi}}}
+  >
+  +proof<
+    +p{
+      ${p \unlhd p}なので${(\Longleftarrow)}は明らか。${(\implies)}を示す。
+      }
+    +p{
+      ${q \unlhd p}を取る。\ref(`cor:forces-deriv`);の${(4)}より、${q}以下で${r \forces \varphi}となる${r}が稠密に存在すればよい。
+      特に、議論としては同じなので${r \leq q}で${r \forces \varphi}となるものを見付ければ十分である（稠密性論法）。
+      ${q \unlhd p}より${r \leq q, p}が取れる。すると\ref(`cor:forces-deriv`);の${(1)}から${r \forces \varphi}となるので、これが求めるものである。
+    }
+  >
+
+  +p{更に、上の補題から真理補題（\ref(`lem:truth-lemma`);）の擬順序版が従う：}
+
+  +lemma?:(`lem:poset-truth-lemma`)?:({真理補題・擬順序版})<
+    +p{${p \forces \varphi}なら、${\mathbb{1} \forces \pB{\check{p} \in \dot{G} \to \varphi}}}
+  >
+  +proof<
+    +p{
+      \ref(`cor:forces-deriv`);の${(2)}から、${q \forces \check{p} \in \dot{G}}なる${q}に対し、${r \leq q}で${r \forces \varphi}となるものを見付ければよい。
+      しかし、\ref(`lem:insep-char`);より${q \unlhd p}なので、\ref(`lem:forces-insep`);より特に${q \forces \varphi}となるので明らか。
+    }
+  >
+
+
+  +p{}
   +lemma<
     +p{
       ${\Q}が分離的擬順序で写像${e: \P \to \Q}が次を満たすとする：
@@ -148,7 +207,7 @@ let forcing-with-posets = '<
   >
   +proof<
     +p{単調性を示す。${p \leq_\P q}とすると、${V^{\Q} \models \pB{p \in e^{-1}[\dot{G}_\Q] \to q \in e^{-1}[\dot{G}_\Q]}}が成り立ち、特に定義より${V^{\Q} \models \pB{e(p) \in \dot{G}_\Q \to e(q) \in \dot{G}_\Q}}となる。
-      よって、${\Q}の分離性と\ref(`lem:force-leq-sep`);より${e(p) \leq e(q)}を得る。
+      よって、${\Q}の分離性と\ref(`lem:insep-char`);より${e(p) \leq e(q)}を得る。
     }
     +p{${e(\mathbb{1}) \in \dot{G}_\Q}より${\mathbb{1}}上の議論と同様に${\forall q \mhquad q \leq e(\mathbb{1})}が言え、${e(\mathbb{1}_{\mathbb{P}}) = \mathbb{1}_\Q}が常に成り立つ。}
     +p{
@@ -163,6 +222,7 @@ let forcing-with-posets = '<
     }
   >
   +remark<+p{ここでみたように、「存在するなら、その下に証拠とそれを強制する条件が取れるから〜」という形の議論を、\emph{稠密性論法}（\emph{density argument}）と呼ぶ。「稠密性から取り直せるので、最初から${\mathbb{1}}で強制できていると思って議論しちゃうよ」みたいなものが典型例である。}>
+
   +p{更に、上では${e}を個別に固定したが、${\Q}に関する条件を更に強くすれば、単純に「${\Q}が${\P}の${(V, \P)}-生成的フィルターを付加する」という条件と「完備埋め込みがなんでもいいから存在する」は同値になる：}
 
   +lemma<
@@ -222,15 +282,16 @@ let forcing-with-posets = '<
       以上で${G_\P \mapsto \tilde{e}(G_\P), G_\Q \mapsto e^{-1}[G_\Q]}はある意味で逆演算であることがわかった。そこで、この対応を念頭に、この定理では以下${\dot{G}_\P, \dot{G}_\Q}は共に${\P}-名称としても${\Q}-名称としても用いることにする。たとえば、${\P}-名称としての${G_\P}は普通の標準的名称であり、${\P}-名称としての${\dot{G}_\Q}は${\tilde{d}(G_\P)}を指す${\P}-名称とする。逆に${\dot{G}_\P}を${\Q}-名称として用いたとき、これは${d^{-1}[G_\Q]}の名称を指すものとする。
     }
     +enum-with(ctr){
-      * ${\sigma \in V^\P, \tau \in V^\Q}とするとき、${V^\P \models \check{\tau}_{\dot{\mscript{G}}_\Q} = d^\ast(\check{\tau})_{\dot{\mscript{G}}_\P}}かつ
+      * ${\sigma \in V^\P, \tau \in V^\Q}について、${V^\P \models \check{\tau}_{\dot{\mscript{G}}_\Q} = d^\ast(\check{\tau})_{\dot{\mscript{G}}_\P}}かつ
       ${V^\Q \models \check{\sigma}_{\dot{\mscript{G}}_\P} = d_\ast(\check{\sigma})_{\dot{\mscript{G}}_\P}}
-      * ${\dot{x}_0, \ldots, \dot{x}_{n-1} \in V^{\P}}、${\varphi(x_0, \ldots, x_{n-1})}を${\FL}-論理式とするとき、
+      * ${\sigma \in V^\P, \tau \in V^\Q}について、${V^\P \models d^\ast(d_\ast(\sigma)) = \sigma}かつ${V^\Q \models d_\ast(d^\ast(\tau)) = \tau}
+      * ${\dot{x}_0, \ldots, \dot{x}_{n-1} \in V^{\P}}、${\FL}-論理式${\varphi(x_0, \ldots, x_{n-1})}について、
         \eqn-notag(${p \forces_\P \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1}) \iff d(p) \forces_\Q \varphi(d_\ast(\dot{x}_0), \ldots, d_\ast(\dot{x}_{n-1}))});
-      % * ${\dot{y}_0, \ldots, \dot{y}_{n-1} \in V^{\Q}}、${\varphi(y_0, \ldots, y_{n-1})}を${\FL}-論理式とするとき、
-      %   \eqn-notag(${
-      %     q \forces_\Q \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1})
-      %     \iff \forall p \in \P \mhquad \pB{ d(p) \leq q \implies p \forces_\P \varphi(d^\ast(\dot{x}_0), \ldots, d^\ast(\dot{x}_{n-1}))} 
-      %   });
+      * ${\dot{y}_0, \ldots, \dot{y}_{n-1} \in V^{\Q}}、${\FL}-論理式${\varphi(y_0, \ldots, y_{n-1})}について、
+        \eqn-notag(${
+          q \forces_\Q \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1})
+          \iff \forall p \in \P \mhquad \pB{ d(p) \leq q \implies p \forces_\P \varphi(d^\ast(\dot{x}_0), \ldots, d^\ast(\dot{x}_{n-1}))} 
+        });
     }
   >);
   +proof<
@@ -239,11 +300,11 @@ let forcing-with-posets = '<
       
     }
     +p{${(2)}: 稠密埋め込みは完備埋め込みであることと\ref(`exc:dense-is-comp`);）から直ちに従う。}
+    +p{\emph{TODO: 証明を書く}}
   >
   +exercise<+p{
     一般の擬順序の間の稠密埋め込みについても、上の定理を示せ。
   }>
-  +p{TODO: 稠密埋め込みに関する種々の定義、補題}
   +lemma?*?:({Maximal Principle, 擬順序版})<
     +p{${\varphi(x)}を${\FL_\P}-論理式、${\P}を擬順序、${p \in \P}とする。このとき、
     \eqn-notag(${p \forces \exists x \varphi(x) \iff \exists \dot{x} \in V^\P\mhquad \pB{p \forces \varphi(\dot{x})}});
