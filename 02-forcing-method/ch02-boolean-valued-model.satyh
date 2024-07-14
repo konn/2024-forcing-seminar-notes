@@ -377,7 +377,7 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
       ${M \models \chi}から${N \models \chi}を示すには${\exists x \psi(x)}との同値性と${\psi(x)}の${\Delta_0}-性を使って${M}での証拠が${N}でも証拠になっていることからわかる。逆に${N \models \chi}から${M \models \chi}を示すには、${N \models \forall x \varphi(x)}と${M \subseteq N}より任意の${x \in M}についても${N \models \varphi(x)}が言え、${\Delta_0}からこれが${M}でも成り立つことからわかる。
     }
   >
-  +remark<+p{${\Delta_1}-論理式は、${\HK}に制限すると決定可能命題や計算可能関数のクラスと一致する。よって、上の命題から次が言える：}>
+  +remark<+p{${\Delta_1}-論理式は、${\HF}に制限すると決定可能命題や計算可能関数のクラスと一致する。よって、上の命題から次が言える：}>
   +cor<+p{推移的モデルの間で、計算可能関数は絶対的。}>
   +p{${\Delta_1}-絶対性のほかの重要な応用は、整礎性の絶対性を保証してくれることである：}
   +lemma<+p{${M \subseteq N}を${\ZF - \mathrm{P}}の推移的モデル、${R \in M}を${A \in M}上の二項関係とするとき、「${R}は${A}上の整礎関係」は絶対的。}>
