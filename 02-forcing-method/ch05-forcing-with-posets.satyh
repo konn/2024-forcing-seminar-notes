@@ -28,7 +28,6 @@ let forcing-with-posets = '<
       }
     }
   >
-  +exercise?:(`exc:dense-is-comp`)<+p{稠密埋め込みは完備埋め込みである。}>
   +lemma<+p{擬順序${\P}のBoole完備化${\B(\P)}は常に存在し、同型を除いて一意である。}>
 
   +p{
@@ -89,6 +88,7 @@ let forcing-with-posets = '<
           }
     }
   >
+  +exercise?:(`exc:dense-is-comp`)<+p{稠密埋め込みは完備埋め込みである。}>
 
   +remark<
     +p{

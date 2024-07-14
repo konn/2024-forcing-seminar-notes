@@ -52,7 +52,7 @@ let generic-filter = '<
     +enumerate{
       * ${\B^+ = \Set{b \in \B}{b > 0}}.
       * ${b \incompat c \iff b \cdot c = 0}。また、${b \compat c \iff b \cdot c > 0}.
-      * ${\B}が完備のとき、${D \subseteq \B}が前稠密${\iff \sum D = \mathbb{1}}
+      * ${\B}が${D}の上限${\sum D}を持つとき、${D \subseteq \B}が前稠密${\iff \sum D = \mathbb{1}}
     }
   >
   +exercise<+p{示せ。}>
