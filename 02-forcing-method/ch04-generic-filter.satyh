@@ -97,12 +97,32 @@ let generic-filter = '<
   +theorem<
     +p{
       ${V^{\mathbb{B}} \models \dot{G}: (V, \mathbb{B})\text!{-生成的}}。つまり、
-      ${V^{\mathbb{B}} \models \forall D \in \check{V} \mhquad\pB{D \subseteq \mathbb{B}:  \text!{稠密開} \to D \cap \dot{G} \neq \emptyset}}.
+      ${V^{\mathbb{B}} \models \forall D \in \check{V} \mhquad\pB{D \subseteq \mathbb{B}:  \text!{前稠密} \to D \cap \dot{G} \neq \emptyset}}.
+    }
+  >
+  +proof<
+    +p{
+      ${D \subseteq \B}を前稠密とする。${\B}：完備Boole代数より${\sum D = \mathbb{1}}に注意すれば、
+      \eqn-notag(${\pSQ{\check{D} \cap \dot{G} \neq \emptyset} = \pSQ{\exists d \in \check{D} \mhquad \p{d \in \dot{G}}} = \sum_{d \in D} \pSQ{\check{d} \in \dot{G}} = \sum D = \mathbb{1}});
+      よって示せた。
     }
   >
 
   +theorem<
     +p{任意の${\sigma \in V^{\mathbb{B}}}について${V^{\mathbb{B}} \models \sigma = \check{\sigma}_{\dot{\mrfontsize!(0.6){G}}}}。}
+  >
+  +proof<
+    +p{
+      ${\B}-階数による帰納法により示す。${\dot{x}}を任意に取れば、
+      \eqn-notag(${
+        \pSQ{\dot{x} \in \sigma}
+        = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
+        = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau} \cdot \pSQ{\tau = \check{\tau}_{\dot{\mrfontsize!(0.6){G}}}}
+        = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \check{\tau}_{\dot{\mrfontsize!(0.6){G}}}}
+        = \pSQ{\dot{x} \in \check{\sigma}_{\dot{\mrfontsize!(0.6){G}}}}
+      });
+      よって示せた。
+    }
   >
 
   +cor<

@@ -155,7 +155,7 @@ let forcing-with-posets = '<
   >
   +exercise<+p{Boole代数は分離的であることを示せ。}>
   +notation<
-    +p{一般の擬順序について、このセミナーでは以後${p \unlhd q \defs \forall r \leq p \mhquad \p{r \compat q}}と書くことにする。}
+    +p{一般の擬順序について、\emph{このセミナーでは}以後${p \unlhd q \defs \forall r \leq p \mhquad \p{r \compat q}}と書くことにする。}
   >
   +exercise<+p{一般の擬順序${\P}において、${\unlhd}は${\leq}を拡張する（つまり${x \leq y \implies x \unlhd y}となるような）${\P}上の擬順序となることを示せ。}>
   +p{強制法から見た上の定義の嬉しさは次の補題が明らかにしてくれる：}
@@ -183,6 +183,7 @@ let forcing-with-posets = '<
       ${q \unlhd p}より${r \leq q, p}が取れる。すると\ref(`cor:forces-deriv`);の${(1)}から${r \forces \varphi}となるので、これが求めるものである。
     }
   >
+  +remark<+p{ここでみたように、「存在するなら、その下に証拠とそれを強制する条件が取れるから〜」という形の議論を、\emph{稠密性論法}（\emph{density argument}）と呼ぶ。「稠密性から取り直せるので、最初から${\mathbb{1}}で強制できていると思って議論しちゃうよ」みたいなものが典型例である。}>
 
   +p{更に、上の補題から真理補題（\ref(`lem:truth-lemma`);）の擬順序版が従う：}
 
@@ -196,8 +197,56 @@ let forcing-with-posets = '<
     }
   >
 
+  +p{上の結果と合わせて、いよいよ目標であった強制法の稠密埋め込みに関する不変性を示せる：}
 
-  +p{}
+  +defn<
+    +p{
+      ${d: \P \dense-to \Q}が稠密埋め込み、${\dot{x} \in V^\Q}とするとき、${d^\ast(\dot{x}) \in V^\P}を以下のように${\mathbb{B}}-階数に関する帰納法で定義する：
+      \eqn-notag(${
+        d^\ast(\dot{x}) \defeq \Set{ (d^\ast(\dot{y}), q) }{ (\dot{y}, q) \in \dot{x}, d(p) \leq_\Q q}
+      });
+    
+    }
+  >
+
+  +theorem(
+    open EnumitemAlias in open EnumUtils in
+    let ctr = new-series () in '<
+    +p{${d: \P \dense-to \Q}を稠密埋め込みとする。}
+    +enum-with(ctr){
+      * ${V^{\mathbb{P}}}において次が成立： ${H \defeq \tilde{d}(G_\P)}は${(V, \Q)}-生成的フィルターで、${G_\P = d^{-1}[H]}。
+      * ${V^{\mathbb{Q}}}において次が成立： ${H \defeq d^{-1}[G_\Q]}は${(V, \P)}-生成的フィルターで、かつ${G_\Q = \tilde{d}(H)}。
+    }
+    +p{
+      以上で${G_\P \mapsto \tilde{e}(G_\P), G_\Q \mapsto e^{-1}[G_\Q]}はある意味で逆演算であることがわかった。そこで、この対応を念頭に、この定理では以下${\dot{G}_\P, \dot{G}_\Q}は共に${\P}-名称としても${\Q}-名称としても用いることにする。たとえば、${\P}-名称としての${G_\P}は普通の標準的名称であり、${\P}-名称としての${\dot{G}_\Q}は${\tilde{d}(G_\P)}を指す${\P}-名称とする。逆に${\dot{G}_\P}を${\Q}-名称として用いたとき、これは${d^{-1}[G_\Q]}の名称を指すものとする。
+    }
+    +enum-with(ctr){
+      * ${\sigma \in V^\P, \tau \in V^\Q}について、${V^\P \models \check{\tau}_{\dot{\mscript{G}}_\Q} = d^\ast(\check{\tau})_{\dot{\mscript{G}}_\P}}かつ
+      ${V^\Q \models \check{\sigma}_{\dot{\mscript{G}}_\P} = d_\ast(\check{\sigma})_{\dot{\mscript{G}}_\P}}
+      * ${\sigma \in V^\P, \tau \in V^\Q}について、${V^\P \models d^\ast(d_\ast(\sigma)) = \sigma}かつ${V^\Q \models d_\ast(d^\ast(\tau)) = \tau}
+      * ${\dot{x}_0, \ldots, \dot{x}_{n-1} \in V^{\P}}、${\FL}-論理式${\varphi(x_0, \ldots, x_{n-1})}について、
+        \eqn-notag(${p \forces_\P \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1}) \iff d(p) \forces_\Q \varphi(d_\ast(\dot{x}_0), \ldots, d_\ast(\dot{x}_{n-1}))});
+      * ${\dot{y}_0, \ldots, \dot{y}_{n-1} \in V^{\Q}}、${\FL}-論理式${\varphi(y_0, \ldots, y_{n-1})}について、
+        \eqn-notag(${
+          q \forces_\Q \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1})
+          \iff \forall p \in \P \mhquad \pB{ d(p) \leq q \implies p \forces_\P \varphi(d^\ast(\dot{x}_0), \ldots, d^\ast(\dot{x}_{n-1}))} 
+        });
+    }
+  >);
+  +proof<
+    +p{
+      ${(1)}: ${D \subseteq \Q}を稠密開集合とする。${D' \defeq d^{-1}[\mathcal{D}] \subseteq \P}とおくと、${d}の稠密性から${D'}は${\P}で前稠密である。実際、${p \in \P}を任意に取れば、${q \in D}で${q \leq_\Q d(p)}となるものが取れるが、${d[\P]}は${\Q}で稠密なので、${r \in \P}で${d(r) \leq q \leq d(p)}となるものも取れる。${D}は開に取っているので、${d(r) \in D}となるから、${r \in D'}である。${\P}や${\Q}が分離的なら${r \leq q}と引き戻せる（演習問題！）ので話が単純だが、そうでなかったとしても${d}が${\incompat}を保つことから${r \compat q}となる。
+      よって${p \in D' \cap G}が取れるが、これを${d}で送ってやれば${d(p) \in D \cap \tilde{d}(G_\P)}となる。よって${\tilde{d}(G_\P)}は${\Q}で${(V, \Q)}-生成的である。
+      また、更に${G' \defeq d^{-1}[\tilde{d}[G]]}とおくと、${d}が完備埋め込みであることと\ref(`exc:dense-is-comp`);より${G'}も${(V, \P)}-生成的であり、取り方より${G_\P \subseteq G}はとなる。今、任意の生成フィルターは超フィルターであるので、結局${G = G_\P}となる。
+    }
+    +p{${(2)}: 稠密埋め込みは完備埋め込みであることと\ref(`exc:dense-is-comp`);から直ちに従う。}
+    +p{\emph{TODO: 証明を書く}}
+  >
+
+  +exercise<+p{
+    一般の擬順序の間の稠密埋め込みについても、上の定理を示せ。
+  }>
+
   +lemma<
     +p{
       ${\Q}が分離的擬順序で写像${e: \P \to \Q}が次を満たすとする：
@@ -211,7 +260,7 @@ let forcing-with-posets = '<
     }
     +p{${e(\mathbb{1}) \in \dot{G}_\Q}より${\mathbb{1}}上の議論と同様に${\forall q \mhquad q \leq e(\mathbb{1})}が言え、${e(\mathbb{1}_{\mathbb{P}}) = \mathbb{1}_\Q}が常に成り立つ。}
     +p{
-      一旦${\bot}を保つことも見ておく。対偶を示す：${e(p) \compat e(q)}ならば${p \compat q}であることを示す。${e(p) \compat e(q)}なので、${r \leq_\Q e(p), e(q)}となる${r \in \Q}をとっておく。すると、${r \forces e(p), e(q) \in \dot{G}_\Q}であり、定義より${r \forces p, q \in e^{-1}[\dot{G}_\Q]}となる。このとき、${\forces e^{-1}[\dot{G}_\Q]: \text!{filter}}であるので、${r \forces p \compat q}でなくてはならない。${r \compat q}は${V}に属する元である${\P, p, q, \leq}を使って${\Delta_0}-論理式で書けるので、結局${V}で見ても${p \compat q}が成り立つ。
+      一旦${\bot}を保つことも見ておく。対偶を示す：${e(p) \compat e(q)}ならば${p \compat q}であることを示す。${e(p) \compat e(q)}なので、${r \leq_\Q e(p), e(q)}となる${r \in \Q}をとっておく。すると、${r \forces e(p), e(q) \in \dot{G}_\Q}であり、定義より${r \forces p, q \in e^{-1}[\dot{G}_\Q]}となる。このとき、${\forces e^{-1}[\dot{G}_\Q]: \text!{filter}}であるので、${r \forces p \compat q}でなくてはならない。${r \compat q}は${\P}に関する一階の命題であり、特に${\check{V}}に相対化された論理式で書け、${r \in \P^+}なので${V}でも${p \compat q}となる。
     }
     +p{
       以上から${e}は反鎖を反鎖に移すことがわかったので、極大性が保たれることを言えばよい。
@@ -221,7 +270,6 @@ let forcing-with-posets = '<
       このとき${s \forces \check{r}, \check{q} \in \dot{G}_\Q}より特に${s \forces \check{r} \compat \check{q}}となり、${\Delta_0}絶対性より${V}で見ても${r \compat q}が成り立つ。
     }
   >
-  +remark<+p{ここでみたように、「存在するなら、その下に証拠とそれを強制する条件が取れるから〜」という形の議論を、\emph{稠密性論法}（\emph{density argument}）と呼ぶ。「稠密性から取り直せるので、最初から${\mathbb{1}}で強制できていると思って議論しちゃうよ」みたいなものが典型例である。}>
 
   +p{更に、上では${e}を個別に固定したが、${\Q}に関する条件を更に強くすれば、単純に「${\Q}が${\P}の${(V, \P)}-生成的フィルターを付加する」という条件と「完備埋め込みがなんでもいいから存在する」は同値になる：}
 
@@ -260,51 +308,7 @@ let forcing-with-posets = '<
     擬順序${\P}と${V^{\mathbb{P}} \models \pB{\dot{\Q}: \text!{擬順序}}}となるような擬順序の${\P}-名称${\dot{\Q}}が与えられたときに、「${\P}の後に今度は${\dot{\Q}}で強制拡大する」という操作を一つにまとめた（${V}での）\emph{二段階反復擬順序}${\P \ast \dot{Q}}が定義できる。
     実は、${\P}から${\Q}に完備埋め込みが存在するとき、\emph{商の${\P}-名称}${(\Q : \P)}を定義することができる。これは${V^{\P}}の中で「${\check{\Q}}のうち${V^{\Q}}にいくのに足りない分」になるような名前である。より詳しく、${\Q}から${\P \ast (\Q : \P)}への稠密埋め込みが存在し、特に両者は強制法として同値になる、ということが示せる。このように、完備埋め込みの存在は、「一方の強制法が他方の強制法の途中に現れる」という状況を特徴づけるとても良い概念であることがわかる。
   }>
-  +p{さて、これまで完備埋め込みの性質を見てきたが、これは先の宣言通り、稠密埋め込みが強制法を保つことを示すためである：}
-  +defn<
-    +p{
-      ${d: \P \dense-to \Q}が稠密埋め込み、${\dot{x} \in V^\Q}とするとき、${d^\ast(\dot{x}) \in V^\P}を以下のように${\mathbb{B}}-階数に関する帰納法で定義する：
-      \eqn-notag(${
-        d^\ast(\dot{x}) \defeq \Set{ (d^\ast(\dot{y}), q) }{ (\dot{y}, q) \in \dot{x}, d(p) \leq_\Q q}
-      });
-    
-    }
-  >
-  +theorem(
-    open EnumitemAlias in open EnumUtils in
-    let ctr = new-series () in '<
-    +p{${d: \P \dense-to \Q}を稠密埋め込みとする。}
-    +enum-with(ctr){
-      * ${V^{\mathbb{P}}}において次が成立： ${H \defeq \tilde{d}(G_\P)}は${(V, \Q)}-生成的フィルターで、${G_\P = d^{-1}[H]}。
-      * ${V^{\mathbb{Q}}}において次が成立： ${H \defeq d^{-1}[G_\Q]}は${(V, \P)}-生成的フィルターで、かつ${G_\Q = \tilde{d}(H)}。
-    }
-    +pn{
-      以上で${G_\P \mapsto \tilde{e}(G_\P), G_\Q \mapsto e^{-1}[G_\Q]}はある意味で逆演算であることがわかった。そこで、この対応を念頭に、この定理では以下${\dot{G}_\P, \dot{G}_\Q}は共に${\P}-名称としても${\Q}-名称としても用いることにする。たとえば、${\P}-名称としての${G_\P}は普通の標準的名称であり、${\P}-名称としての${\dot{G}_\Q}は${\tilde{d}(G_\P)}を指す${\P}-名称とする。逆に${\dot{G}_\P}を${\Q}-名称として用いたとき、これは${d^{-1}[G_\Q]}の名称を指すものとする。
-    }
-    +enum-with(ctr){
-      * ${\sigma \in V^\P, \tau \in V^\Q}について、${V^\P \models \check{\tau}_{\dot{\mscript{G}}_\Q} = d^\ast(\check{\tau})_{\dot{\mscript{G}}_\P}}かつ
-      ${V^\Q \models \check{\sigma}_{\dot{\mscript{G}}_\P} = d_\ast(\check{\sigma})_{\dot{\mscript{G}}_\P}}
-      * ${\sigma \in V^\P, \tau \in V^\Q}について、${V^\P \models d^\ast(d_\ast(\sigma)) = \sigma}かつ${V^\Q \models d_\ast(d^\ast(\tau)) = \tau}
-      * ${\dot{x}_0, \ldots, \dot{x}_{n-1} \in V^{\P}}、${\FL}-論理式${\varphi(x_0, \ldots, x_{n-1})}について、
-        \eqn-notag(${p \forces_\P \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1}) \iff d(p) \forces_\Q \varphi(d_\ast(\dot{x}_0), \ldots, d_\ast(\dot{x}_{n-1}))});
-      * ${\dot{y}_0, \ldots, \dot{y}_{n-1} \in V^{\Q}}、${\FL}-論理式${\varphi(y_0, \ldots, y_{n-1})}について、
-        \eqn-notag(${
-          q \forces_\Q \varphi(\dot{x}_0, \ldots, \dot{x}_{n-1})
-          \iff \forall p \in \P \mhquad \pB{ d(p) \leq q \implies p \forces_\P \varphi(d^\ast(\dot{x}_0), \ldots, d^\ast(\dot{x}_{n-1}))} 
-        });
-    }
-  >);
-  +proof<
-    +p{
-      ${(1)}: 面倒くさいので、${\Q}が完備Boole代数のときだけ示す。
-      
-    }
-    +p{${(2)}: 稠密埋め込みは完備埋め込みであることと\ref(`exc:dense-is-comp`);）から直ちに従う。}
-    +p{\emph{TODO: 証明を書く}}
-  >
-  +exercise<+p{
-    一般の擬順序の間の稠密埋め込みについても、上の定理を示せ。
-  }>
+  
   +lemma?*?:({Maximal Principle, 擬順序版})<
     +p{${\varphi(x)}を${\FL_\P}-論理式、${\P}を擬順序、${p \in \P}とする。このとき、
     \eqn-notag(${p \forces \exists x \varphi(x) \iff \exists \dot{x} \in V^\P\mhquad \pB{p \forces \varphi(\dot{x})}});
