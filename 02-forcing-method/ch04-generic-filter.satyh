@@ -32,9 +32,11 @@ let generic-filter = '<
       * ${p, q \in \P}が\emph{両立する}（\emph{compatible}、記号：${p \compat_\P q}）${\defs \exists r \in \P^+ \mhquad \p{r \leq p, q}}.
         
       * ${p, q }が両立しないとき、記号${p \incompat_\P q}と書く。
-      * ${D \subseteq \P^+}が\emph{前稠密}（\emph{predense}）${\defs \forall p \in \P^+ \exists q \in D \mhquad \p{p \compat_\P q}}.
+      * ${D \subseteq \P^+}が\emph{${p \in \P^+}以下で前稠密}（\emph{predense below ${p}}）${\defs \forall q \leq p \mhquad \exists r \in D \mhquad \p{q \compat_\P r}}.
+      * ${D}が\emph{前稠密}（\emph{predense}）${\defs} ${D}が${\mathbb{1}}以下で前稠密。
       * ${U \subseteq \P}が\emph{開集合}${\defs c \leq b \in U \implies c \in U}.
-      * ${D \subseteq \mathbb{P}^+}が\emph{稠密}（\emph{dense}）${\defs}任意の${p \in \mathbb{P}^+}について、${q \leq p}となる${q \in D}が取れる。
+      * ${D \subseteq \mathbb{P}^+}が\emph{${p \in \P^+}以下で稠密}（\emph{dense below ${p}}）${\defs \forall q \leq_\P p \mhquad \exists r \in D \mhquad \p{r \leq_\P q}}.
+      * ${D}が\emph{稠密}（\emph{dense}）${\defs} ${D}が${\mathbb{1}}以下で稠密。
       * ${\mathcal{A} \subseteq \mathbb{P}^+}が\emph{反鎖}（\emph{antichain}）${\defs}任意の相異なる${p, q \in \mathcal{A}}について${p \incompat q}.
       * ${\mathcal{A} \subseteq \mathbb{P}^+}が\emph{極大反鎖}（\emph{maximal antichain}）${\defs} ${\mathcal{A}}は反鎖であり、包含関係${\subseteq}について極大。
       * ${\mathcal{F}}を集合の族とする。${\mathbb{P}}のフィルター${G \subseteq \mathbb{P}}が${\mathcal{F}}-\emph{生成的}フィルター（${\mathcal{F}}-\emph{generic filter}）である${\defs}任意の${\mathbb{P}}の前稠密集合${D \in \mathcal{F}}について${D \cap G \neq \emptyset}。
