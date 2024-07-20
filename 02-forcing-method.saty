@@ -17,4 +17,12 @@ document (|
   #generic-filter;
   #forcing-with-posets;
   #forcing-over-transitive-models;
+  +section{参考文献}<
+    +makebibliography 
+          ?:(|sort-references=true; 
+              citestyle=CiteAsNumber;
+              name-shrink=true;
+            |)
+          (bib-theme)(bibs);
+  >
 >)
