@@ -175,7 +175,7 @@ let side-line ctx rule-color =
 
 let define-theorem ?:config name ?:rule-color counter ctx ?:label ?:title body =
   let () = counter <- !counter + 1
-  in let num = arabic !counter 
+  in let num = arabic !JLReq.section-counter ^ `.` ^ arabic !counter 
   in let rule-color = Option.from (Color.gray 0.5) rule-color
   in let () = Option.map-or () (fun label -> register-cross-reference (label ^ `:num`) (name ^ num)) label
   in let name = embed-string name
@@ -222,7 +222,6 @@ let define-theorem-nonumber ?:config name ?:rule-color  ctx ?:label ?:title body
           ; colframe rule-color
           ]
     in read-block ctx '< +colorbox(style)(body); >
-    
 
 let-math \aleph = ${ℵ}
 let-math \proves = ${\vdash}
@@ -247,7 +246,6 @@ let-mutable theorem-counter <- 0
 let-block ctx +theorem = define-theorem `定理` ?:prop-color theorem-counter ctx
 let-mutable remark-counter <- 0
 let-block ctx +remark = define-theorem `注意` ?:remark-color remark-counter ctx
-let-mutable lemma-counter <- 0
 let-block ctx +lemma = define-theorem `補題` ?:prop-color theorem-counter ctx
 let-block ctx +cor = define-theorem `系` ?:prop-color theorem-counter ctx
 let-mutable conjecture-counter <- 0
@@ -255,6 +253,14 @@ let-block ctx +conjecture = define-theorem `予想` ?:conj-color conjecture-coun
 let-mutable exercise-counter <- 0
 let-block ctx +exercise = define-theorem `演習` ?:exer-color exercise-counter ctx
 let-block ctx +notation = define-theorem-nonumber `記法` ?:defn-color ctx
+
+
+let-block ctx +section = JLReqHeading.block-heading-scheme 
+  (|  JLReq.default-config-section
+    with
+    reset-counters = defn-counter :: example-counter :: remark-counter :: theorem-counter :: conjecture-counter :: exercise-counter :: JLReq.default-config-section#reset-counters
+  |) JLReq.section-counter ctx
+
 let-math \GCH  = ${\mathord{\mathrm{GCH}}}
 open LatexCmds
 
