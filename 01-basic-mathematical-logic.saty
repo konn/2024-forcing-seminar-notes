@@ -10,7 +10,8 @@
 @import: 01-basic-mathematical-logic/ch01-syntax-and-proof-system
 @import: 01-basic-mathematical-logic/ch02-semantics-of-fol
 @import: 01-basic-mathematical-logic/ch03-models
-@import: 01-basic-mathematical-logic/ch04-incompleteness-theorem
+@import: 01-basic-mathematical-logic/ch04-axioms-of-set-theory-and-metamath
+@import: 01-basic-mathematical-logic/ch05-incompleteness-theorem
 
 document (|
   title = {\no-break{強制法セミナー第1回：数理論理学の初歩}};
@@ -20,6 +21,7 @@ document (|
   #syntax-and-proof-system;
   #semantics-of-fol;
   #models;
+  #axioms-of-set-theory-and-metamath;
   #incompleteness-theorem;
 
   +section{参考文献}<

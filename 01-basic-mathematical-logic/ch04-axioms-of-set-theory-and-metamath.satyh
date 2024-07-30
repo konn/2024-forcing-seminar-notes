@@ -1,0 +1,485 @@
+@require: class-jlreq/jlreq
+@require: math
+@require: enumitem/enumitem
+@require: azmath/azmath
+@require: bibyfi/bibyfi
+@require: fss/fss
+@require: ruby/ruby
+@require: latexcmds/latexcmds
+@require: color
+@import: macros
+
+let-math \Power = ${\mathrm{Power}}
+let-math \Repl = ${\mathrm{Replace}}
+let-math \BST = ${\mathrm{BST}}
+let-math \ZC = ${\mathrm{ZC}}
+let-math \otp = ${\mathop{\mathrm{otp}}}
+let-math \sect x = ${\mathord{#x\mathord{\downarrow}}}
+let-math \W = ${\mathrm{W}}
+let-math \Rel = ${\mathrm{Rel}}
+let-math \Fun = ${\mathrm{Fun}}
+let-math \Lang = ${\mathrm{Lang}}
+let-math \Str = ${\mathrm{Str}}
+let-math \Ar = ${\mathrm{Arity}}
+let-math \Term = ${\mathrm{Term}}
+let-math \rank = ${\mathop{\mathrm{rank}}}
+let-math \Pr = ${\mathrm{Pr}}
+let-math \trcl = ${\mathop{\mathrm{trcl}}}
+let-math \mos = ${\mathop{\mathrm{mos}}}
+
+let axioms-of-set-theory-and-metamath = '<
++section{集合論の公理系と集合論による超数学}<
+  +p{
+    本節では、${\ZFC}をはじめとした集合論の諸公理系を導入し、それらから従う基本的な定理について簡単に述べる。また、${\ZFC}（の部分理論）内部でどのようにして数理論理学の定式化を行うかについても採り上げておく。
+  }
+  +defn<
+    +p{以下、集合論の言語${\mathcal{L}_{\in} = \pangle{\in}}でかかれた論理式のみを考える。これだけだと不便なので、以下の略記法を用いる：}
+    +eqn-notag(${
+      x \subseteq y \deffml \forall z \mhquad \p{z \in x \to z \in y}
+    });
+    +listing{
+      * \emph{外延性公理}：${\forall x \forall y \mhquad \pB{\forall z \mhquad \p{z \in x \liff z \in y} \to x = y}}。
+      * \emph{空集合公理}：${\exists x \forall y \mhquad y \nin x}。
+    }
+    +pn{
+      外延性公理より、空集合公理が存在を保証する集合（\emph{空集合}）は一意に存在することがわかる。そこで、定義による拡張（\ref(`def:defn-ext`);）により、以下${\emptyset}によりその空集合を表す。これに限らず、「${\liff}」を使って定義された集合は、存在するのなら外延性公理により一意となる。なので、同値条件を満たすような集合の存在公理が与えられたとき、このように定義による拡張を使ってどんどん語彙を拡張していくことにする。
+    }
+    +listing{
+      * \emph{対の公理}：${\forall x \forall y \exists z \forall w \mhquad \pB{w \in z \liff \p{w = x \lor w = y}}}。
+      ${x,y}についてこのような性質を満たす集合を${x, y}からなる\emph{非順序対}（\emph{unordered pair}）とよび、以下${\set{x, y}}と表す。
+      * \emph{和集合公理：}${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \exists w \in x \mhquad z \in w}}。
+      ${x}についてこのような性質を満たす集合を${x}の\emph{和集合}（\emph{union}）と呼び、以下${\bigcup x}と表す。
+      * \emph{内包公理}（または分出公理）：論理式${\varphi(z)}について、${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \p{z \in x \land \phi(z)}}}。
+        ${\varphi, x}についてこのような性質を満たす集合を${\Set{z \in x}{\varphi(z)}}と表す。
+      * \emph{冪集合公理}（${\Power}）：${\forall x \exists y \forall z \mhquad \pB{z \in y \liff z \subseteq x}}。
+        このような集合を${x}の\emph{冪集合}（\emph{powerset}）と呼び、以下${\Pow x}や${\Pow(x)}などと表す。
+    }
+    +pn{${x,y}の\emph{順序対}（\emph{ordered pair}）を${\pangle{x, y} \defeq \set{\set{x}, \set{x, y}}}により定義する。このとき、
+      \eqn-notag(${\forall x \forall y \forall z \forall w \mhquad\pB{\pangle{x, y} = \pangle{z, w} \liff \p{x = z \land y = w}}});
+      が成り立つことがわかる。
+    }
+    +p{
+      ${\set{x} \defeq \set{x, x}}として${x}の一点集合を定義すると、${\forall z \mhquad \pB{z \in \set{x} \iff z = x}}となることがわかる。
+    }
+    +p{和の公理と対の公理により${x \cup y = \bigcup \set{x, y}}が存在し、${z \in x \cup y \liff  \p{z \in x \lor z \in y}}が成り立つ。これが普段我々が使っている二項の和集合である。
+    }
+    +p{
+      また、内包公理により${x \cap y = \Set{z \in x}{z \in y}}が存在し、${z \in x \cap y \liff  \p{z \in x \land z \in y}}が成り立つ。これは普段我々が使っている二項の共通部分集合である。
+    }
+    +p{
+      冪集合、和、対、内包公理から、${X}と${Y}の直積${X \times Y \defeq \Set{ w \in \Pow\Pow(X \cup Y)}{ \exists x \in X \exists y \in Y \mhquad w = \pangle{x, y}}}が定義できる。これは普段我々が使っている二項直積となることがわかる。
+    }
+    +listing{
+      * \emph{基礎の公理}（または正則性の公理）：${\forall x \pB{x \neq \emptyset \to \exists y \in x\mhquad \p{y \cap x = \emptyset}}}。
+      * \emph{無限公理}：${\exists x \mhquad \pB{\emptyset \in x \land \forall y \in x \mhquad \p{y \cup \set{y} \in x}}}。
+      * \emph{置換公理}（${\Repl}）：論理式${\varphi(z)}について、
+      \eqn-notag(${
+        \forall A \mhquad
+        \pB{\p{\forall x \in A \mhquad \exists\! y\mhquad \varphi(x, y)} 
+        \to
+        \exists z \forall y \mhquad \pB{y \in z \liff \exists x \in A \mhquad \varphi(x, y)}
+        }
+      });
+      このような${z}を${\Set{y}{ x \in A, \varphi(x, y)}}と表し、また${F}が関数であるとき
+      \eqn-notag(${F[A] \defeq F\mathbin{\text!{”}}A \defeq \Set{F(x)}{x \in A}});
+      と書く。
+      * \emph{選択公理}（${\AC}）：
+        \align?:(AZMathEquation.notag)(${|
+          \forall X |\neq \emptyset \mhquad \exists R \subseteq X \times X 
+          | | \forall x y z \mhquad \pB{x \mathrel{R} x \land \p{x \mathrel{R} y \to y \mathrel{R} x \to y = x} \land (x \mathrel{R} y \lor y \mathrel{R} x) \land \p{x \mathrel{R} y \mathrel{R} z \to x \mathrel{R} z}
+          }
+          | | \land \forall S \subseteq X \pB{ S \neq \emptyset \to \exists x \in S \mhquad \forall y \in S \mhquad \p{x \mathrel{R} y}}
+        |});
+      * \emph{Zermelo公理系}（${\Z}）とは、外延性、空集合、基礎、対、和、冪集合、内包、無限公理から成る公理系である。${\Z + \AC}を${\ZC}と書く。
+      * \emph{Zermelo–Fraenkel公理系}（${\ZF}）とは、Zermelo公理系に置換公理を加えた公理系である。${\ZF + \AC}を${\ZFC}と書く。
+    }
+  >
+  +remark<
+    +p{空集合公理は公理系に含めない流儀が多い。というのも、少なくとも一つ集合が存在すれば、内包公理から空集合の存在が言えるからである。${=}つきの一階述語論理ではモデルが空ではないことが論理的に従うし、モデルも空でないものだけを考えるので、空集合公理は不要なのである。}
+  >
+  +subsection{集合論の公理系は何を既定しているのか？}<
+    +p{
+      群の公理系も、集合論の公理系も、論理式の集合という意味では同じ形式的な公理系である。しかし、群の公理系は個別の群が満たすべき性質を定めているのに対して、集合論の公理系は\emph{集合の宇宙}（＝集合全体のあつまり）の性質を述べている。
+    }
+    +p{
+      これは、集合論が\emph{数学の基礎}として利用されることが想定されているからである。つまり、個別の群や空間だけではなく、それらの公理系を内部で解釈することができ、複数の（種別が異なるかもしれない）\emph{対象を互いに関連づけ}、その間の射などを考えることが出来る場として想定されているからである。こうした観点から、${\ZFC}の各公理がどう正当化され得るかを見ていこう。
+    }
+    +p{
+      必要最小限のものは欲しいよね、ということで\emph{空集合公理}や\emph{無限公理}が${\emptyset}や${\omega}の存在を保証している。
+      \emph{内包・和・対}の公理などは、あり物から欲しい部分だけを集めてきたり、基本的な演算を使って切り貼りして新しい対象を構成できる、という要請である。
+      \emph{冪集合}は対象上の関数など対象の部分や写像を議論するのに必要となる。初等的なところでは、たとえば自然数から実数を作ろうと思ったら、冪集合が必要になる。
+      \emph{選択公理}も、超越的ではあるがとりあえず代表元を取ったり、何らかの意味で極大な対象をとりたいというような要請を満たすためにある。
+    }
+    +p{
+      \emph{置換公理}は、\emph{写像による像が必ず集合となる}ことを要請する。ここで、写像は集合として存在するものだけではなく、写像かのように振る舞う論理式によって定義されるものも含む。実は、以下で触れるように${V_{\omega + \omega}}は${\Z}のモデルとなる。この世界には${\omega + \omega}は順序数としては存在せず、特に、「奇数のあとに偶数を数える」ような整列順序の順序型は取れない。つまり、順序数が全然足りないようなモデルでも、置換公理${\Z}のモデルになってしまうのだ。
+      言い換えれば、置換公理は「宇宙の背が十分高い」ことを要請していると見ることができる。「通常の数学」の範囲では${V_{\omega + \omega}}程度でも十分かもしれない（実関数、実関数からの実関数……などはある）が、圏論などより高次の構成を必要とする数学ではこれでは不十分である。
+      また、「Borel集合が可測性やBaireの性質など任意のよい性質を持つ」（Borel決定性）ためには、置換公理が本質的に必要であることが知られている。
+    }
+    +p{
+      \emph{基礎の公理}は、実は「数学の基礎」としての集合論の観点からはあってもなくてもよい。しかし、基礎の公理が成り立たないような宇宙であっても、\emph{必ず基礎の公理が成り立つ部分が存在}するので、\emph{無矛盾性の意味ではあってもなくても特に問題はない}\footnote{よく、Russelのパラドックスを避けるために基礎の公理が導入されたという勘違いがあるが、公理をつけたしたところで矛盾の証明図がなくなるわけではない（新公理を無視しても証明はなりたつ）ので、この理解は大きな間違いである。}。
+      また、数学的対象を「公理系を満たす何らかの集合」として定義するのであれば、\emph{非整礎な宇宙に存在する構造に対しそれと同型な構造が必ず整礎部分にも存在する}ことが言え、この意味で\emph{基礎の公理の有無が「通常の数学」に及ぼす影響はない}といえる。一方で集合論の理論を展開する上では基礎の公理があった方がよく、実りの多い理論が得られるので仮定されているものである\footnote{一方で、情報学への応用や哲学的興味から、基礎の公理を積極的に破る「任意の（循環を含む）グラフを実現する集合が存在する」という反基礎の公理（${\mathrm{AFA}}）を研究している人もいる。これはいわゆる「集合論」の文脈からははみでた研究と見做されがちである。}。
+      ちょっとだけ「普通の数学」と関連する話題を書くと、たとえば\emph{「選択公理」と「線型空間の基底の存在」は同値}であることは比較的よく知られているが、\emph{基礎の公理がなくても同値かどうかは未解決}の問題である。
+    }
+  >
+  +subsection{集合論における「クラス」について}<
+    +p{
+      しばしば「群の全体／圏の全体は真のクラスを成す」というような議論をするし、集合論でも「真クラス個のほげほげが存在して……」というような議論をよくする。しかし、上の公理系を見てわかるように、すくなくとも${\ZFC}（とその部分体系）には\emph{公式にはクラスという概念は登場しない}。
+      ${\ZFC}を基礎理論として採用する限りにおいて、クラスはあくまでもインフォーマルな用語であり、便利なので使われているジャーゴンであると理解すべきである。
+    }
+    +p{
+      では${\ZFC}における「クラス」をどう正当化・理解すればいいのだろうか？
+      大事な仮定は、\emph{クラスは決して${\in}の左辺に登場しない}ことと、\emph{クラスに対する量化は基本的に許容されない}ということである。
+      この仮定のものとでは、「\emph{クラスとは論理式で定義される集合の集まりである}」と考えればだいたいにおいて問題ない。
+      たとえば、宇宙${V = \Set{x}{x = x}}は集合全体の成すクラスだが、これは単純に${\varphi(x) \deffml x = x}という論理式の話をしていると思えばよい。また、Gödelの構成可能宇宙${L}について、「${\ZF}を仮定すると、${L}で選択公理が成り立つ」というような話をすることがあるが、この${L}もある論理式${\Delta(x)}があり、${x \in L \iff \Delta(x)}と読み替えた上で、量化子${\exists x}を${\exists x \mhquad \Delta(x) \land \cdots}と書き換えたものが${\ZF}で証明できる、ということの略記である。
+      このように、論理式${\Phi(x)}で定義されるクラス${C}ごとに${x \in C}は${\Phi(x)}の略記だと思えば、集合の集まりとして見たときの個別のクラスの扱いは問題ない。
+    }
+    +p{
+      また、この解釈のもとで、任意の集合${a}は論理式${\varphi(x) \deffml x \in a}と同一視することでクラスとなる。標語的に書くのなら、\emph{任意の集合はクラスである}。
+      区別のため、集合ではないようなクラスを\emph{真（の）クラス}（\emph{proper class}）と呼ぶ。つまり、${C}が真のクラスであるというのは、対応する論理式${\Phi(x)}が${\nexists c \forall x \mhquad \pB{x \in c \iff \Phi(x)}}を満たすということである。
+    }
+    +p{
+      また、「${\varphi(x)}なる${x}は真クラス個存在する」というような命題については、「どんな集合${A}についても、それに含まれない${x \nin A}で${\varphi(x)}となるものが存在する」というような形で理解すればよい。
+      } 
+      +p{
+        また、クラスに対する量化については、それが命題の一番外側に集中しているときに限り、次のような形でメタレベルでの言明と解釈して正当化できる。
+        たとえば、「任意のクラス${A}について××がなりたつ」というのは、${A}が${\in}の左辺に登場しない限りにおいて、どんな論理式${\Phi(x)}についても「××」の中の「${x \in A}」を「${\Phi(x)}」で置き換えたものが成り立つ、と解釈できる。
+        また、「クラス${A}, ${B}, ${C}が与えあられたとき、××を満たすようなクラス${D}が存在する」というような「言明」は、${A, B, C}それぞれに対応する論理式が与えられたときに、それらから${D}に対応する論理式を具体的に構成することができる、というメタレベルでの主張として解釈することで正当化できる。
+      }
+    +p{
+      このように、クラスと論理式を同一視する立場に立てば、置換公理や内包公理は「クラス関数${F}による集合${x}の像は集合である」「集合とクラスの共通部分は集合である」と言い換えることができる。
+    }
+    +p{これらを越えるようなクラスの扱いがないように気をつける限りにおいて（特に量化を外側でするようにし、外側での量化もすべて具体的な論理式の書き換えとして解釈するように気を付ければ）、基本的には${\ZFC}では自由にクラスを扱うことができると思ってよい。}
+    +p{
+      一方で、\emph{von Neumann–Bernays–Gödelの集合論}（${\mathrm{NBG}}）では、\emph{集合を渡る変数とクラスを渡る変数の二種類を許容}し、クラスを対象として扱うことができる。
+      集合変数に限った論理式を考えると、${\mathrm{NBG}}は${\ZFC}の保存拡大であり、この意味で上のクラスのインフォーマルな扱いも正当化できる。これは、正に集合部分は${\ZFC}の集合を、クラス部分は論理式を与えてやれば自然と${\mathrm{NBG}}のクラスと見做せることによる。
+      ${\mathrm{NBG}}のよいところは、\emph{クラス変数を使うことで有限公理化可能である}ことである。
+      しかし、クラスは他のものの元になれないといった制約などを満たすために、量化子は集合変数上しか渡れないといった制限など何らかのトリックが必要になり、強制法の定式化も煩雑になる。そして結局、上で述べたような「読み替え」を採用すれば、結局${\mathrm{NBG}}で議論をしているのとほとんどかわらない体験が得られる。
+      こうした都合から、集合論の理論としては${\mathrm{NBG}}ではなく${\ZFC}が広く使われている\footnote{一方で、${\mathrm{NBG}}からこうした制限を取っ払い、クラスも集合と同様に扱うことのできるMorse–Kelley集合論というものがある。これは${\ZFC}よりも真に強く、${\ZFC}に到達不能基数の存在と無矛盾性の意味で等価になる。クラスによる強制法を考えるときなどは、こうした理論を使った方が分析がしやすいため、${\mathrm{NBG}}や${\mathrm{MK}}での強制法を考えている研究者も存在する}。
+    }
+  >
+  +subsection{集合論の基本的な結果}<
+    +p{基礎の公理は、集合といったときに整礎なものだけを考える、という宣言であり、あるいは空集合から出発して冪集合をとることで全ての集合は作られる、という風にも見ることができる。そのことを見るには、まず整礎集合に関する帰納法の原理が必要となる：}
+    +defn<
+      +p{
+        \listing{
+          * 二項関係${R}が\emph{集合的}（\emph{set-like}）${\defs}任意の${x} について、${\sect{y} \defeq \Set{y}{ y \mathrel{R} x}}が集合を成す。
+          * 二項関係${R}が${A}上で\emph{整礎}（\emph{well-founded}）${\defs}任意の${\emptyset \neq B \subseteq A}は${R}-極小元を持つ。
+          * 二項関係${R}が${A}上で\emph{整礎順序}（\emph{well-order}）${\defs A}上で${R}は整礎な全順序。
+          * ${A}が\emph{推移的}（\emph{transitive}）${\defs x \in y \in A \to x \in A}。つまり、${\in}が${A}上で推移的関係となる。
+          * 整列順序${\prec}、${a \in A}について、${\Set{x}{ a \prec x } \neq \emptyset}のとき、${\Set{x}{ a \prec x }}の最小限を${\prec}に関する${a}の\emph{後者}（\emph{successor}）と呼ぶ。
+          * 集合${\alpha}が\emph{順序数}（\emph{ordinal}）${\defs} ${\alpha}は推移的集合であり、${\in}により整列される。順序数の全体を${\On}により表す。また、${\On}に制限した${\in}を単に${<}と書く。
+        }
+      }
+    >
+    +remark<+p{基礎の公理は、関係${\in}が整礎であることを述べており、von Neumannにより導入された。}>
+    +remark<+p{
+      ここでは、選択公理をそれと同値な整列可能定理により定義している。Cantorは整列可能定理を証明しようとしたができず未解決予想とし、Zermeloは必要最小限の公理系から整列可能定理を証明しようとして${\Z}を定式化した（数学の基礎付けのために提唱したとする俗説は誤りである）。しかし、Zermeloは${\Z}に陽には含まれていない選択公理${\AC}を暗に仮定して証明してしまっており、後に${\Z}上で${\AC}と整列可能定理が同値であることが明らかになった。実際に${\Z}から${\AC}が証明できないことは、Gödelの${L}と、FraenkelおよびMostwskiによる集合論の置換モデル（またはCohenの強制法による対称モデル）によって確定する。
+    }>
+    +lemma?:(`lem:wf-ind`)?:({超限帰納法の原理})<
+      +p{${A}をクラス、クラス関係${\prec}を${A}上で集合的な整礎関係、${G: V \times V \to V}をクラス関数とする。このとき、クラス関数${F: V \to V}で次を満たすものが存在する：
+      }
+      +eqn-notag(${
+        \forall a \in A \mhquad F(a) = G(a, F \restrict \sect{a})
+      });
+      +pn{
+        また、このようなクラス関数${F}は${F(x) = y \iff F'(x) = y}を満たすという意味で一意である。
+      }
+    >
+    +cor?:(`lem:wf-ind-pred`)<
+      +p{
+        ${A}をクラス、クラス関係${\prec}を${A}上で集合的整礎関係、${\varphi(x, y)}を論理式とする。このとき、次を満たすようなクラス${\W(\varphi, \prec) \subseteq A}が一意に存在する：
+        \eqn-notag(${
+          \forall a \in A \mhquad \pB{x \in W(\varphi, \prec) \iff \varphi(a, W(\varphi, \prec) \cap \sect{a})}
+        });
+      }
+    >
+
+    +lemma<
+      +p{
+        \enumerate{
+          * ${\On}は推移的クラスである。
+          * ${\in}は${\On}上の集合的な整列順序である。
+          * ${\alpha \in \On}について、${\alpha + 1 \defeq \alpha \cup \set{\alpha}}は${\alpha}の後者である。
+          * ${\alpha = \Set{\beta \in \On}{\beta < \alpha}}
+          * ${\On}は真のクラスである (Burali-Forti)。
+        }
+      }
+    >
+    +defn<
+      +p{
+        \enumerate{
+          * ${\alpha}が\emph{後続順序数}（\emph{successor ordinal}）${\defs} ${\alpha = \beta + 1}となる${\beta \in \On}が存在する。
+          * ${\alpha > 0}が\emph{極限順序数}（\emph{limit ordinal}）${\defs} ${\alpha}は後続順序数でない。
+        }
+      }
+    >
+
+    +defn<
+      +p{${\prec}を${A}上の集合的整礎関係とする。}
+      +enumerate{
+        * ${S \subseteq A}とするとき、${S}の\emph{上限}を以下で定める：
+        \eqn-notag(${
+          \sup S \defeq \Set{a \in A}{\forall x \in S \mhquad x \preccurlyeq a}
+        });
+        * ${R}の\emph{ランク関数}${\rho = \rho_{(A, \prec)}: A \to \On}を次のように超限帰納法で定める：
+        \eqn-notag(${
+          \rho(a) \defeq \sup\Set{\rho(b) + 1}{b \prec a}
+        });
+      }
+    >
+    +lemma<
+      +p{${\prec}を${A}上の集合的整礎関係とするとき、${a \prec b \implies \rho_{\prec}(a) < \rho_{\prec}(b)}。}
+    >
+    +lemma<
+      +p{任意の${A}上の集合的な二項関係${R}について、次は同値：}
+      +enumerate{
+        * ${R}は${A}上整礎。
+        * ${a \mathrel{R} b \implies \rho(a) < \rho(b)}を満たす関数${\rho: A \to \On}が存在する。
+      }
+    >
+
+    +theorem?:(`lem:wo-iso-uniq`)<
+      +p{${(A, \prec_A), (B, \prec_B)}を共に集合的整列順序つきクラスとする。}
+      +enumerate{
+        * ${i: A \to B}が整列順序の同型なら、${i(a) = \sup \Set{ i(b) }{ b \prec_A a}}。
+        * 整列クラス間の同型は一意である。すなわち、${i, j: (A, \prec_A) \cong (B, \prec_B)}がともに順序同型なら${\forall x \in A \mhquad i(x) = j(x)}。
+      }
+    >
+
+    +theorem<
+      +p{
+        任意の整列集合${(X, <)}に対し、${(X, <) \cong (\alpha, \in)}となる順序数${\alpha}が一意に存在する。このような${\alpha}を${(X, <)}の\emph{順序型}（\emph{order-type}）と呼び、${\otp(X, <)}で表す。
+      }
+    >
+    +p{この準備の下で、基礎の公理は「集合の宇宙${V}は空集合から冪集合を超限回繰り返して得られる」という主張と同値であることがわかる：}
+    +defn<
+      +p{${\alpha \in \On}による帰納法により${V_\alpha}を定める：}
+      +eqn-notag(${
+        V_0 \defeq \emptyset, \mqquad
+        V_{\alpha + 1} \defeq \Pow(V_\alpha), \mqquad
+        V_{\gamma} \defeq \bigcup_{\alpha < \gamma} V_\alpha \mquad (\gamma: \text!{limit}).
+      });
+    >
+
+    +lemma<
+      +p{${\ZFC - \mathrm{Foundation}}上次は同値：}
+      +enumerate{
+        * 基礎の公理
+        * ${V = \bigcup_{\alpha \in \On} V_\alpha}
+      }
+    >
+    +remark<
+      +p{基礎の公理は選択公理以上にあって当然なものという立場を取るので、以下は${V = \bigcup_\alpha V_\alpha}は当然なりたつものと思って作業する。}
+    >
+    +defn<
+      +p{}
+      +enumerate{
+        * 集合${x}の\emph{階数}（\emph{rank}）を${\rank(x) \defeq \min\Set{\alpha \in \On}{x \in V_{\alpha + 1}}}と定める。 
+        * 集合${x}の\emph{推移閉包}（\emph{transitive closure}）${\trcl(x)}を次のように帰納的に定める：
+          \eqn-notag(${
+            \mathop{\mathord{\bigcup}^{(0)}} x \defeq x, \mqquad
+            \mathop{\mathord{\bigcup}^{(n+1)}} x \defeq \bigcup\mathop{\mathord{\bigcup}^{(n)}} x, \mqquad
+            \trcl(x) \defeq \bigcup_{n < \omega} \mathop{\mathord{\bigcup}^{(n)}} x
+          });
+      }
+    >
+    +lemma<+p{${\trcl(x)}は${x}を含む最小の推移的集合である。}>
+    +lemma?:(`lem:setlike-wo-uniq`)<+p{${A}が真のクラス、${\prec}が${A}上の集合的整列順序とすると、ランク関数は整列順序の同型
+      \eqn-notag(${\rank: (A, \prec) \cong (\On, \in)});
+    を与える。}>
+  >
+  +subsection({${\ZFC}内でのロジックの実装：またはメタとオブジェクト二つの論理式・二つの${\ZFC}})<
+    +p{
+      我々はこれまでに「論理式」や「モデル」といった概念を定義して扱ってきた。特に、論理式は我々が実際に書き下せるものを念頭において、外の世界の素朴な帰納法で操作してきた。一方、不完全性定理や真理定義不可能性定理では、こうした概念を更に${\ZFC}や${\mathrm{PA}}の中で再定式化して、個別のモデルの中で解釈して扱うことになる。こうした概念を扱う上では、\emph{必ずしも我々の世界に存在しない論理式や証明図}などが存在し得る。
+    }
+    +p{
+      そこで本節では${\ZFC}の中でこれまでの議論がどう形式化され、そうしたものを扱う上での注意点について触れておく。
+    }
+    +p{
+      まずは、論理式をどう${\ZF}で定式化するかを考えておこう。${\ZF}では、無限公理から自然数全体の集合${\omega}が存在する。また、任意の集合の元からなる有限集合・有限列などの存在も保証されている。これらを使えば、論理式をうまいこと表現できそうである。まず、言語の定義は簡単だ：
+    }
+    +defn?*?:({${\ZF}での言語の定義})<
+      +p{}
+      +enumerate{ 
+        * 言語${\mathcal{L}}とは、四つ組${\L = \pangle{\Rel_{\L}, \Fun_{\L}, \Ar_{\Rel_\L}, : \Rel_\L \to \omega, \Ar_{\Fun_\L} : \Fun_\L \to \omega}}である。${R_{\L}, F_{\L}}の元はそれぞれ\emph{述語記号}、\emph{関数記号}とよばれる。${\Ar_{\Rel_\L}(R) = n}のとき述語記号${R \in \Rel_\L}は${n}-項述語記号、${\Ar_{\Fun_\L}(f) = n}のとき関数記号${f \in \Fun_\L}は${n}-変数関数記号と呼ばれる。曖昧性がないとき、${\#R \defeq \Ar_{\Rel_\L}(R)}や${\#f \defeq \Ar_{\Fun_\L}(f)}などと書く。
+
+        ${\ZF}で「${x}が言語である」を表す論理式${\Lang(x)}を明示的に書けば：
+          \eqn-notag(${
+            \Lang(x) \deffml \exists R \mhquad \exists F \mhquad \exists f \mhquad \exists g \mhquad \pB{x = \pangle{R, F, f, g} \land f: R \to \omega \land g: F \to \omega}
+          });
+        * ${\mathcal{L}}-構造とは三つ組${M = \pangle{M, \mathcal{R}, \mathcal{F}}}で次を満たすものである：
+          \enumerate{
+            * ${M}は集合である。
+            * ${\mathcal{R} \in \prod_{R \in \Rel_\L} M^{\#R}}
+            * ${\mathcal{F} \in \prod_{f \in \Fun_\L} \seq{M^{\#f}}{M}}
+          }
+      }
+    >
+    +exercise<+p{気が向いたら、上の定義を基に「${M}が${\L}-構造である」ことを表す論理式${\Str_{\L}(M)}を書き下してみよ。}>
+    +p{
+      項や論理式の定義も同様……といきたいところだが、これらの定義は\emph{帰納的な定義}であり、上のようにわかりやすく一発で書き下すことはできない\footnote{厳密な話をするのなら、上に出て来る順序対${\pangle{a,b,c,d}}や関数であることを表す${f: R \to \omega}などのような記号は本来集合論の言語にはない。しかし、これらの概念は${\ZF}の公理系から容易に定義できるので、定義による拡張（\ref(`lem:defn-ext`);）で直ちに正当化できる。}。
+    }
+    +p{
+      しかし、\ref(`lem:wf-ind-pred`);より我々は超限帰納法が使えるので、${\W}を使って定義してやればよい。ちなみに、定義による拡張を解してみると、${x \in \W(\varphi, \prec)}は次のように表せる：
+      \eqn-notag(${
+        x \in \W(\varphi, \prec) 
+        \deffml
+        \exists W \subseteq X
+        \mhquad
+        \pB{
+          \forall z \in X\mhquad \pb{z \in X \liff \varphi(x, \Set{y \in X}{y \prec z})}
+          \land x \in W
+        }
+      });
+    }
+    +p{さて、これを使えばたとえば${\L}-項を次のように定義できる：}
+    +defn<
+      +p{
+        ${x}が${\L}-項であることを表す述語${\Term(x)}は次のように定義する：
+        \align?:(AZMathEquation.notag)(${
+        | \Term_0(x, A) 
+          | \deffml \exists n < \omega \pB{x = \pangle{1, n}} \vee \exists f \in \Fun_\L \mhquad \exists y \in \seq{\Ar(R)}{A} \mhquad \pB{x = \pangle{0, f} \concat y}
+        | \Term(x) 
+          \deffml | x \in \W(\Term_0, \sqsubsetneq)
+        |  \equiv | \exists W \mhquad \pB{
+            x \in W \land
+            \forall z \mhquad \p{z \in W \liff \Term_0(z, \Set{y \in \L}{y \sqsubsetneq z})}
+          }.
+        |});
+        ただし、ここで${x \sqsubsetneq y}は列${x}が${y}の真の始切片である（つまり${x = y \restrict n}となるような${n < \lh(y)}が存在する）ことを表す関係である。
+      }
+    >
+    +p{
+      ここで、気持ちとしては${0, f}で始まっているものは複合項、${1, n}は変数${x_n}を表すものである。項の場合は引数の数が決まっているので、このように記号と項の連接で表現できる。これは、わかる人向けにいってしまえば（逆ではない）ポーランド記法を採用している、ということである。
+    }
+    +exercise<+p{上を拡張して、集合${A}にパラメータを持つ${\mathcal{L}}-項を定義してみよ。また、${\mathcal{L}}-論理式であることを表す論理式${\Fml_{\L}(x)}を定義してみよ。パラメータ付きも考えよ。}>
+    +exercise<+p{証明図の概念も定義してみよう。また、「${P}は公理系${T}から${\varphi}への証明図である」を表す論理式${\Pr_T(\varphi)}を定義してみよ。}>
+    +p{
+      以上のようにして、「論理式である」「証明図である」などの概念が定義できる。
+      ところで、以上は${\ZFC}上での論理式の定義だが、我々のメタレベルの世界にも論理式はある。${\ZFC}での論理式の定義はメタレベルの論理式を真似て定式化したので、メタの我々が知っている論理式${\varphi}が与えられれば、${\ZFC}の中で${\varphi}に対応する論理式を表現する項をアルゴリズミックに構成できる。両者は曖昧性のない範囲では議論の過程でしばしば混同して扱うことになるが、メタの論理式を${\ZFC}の項として表した対応物を表すための（メタ）記号を導入しておくことにする：
+    }
+    +notation<
+      +p{メタレベルの論理式${\varphi}に対応する${\ZFC}の項として表現された論理式を${\code{\varphi}}と書く。}
+    >
+    +p{この記号は、${
+      \mathrm{PA}}などより弱い体系の文脈でも用いられるもので、${\varphi}の\emph{コード}などと呼ばれる。これを使えば、「理論${T}は無矛盾である」ことを表す論理式${\Con(T)}は次のように書ける：
+      \eqn-notag(${
+        \Con(T) \deffml \lnot \Pr_T(\bot).
+      });
+    }
+    +p{以上のように、証明可能性や無矛盾性は${T}の中で表現できる。また、超限帰納法を使うことで「${M}が論理式${\varphi}を満たす」ことを表す論理式${M \models T}も${\ZFC}の中で定式化できる。}
+    +exercise<+p{自分で選んだ「論理式」の定義を使って、${\ZFC}において、パラメータ${M, T}を持つ論理式として${M \models T}を適当な粒度で書き下してみよ。}>
+
+    +p{
+      さて、特に理論としての${\ZFC}を考えると、この理論に属する公理の形は完全に決まっている。
+      もっと言えば、論理式が与えられたときに、それが${\ZFC}の公理であるかどうかを判定するためのプログラムを書いて、計算機に実行させることができる。
+    }
+    +exercise<+p{そんなプログラムを書け。}>
+    +p{
+      そのプログラムの判定手続きを翻訳してやれば、「${\varphi}は${\ZFC}の公理である」を表す論理式${\varphi \in \ZFC}も一本の論理式で書くことができる。これを使えば、${M \models \ZFC}を表す論理式も次のように一本の論理式で書くことができる：
+    }
+
+    +eqn-notag(${M \models \ZFC \deffml \forall \varphi \in \ZFC \mhquad M \models \varphi.});
+
+    +p{
+      このようにして、${\ZFC}の内部で理論${T}の無矛盾性${\Con(T)}や、「${T}がモデルを持つ」${\exists M \mhquad M \models T}といったことを定式化することができる。また、論理式に対してやったように、証明図${P}に対して${\ZFC}内部の対応するコード${\code{P}}なども考えてやることができるし、このコード化はメタ世界での「証明図である」「独立である」といった関係を保つようになっている（そのように定式化できる）。
+    }
+
+    +p{
+      特に、${\ZFC}のモデル${M}が与えられたとき、論理式や証明図のコードを${M}で解釈してやれば、\emph{我々の世界における証明可能性の世界のうつし身が、そのまま${M}の中でも再現される}ことになる。
+      しかし、逆に\emph{${M}における個別の論理式や証明図に対応するものがメタレベルに必ず存在するとは限らない}。
+    }
+    +p{
+      どういうことだろうか？\quad;まず、可算言語の論理式の全体は可算個である（\ref(`lang-card`);）。特に、${\ZFC}の言語は${\in}のみを持つ言語であり、その論理式は可算個で、特に${\omega}との間に全単射が存在する。
+      一方で、超準解析の節\ref(`nonstandard`);で見たように、超冪などをとってやることで「超準的な」「無限大の」自然数が存在するようなモデルがとれる。このようなモデルの${\omega}は、我々の知っているものとは異なる自然数をも含んでいるわけである。すると、${\omega}と論理式の間の全単射から、この世界にはメタ世界に存在しない論理式が存在することになる。
+    }
+    +p{
+      特に、${\ZFC}の公理系は有限公理化不可能であり、可算無限個の公理を持つ。とくに置換公理は任意の${\ZF}-論理式に対してその像が集合である、ということを主張している。そのため、超準自然数を持つような${\ZFC}のモデルは、\emph{「その内側でみた${\ZFC}」は我々の知らない論理式についての置換公理を無数に持つ}。もちろん、その公理系の中には「標準的」なメタレベルの公理は全て含まれているので、${M}の中で${\ZFC}のモデル${m \in M}を更に見付けてきた場合、個別のメタ公理${\varphi}について${M \models (m \models \code{\varphi})}が成り立つことはわかる。しかし、この${m}は他にも無数の我々の知らない公理を満たしているのである。
+    }
+    +p{
+      別の例を挙げる。以下${\ZFC}が無矛盾だとする。すると不完全性定理によれば、${\ZFC}から${\Con(\ZFC)}は証明ができない。特に、\ref(`lem:unprovable`);より${\ZFC + \lnot \Con(\ZFC)}は無矛盾である。
+      このとき、完全性定理より${\ZFC+\lnot\Con(\ZFC)}のモデル${M}が存在することになる。
+      つまり、${M}は「自分は${\ZFC}のモデルだが、${\ZFC}は矛盾しているよ」と信じ込んでいる（！！！）モデルである。
+      いいかえれば、この${M}の中には\emph{${\ZFC}の公理から出発して${\bot}に至る「証明図」が存在}する。しかし、今仮定から${\ZFC}は無矛盾なので、この「証明図」は\emph{${M}の中で見ると有限的だが、外の我々から見ると超有限的な対象}になっているヘンな証明図であり、対応する有限的な対象が我々の世界にはない超準元である。
+    }
+    +p{
+      このように、モデルの取り方によってはその世界には「変な自然数」「変な論理式」「変な証明図」が含まれており、有限概念は一致するとは限らない。特に、${M \models \ZFC}や${\Con(\ZFC)}と書いたとき、その\emph{解釈する場所によって実際に公理と見做される範囲は異なる}ことに注意が必要である。我々はメタレバルの世界にある一本の論理式を使ってこうした概念を表現するが、その渡る範囲はモデルによって異なるのである。
+      また、こうした「変な自然数」「変な論理式」「変な証明図」は、我々から見れば「変」であるが、その\emph{モデル自身の中では我々の知っている標準的な対象と全く区別がつかない}ことに注意しよう。不完全性定理を理解したり、集合論的なモデルを往き来する際には、こうした区別を常に意識することが大切である。
+    }
+  >
+  +subsection{集合論の集合モデルについて}<
+    +p{集合論的な議論では、集合論やその部分体系のモデルを頻繁に使う。特に、${V_\alpha}や${H(\kappa)}という形の集合が頻繁に使われる：}
+    +defn<
+      +p{
+        \listing{
+          * ${\kappa}が\emph{基数}（\emph{cardinal}）である${\defs} ${\kappa}は順序数で、任意の${\alpha < \kappa}について${\kappa}から${\alpha}への単射が存在しない。以下、基数はメタ変数${\kappa, \lambda, \theta, \ldots}などで表す。
+          * 基数${\kappa}が有限${\defs}ある自然数${n}が存在し、${\kappa = n}。
+          * 基数${\kappa}が無限${\defs} ${\kappa}は有限でない。無限基数の全体を${\Cd}で表す。
+          * ${\Cd \subseteq \On}であり、特に${\Cd}は${\mathord{<} = \mathord{\in}}により整列されているので、\ref(`lem:setlike-wo-uniq`);により${(\Cd, <) \cong (\On, <)}となる。\ref(`lem:setlike-wo-uniq`);よりこの同型は一意なので、この同型を${\omega_{(-)} = \aleph_{(-)}: \On \to \Cd}により表す。${\aleph_0 = \omega}であり、${\aleph_\alpha}は${\alpha}番目の無限基数である。順序数としての性質を強調したかったり、単純にダルかったりする場合${\omega_\alpha = \aleph_\alpha}と書く。
+          * 順序数${\alpha}に対して、${\alpha}の\emph{後続基数}${\alpha^+}を${\alpha}への単射が存在しない最小の順序数とする。
+          * 基数${\kappa}が\emph{後続順序数}（\emph{successor cardinal}）${\defs} ${\kappa = \lambda^+}となるような${\lambda}が存在する。
+          * 無限基数${\kappa}が\emph{極限基数}（\emph{limit cardinal}） ${\defs} ${\kappa}は後続順序数でない。
+          * 無限基数${\kappa}が\emph{強極限基数}（\emph{strongly limit cardinal}）${\defs \forall \lambda < \kappa \mhquad 2^\lambda < \kappa}.
+          * 集合${A}に入る整列順序の順序型の中で最小の順序数を${\pabs{A}}により表し、${A}の\emph{基数}とか\emph{濃度}とか呼ぶ。整列可能定理により、このような${\pabs{A}}は常に存在する。
+          * 基数${\kappa}の\emph{冪}（\emph{power}）${2^{\kappa}}を次で定める：${2^\kappa \defeq \pabs{\Pow(\kappa)}}。
+          * Cantorの対角線論法より基数${\kappa}について${\kappa < 2^{\kappa}}である。そこで、\ruby[`ベート`]{|${ℶ}|}-数を以下で定義する：
+            \eqn-notag(${ℶ_0 \defeq \aleph_0, \mqquad ℶ_{\alpha+ 1} \defeq 2^{ℶ_\alpha}, \mqquad ℶ_{\gamma} = \sup_{\alpha < \gamma} β_α.});
+          * 基数${\kappa}について、${x}が\emph{遺伝的${\kappa}-未満集合}（\emph{hereditarily ${<\kappa}}）${\defs \pabs{\trcl(x)} < \kappa}.
+            遺伝的${\kappa}-未満集合の全体を${H(\kappa)}で表す。特に、${\HF = H(\omega)}と書き、${\HF}の元を\emph{遺伝的有限集合}と呼ぶ。
+        }
+      }
+    >
+    +remark<
+      +p{
+        \enumerate{
+          * 任意の順序数${\alpha}について、その後者${\alpha^+}は基数である。
+          * 任意の集合${A}について、${\pabs{A}}は基数である。
+          * 無限基数${\kappa}が後続基数${\iff \exists \alpha \mhquad \kappa = \aleph_{\alpha + 1}}.
+          * 無限基数${\kappa}が極限基数${\iff \exists \gamma: \text!{limit ordinal} \mhquad \kappa = \aleph_\gamma}.
+          * ${H(\kappa) \subseteq V_\kappa}であり、内包公理より${H(\kappa)}は集合である。
+          * 基数${\kappa}が強極限${\iff H(\kappa) = V_\kappa}.
+        }
+      }
+    >
+    +p{基数の性質として大変重要なのが、次の共終数と正則性である：}
+    +defn<+p{\enumerate{
+      * 順序数${\alpha}の\emph{共終数}（\emph{cofinality}）${\cf \alpha}を次で定める：
+        \eqn-notag(${
+          \cf \alpha \defeq \min\Set{\otp(X)}{ X \subseteq \alpha \land \sup X = \alpha}.
+        });
+        直感的には、${\cf \alpha}は${\alpha}を近似できるような最短の単調増大列の長さである。
+      * 無限基数${\kappa}が\emph{正則}${\defs \cf \kappa = \kappa}.
+      * 無限基数${\kappa}が\emph{特異}${\defs \cf \kappa < \kappa}.
+      * 無限基数${\kappa > \omega}が\emph{弱到達不能}（\emph{weakly inaccessible}）${\defs} ${\kappa}は正則かつ極限基数。
+      * 無限基数${\kappa > \omega}が\emph{（強）到達不能}（(\emph{strongly}) \emph{inaccessible}）${\defs} ${\kappa}は正則かつ\emph{強}極限基数。
+    }}>
+    +remark<
+      +p{
+        \enumerate{
+          * 任意の順序数${\alpha}について、${\cf \alpha \leq \alpha}.
+          * 任意の順序数${\alpha}について、${\cf \alpha}は基数。
+        }
+      }
+    >
+    +p{以上の準備の下で、宇宙の切片が${\ZFC}の部分体系の集合モデルとなることがいえる。}
+    +example<
+      +p{
+        ${\ZFC}を仮定する。このとき、宇宙の途中の階層は様々な弱い（あるいは十分強い）集合論のモデルとなる：
+        \enumerate{
+          * ${V_\omega = \HF = H(\omega) \models \ZFC - \mathrm{Infinity}}
+          * ${\gamma > \omega}が極限順序数のとき、${V_\gamma \models \ZC}。とくに、${V_{\omega + \omega} \models \ZC}
+          * ${\kappa}が正則基数のとき、${H(\kappa) \models \ZFC - \Power}
+          * ${\kappa}が強極限基数のとき、${H(\kappa) = V_\kappa \models \ZFC - \Repl}
+          * 特に${\kappa}が到達不能基数のとき、その時に限り${H(\kappa) = V_\kappa \models \ZFC}.
+          * また、${\kappa}が弱到達不能${\iff L_\kappa \models \ZFC}.
+        }
+        ${H(\kappa)}を集合論のモデルと見做したとき、だいたいにおいて冪集合公理と置換公理の間にはバーターの関係にあると思えばよい。
+      }
+    >
+  >
+  +subsection{集合モデルとクラスモデル}<
+    +p{\emph{TODO: 書く}}
+    +p{慣れてくるとどちらもモデルといってしまうけど、最初のうちは全然別物だと思ってもらったほうがいいよ。}
+  >
+>
+>
