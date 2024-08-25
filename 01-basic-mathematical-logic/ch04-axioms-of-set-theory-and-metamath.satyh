@@ -32,70 +32,103 @@ let axioms-of-set-theory-and-metamath = '<
   +p{
     本節では、${\ZFC}をはじめとした集合論の諸公理系を導入し、それらから従う基本的な定理について簡単に述べる。また、${\ZFC}（の部分理論）内部でどのようにして数理論理学の定式化を行うかについても採り上げておく。
   }
-  +defn<
-    +p{以下、集合論の言語${\mathcal{L}_{\in} = \pangle{\in}}でかかれた論理式のみを考える。これだけだと不便なので、以下の略記法を用いる：}
-    +eqn-notag(${
-      x \subseteq y \deffml \forall z \mhquad \p{z \in x \to z \in y}
-    });
-    +listing{
-      * \emph{外延性公理}：${\forall x \forall y \mhquad \pB{\forall z \mhquad \p{z \in x \liff z \in y} \to x = y}}。
-      * \emph{空集合公理}：${\exists x \forall y \mhquad y \nin x}。
-    }
-    +pn{
-      外延性公理より、空集合公理が存在を保証する集合（\emph{空集合}）は一意に存在することがわかる。そこで、定義による拡張（\ref(`def:defn-ext`);）により、以下${\emptyset}によりその空集合を表す。これに限らず、「${\liff}」を使って定義された集合は、存在するのなら外延性公理により一意となる。なので、同値条件を満たすような集合の存在公理が与えられたとき、このように定義による拡張を使ってどんどん語彙を拡張していくことにする。
-    }
-    +listing{
-      * \emph{対の公理}：${\forall x \forall y \exists z \forall w \mhquad \pB{w \in z \liff \p{w = x \lor w = y}}}。
-      ${x,y}についてこのような性質を満たす集合を${x, y}からなる\emph{非順序対}（\emph{unordered pair}）とよび、以下${\set{x, y}}と表す。
-      * \emph{和集合公理：}${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \exists w \in x \mhquad z \in w}}。
-      ${x}についてこのような性質を満たす集合を${x}の\emph{和集合}（\emph{union}）と呼び、以下${\bigcup x}と表す。
-      * \emph{内包公理}（または分出公理）：論理式${\varphi(z)}について、${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \p{z \in x \land \phi(z)}}}。
-        ${\varphi, x}についてこのような性質を満たす集合を${\Set{z \in x}{\varphi(z)}}と表す。
-      * \emph{冪集合公理}（${\Power}）：${\forall x \exists y \forall z \mhquad \pB{z \in y \liff z \subseteq x}}。
-        このような集合を${x}の\emph{冪集合}（\emph{powerset}）と呼び、以下${\Pow x}や${\Pow(x)}などと表す。
-    }
-    +pn{${x,y}の\emph{順序対}（\emph{ordered pair}）を${\pangle{x, y} \defeq \set{\set{x}, \set{x, y}}}により定義する。このとき、
-      \eqn-notag(${\forall x \forall y \forall z \forall w \mhquad\pB{\pangle{x, y} = \pangle{z, w} \liff \p{x = z \land y = w}}});
-      が成り立つことがわかる。
-    }
+  +subsection{集合論の諸公理}<
     +p{
-      ${\set{x} \defeq \set{x, x}}として${x}の一点集合を定義すると、${\forall z \mhquad \pB{z \in \set{x} \iff z = x}}となることがわかる。
+      それでは、まず議論の基本となる${\ZFC}公理系やその部分体系を構成する諸公理を見ていこう。
     }
-    +p{和の公理と対の公理により${x \cup y = \bigcup \set{x, y}}が存在し、${z \in x \cup y \liff  \p{z \in x \lor z \in y}}が成り立つ。これが普段我々が使っている二項の和集合である。
-    }
-    +p{
-      また、内包公理により${x \cap y = \Set{z \in x}{z \in y}}が存在し、${z \in x \cap y \liff  \p{z \in x \land z \in y}}が成り立つ。これは普段我々が使っている二項の共通部分集合である。
-    }
-    +p{
-      冪集合、和、対、内包公理から、${X}と${Y}の直積${X \times Y \defeq \Set{ w \in \Pow\Pow(X \cup Y)}{ \exists x \in X \exists y \in Y \mhquad w = \pangle{x, y}}}が定義できる。これは普段我々が使っている二項直積となることがわかる。
-    }
-    +listing{
-      * \emph{基礎の公理}（または正則性の公理）：${\forall x \pB{x \neq \emptyset \to \exists y \in x\mhquad \p{y \cap x = \emptyset}}}。
-      * \emph{無限公理}：${\exists x \mhquad \pB{\emptyset \in x \land \forall y \in x \mhquad \p{y \cup \set{y} \in x}}}。
-      * \emph{置換公理}（${\Repl}）：論理式${\varphi(z)}について、
-      \eqn-notag(${
-        \forall A \mhquad
-        \pB{\p{\forall x \in A \mhquad \exists\! y\mhquad \varphi(x, y)} 
-        \to
-        \exists z \forall y \mhquad \pB{y \in z \liff \exists x \in A \mhquad \varphi(x, y)}
-        }
+    +notation<
+      +p{以下、集合論の言語${\mathcal{L}_{\in} = \pangle{\bold-in^{(2)}}}でかかれた論理式のみを考える。これだけだと不便なので、以下の略記法を用いる：}
+      +eqn-notag(${
+        x \subseteq y \deffml \forall z \mhquad \p{z \in x \to z \in y}.
       });
-      このような${z}を${\Set{y}{ x \in A, \varphi(x, y)}}と表し、また${F}が関数であるとき
-      \eqn-notag(${F[A] \defeq F\mathbin{\text!{”}}A \defeq \Set{F(x)}{x \in A}});
-      と書く。
-      * \emph{選択公理}（${\AC}）：
-        \align?:(AZMathEquation.notag)(${|
-          \forall X |\neq \emptyset \mhquad \exists R \subseteq X \times X 
-          | | \forall x y z \mhquad \pB{x \mathrel{R} x \land \p{x \mathrel{R} y \to y \mathrel{R} x \to y = x} \land (x \mathrel{R} y \lor y \mathrel{R} x) \land \p{x \mathrel{R} y \mathrel{R} z \to x \mathrel{R} z}
+    >
+    +defn?*?:({集合論の諸公理})<
+      +p{言語${\mathcal{L}_{\in}}について種々の公理および公理図式を以下で定義する：}
+      +listing{
+        * \emph{外延性公理}（\emph{Axiom of Extensionality}）：${\forall x \forall y \mhquad \pB{\forall z \mhquad \p{z \in x \liff z \in y} \to x = y}}。
+        * \emph{空集合公理}（\emph{Axiom of Empty Set}）：${\exists x \forall y \mhquad y \nin x}。
+      }
+      +pn{
+        外延性公理より、空集合公理が存在を保証する集合（\emph{空集合}）は一意に存在することがわかる。そこで、定義による拡張（\ref(`def:defn-ext`);）により、以下${\emptyset}によりその空集合を表す。これに限らず、「${\liff}」を使って定義された集合は、存在するのなら外延性公理により一意となる。なので、同値条件を満たすような集合の存在公理が与えられたとき、このように定義による拡張を使ってどんどん語彙を拡張していくことにする。
+      }
+      +listing{
+        * \emph{対の公理}（\emph{Axiom of Pairing}）：${\forall x \forall y \exists z \forall w \mhquad \pB{w \in z \liff \p{w = x \lor w = y}}}。
+        ${x,y}についてこのような性質を満たす集合${z}を${x, y}からなる\emph{非順序対}（\emph{unordered pair}）とよび、以下${\set{x, y}}と表す。
+        * \emph{和集合公理}（\emph{Axiom of Union}）：${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \exists w \in x \mhquad z \in w}}。
+        ${x}についてこのような性質を満たす集合${y}を${x}の\emph{和集合}（\emph{union}）と呼び、以下${\bigcup x}と表す。
+        * \emph{内包公理（図式）}（\emph{Axiom (schema) of Comprehension}）または\emph{分出公理（図式）}（\emph{Axiom (schema) of Separation}）：論理式${\varphi(z)}について、${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \p{z \in x \land \phi(z)}}}。
+          ${\varphi, x}についてこのような性質を満たす集合を${\Set{z \in x}{\varphi(z)}}と表す。
+        * \emph{冪集合公理}（\emph{Axiom of Powerset}, ${\Power}）：${\forall x \exists y \forall z \mhquad \pB{z \in y \liff z \subseteq x}}。
+          このような集合を${x}の\emph{冪集合}（\emph{powerset}）と呼び、以下${\Pow x}や${\Pow(x)}などと表す。
+      }
+      +pn{集合論の基本的な公理はまだあるが、一旦以上の公理の下で定義可能な集合演算について用語と記法を用意しておく。}
+      +listing{
+        * ${x,y}の\emph{順序対}（\emph{ordered pair}）を${\pangle{x, y} \defeq \set{\set{x}, \set{x, y}}}により定義する。このとき、
+          \eqn-notag(${\forall x \forall y \forall z \forall w \mhquad\pB{\pangle{x, y} = \pangle{z, w} \liff \p{x = z \land y = w}}});
+        が成り立つことがわかる。
+        * ${\set{x} \defeq \set{x, x}}として${x}の\emph{一点集合}を定義すると、${\forall z \mhquad \pB{z \in \set{x} \iff z = x}}となることがわかる。
+        * 和の公理と対の公理により${x \cup y = \bigcup \set{x, y}}が存在し、${z \in x \cup y \liff  \p{z \in x \lor z \in y}}が成り立つ。これが普段我々が使っている\emph{二項の和集合}である。
+        * 内包公理により${x \cap y = \Set{z \in x}{z \in y}}が存在し、${z \in x \cap y \liff  \p{z \in x \land z \in y}}が成り立つ。これは普段我々が使っている\emph{二項の共通部分集合}である。
+        * 冪集合、和、対、内包公理から、${X}と${Y}の\emph{直積}${X \times Y \defeq \Set{ w \in \Pow\Pow(X \cup Y)}{ \exists x \in X \exists y \in Y \mhquad w = \pangle{x, y}}}が定義できる。これは普段我々が使っている二項直積となることがわかる。
+      }
+      +pn{以上の略記法を踏まえつつ、他の公理（図式）の定義に戻ろう。}
+      +listing{
+        * \emph{基礎の公理}（\emph{Axiom of Foundation}）または\emph{正則性の公理}（\emph{Axiom of Regularity}）：${\forall x \pB{x \neq \emptyset \to \exists y \in x\mhquad \p{y \cap x = \emptyset}}}。
+        * \emph{無限公理}（\emph{Axiom of Infinity}）：${\exists x \mhquad \pB{\emptyset \in x \land \forall y \in x \mhquad \p{y \cup \set{y} \in x}}}。
+        * \emph{置換公理（図式）}（\emph{Axiom (schema) of Replacement}, ${\Repl}）：論理式${\varphi(z)}について、
+        \eqn-notag(${
+          \forall A \mhquad
+          \pB{\p{\forall x \in A \mhquad \exists\! y\mhquad \varphi(x, y)} 
+          \to
+          \exists z \forall y \mhquad \pB{y \in z \liff \exists x \in A \mhquad \varphi(x, y)}
           }
-          | | \land \forall S \subseteq X \pB{ S \neq \emptyset \to \exists x \in S \mhquad \forall y \in S \mhquad \p{x \mathrel{R} y}}
-        |});
-      * \emph{Zermelo公理系}（${\Z}）とは、外延性、空集合、基礎、対、和、冪集合、内包、無限公理から成る公理系である。${\Z + \AC}を${\ZC}と書く。
-      * \emph{Zermelo–Fraenkel公理系}（${\ZF}）とは、Zermelo公理系に置換公理を加えた公理系である。${\ZF + \AC}を${\ZFC}と書く。
+        });
+        このような${z}を${\Set{y}{ x \in A, \varphi(x, y)}}と表し、また${F}が関数であるとき
+        \eqn-notag(${F[A] \defeq F\mathbin{\text!{”}}A \defeq \Set{F(x)}{x \in A}});
+        と書く。
+        * \emph{選択公理}（\emph{Axiom of Choice}, ${\AC}）：任意の空でない集合に整列順序が入る。即ち：
+          \align?:(AZMathEquation.notag)(${|
+            \forall X |\neq \emptyset \mhquad \exists R \subseteq X \times X 
+            | | \forall x y z \mhquad \pB{x \mathrel{R} x \land \p{x \mathrel{R} y \to y \mathrel{R} x \to y = x} \land (x \mathrel{R} y \lor y \mathrel{R} x) \land \p{x \mathrel{R} y \mathrel{R} z \to x \mathrel{R} z}
+            }
+            | | \land \forall S \subseteq X \pB{ S \neq \emptyset \to \exists x \in S \mhquad \forall y \in S \mhquad \p{x \mathrel{R} y}}
+          |});
+        * \emph{Zermelo公理系}（${\Z}）とは、外延性、空集合、基礎、対、和、冪集合、内包、無限公理から成る公理系である。${\Z + \AC}を${\ZC}と書く。
+        * \emph{Zermelo–Fraenkel公理系}（${\ZF}）とは、Zermelo公理系に置換公理を加えた公理系である。${\ZF + \AC}を${\ZFC}と書く。
+      }
+    >
+    +p{
+      置換公理および内包公理は論理式${\varphi}ごとに個別の具体的な公理を与える\emph{公理図式}であり、無矛盾である限り${\ZF}の枠組みでは単一の論理式で表すことはできない。このことは、無限組合せ論パートで触れる\emph{反映原理}（\emph{Reflection Principle}）からわかる。
     }
-  >
-  +remark<
-    +p{空集合公理は公理系に含めない流儀が多い。というのも、少なくとも一つ集合が存在すれば、内包公理から空集合の存在が言えるからである。${=}つきの一階述語論理ではモデルが空ではないことが論理的に従うし、モデルも空でないものだけを考えるので、空集合公理は不要なのである。}
+    +remark<
+      +p{空集合公理は公理系に含めない流儀が多い。というのも、少なくとも一つ集合が存在すれば、内包公理から空集合の存在が言えるからである。${=}つきの一階述語論理ではモデルが空ではないことが論理的に従うし、モデルも空でないものだけを考えるので、空集合公理は不要なのである。}
+    >
+    +remark?*?:({「内包公理」という呼称について})<
+      +p{
+        歴史的には、単純に「内包公理」（Axiom of Comprehension）といった場合、次の公理を指していた：
+      }
+      +centering{
+        任意の論理式${\varphi(x)}について、集合${\Set{x}{\varphi(x)}}が存在する。
+      }
+      +p{
+        これは、Fregeが『算術の基礎』で導入した最初期の公理的集合論の根幹を成す公理であり、今日では「無制限の内包公理」と呼ばれるものである。上で導入した内包公理に比べて、元${x}のわたる範囲が無制限であるためにこう呼ばれる。
+      }
+      +p{
+        Fregeは外延性公理とこの公理を用いて数学の『基礎』を構築できることを示そうとした。しかし、Russelによって${\varphi(x) \deffml x \nin x}に上の公理図式を適用すると矛盾が生じることがわかった。これが今日では良く知られている\emph{Russelのパラドックス}である。${S = \Set{x }{x \nin x}}が集合として存在するとすると、${S \in S \liff S \nin S}が成り立ち矛盾する、というものである。
+      }
+      +p{
+        Cantor–Dedekindによる集合論を用いた数学が強力であったのは、内包公理と外延性公理によって、「ある性質${P(x)}」と「性質${P(x)}を満たす対象${x}の全体」を同一視して扱うことができた為である（倍数概念とイデアルの同一視などを思い起こそう）。
+        こうした操作に外延性は必要不可欠でなので、数学の基礎として見る限りにおいては、無制限の内包公理を採用することはできない\footnote{実は、外延性公理を諦めると無制限の内包公理は矛盾しないことが知られている。具体的には、${\lambda}-計算の体系で関数適用${(LM)}を${M \in L}と捉えることでこのような体系のモデルが構築できる}。一方で、内包公理については既に与えられている集合から${\varphi(x)}を満たす元だけ集めてくることができれば十分である。こうした歴史的経緯から、数学の哲学や数学史の文脈以外では、もっぱら「内包公理」と言えば制限された形の内包公理を指すことが暗黙の了解になっている。
+      }
+    >
+    +exercise<
+      +p{
+        よくあるRusselのパラドックスの説明は次のようになされる：「${S = \Set{x}{x \nin x}}とする。${S \in S}かどうかで場合分けする。${S \in S}とすると定義から${S \nin S}となり矛盾。一方で、${S \nin S}とすると、再び定義から${S \in S}となり矛盾。いずれにせよ矛盾！」
+      }
+      +p{
+        この証明は排中律を使っているように見えるが、実は使わずとも証明できる。その証明を考えてみよ。
+      }
+    >
   >
   +subsection{集合論の公理系は何を規定しているのか？}<
     +p{
@@ -479,7 +512,9 @@ let axioms-of-set-theory-and-metamath = '<
   >
   +subsection{集合モデルとクラスモデル}<
     +p{\emph{TODO: 書く}}
-    +p{慣れてくるとどちらもモデルといってしまうけど、最初のうちは全然別物だと思ってもらったほうがいいよ。}
+    +p{
+      集合論をやる上では、しばしば二つのモデルの概念が半ば混同して用いられる。一つは\emph{集合モデル}であり、これは${\ZFC}の中で再形式化された論理式の概念を使って、
+    }
   >
 >
 >
