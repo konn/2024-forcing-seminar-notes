@@ -158,18 +158,18 @@ let incompleteness-theorem = '<
 
       +p{
         以下、${V}で作業をする。${(M, E) \models \ZFC}となるようなモデル${(M, E)}を一個固定する。
-        このとき、${M}の中で更に${\mathcal{L}_{\in}}-構造に見えているような${(m, e)}を取る操作を考える。
+        このとき、${M}の中で更に${\LZF}-構造に見えているような${(m, e)}を取る操作を考える。
         ${m, e \in M}ではあるが、${(M, E)}は${\mathcal{L}_\in}-構造であることだけしかわかっておらず、${E}と${\in}は一般に一致しないので、この${m, e}をそのまま使っても、${V}でそのまま${\mathcal{L}_\in}-構造になっているとは限らない。
       }
       +p{そこで、「モデルの中のモデル」を外側で扱うための道具を考える。}
       +defn<+p{
-        ${m, e \in M}が${(M, E)\models [(m, e): \mathcal{L}_{\in}\text!{-構造}]}となっているとする。この時、${(m*, e*)}を次で定める：
+        ${m, e \in M}が${(M, E)\models [(m, e): \LZF\text!{-構造}]}となっているとする。この時、${(m*, e*)}を次で定める：
         \eqn-notag(${
           m* \defeq \Set{x \in M}{x \mathrel{E} m}, \mqquad
           e* \defeq \Set{(x, y) \in m* \times m*}{ (M, E) \models x \mathrel{e} y }
         });
       }>
-      +p{これは明らかに${\mathcal{L}_{\in}}-構造である。更に、${V}で見た${(m*, e*)}の真偽と${M}で見た${(m, e)}の真偽が一致することがいえる。特に、このことが${\ZFC}から証明できる：}
+      +p{これは明らかに${\LZF}-構造である。更に、${V}で見た${(m*, e*)}の真偽と${M}で見た${(m, e)}の真偽が一致することがいえる。特に、このことが${\ZFC}から証明できる：}
       +lemma?:(`lem:extract-model`)<+p{次が成り立つ：}+align?:(AZMathEquation.notag)(${|
         \ZFC 
         |\proves 
@@ -189,7 +189,7 @@ let incompleteness-theorem = '<
       }
       +defn<
         +p{
-          メタレベルの${\mathcal{L}_{\in}}-論理式${\Phi(x)}が\emph{遺伝的}（\emph{hereditary}）であるとは、次を満たすときである：
+          メタレベルの${\LZF}-論理式${\Phi(x)}が\emph{遺伝的}（\emph{hereditary}）であるとは、次を満たすときである：
           \align?:(AZMathEquation.notag)(${|
             \ZFC \proves
           |\forall M \mhquad \pB{\Phi(M) \to M \models \ZFC}

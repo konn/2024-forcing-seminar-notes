@@ -4,6 +4,7 @@
 
 let-math \E = ${𝖤}
 let-math \L = ${\mathcal{L}}
+let-math \LZF = ${\mathcal{L}_{\in}}
 let-math \N = ${\mathbb{N}}
 let-math \Refl = ${}
 let-math \bold-in = 
