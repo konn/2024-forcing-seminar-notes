@@ -713,8 +713,14 @@ let axioms-of-set-theory-and-metamath = '<
     +p{さて、クラスというのは論理式によって定義できる集まりであり、特に集合もクラスと見做せるのであった。この場合、個別の論理式${\varphi}については「${\models}」関係を${\ZFC}内で再定式化したものと、${\ZFC}で${\varphi^M}が証明できることは同値であり、この意味で相対化による読み替えはある意味で「モデル」の一般化と見做すことができる：}
 
     +lemma<
-      +p{${(M, E)}は集合で${\LZF}-構造、${\varphi}を${\LZF}-論理式とするとき、}
-      +eqn-notag(${\ZFC \proves \quoted{\varphi^{(M, E)} \liff (M, E) \models \code{\varphi}}});
+      +p{${\varphi}を${\LZF}-論理式とするとき、}
+      +eqn-notag(${\ZFC \proves \forall (M, E) \mhquad \pB{\varphi^{(M, E)} \liff (M, E) \models \code{\varphi}}});
+    >
+    +remark<
+      +p{
+        ここで、上の補題は単一の補題ではなく、${\varphi}を決めるごとに個別の代入例が定まる補題図式とでもいうべきものである。置換公理や分出公理が単一の公理ではないのと同様である。
+        特に、${\varphi^{(M, E)}}や${\code{\varphi}}の部分は${\varphi}ごとにメタレベルで具体的に書き下されたものが入る、という主張であり、これらの変形がオブジェクトレベルでなされているのではないことに注意が必要である。
+      }
     >
     +exercise<+p{上を示せ。}>
     +remark<+p{${M}が集合であったとしても、公理系に関する${\models}と相対化の真偽は必ずしも一致するとは限らないことに注意せよ。}>
