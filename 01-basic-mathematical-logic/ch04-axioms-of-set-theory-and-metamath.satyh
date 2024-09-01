@@ -26,6 +26,7 @@ let-math \rank = ${\mathop{\mathrm{rank}}}
 let-math \Pr = ${\mathrm{Pr}}
 let-math \trcl = ${\mathop{\mathrm{trcl}}}
 let-math \mos = ${\mathop{\mathrm{mos}}}
+let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
 
 let axioms-of-set-theory-and-metamath = '<
 +section{集合論の公理系と集合論による超数学}<
@@ -712,11 +713,8 @@ let axioms-of-set-theory-and-metamath = '<
     +p{さて、クラスというのは論理式によって定義できる集まりであり、特に集合もクラスと見做せるのであった。この場合、個別の論理式${\varphi}については「${\models}」関係を${\ZFC}内で再定式化したものと、${\ZFC}で${\varphi^M}が証明できることは同値であり、この意味で相対化による読み替えはある意味で「モデル」の一般化と見做すことができる：}
 
     +lemma<
-      +p{${(M, E)}は集合で${\LZF}-構造であるとする。この時次は同値：}
-      +enumerate{
-        * ${\ZFC \proves \varphi^{(M, E)}}
-        * ${\ZFC \proves (M, E) \models \code{\varphi}}
-      }
+      +p{${(M, E)}は集合で${\LZF}-構造、${\varphi}を${\LZF}-論理式とするとき、}
+      +eqn-notag(${\ZFC \proves \quoted{\varphi^{(M, E)} \liff (M, E) \models \code{\varphi}}});
     >
     +exercise<+p{上を示せ。}>
     +remark<+p{${M}が集合であったとしても、公理系に関する${\models}と相対化の真偽は必ずしも一致するとは限らないことに注意せよ。}>
