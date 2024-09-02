@@ -149,7 +149,7 @@ let syntax-and-proof-system =
             \mqquad 
           \derive-unary{\varphi, \Gamma}{\Delta}{(\mathsc!(`WeakenL`))}{\Gamma}{\Delta}
             \mqquad
-            \derive-unary{\Gamma}{\Delta, \varphi}{(\mathsc!(`WeakenR`))}{\Gamma \proves}{\Delta}
+            \derive-unary{\Gamma}{\Delta, \varphi}{(\mathsc!(`WeakenR`))}{\Gamma}{\Delta}
           |});
         \emph{論理規則}：${t}を${\mathcal{L}}-項とする。
           \gather?:(AZMathEquation.notag)(${
