@@ -27,6 +27,11 @@ let-math \Pr = ${\mathrm{Pr}}
 let-math \trcl = ${\mathop{\mathrm{trcl}}}
 let-math \mos = ${\mathop{\mathrm{mos}}}
 let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
+let-math \rel-con-to = ${\mathrel{\leq_{\mathrm{Con}}}}
+let-math \nrel-con-to = ${\mathrel{\nleq_{\mathrm{Con}}}}
+let-math \prov-con-to = ${\mathrel{\prec_{\mathrm{Con}}}}
+let-math \nprov-con-to = ${\mathrel{\nprec_{\mathrm{Con}}}}
+let-math \neq-prov-con-to = ${\mathrel{\npreccurlyeq_{\mathrm{Con}}}}
 
 let axioms-of-set-theory-and-metamath = '<
 +section{集合論の公理系と集合論による超数学}<
@@ -44,7 +49,7 @@ let axioms-of-set-theory-and-metamath = '<
       });
     >
     +defn?*?:({集合論の諸公理})<
-      +p{言語${\LZF}について種々の公理および公理図式を以下で定義する：}
+      +p{言語${\LZF}について種々の公理および公理図式を以下で定義する。また、束縛されていない自由変数は全て外側で暗黙裡に${\forall}で全称量化されているものとする：}
       +listing{
         * \emph{外延性公理}（\emph{Axiom of Extensionality}）：${\forall x \forall y \mhquad \pB{\forall z \mhquad \p{z \in x \liff z \in y} \to x = y}}。
         * \emph{空集合公理}（\emph{Axiom of Empty Set}）：${\exists x \forall y \mhquad y \nin x}。
@@ -57,8 +62,9 @@ let axioms-of-set-theory-and-metamath = '<
         ${x,y}についてこのような性質を満たす集合${z}を${x, y}からなる\emph{非順序対}（\emph{unordered pair}）とよび、以下${\set{x, y}}と表す。
         * \emph{和集合公理}（\emph{Axiom of Union}）：${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \exists w \in x \mhquad z \in w}}。
         ${x}についてこのような性質を満たす集合${y}を${x}の\emph{和集合}（\emph{union}）と呼び、以下${\bigcup x}と表す。
-        * \emph{内包公理（図式）}（\emph{Axiom (schema) of Comprehension}）または\emph{分出公理（図式）}（\emph{Axiom (schema) of Separation}）：論理式${\varphi(z)}について、${\forall x \exists y \forall z \mhquad \pB{z \in y \liff \p{z \in x \land \phi(z)}}}。
-          ${\varphi, x}についてこのような性質を満たす集合を${\Set{z \in x}{\varphi(z)}}と表す。
+        * \emph{内包公理（図式）}（\emph{Axiom (schema) of Comprehension}）または\emph{分出公理（図式）}（\emph{Axiom (schema) of Separation}）：${S}を自由変数に持たない論理式${\varphi(x)}について、
+            \eqn-notag(${\forall A \exists S \forall x \mhquad \pB{x \in S \liff \p{z \in x \land \phi(x)}}.});
+          ${A, \varphi(x)}についてこのような性質を満たす集合${S}を${\Set{z \in A}{\varphi(z)}}と表す。
         * \emph{冪集合公理}（\emph{Axiom of Powerset}, ${\Power}）：${\forall x \exists y \forall z \mhquad \pB{z \in y \liff z \subseteq x}}。
           このような集合を${x}の\emph{冪集合}（\emph{powerset}）と呼び、以下${\Pow x}や${\Pow(x)}などと表す。
       }
@@ -74,9 +80,10 @@ let axioms-of-set-theory-and-metamath = '<
       }
       +pn{以上の略記法を踏まえつつ、他の公理（図式）の定義に戻ろう。}
       +listing{
-        * \emph{基礎の公理}（\emph{Axiom of Foundation}）または\emph{正則性の公理}（\emph{Axiom of Regularity}）：${\forall x \pB{x \neq \emptyset \to \exists y \in x\mhquad \p{y \cap x = \emptyset}}}。
+        * \emph{基礎の公理}（\emph{Axiom of Foundation}）または\emph{正則性の公理}（\emph{Axiom of Regularity}）：
+          \eqn-notag(${\forall x \pB{x \neq \emptyset \to \exists y \in x\mhquad \p{y \cap x = \emptyset}}.});
         * \emph{無限公理}（\emph{Axiom of Infinity}）：${\exists x \mhquad \pB{\emptyset \in x \land \forall y \in x \mhquad \p{y \cup \set{y} \in x}}}。
-        * \emph{置換公理（図式）}（\emph{Axiom (schema) of Replacement}, ${\Repl}）：論理式${\varphi(z)}について、
+        * \emph{置換公理（図式）}（\emph{Axiom (schema) of Replacement}, ${\Repl}）：${A}を自由変数に持たない論理式${\varphi(x,y)}について、
         \eqn-notag(${
           \forall A \mhquad
           \pB{\p{\forall x \in A \mhquad \exists\! y\mhquad \varphi(x, y)} 
@@ -547,32 +554,32 @@ let axioms-of-set-theory-and-metamath = '<
     +defn<
       +p{以下、${T}を${\L}-理論、${S}を${\L'}-理論とする。}
       +enumerate{
-        * ${S}が${T}に対して\emph{相対的に無矛盾}（\emph{consistent relative to ${T}}、ここだけの記号：${S \leq T}）${\defs}「${S}から矛盾に至る証明図」が与えられたときに、「${T}から矛盾に至る証明図」へと書き換える計算可能な手続きが存在する。
-        * ${S}と${T}が\emph{無矛盾性等価}（\emph{equiconsistent}、ここだけの記号${S \sim T}）${\defs} ${S \leq T}かつ${T \leq S}。
-        * ${T}が${S}よりも\emph{無矛盾性の意味で真に強い}（記号：${S < T}）${\defs} ${S \leq T}かつ ${T \nleq S}。
+        * ${S}が${T}に対して\emph{相対的に無矛盾}（\emph{consistent relative to ${T}}、ここだけの記号：${S \rel-con-to T}）${\defs}「${S}から矛盾に至る証明図」が与えられたときに、「${T}から矛盾に至る証明図」へと書き換える計算可能な手続きが存在する。
+        * ${S}と${T}が\emph{無矛盾性等価}（\emph{equiconsistent}、ここだけの記号${S \sim T}）${\defs} ${S \rel-con-to T}かつ${T \rel-con-to S}。
+        * ${T}が${S}よりも\emph{無矛盾性の意味で真に強い}（記号：${S < T}）${\defs} ${S \rel-con-to T}かつ ${T \nrel-con-to S}。
       }
     >
     +p{
-      気持ちとしては、${T}が無矛盾であるのなら${S}も無矛盾であるとき、${S}は${T}に対して相対的に無矛盾である、と思っている。モデルを使った超越的な操作を避けるため、ここでは「矛盾の証明図」を書き換える手続きの存在を使って対偶を取った形で定義している。定義から${\leq}は擬順序である：
+      気持ちとしては、${T}が無矛盾であるのなら${S}も無矛盾であるとき、${S}は${T}に対して相対的に無矛盾である、と思っている。モデルを使った超越的な操作を避けるため、ここでは「矛盾の証明図」を書き換える手続きの存在を使って対偶を取った形で定義している。定義から${\rel-con-to}は擬順序である：
     }
     +lemma<
-      +p{${\leq}は擬順序である。つまり、${\leq}は反射律と推移律を満たす。反対称律は成り立たない。}
+      +p{${\rel-con-to}は擬順序である。つまり、${\rel-con-to}は反射律と推移律を満たす。反対称律は成り立たない。}
     >
     +p{
       さて、これまで見てきたように、Peano算術や集合論のように、十分強い体系の内部では「形式的証明」などといった概念が定義でき、特に「理論${T}は無矛盾である」ことを表す論理式${\Con(T)}を書き下すことができるのであった。そこで、次のような無矛盾性の「強さ」を考えることもできる：
     }
     +defn<
-      +p{理論${T}が理論${S}よりも\emph{証明論的に真に強い}（${S \lhd T}）${\defs T \proves \Con(S)}。}
+      +p{理論${T}が理論${S}よりも\emph{証明論的に真に強い}（ここだけの記号：${S \prov-con-to T}）${\defs T \proves \Con(S)}。}
     >
     +p{
-      相対無矛盾性${S \leq T}は${T}の表現力が強くなくとも、証明図のレベルで議論することができたが、証明論的強さ${S \lhd T}は${T}の表現力が十分強くないと意味を成さないことに注意しよう。
-      さて、${\leq}と${\lhd}という二つの強さが定義されたが、これらの関係はどうだろうか？${\lhd}から${\leq}が出ることはすぐにわかる：
+      相対無矛盾性${S \rel-con-to T}は${T}の表現力が強くなくとも、証明図のレベルで議論することができたが、証明論的強さ${S \prov-con-to T}は${T}の表現力が十分強くないと意味を成さないことに注意しよう。
+      さて、${\rel-con-to}と${\prov-con-to}という二つの強さが定義されたが、これらの関係はどうだろうか？${\prov-con-to}から${\rel-con-to}が出ることはすぐにわかる：
     }
     +lemma<
-      +p{ ${S \lhd T}ならば${S \leq T}である。}
+      +p{ ${S \prov-con-to T}ならば${S \rel-con-to T}である。}
     >
     +proof<
-      +p{${S \lhd T}とし、${S \proves \bot}の証明図が存在したとする。${T}は十分強いので、この証明図を${T}の中で解釈でき、特に${T \proves \lnot \Con(S)}が成り立つ。よって${T \proves \Con(S)}かつ${T \proves \lnot \Con(S)}となり、結局${T \proves \bot}となる。}
+      +p{${S \prov-con-to T}とし、${S \proves \bot}の証明図が存在したとする。${T}は十分強いので、この証明図を${T}の中で解釈でき、特に${T \proves \lnot \Con(S)}が成り立つ。よって${T \proves \Con(S)}かつ${T \proves \lnot \Con(S)}となり、結局${T \proves \bot}となる。}
     >
     +p{
       逆にまた、後に扱うGödelの不完全性定理は${T}から${\Con(T)}は証明できないということを主張している。これを認めれば、次が言える：
@@ -581,10 +588,10 @@ let axioms-of-set-theory-and-metamath = '<
       +p{
         以下、${T, T'}を十分強い理論とする。
         \enumerate{
-          * ${\lhd}は非反射的：${\lnot (T \lhd T)}。以下、${S \unlhd T \defs S = T \lor S \lhd T}と書く。
-          * ${S \leq T}だが${\lnot(S \unlhd T)}となる例が存在する。
-          * ${S \leq T \lhd T' \implies S \lhd T'}
-          * ${S \lhd T \implies T \nleq S}。とくに${S \lhd T \implies S < T}。
+          * ${\prov-con-to}は非反射的：${T \nprov-con-to T}。以下、${S \unlhd T \defs S = T \lor S \prov-con-to T}と書く。
+          * ${S \rel-con-to T}だが${S \neq-prov-con-to T)}となる例が存在する。
+          * ${S \rel-con-to T \prov-con-to T' \implies S \prov-con-to T'}
+          * ${S \prov-con-to T \implies T \nrel-con-to S}。とくに${S \prov-con-to T \implies S < T}。
         }
       }
     >
@@ -593,26 +600,26 @@ let axioms-of-set-theory-and-metamath = '<
         \enumerate{
           * Gödelの不完全性定理そのもの。
           * ${S = \ZFC, T = \ZF}とすると、そもそも${S \sim T}であるが、${\ZF \proves \Con(\ZFC)}なら当然${\ZF \proves \lnot \Con(\ZF)}となってしまい、不完全性定理に反する。
-          * ${T'}は十分強いので、${S \leq T}の証拠となる、「${S}の矛盾を${T}の矛盾に変換する」手続きが${T'}の中で定式化できる。こいつを使ってやれば、${\Con(T)}の証明から${\Con(S)} の証明を作ることができるので、結局${T' \proves \Con(S)}となる。
-          * ${S \lhd T \leq S}とすると、${(3)}より${S \lhd S}となり${(1)}に反する。
+          * ${T'}は十分強いので、${S \rel-con-to T}の証拠となる、「${S}の矛盾を${T}の矛盾に変換する」手続きが${T'}の中で定式化できる。こいつを使ってやれば、${\Con(T)}の証明から${\Con(S)} の証明を作ることができるので、結局${T' \proves \Con(S)}となる。
+          * ${S \prov-con-to T \rel-con-to S}とすると、${(3)}より${S \prov-con-to S}となり${(1)}に反する。
         }
       }
       +p{} % \qed のためのもの
     >
 
     +p{
-      さて、完全性定理をもういちど${\ZFC}の中で解釈をしてやれば、${\Con(T)}であることと、${M \models T}となる集合${M}が存在することは同値であった。よって、特に${T \lhd \ZFC}を示す際には、${T}の集合モデル${M}の存在が${\ZFC}で証明できればよい\footnote{選択公理を認めれば両者は同値であるが、${\ZF}ではどうなのか気になるかもしれない。これは、Gödelの${L}では${\AC}が成り立ち特に完全性定理が成り立っていることと、${V}と${L}とで${M \models T}の真偽が一致することを利用すれば、${\ZF}でも同値であることがわかる。}。また、\ref(`lem:lhd-props`);より${T}を${\ZFC}を含むような理論とするとき、${T \proves \exists M \models S}が言えれば、${T}は${S}よりも無矛盾性の意味で真に強いこと（${S < T}）がわかる。
+      さて、完全性定理をもういちど${\ZFC}の中で解釈をしてやれば、${\Con(T)}であることと、${M \models T}となる集合${M}が存在することは同値であった。よって、特に${T \prov-con-to \ZFC}を示す際には、${T}の集合モデル${M}の存在が${\ZFC}で証明できればよい\footnote{選択公理を認めれば両者は同値であるが、${\ZF}ではどうなのか気になるかもしれない。これは、Gödelの${L}では${\AC}が成り立ち特に完全性定理が成り立っていることと、${V}と${L}とで${M \models T}の真偽が一致することを利用すれば、${\ZF}でも同値であることがわかる。}。また、\ref(`lem:lhd-props`);より${T}を${\ZFC}を含むような理論とするとき、${T \proves \exists M \models S}が言えれば、${T}は${S}よりも無矛盾性の意味で真に強いこと（${S < T}）がわかる。
     }
     +example<
       +p{
         \enumerate{
-          * ${\mathrm{PA} \lhd \ZF}（${\N \models \mathrm{PA}}なので）
-          * ${\ZFC \lhd \ZFC + \exists \kappa: \text!{到達不能基数}}
+          * ${\mathrm{PA} \prov-con-to \ZF}（${\N \models \mathrm{PA}}なので）
+          * ${\ZFC \prov-con-to \ZFC + \exists \kappa: \text!{到達不能基数}}
         }
       }
     >
     +p{
-      さて、それでは集合モデルを構成する以外に${S \leq T}を示す方法はあるだろうか？
+      さて、それでは集合モデルを構成する以外に${S \rel-con-to T}を示す方法はあるだろうか？
       そのための道具が\emph{相対化}と呼ばれる構文論的な書き換えの手法である：
     }
 
@@ -672,7 +679,7 @@ let axioms-of-set-theory-and-metamath = '<
     >
     +p{重要なのは、理論${S}の${T}での解釈が与えられると、${S}が${T}に対し相対無矛盾となることである。}
     +theorem<
-      +p{理論${S}から${T}への翻訳が与えられたとき、${S \leq T}である。}
+      +p{理論${S}から${T}への翻訳が与えられたとき、${S \rel-con-to T}である。}
     >
     +proof<
       +p{${S}から矛盾に至る証明が存在したとする。このとき${S \proves \bot}であるが、${\bot^t \equiv \bot}に注意すれば、解釈の定義より${T \proves \bot}を得る。}
@@ -684,8 +691,8 @@ let axioms-of-set-theory-and-metamath = '<
       +p{
         \enumerate{
           * ${\ZF \sim \ZF - \mathrm{Foundation}}（\ref(`lem:foundation-cumulative`);）
-          * ${\ZF + \AC \leq \ZF}（Gödelの${L}）
-          * ${\ZF + \lnot \AC \leq \ZF + \AC}（置換モデル、対称モデル）
+          * ${\ZF + \AC \rel-con-to \ZF}（Gödelの${L}）
+          * ${\ZF + \lnot \AC \rel-con-to \ZF + \AC}（置換モデル、対称モデル）
           * ${\ZF + \DC + \text!{任意の実数の集合がLebesgue可測} \sim \ZFC + \exists \kappa: \text!{到達不能基数}}（Solovay, Shelah）
         }
       }
