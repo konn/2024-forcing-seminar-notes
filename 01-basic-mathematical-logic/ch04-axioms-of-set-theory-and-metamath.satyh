@@ -666,9 +666,121 @@ let axioms-of-set-theory-and-metamath = '<
       }
     >
 
-    +defn?*?:({理論の翻訳})<
+    +defn?*?:({理論の解釈})<
       +p{${T, T'}をそれぞれ${\L, \L'}-理論とする。}
-      +p{${t}が${T}の${T'}での\emph{解釈}（\emph{interpretation in ${T'}}）${\defs} ${t}は${\L}から${\L'}への翻訳であり、任意の${\L}-論理式${\varphi}について${T \proves \varphi}ならば${T' \proves \varphi^t}が成り立つ。}
+      +p{以下を満たす${\L}から${\L'}への翻訳${t}を、${T}の${T'}での\emph{解釈}（\emph{interpretation in ${T'}}）であるという：}
+      +enumerate{
+        * 領域の非空性：${T' \proves \exists x \delta^t(x).}
+        * ${T}の任意の公理${\varphi}について、${T' \proves \varphi^t.}
+      }
+    >
+    +p{上の条件${(2)}では${T}の公理が保たれることしか要請していないが、実は${(1)}で「定義域」${\delta^t}の非空性が保証されていることを使うと、${T}の任意の帰結が${T'}でも成り立ち、特に${T}が${T'}に対して相対的に無矛盾であることが言える：}
+
+    +theorem?:(`thm:interp-deductive`)?:({解釈の演繹定理})<
+      +p{${t}を理論${T}の${T'}への解釈、${\varphi}を${\L}-閉論理式とするとき、}
+      +eqn-notag(${
+        T \proves \varphi \implies T' \proves \varphi^t.
+      });
+    >
+    +cor<
+      +p{理論${T}の${T'}での解釈が存在するなら、${T \rel-con-to T'}。}
+    >
+    +proof<+p{\ref(`thm:interp-deductive`);で特に${\varphi \deffml \bot}とせよ。}>
+    +p{
+      \ref(`thm:interp-deductive`);の証明には、次の「健全性補題」を使う：
+    }
+
+    +lemma?:(`lem:trans-sound`)?:({翻訳の健全性補題})<
+      +p{${t}を言語${\L}から${\L'}への翻訳、${\Gamma, \Delta}を${\L}-論理式の有限集合で、自由変数が${\bar{u}}に含まれるもの（つまり${\FV(\Gamma) \cup \FV(\Delta) \subseteq \bar{u} = \set{u_0, \ldots, u_{n-1}}}）とする。このとき、次が成立：
+      \eqn-notag(${
+        \Gamma \proves \Delta \mqquad \implies \mqquad \exists x\mhquad \delta^t(x) \proves \forall \bar{u} \pB{\delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t}.
+      });
+      ただし、ここで${\delta^t(\bar{u})}は${\delta^t(u_0) \land \cdots \land \delta^t(u_{n-1})}の略記であり、論理式の有限集合${\Gamma = \set{\psi_0, \ldots, \psi_{n - 1}}}について${\Gamma \to \varphi}は${\psi_0 \to (\psi_1 \to \cdots \to (\psi_{n-1} \to \varphi) \cdots )}の略記である。
+      }
+    >
+    +p{
+      一旦\ref(`lem:trans-sound`);を認めれば、\ref(`thm:interp-deductive`);は次のように示せる：
+    }
+    +proof?:({\ref(`thm:interp-deductive`);の証明})<
+      +p{
+        ${T \proves \varphi}とする。すると、定義より閉有限集合${\Gamma \subseteq T}が存在し、${\Gamma \proves \varphi}となる。
+        また、${\varphi}は仮定より閉論理式であり、また${T}は閉論理式の集合であることから${\Gamma}もそうである。よって、${\FV(\Gamma) \cup \FV(\varphi) = \emptyset}となるので、\ref(`lem:trans-sound`);で${\bar{u} = \emptyset}とすれば、次が成り立つ：
+        \eqn-notag(${
+          \exists x\mhquad \delta^t(x) \proves \Gamma^t \to \varphi^t.
+        });
+        ここで、\ref(`exc:additional-rules`);の規則${(\mathord{\to}\mathrm{R}^{-1})}を使えば、
+        \eqn-notag(${
+          \Gamma^t, \exists x\mhquad \delta^t(x) \proves \varphi^t.
+        });
+        となる。いま、仮定より${T' \proves \Gamma^t}かつ${T' \proves \exists x \mhquad \delta^t(x)}なので、結局${T' \proves \varphi^t}を得る。
+      }
+    >
+    +proof?:({\ref(`lem:trans-sound`);の証明})<
+      +p{${\bar{u}}に対する全称量化を保ったまま、証明図の段数に関する帰納法で示す。最後に使われた推論規則について場合分けしていく。}
+      +p{公理についてはやるだけ。${(\mathord{\to}\mathrm{L, R})}も翻訳が含意と可換であることから明らかである。${(\exists \mathrm{L})}については、固有変数条件であることと、今は述語記号のみを持つ言語しか考えていないこと、特に${L}-項は単独の変数のみであることを使うとあとは同値変形だけで示せる。}
+      +p{
+        トリッキーなのは${(\exists \mathrm{R})}の場合である。${T}での証明図が以下の通りであるとする：
+        \eqn-notag(${
+          \derive-unary{\Gamma}{\Delta, \exists v \varphi}{(\exists \mathrm{R})}{\Gamma}{\Delta, \subst{\varphi}![(${v}, ${t})]}
+        });
+        目標は、${\FV(\Gamma, \Delta, \exists v \varphi)  \subseteq \bar{u}_0}として、以下を示すことである：
+        \eqn-notag(${
+          \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \p{\delta^t(v) \land \varphi}}.
+        });
+        そこで、${\bar{u} \defeq \bar{u}_0 \cup \set{v}}とおいて、帰納法の仮定を上段の導出${\Gamma \proves \Delta, \subst{\varphi}![(${v}, ${t})]}に適用すれば：
+        \eqn-notag(open DeriveDSL in open Derive in ${
+          \proven!(
+            derive ${\delta^t(\bar{u} \setminus \bar{u}_0), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}
+            |> byOp {${(\bar{u} = \bar{u}_0 \cup \set{v}\;\mhquad \mathord{\to}\mathrm{R}\;\mhquad \forall \mathrm{R})}}
+            |> from
+              [ derive
+                ${\delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}
+              |> byOp {${(\mathord{\to}\mathrm{R}, \mathord{\lor}\mathrm{R}')}}
+              |> from
+                [ derive 
+                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \exists v \mhquad \p{\delta^t(v) \land \varphi}} 
+                  |> byOp {${(\exists \mathrm{R})}}
+                  |> from
+                  [ derive 
+                    ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \delta^t(v) \land \subst{\varphi}![(${v}, ${t})]}
+                  |> byOp {${(\mathrm{\land}\mathrm{R}, v \in \bar{u})}}
+                  |> from
+                  [ derive ${\delta^t(v) \proves \delta^t(v)} |> from []
+                  ; derive 
+                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \subst{\varphi}![(${v}, ${t})]}
+                  |> byOp  {(${\mathord{\to}\mathrm{R}^{-1}, \mathord{\lor}\mathrm{R}^{-1}})}
+                  |> from
+                  [derive 
+                    ${\exists x\mhquad \delta^t(x) \proves \delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi}![(${v}, ${t})]}
+                    |> byOp {(${\forall\mathsc!(`Elim`)})}
+                    |> from [assume ${\exists x\mhquad \delta^t(x) \proves \forall \bar{u} \pB{\delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi}![(${v}, ${t})]}}]]
+                    ]
+                  ]
+                ]
+              ]
+          )
+          
+        });
+        最後の変形は${\bar{u}_0}が右辺に一切現れず、固有変数条件が満たされていることに注意する。
+        ここで、${\bar{u}_0 = \bar{u}}ならば${\delta^t(\bar{u} \setminus \bar{u}_0)}の 節は空となるから、証明は完了している。そうでない場合、定義より${\bar{u}_0 \setminus \bar{u} = \set{v}}である。このとき、${v}は${\delta^t(v)}以外の論理式に自由に現れないので、
+        \eqn-notag(open DeriveDSL in open Derive in ${
+          \proven!(
+            derive 
+              ${\mphantom{\exists v \mhquad \delta^t(v), } \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}
+            |> byOp {(${\alpha}-同値性)}
+            |> from
+              [ derive ${\exists v \mhquad \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}
+                |> byOp {${(\exists \mathrm{L})}}
+                |> from
+                  [assume ${\mphantom{\exists v\mhquad} \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}]
+              ]
+          )
+        });
+        よって示された。
+      }
+    >
+    +exercise<
+      +p{欠けている証明を補い、\ref(`lem:trans-sound`);の証明を完成させよ。}
     >
     +exercise<
       +p{集合論の相対無矛盾性証明では、上の議論で十分である。一方で、Peano算術で整数や有理数の理論を解釈しようと思うと、これだけでは足りない。そこで以下の場合を考えてみよ。}
@@ -677,15 +789,7 @@ let axioms-of-set-theory-and-metamath = '<
         * ${\delta}が${2}-変数以上の変数を持つ場合も考えてみよ。
       }
     >
-    +p{重要なのは、理論${S}の${T}での解釈が与えられると、${S}が${T}に対し相対無矛盾となることである。}
-    +theorem<
-      +p{理論${S}から${T}への翻訳が与えられたとき、${S \rel-con-to T}である。}
-    >
-    +proof<
-      +p{${S}から矛盾に至る証明が存在したとする。このとき${S \proves \bot}であるが、${\bot^t \equiv \bot}に注意すれば、解釈の定義より${T \proves \bot}を得る。}
-    >
-
-    +p{以上から、${T}を${\ZFC}を含む理論としたとき、別の理論${\Gamma}の${T}に対する相対無矛盾性を示すには、${M}への相対化が${\Gamma}から${T}への翻訳となるようなクラス${M}を見付ければよいことになる。典型的には、Gödelの${L}による${\AC}の${\ZF}に対する相対無矛盾性や、強制法がこの例にあたる。}
+    +p{以上から、${T}を${\ZFC}を含む理論としたとき、別の理論${\Gamma}の${T}に対する相対無矛盾性を示すには、${M}への相対化が${\Gamma}から${T}への翻訳となるような空でないクラス${M}を見付ければよいことになる。典型的には、Gödelの${L}による${\AC}の${\ZF}に対する相対無矛盾性や、強制法がこの例にあたる。}
 
     +example<
       +p{

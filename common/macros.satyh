@@ -506,7 +506,7 @@ let smallcap ctx inp =
 let-inline ctx \textsc inp = smallcap ctx inp
 let-math \mathsc inp = text-in-math MathOrd (fun ctx -> smallcap ctx inp)
 
-let derive-unary tol tor b-c froml fromr =
+let derived-unary tol tor b-c froml fromr =
   let w-to-l ctx = get-natural-width (embed-math ctx tol) in
   let w-to-r ctx = get-natural-width (embed-math ctx tor) in
   let w-from-l ctx = get-natural-width (embed-math ctx froml) in
@@ -521,7 +521,13 @@ let derive-unary tol tor b-c froml fromr =
   let assump = ${#from-pad-l #froml \vdash #fromr #from-pad-r} in
   open Derive in
   open DeriveDSL in
-  ${\proven!(derive to |> byOp {${#b-c}} |> from [assume assump])}
+  derive to |> byOp {${#b-c}} |> from [assume assump]
+
+let derive-unary tol tor b-c froml fromr =
+  open Derive in
+  open DeriveDSL in
+  ${\proven!(derived-unary tol tor b-c froml fromr)}
+
 
 let-math \derive-unary tol tor b-c froml fromr = derive-unary tol tor b-c froml fromr
 

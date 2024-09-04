@@ -140,7 +140,7 @@ let syntax-and-proof-system =
           ${(\mathsc!(`Refl`))}から${(\mathsc!(`Cong`))}までの公理を\emph{等号公理}と呼ぶ。
           以下、${\Gamma, \Delta, \Xi, \Theta}を論理式の有限集合を渡るメタ変数とする。
         * ${\Gamma \vdash \Delta}の形の式を\emph{シーケント}または\emph{推件式}（\emph{sequent}）と呼ぶ。
-        * 論理式の集合${T}を\emph{理論}または\emph{公理系}と呼ぶ。
+        * 閉論理式の集合${T}を\emph{理論}または\emph{公理系}と呼ぶ。
         * ${\LK}の\emph{証明図}とは、推件式を頂点とする辺ラベルつき根つき木であって、全ての枝が次の\emph{推論規則}のいずれかに従って形成されているものである。根を「\emph{結論}」、葉を「\emph{仮定}」と呼ぶ。\linebreak;
 
         \emph{構造規則}：
@@ -219,23 +219,32 @@ let syntax-and-proof-system =
       \mqquad
       \derive-unary{\phi \land \psi, \Gamma}{\Delta}{(\mathord{\land}\mathrm{L}_2)}{\psi, \Gamma}{\Delta}
       \mqquad
+      \derive-unary{\phi \land \psi, \Gamma}{\Delta}{(\mathord{\land}\mathrm{L}')}{\phi, \psi, \Gamma}{\Delta}
+      | \derive-unary{\Gamma}{\Delta, \varphi \lor \psi}{(\mathord{\lor}\mathrm{R}_1)}{\Gamma}{\Delta, \varphi}
+        \mqquad
+        \derive-unary{\Gamma}{\Delta, \varphi \lor \psi}{(\mathord{\lor}\mathrm{R}_2)}{\Gamma}{\Delta, \psi}
+        \mqquad
+        \derive-unary{\Gamma}{\Delta, \varphi \lor \psi}{(\mathord{\lor}\mathrm{R}')}{\Gamma}{\Delta, \varphi, \psi}
+      | \derive-unary{\varphi, \Gamma}{\Delta, \psi}{(\mathord{\to}\mathrm{R}^{-1})}{\Gamma}{\Delta, \varphi \to \psi}
+        \mqquad
+        \derive-unary{\Gamma}{\Delta, \varphi, \psi}{(\mathord{\lor}\mathrm{R}^{-1})}{\Gamma}{\Delta, \varphi \lor \psi}
+        \mqquad
+        \derive-unary{\varphi, \psi, \Gamma}{\Delta}{(\mathord{\land}\mathrm{L}^{-1})}{\varphi \land \psi, \Gamma}{\Delta}
+      | \proven!(
+        derive ${\varphi \lor \psi, \Gamma, \Xi \vdash \Delta, \Theta}
+        |> byOp {${(\mathord{\lor}\mathrm{L})}}
+        |> from [assume ${\varphi, \Gamma \vdash \Delta}; assume ${\psi, \Xi \vdash \Theta}]
+      )
+      \mqquad 
       \proven!(
         derive ${\Gamma, \Xi \vdash \Delta, \Theta, \phi \land \psi}
         |> byOp {${(\mathord{\land}\mathrm{R})}}
         |> from [assume ${\Gamma \vdash \Delta, \varphi}; assume ${\Xi \vdash \Theta, \psi}]
       )
-    | \proven!(
-        derive ${\varphi \lor \psi, \Gamma, \Xi \vdash \Delta, \Theta}
-        |> byOp {${(\mathord{\lor}\mathrm{L})}}
-        |> from [assume ${\varphi, \Gamma \vdash \Delta}; assume ${\psi, \Xi \vdash \Theta}]
-      )
-      \mqquad
-      \derive-unary{\Gamma}{\Delta, \varphi \lor \psi}{(\mathord{\lor}\mathrm{R}_1)}{\Gamma}{\Delta, \varphi}
-      \mqquad
-      \derive-unary{\Gamma}{\Delta, \varphi \lor \psi}{(\mathord{\lor}\mathrm{R}_2)}{\Gamma}{\Delta, \psi}
     | \derive-unary{\forall x \varphi, \Gamma}{\Delta}{(\forall\mathrm{L})}{\subst{\varphi}![(${x}, ${t})], \Gamma}{\Delta}
       \mqquad
       \derive-unary{\Gamma}{\Delta, \forall x \varphi}{(\forall\mathrm{R})}{\Gamma}{\Delta, \varphi}
+    | \derive-unary{\Gamma}{\Delta, \varphi}{(\forall\mathsc!(`Elim`))}{\Gamma}{\Delta, \forall x \varphi}
     |});
     >
     +remark<+p{${\LK}に上記の推論規則を加えた上で、シーケント${\Gamma \vdash \Delta}の右辺${\Delta}を高々一つの論理式までに制限したものを、直観主義論理のシーケント計算${\mathrm{LJ}}と呼ぶ。}>
