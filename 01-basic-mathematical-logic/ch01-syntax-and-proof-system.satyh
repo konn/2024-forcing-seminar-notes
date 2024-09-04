@@ -165,7 +165,7 @@ let syntax-and-proof-system =
             \mqquad
             \derive-unary{\Gamma}{\Delta, \exists x \varphi}{(\exists\mathrm{R})}{\Gamma}{\Delta, \subst{\varphi}![(${x}, ${t})]}
           |});
-          但し${(\exists \mathrm{L})}において${x}は${\Gamma, \Delta}に自由変数として現れないものとする。
+          但し${(\exists \mathrm{L})}において${x}は${\Gamma, \Delta}に自由変数として現れないものとする。こうした変数の出現条件のことを、\emph{固有変数条件}（\emph{eigenvariable condition}）と呼ぶ）
         * 理論${T}からの証明図は、結論の左辺が${T}の有限部分集合であるような証明図である。
         * 理論${T}から論理式${\varphi}が\emph{証明可能}（\emph{provable}、記号：${T \proves_{\LK} \varphi}）とは、${T}の有限集合${\Gamma \Subset T}存在して、結論が${\Gamma \vdash \varphi}であるような証明図が存在することである。${T}から証明可能な閉論理式の全体を、${T}の\emph{定理}と呼ぶ。
         * ${\varphi}が${\LK}の\emph{恒真式}（\emph{tautology}、記号${\proves_{\LK} \varphi}）とは、${\varphi}が${\emptyset}で証明可能であることである。
