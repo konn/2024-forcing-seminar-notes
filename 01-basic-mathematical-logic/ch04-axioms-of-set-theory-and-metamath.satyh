@@ -703,7 +703,7 @@ let axioms-of-set-theory-and-metamath = '<
     }
     +proof?:({\ref(`thm:interp-deductive`);の証明})<
       +p{
-        ${T \proves \varphi}とする。すると、定義より閉有限集合${\Gamma \subseteq T}が存在し、${\Gamma \proves \varphi}となる。
+        ${T \proves \varphi}とする。すると、定義より有限集合${\Gamma \subseteq T}が存在し、${\Gamma \proves \varphi}となる。
         また、${\varphi}は仮定より閉論理式であり、また${T}は閉論理式の集合であることから${\Gamma}もそうである。よって、${\FV(\Gamma) \cup \FV(\varphi) = \emptyset}となるので、\ref(`lem:trans-sound`);で${\bar{u} = \emptyset}とすれば、次が成り立つ：
         \eqn-notag(${
           \exists x\mhquad \delta^t(x) \proves \Gamma^t \to \varphi^t.
@@ -725,35 +725,35 @@ let axioms-of-set-theory-and-metamath = '<
         });
         目標は、${\FV(\Gamma, \Delta, \exists v \varphi)  \subseteq \bar{u}_0}として、以下を示すことである：
         \eqn-notag(${
-          \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \p{\delta^t(v) \land \varphi}}.
+          \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \p{\delta^t(v) \land \varphi^t}}.
         });
-        そこで、${\bar{u} \defeq \bar{u}_0 \cup \set{v}}とおいて、帰納法の仮定を上段の導出${\Gamma \proves \Delta, \subst{\varphi}![(${v}, ${t})]}に適用すれば：
+        そこで、${\bar{u} \defeq \bar{u}_0 \cup \set{v}}とおいて、帰納法の仮定を上段の導出${\Gamma \proves \Delta, \subst{\varphi^t}![(${v}, ${t})]}に適用すれば：
         \eqn-notag(open DeriveDSL in open Derive in ${
           \proven!(
-            derive ${\delta^t(\bar{u} \setminus \bar{u}_0), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}
+            derive ${\delta^t(\bar{u} \setminus \bar{u}_0), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
             |> byOp {${(\bar{u} = \bar{u}_0 \cup \set{v}\;\mhquad \mathord{\to}\mathrm{R}\;\mhquad \forall \mathrm{R})}}
             |> from
               [ derive
-                ${\delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}
+                ${\delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}
               |> byOp {${(\mathord{\to}\mathrm{R}, \mathord{\lor}\mathrm{R}')}}
               |> from
                 [ derive 
-                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \exists v \mhquad \p{\delta^t(v) \land \varphi}} 
+                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \exists v \mhquad \p{\delta^t(v) \land \varphi^t}} 
                   |> byOp {${(\exists \mathrm{R})}}
                   |> from
                   [ derive 
-                    ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \delta^t(v) \land \subst{\varphi}![(${v}, ${t})]}
+                    ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \delta^t(v) \land \subst{\varphi^t}![(${v}, ${t})]}
                   |> byOp {${(\mathrm{\land}\mathrm{R}, v \in \bar{u})}}
                   |> from
                   [ derive ${\delta^t(v) \proves \delta^t(v)} |> from []
                   ; derive 
-                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \subst{\varphi}![(${v}, ${t})]}
+                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \subst{\varphi^t}![(${v}, ${t})]}
                   |> byOp  {(${\mathord{\to}\mathrm{R}^{-1}, \mathord{\lor}\mathrm{R}^{-1}})}
                   |> from
                   [derive 
-                    ${\exists x\mhquad \delta^t(x) \proves \delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi}![(${v}, ${t})]}
+                    ${\exists x\mhquad \delta^t(x) \proves \delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi^t}![(${v}, ${t})]}
                     |> byOp {(${\forall\mathsc!(`Elim`)})}
-                    |> from [assume ${\exists x\mhquad \delta^t(x) \proves \forall \bar{u} \pB{\delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi}![(${v}, ${t})]}}]]
+                    |> from [assume ${\exists x\mhquad \delta^t(x) \proves \forall \bar{u} \pB{\delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi^t}![(${v}, ${t})]}}]]
                     ]
                   ]
                 ]
@@ -766,13 +766,13 @@ let axioms-of-set-theory-and-metamath = '<
         \eqn-notag(open DeriveDSL in open Derive in ${
           \proven!(
             derive 
-              ${\mphantom{\exists v \mhquad \delta^t(v), } \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}
+              ${\mphantom{\exists v \mhquad \delta^t(v), } \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
             |> byOp {(${\alpha}-同値性)}
             |> from
-              [ derive ${\exists v \mhquad \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}
+              [ derive ${\exists v \mhquad \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
                 |> byOp {${(\exists \mathrm{L})}}
                 |> from
-                  [assume ${\mphantom{\exists v\mhquad} \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi}}}]
+                  [assume ${\mphantom{\exists v\mhquad} \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}]
               ]
           )
         });
