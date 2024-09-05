@@ -546,6 +546,13 @@ let axioms-of-set-theory-and-metamath = '<
         ${H(\kappa)}を集合論のモデルと見做したとき、だいたいにおいて冪集合公理と置換公理の間にはバーターの関係にあると思えばよい。
       }
     >
+    +exercise<
+      +p{${\kappa}が到達不能基数であることは、${V_\kappa \models \ZFC}となる${\kappa}の存在よりも遥かに強い性質である。この事を見るために、次を示せ：}
+      +enumerate{
+        * ${\kappa}が到達不能基数であるとき、${V_\lambda \models \ZFC}となるような基数${\lambda}は非有界に存在することを示せ。つまり、${\kappa}未満で${\ZFC}のモデルとなるような基数が大量に存在するということである。
+        * 基数${\kappa}が到達不能基数である${\iff} ${V_\kappa = H(\kappa)}かつ${V_\kappa \models \ZFC}が成り立つことを示せ。
+      }
+    >
   >
   +subsection{論理式の相対化による相対無矛盾性証明、クラスモデルと集合モデル}<
     +p{
@@ -718,17 +725,19 @@ let axioms-of-set-theory-and-metamath = '<
     >
     +proof?:({\ref(`lem:trans-sound`);の証明})<
       +p{${\bar{u}}に対する全称量化を保ったまま、証明図の段数に関する帰納法で示す。最後に使われた推論規則について場合分けしていく。}
-      +p{公理についてはやるだけ。${(\mathord{\to}\mathrm{L, R})}も翻訳が含意と可換であることから明らかである。${(\exists \mathrm{L})}については、固有変数条件であることと、今は述語記号のみを持つ言語しか考えていないこと、特に${L}-項は単独の変数のみであることを使うとあとは同値変形だけで示せる。}
+      +p{公理についてはやるだけ。${(\mathord{\to}\mathrm{L, R})}も翻訳が含意と可換であることから明らかである。${(\exists \mathrm{L})}については、固有変数条件がついていることに注意すれば、あとは純粋に論理的な同値変形で示せる。}
       +p{
-        トリッキーなのは${(\exists \mathrm{R})}の場合である。${T}での証明図が以下の通りであるとする：
+        トリッキーなのは${(\exists \mathrm{R})}の場合である。
+        ここで、述語記号のみを持つ言語だけを叶えているので、ありうる${L}-項は単独の変数のみであることに注意すれば、以下のような${T}での証明図だけ考慮すればよい：
         \eqn-notag(${
-          \derive-unary{\Gamma}{\Delta, \exists v \varphi}{(\exists \mathrm{R})}{\Gamma}{\Delta, \subst{\varphi}![(${v}, ${t})]}
+          \derive-unary{\Gamma}{\Delta, \exists v \varphi}{(\exists \mathrm{R})}{\Gamma}{\Delta, \subst{\varphi}![(${v}, ${x})]}
         });
+        一般の言語の場合は${x}ではなく項${\tau}を考える必要がある。
         目標は、${\FV(\Gamma, \Delta, \exists v \varphi)  \subseteq \bar{u}_0}として、以下を示すことである：
         \eqn-notag(${
           \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \p{\delta^t(v) \land \varphi^t}}.
         });
-        そこで、${\bar{u} \defeq \bar{u}_0 \cup \set{v}}とおいて、帰納法の仮定を上段の導出${\Gamma \proves \Delta, \subst{\varphi^t}![(${v}, ${t})]}に適用すれば：
+        そこで、${\bar{u} \defeq \bar{u}_0 \cup \set{x}}とおいて、帰納法の仮定を上段の導出${\Gamma \proves \Delta, \subst{\varphi^t}![(${v}, ${x})]}に適用すれば：
         \eqn-notag(open DeriveDSL in open Derive in ${
           \proven!(
             derive ${\delta^t(\bar{u} \setminus \bar{u}_0), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
@@ -743,18 +752,18 @@ let axioms-of-set-theory-and-metamath = '<
                   |> byOp {${(\exists \mathrm{R})}}
                   |> from
                   [ derive 
-                    ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \delta^t(v) \land \subst{\varphi^t}![(${v}, ${t})]}
-                  |> byOp {${(\mathrm{\land}\mathrm{R}, v \in \bar{u})}}
+                    ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \subst{\p{\delta^t(v) \land \varphi^t}}![(${v}, ${x})]}
+                  |> byOp {${(\mathrm{\land}\mathrm{R}, x \in \bar{u})}}
                   |> from
-                  [ derive ${\delta^t(v) \proves \delta^t(v)} |> from []
+                  [ derive ${\delta^t(x) \proves \delta^t(x)} |> from []
                   ; derive 
-                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \subst{\varphi^t}![(${v}, ${t})]}
+                  ${\Gamma^t, \delta^t(\bar{u}), \exists x\mhquad \delta^t(x) \proves  \Delta^t, \subst{\varphi^t}![(${v}, ${x})]}
                   |> byOp  {(${\mathord{\to}\mathrm{R}^{-1}, \mathord{\lor}\mathrm{R}^{-1}})}
                   |> from
                   [derive 
-                    ${\exists x\mhquad \delta^t(x) \proves \delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi^t}![(${v}, ${t})]}
+                    ${\exists x\mhquad \delta^t(x) \proves \delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi^t}![(${v}, ${x})]}
                     |> byOp {(${\forall\mathsc!(`Elim`)})}
-                    |> from [assume ${\exists x\mhquad \delta^t(x) \proves \forall \bar{u} \pB{\delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi^t}![(${v}, ${t})]}}]]
+                    |> from [assume ${\exists x\mhquad \delta^t(x) \proves \forall \bar{u} \pB{\delta^t(\bar{u}) \to \Gamma^t \to \bigvee \Delta^t \vee \subst{\varphi^t}![(${v}, ${x})]}}]]
                     ]
                   ]
                 ]
@@ -763,17 +772,16 @@ let axioms-of-set-theory-and-metamath = '<
           
         });
         最後の変形は${\bar{u}_0}が右辺に一切現れず、固有変数条件が満たされていることに注意する。
-        ここで、${\bar{u}_0 = \bar{u}}ならば${\delta^t(\bar{u} \setminus \bar{u}_0)}の 節は空となるから、証明は完了している。そうでない場合、定義より${\bar{u}_0 \setminus \bar{u} = \set{v}}である。このとき、${v}は${\delta^t(v)}以外の論理式に自由に現れないので、
+        ここで、${\bar{u}_0 = \bar{u}}ならば${\delta^t(\bar{u} \setminus \bar{u}_0)}の 節は空となるから、証明は完了している。そうでない場合、定義より${\bar{u}_0 \setminus \bar{u} = \set{x}}である。このとき、上の証明図の最下段で${x}は${\delta^t(x)}以外の論理式に自由に現れないので、
         \eqn-notag(open DeriveDSL in open Derive in ${
           \proven!(
             derive 
-              ${\mphantom{\exists v \mhquad \delta^t(v), } \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
-            |> byOp {(${\alpha}-同値性)}
+              ${\mphantom{\exists x \mhquad \delta^t(x), } \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
             |> from
-              [ derive ${\exists v \mhquad \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
+              [ derive ${\exists x \mhquad \delta^t(x), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}
                 |> byOp {${(\exists \mathrm{L})}}
                 |> from
-                  [assume ${\mphantom{\exists v\mhquad} \delta^t(v), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}]
+                  [assume ${\mphantom{\exists x\mhquad} \delta^t(x), \exists x\mhquad \delta^t(x) \proves \forall \bar{u}_0 \pB{\delta^t(\bar{u}_0) \to \Gamma^t \to \bigvee \Delta^t \vee \exists v \mhquad \p{\delta^t(v) \land \varphi^t}}}]
               ]
           )
         });
@@ -786,7 +794,9 @@ let axioms-of-set-theory-and-metamath = '<
     +exercise<
       +p{集合論の相対無矛盾性証明では、上の議論で十分である。一方で、Peano算術で整数や有理数の理論を解釈しようと思うと、これだけでは足りない。そこで以下の場合を考えてみよ。}
       +enumerate{
-        * 言語が関数記号・定数記号を持つ場合の定義も考えてみよ。論理式の解釈については、「定義による拡張」と似た手続きを踏むことになる。
+        * 言語が関数記号・定数記号を持つ場合の翻訳・解釈の定義も考えてみよ。論理式の解釈については、「定義による拡張」と似た手続きを踏むことになる。
+        * 関数記号・定数記号を持つ場合の\ref(`lem:trans-sound`);を証明せよ（ヒント：項${t}について${\delta^t(\FV(t)) \implies \delta^t(t)}となるように解釈の定義を変更しておく）。
+        * 上の設定で、
         * ${\delta}が${2}-変数以上の変数を持つ場合も考えてみよ。
       }
     >
