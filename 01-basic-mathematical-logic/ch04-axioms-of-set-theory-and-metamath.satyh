@@ -30,6 +30,7 @@ let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
 let-math \rel-con-to = ${\mathrel{\leq_{\mathrm{Con}}}}
 let-math \nrel-con-to = ${\mathrel{\nleq_{\mathrm{Con}}}}
 let-math \prov-con-to = ${\mathrel{\prec_{\mathrm{Con}}}}
+let-math \eq-prov-con-to = ${\mathrel{\preccurlyeq_{\mathrm{Con}}}}
 let-math \nprov-con-to = ${\mathrel{\nprec_{\mathrm{Con}}}}
 let-math \neq-prov-con-to = ${\mathrel{\npreccurlyeq_{\mathrm{Con}}}}
 
@@ -539,8 +540,8 @@ let axioms-of-set-theory-and-metamath = '<
           * ${\gamma > \omega}が極限順序数のとき、${V_\gamma \models \ZC}。とくに、${V_{\omega + \omega} \models \ZC}
           * ${\kappa}が正則基数のとき、${H(\kappa) \models \ZFC - \Power}
           * ${\kappa}が強極限基数のとき、${H(\kappa) = V_\kappa \models \ZFC - \Repl}
-          * 特に${\kappa}が到達不能基数のとき、その時に限り${H(\kappa) = V_\kappa \models \ZFC}.
-          * また、${\kappa}が弱到達不能${\iff L_\kappa \models \ZFC}.
+          * 特に${\kappa}が到達不能基数のとき、${H(\kappa) = V_\kappa \models \ZFC}.
+          * また、${\kappa}が弱到達不能${\implies L_\kappa \models \ZFC}.
         }
         ${H(\kappa)}を集合論のモデルと見做したとき、だいたいにおいて冪集合公理と置換公理の間にはバーターの関係にあると思えばよい。
       }
@@ -588,8 +589,8 @@ let axioms-of-set-theory-and-metamath = '<
       +p{
         以下、${T, T'}を十分強い理論とする。
         \enumerate{
-          * ${\prov-con-to}は非反射的：${T \nprov-con-to T}。以下、${S \unlhd T \defs S = T \lor S \prov-con-to T}と書く。
-          * ${S \rel-con-to T}だが${S \neq-prov-con-to T)}となる例が存在する。
+          * ${\prov-con-to}は非反射的：${T \nprov-con-to T}。以下、${S \eq-prov-con-to T \defs S = T \lor S \prov-con-to T}と書く。
+          * ${S \rel-con-to T}だが${S \neq-prov-con-to T}となる例が存在する。
           * ${S \rel-con-to T \prov-con-to T' \implies S \prov-con-to T'}
           * ${S \prov-con-to T \implies T \nrel-con-to S}。とくに${S \prov-con-to T \implies S < T}。
         }
