@@ -28,6 +28,7 @@ let-math \trcl = ${\mathop{\mathrm{trcl}}}
 let-math \mos = ${\mathop{\mathrm{mos}}}
 let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
 let-math \rel-con-to = ${\mathrel{\leq_{\mathrm{Con}}}}
+let-math \strict-rel-con-to = ${\mathrel{<_{\mathrm{Con}}}}
 let-math \nrel-con-to = ${\mathrel{\nleq_{\mathrm{Con}}}}
 let-math \prov-con-to = ${\mathrel{\prec_{\mathrm{Con}}}}
 let-math \eq-prov-con-to = ${\mathrel{\preccurlyeq_{\mathrm{Con}}}}
@@ -607,7 +608,7 @@ let axioms-of-set-theory-and-metamath = '<
           * ${\prov-con-to}は非反射的：${T \nprov-con-to T}。以下、${S \eq-prov-con-to T \defs S = T \lor S \prov-con-to T}と書く。
           * ${S \rel-con-to T}だが${S \neq-prov-con-to T}となる例が存在する。
           * ${S \rel-con-to T \prov-con-to T' \implies S \prov-con-to T'}
-          * ${S \prov-con-to T \implies T \nrel-con-to S}。とくに${S \prov-con-to T \implies S < T}。
+          * ${S \prov-con-to T \implies T \nrel-con-to S}。とくに${S \prov-con-to T \implies S \strict-rel-con-to T}。
         }
       }
     >

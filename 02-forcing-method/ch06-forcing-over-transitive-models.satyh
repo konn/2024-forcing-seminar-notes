@@ -40,7 +40,7 @@ let forcing-over-transitive-models = '<
         * ${M \models \ZF}ならば${M[G] \models \ZF}。
         * ${M \models \AC}ならば${M[G] \models \AC}。
         * ${M \cap \On = M[G] \cap \On}。
-        * ${\check{M}_\G = M}。
+        * ${\check{M}_G = M}。
       }
     >
     +p{特に、${M}が可算のときは、Rasiowa–Sikorskiのおかげで上の逆も成り立つ：}
