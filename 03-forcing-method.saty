@@ -1,10 +1,10 @@
-@import: 02-forcing-method/preamble
-@import: 02-forcing-method/ch01-algebraic-properties-of-boolean-algebras
-@import: 02-forcing-method/ch02-boolean-valued-model
-@import: 02-forcing-method/ch03-forcing-theorem
-@import: 02-forcing-method/ch04-generic-filter
-@import: 02-forcing-method/ch05-forcing-with-posets
-@import: 02-forcing-method/ch06-forcing-over-transitive-models
+@import: 03-forcing-method/preamble
+@import: 03-forcing-method/ch01-algebraic-properties-of-boolean-algebras
+@import: 03-forcing-method/ch02-boolean-valued-model
+@import: 03-forcing-method/ch03-forcing-theorem
+@import: 03-forcing-method/ch04-generic-filter
+@import: 03-forcing-method/ch05-forcing-with-posets
+@import: 03-forcing-method/ch06-forcing-over-transitive-models
 
 document (|
   title = {\no-break{強制法セミナー第2回：強制法の基礎理論}};
