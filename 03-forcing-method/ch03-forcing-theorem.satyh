@@ -120,7 +120,7 @@ let forcing-theorem = '<  +section{強制法定理：${V^{\mathbb{B}}}が${\ZFC}
   +theorem<+p{${V \models \AC}なら${V^{\mathbb{B}} \models \AC}}>
   +proof<
     +p{
-      ${V^{\mathbb{B}}}で整列可能定理が成立することを示せばよい。以下、${\dot{X}}を一つ固定し、${\pSQ{\dot{X}: \text!{整列可能}} = \mathbb{1}}を示していく。特に、ある順序数${\gamma}と写像${f: \gamma \to S}があって、${\dot{X} \subseteq f[S]}となっていることが示せればよい。
+      ${V^{\mathbb{B}}}で整列可能定理が成立することを示せばよい。以下、${\dot{X}}を一つ固定し、${\pSQ{\dot{X}: \text!{整列可能}} = \mathbb{1}}を示していく。特に、ある順序数${\gamma}と写像${f: \gamma \to S}があって、${\dot{X} \subseteq f[\gamma]}となっていることが示せればよい。
     }
     +p{
       いま、${V}で選択公理を仮定しているので、順序数${\gamma}を適当にとり、${\dom(\dot{X}) =\Set{\dot{x}_\xi}{ \xi < \gamma}}と並べておく。このとき、${\dot{f}}を以下のように定める：
