@@ -555,7 +555,7 @@ let axioms-of-set-theory-and-metamath = '<
           * 特に${\kappa}が到達不能基数のとき、${H(\kappa) = V_\kappa \models \ZFC}.
           * また、${\kappa}が弱到達不能${\implies L_\kappa \models \ZFC}.
         }
-        ${H(\kappa)}を集合論のモデルと見做したとき、だいたいにおいて冪集合公理と置換公理の間にはバーターの関係にあると思えばよい。
+        ${H(\kappa)}を集合論のモデルと見做したとき、だいたいにおいて冪集合公理と置換公理は交換条件の関係にあると思えばよい。
       }
     >
     +exercise<
