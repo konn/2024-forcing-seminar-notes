@@ -72,6 +72,10 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       DEST: pdf_dests
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
     - name: Set timezone
       run: sudo timedatectl set-timezone Asia/Tokyo
@@ -115,3 +119,11 @@ jobs:
       run: |
         pushd "${DEST}"
         ../discord-uploader
+    - name: Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # Upload entire repository
+        path: ${{env.DEST}}
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
