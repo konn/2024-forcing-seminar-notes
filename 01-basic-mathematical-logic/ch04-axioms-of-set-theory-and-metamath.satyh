@@ -195,7 +195,7 @@ let axioms-of-set-theory-and-metamath = '<
       \emph{選択公理}も、超越的ではあるがとりあえず代表元を取ったり、何らかの意味で極大な対象をとりたいというような要請を満たすためにある。
     }
     +p{
-      \emph{置換公理}は、\emph{写像による像が必ず集合となる}ことを要請する。ここで、写像は集合として存在するものだけではなく、写像かのように振る舞う論理式によって定義されるものも含む。実は、以下で触れるように${V_{\omega + \omega}}は${\Z}のモデルとなる。この世界には${\omega + \omega}は順序数としては存在せず、特に、「奇数のあとに偶数を数える」ような整列順序の順序型は取れない。つまり、順序数が全然足りないようなモデルでも、置換公理${\Z}のモデルになってしまうのだ。
+      \emph{置換公理}は、\emph{写像による像が必ず集合となる}ことを要請する。ここで、写像は集合として存在するものだけではなく、写像かのように振る舞う論理式によって定義されるものも含む。実は、以下で触れるように${V_{\omega + \omega}}は${\Z}のモデルとなる。この世界には${\omega + \omega}は順序数としては存在せず、特に、「奇数のあとに偶数を数える」ような整列順序の順序型は取れない。つまり、順序数が全然足りないようなモデルでも、置換公理がない${\Z}のモデルになってしまうのだ。
       言い換えれば、置換公理は「宇宙の背が十分高い」ことを要請していると見ることができる。「通常の数学」の範囲では${V_{\omega + \omega}}程度でも十分かもしれない（実関数、実関数からの実関数……などはある）が、圏論などより高次の構成を必要とする数学ではこれでは不十分である。
       また、「Borel集合が可測性やBaireの性質など任意のよい性質を持つ」（Borel決定性）ためには、置換公理が本質的に必要であることが知られている。
     }
@@ -207,16 +207,16 @@ let axioms-of-set-theory-and-metamath = '<
   >
 
   +subsection{集合論の基本的な結果}<
-    +p{基礎の公理は、集合といったときに整礎なものだけを考える、という宣言であり、あるいは空集合から出発して冪集合をとることで全ての集合は作られる、という風にも見ることができる。そのことを見るには、まず整礎集合に関する帰納法の原理が必要となる：}
+    +p{以下、集合論内部で超数学を展開するのに必要な基本的な概念について触れておく。また、上述のように基礎の公理が「整礎な集合だけを考える」という言明と同値であることも見ていく。}
     +defn<
       +p{
         \listing{
           * 二項関係${R}が\emph{集合的}（\emph{set-like}）${\defs}任意の${x} について、${\sect{y} \defeq \Set{y}{ y \mathrel{R} x}}が集合を成す。
           * 二項関係${R}が${A}上で\emph{整礎}（\emph{well-founded}）${\defs}任意の${\emptyset \neq B \subseteq A}は${R}-極小元を持つ。
-          * 二項関係${R}が${A}上で\emph{整礎順序}（\emph{well-order}）${\defs A}上で${R}は整礎な全順序。
-          * ${A}が\emph{推移的}（\emph{transitive}）${\defs x \in y \in A \to x \in A}。つまり、${\in}が${A}上で推移的関係となる。
-          * 整列順序${\prec}、${a \in A}について、${\Set{x}{ a \prec x } \neq \emptyset}のとき、${\Set{x}{ a \prec x }}の最小限を${\prec}に関する${a}の\emph{後者}（\emph{successor}）と呼ぶ。
-          * 集合${\alpha}が\emph{順序数}（\emph{ordinal}）${\defs} ${\alpha}は推移的集合であり、${\in}により整列される。順序数の全体を${\On}により表す。また、${\On}に制限した${\in}を単に${<}と書く。
+          * 二項関係${R}が${A}上で\emph{整列順序}（\emph{well-order}）${\defs A}上で${R}は整礎な全順序。
+          * クラス${A}が\emph{推移的}（\emph{transitive}）${\defs x \in y \in A \to x \in A}。つまり、${\in}が${A}上で推移的関係となる。
+          * 整列順序${\prec}、${a \in A}について、${\Set{x}{ a \prec x } \neq \emptyset}のとき、${\Set{x}{ a \prec x }}の最小元を${\prec}に関する${a}の\emph{後者}（\emph{successor}）と呼ぶ。
+          * 集合${\alpha}が\emph{順序数}（\emph{ordinal}）${\defs} ${\alpha}は推移的集合であり、${\in}により全順序が入る。順序数の全体を${\On}により表す。また、${\On}に制限した${\in}を単に${<}と書く。
         }
       }
     >
@@ -230,13 +230,13 @@ let axioms-of-set-theory-and-metamath = '<
     }
     +p{集合的な整礎関係に沿った超限帰納法は、今後あらゆる対象を定義する際に縦横無尽に用いられる：}
     +lemma?:(`lem:wf-ind`)?:({超限帰納法の原理})<
-      +p{${A}をクラス、クラス関係${\prec}を${A}上で集合的な整礎関係、${G: V \times V \to V}をクラス関数とする。このとき、クラス関数${F: V \to V}で次を満たすものが存在する：
+      +p{${A, D}をクラス、クラス関係${\prec}を${A}上で集合的な整礎関係、${G: D \times A \times V \to V}をクラス関数とする。このとき、クラス関数${F: D \times A \to V}で次を満たすものが存在する：
       }
       +eqn-notag(${
-        \forall a \in A \mhquad F(a) = G(a, F \restrict \sect{a})
+        \forall d \in D \mhquad \forall a \in A \mhquad F(d, a) = G(d, a, F \restrict \sect{a})
       });
       +pn{
-        また、このようなクラス関数${F}は${F(x) = y \iff F'(x) = y}を満たすという意味で一意である。
+        また、このようなクラス関数${F}は${F(d, x) = y \iff F'(d, x) = y}を満たすという意味で一意である。
       }
     >
     +cor?:(`lem:wf-ind-pred`)<
@@ -269,11 +269,11 @@ let axioms-of-set-theory-and-metamath = '<
         }
       }
     >
-    +p{以上の準備のもとで、整礎関係に沿った「\emph{階数}（\emph{rank}）」の概念が定義できる：}
+    +p{以上の準備のもとで、整礎関係に沿った「\emph{ランク}（\emph{rank}）」の概念が定義できる：}
     +defn<
       +p{${\prec}を${A}上の集合的整礎関係とする。}
       +enumerate{
-        * ${S \subseteq A}とするとき、${S}の\emph{上限}を以下で定める：
+        * ${\prec}が整列順序で${S \subseteq A}とするとき、${S}の\emph{上限}を以下で定める：
         \eqn-notag(${
           \sup S \defeq \Set{a \in A}{\forall x \in S \mhquad x \preccurlyeq a}
         });
@@ -309,7 +309,7 @@ let axioms-of-set-theory-and-metamath = '<
       }
     >
     +proof<
-      +p{${(X, <)}の階数関数を考えると、これが同型を与える。}
+      +p{${(X, <)}のランク関数を考えると、これが同型を与える。}
     >
 
     +p{更に、${\On}はある意味で「集合的な整列順序が入る真のクラス」の「順序型」であり、特に集合的整列クラスは同型を除いて一意に定まることがわかる：}
@@ -317,7 +317,7 @@ let axioms-of-set-theory-and-metamath = '<
     +lemma?:(`lem:setlike-wo-uniq`)<
       +p{
         ${A}が真のクラス、${\prec}が${A}上の集合的整列順序とすると、ランク関数は整列順序の同型
-        \eqn-notag(${\rank: (A, \prec) \cong (\On, \in)});
+        \eqn-notag(${\rho: (A, \prec) \cong (\On, \in)});
         を与える。
       }
     >
@@ -345,7 +345,7 @@ let axioms-of-set-theory-and-metamath = '<
     +defn<
       +p{}
       +enumerate{
-        * 集合${x}の\emph{階数}（\emph{rank}）を${\rank(x) \defeq \min\Set{\alpha \in \On}{x \in V_{\alpha + 1}}}と定める。 
+        * 集合${x}の\emph{ランク}（\emph{rank}）を${\rank(x) \defeq \min\Set{\alpha \in \On}{x \in V_{\alpha + 1}}}と定める。 
         * 集合${x}の\emph{推移閉包}（\emph{transitive closure}）${\trcl(x)}を次のように帰納的に定める：
           \eqn-notag(${
             \mathop{\mathord{\bigcup}^{(0)}} x \defeq x, \mqquad
@@ -355,7 +355,7 @@ let axioms-of-set-theory-and-metamath = '<
       }
     >
     +exercise<
-      +p{${\rank(x)}が${\in}-関係を集合的整礎関係と見做したときの階数関数と一致することを示せ。}
+      +p{${\rank(x)}が${\in}-関係を集合的整礎関係と見做したときのランク関数と一致することを示せ。}
     >
     +lemma<+p{${\trcl(x)}は${x}を含む最小の推移的集合である。}>
   >
@@ -423,8 +423,19 @@ let axioms-of-set-theory-and-metamath = '<
     +p{
       ここで、気持ちとしては${0, f}で始まっているものは複合項、${1, n}は変数${x_n}を表すものである。項の場合は引数の数が決まっているので、このように記号と項の連接で表現できる。これは、わかる人向けにいってしまえば（逆ではない）ポーランド記法を採用している、ということである。
     }
-    +exercise<+p{上を拡張して、集合${A}にパラメータを持つ${\mathcal{L}}-項を定義してみよ。また、${\mathcal{L}}-論理式であることを表す論理式${\Fml_{\L}(x)}を定義してみよ。パラメータ付きも考えよ。}>
-    +exercise<+p{証明図の概念も定義してみよう。また、「${P}は公理系${T}から${\varphi}への証明図である」を表す論理式${\Pr_T(\varphi)}を定義してみよ。}>
+    +exercise<
+      +p{
+        上を拡張して、集合${A}にパラメータを持つ${\mathcal{L}}-項を定義してみよ。また、${\mathcal{L}}-論理式であることを表す論理式${\Fml_{\L}(x)}を定義してみよ。パラメータ付きも考えよ。
+        }
+      >
+    +exercise<
+      +p{
+        \enumerate{
+          * 「${P}は理論${T}から${\varphi}への証明図である」ことを表す述語${\mathop{\mathrm{IsPr}}_T(P, \varphi)}を書き下してみよ。
+          * 上を使って、「理論${T}から${\varphi}が証明可能である」ことを表す述語${\mathop{\mathrm{Pr}}_T(\varphi)}を書き下してみよ。
+        }
+      }
+    >
     +p{
       以上のようにして、「論理式である」「証明図である」などの概念が定義できる。
       ところで、以上は${\ZFC}上での論理式の定義だが、我々のメタレベルの世界にも論理式はある。${\ZFC}での論理式の定義はメタレベルの論理式を真似て定式化したので、メタの我々が知っている論理式${\varphi}が与えられれば、${\ZFC}の中で${\varphi}に対応する論理式を表現する項をアルゴリズミックに構成できる。両者は曖昧性のない範囲では議論の過程でしばしば混同して扱うことになるが、メタの論理式を${\ZFC}の項として表した対応物を表すための（メタ）記号を導入しておくことにする：
@@ -616,9 +627,9 @@ let axioms-of-set-theory-and-metamath = '<
       +p{
         \enumerate{
           * Gödelの不完全性定理そのもの。
-          * ${S = \ZFC, T = \ZF}とすると、そもそも${S \sim T}であるが、${\ZF \proves \Con(\ZFC)}なら当然${\ZF \proves \lnot \Con(\ZF)}となってしまい、不完全性定理に反する。
+          * ${S = \ZFC, T = \ZF}とすると、そもそも${S \sim T}であるが、${\ZF \proves \Con(\ZFC)}なら当然${\ZF \proves \Con(\ZF)}となってしまい、不完全性定理に反する。
           * ${T'}は十分強いので、${S \rel-con-to T}の証拠となる、「${S}の矛盾を${T}の矛盾に変換する」手続きが${T'}の中で定式化できる。こいつを使ってやれば、${\Con(T)}の証明から${\Con(S)} の証明を作ることができるので、結局${T' \proves \Con(S)}となる。
-          * ${S \prov-con-to T \rel-con-to S}とすると、${(3)}より${S \prov-con-to S}となり${(1)}に反する。
+          * ${T \rel-con-to S \prov-con-to T}とすると、${(3)}より${T \prov-con-to T}となり${(1)}に反する。
         }
       }
       +p{} % \qed のためのもの
@@ -718,6 +729,7 @@ let axioms-of-set-theory-and-metamath = '<
       ただし、ここで${\delta^t(\bar{u})}は${\delta^t(u_0) \land \cdots \land \delta^t(u_{n-1})}の略記であり、論理式の有限集合${\Gamma = \set{\psi_0, \ldots, \psi_{n - 1}}}について${\Gamma \to \varphi}は${\psi_0 \to (\psi_1 \to \cdots \to (\psi_{n-1} \to \varphi) \cdots )}の略記である。
       }
     >
+    +p{直感的には、自由変数を含む証明図は仮定や結論の枝もふくめて全称化した命題の証明に等しい、という気持ちであり、それが翻訳の定義域${\delta^t}上でちゃんと成り立っている、ということである。}
     +p{
       一旦\ref(`lem:trans-sound`);を認めれば、\ref(`thm:interp-deductive`);は次のように示せる：
     }
@@ -735,6 +747,9 @@ let axioms-of-set-theory-and-metamath = '<
         となる。いま、仮定より${T' \proves \Gamma^t}かつ${T' \proves \exists x \mhquad \delta^t(x)}なので、結局${T' \proves \varphi^t}を得る。
       }
     >
+    +p{
+      残るは\ref(`lem:trans-sound`);の証明である。一番非自明なのは、${\exists\mathrm{R}}-規則である。気持ちとしては、${\Gamma \proves \Delta, \exists v \varphi}から一段戻って${\Gamma \proves \Delta, \subst{\varphi}![(${v}, ${x})]}を考えると、定義域の条件${\delta^t(x)}を仮定にもった全称命題が生えてくるので、翻訳の定義域の非空性条件${\exists x \mhquad \delta^t(x)}の証拠となるような${x}を食わせてやればよい、というものである。出現条件を考えるともうちょっと複雑になるが、それを形式的に書き下したのが以下の証明である：
+    }
     +proof?:({\ref(`lem:trans-sound`);の証明})<
       +p{${\bar{u}}に対する全称量化を保ったまま、証明図の段数に関する帰納法で示す。最後に使われた推論規則について場合分けしていく。}
       +p{公理についてはやるだけ。${(\mathord{\to}\mathrm{L, R})}も翻訳が含意と可換であることから明らかである。${(\exists \mathrm{L})}については、固有変数条件がついていることに注意すれば、あとは純粋に論理的な同値変形で示せる。}

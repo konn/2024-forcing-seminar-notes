@@ -75,7 +75,7 @@ let incompleteness-theorem = '<
           });
           を得る。いま、${\gamma(x) \equiv \Phi(s(x, x))}としていたので、${\delta \deffml \gamma(d)}とおけば：
           \eqn-notag(${
-            T \proves \delta \liff \Phi(\delta)
+            T \proves \delta \liff \Phi(\code{\delta})
           });
           となり、これが求める${\delta}である。
         }
