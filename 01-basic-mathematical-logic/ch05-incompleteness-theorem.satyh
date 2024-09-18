@@ -139,7 +139,7 @@ let incompleteness-theorem = '<
           * ${\Con(\ZFC)}を仮定するとどこからはじめても極小な${\ZFC}のモデル${M}に辿りつく。
           * 極小性よりそんな${M}の中には${\ZFC}のモデルは一個もいない。
           * すると完全性定理から${M \models \lnot \Con(\ZFC)}となる。
-          * ${M \models \ZFC}なので、${\ZFC \models \Con(\ZFC)}としてしまうと矛盾！
+          * ${M \models \ZFC}なので、${\ZFC \proves \Con(\ZFC)}としてしまうと矛盾！
         }
       >>
 
