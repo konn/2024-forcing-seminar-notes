@@ -28,14 +28,6 @@ let forcing-with-posets = '<
     }
   >
   +lemma<+p{擬順序${\P}のBoole完備化${\B(\P)}は常に存在し、同型を除いて一意である。}>
-  +exercise?:(`lem:sup-completion`)<
-    +p{
-      ${d: \P \dense-to \B(\P)}をBoole完備化、${b \in \B(\P)}とするとき以下を示せ。
-      \eqn-notag(${
-        b = \sum \Set{ d(p) }{ d(p) \leq_{\B(\P)} b }
-      });
-    }
-  >
 
   +p{
     我々が完備Boole代数によるBoole値モデルを経由する形で強制法を定式化したのは、このBoole完備化が常に一意に存在し\footnote{基礎モデルで弱い集合論の公理系しか成り立たない場合Boole完備化は常に存在するとは限らないが、その場合も強制法関係${\forces}の定義から出発すれば問題ない。}、擬順序の強制法の定義よりも完備Boole代数による強制法の定義の方が直観がわかりやすいからである。
@@ -139,8 +131,6 @@ let forcing-with-posets = '<
       }
     }
   >
-  +exercise<+p{Boole代数は分離的であることを示せ。}>
-  +exercise?:(`exc:sep-is-po`)<+p{一般の擬順序${\P}において、${\unlhd}は${\leq}を拡張する（つまり${x \leq y \implies x \unlhd y}となるような）${\P}上の擬順序となることを示せ。}>
   
   +lemma<
     +p{任意の擬順序${\P}について、次を満たす分離的擬順序${\Q}と全射${e: \P \to \Q}が同型を除いて一意に存在する：}

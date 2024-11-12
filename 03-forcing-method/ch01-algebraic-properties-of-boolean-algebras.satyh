@@ -52,6 +52,7 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質}<
       * 冪等律：${a \cdot a = a = a + a}
       * 随伴律：${a \cdot b \leq c \iff a \leq b \loli c}
       * 対合律：${-(-a) = a}
+      * ${a \nleq b \iff a \cdot (-b) > \mathbb{0}}
       * ${a \leq (b \loli c) \cdot (c \loli b) \iff a \cdot b = a \cdot c}
       * 無限項対二項分配律（和）：${A}が下限を持つなら${a + A}も下限を持ち、${\prod (a + A) = a + \prod A}。
       * 無限項対二項分配律（積）：${A}が上限を持つなら${a \cdot A}も上限を持ち、${\sum (a \cdot A) = a \cdot \sum A}。
@@ -61,4 +62,106 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質}<
   >
   +exercise<+p{上を示せ。}>
   +remark<+p{分配律を無限項対無限項にしたものは成り立つとは限らない。これは、対応する強制法が基数を保つ条件と密接に関連がある。}>
+
+  +p{実は、任意の擬順序集合は完備Boole代数に稠密に埋め込むことができ、しかもこのBoole代数は同型を除いて一意である。このことを見ていこう。まずは、一般の擬順序の定義と関連する性質・写像についてみていく。}
+  +defn< +p{
+      \listing{
+        * ${\P = \p{\P, \leq_\P, \mathbb{1}_\P}}が\emph{擬順序}（\emph{pseudo-order}、略して\emph{poset}）${\defs} ${\leq_\P}は${\P}上の反射的かつ推移的な二項関係であり、${\mathbb{1}_\P}は${\leq_\P}に関する（一意とは限らない）最大元である。
+        * 擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs} ${\forall r \leq p \mhquad \p{r \compat_{\P} q}}ならば${p \leq q}が成り立つ。
+        * 一般の擬順序${\P}について、\emph{このセミナーでは}以後${p \unlhd_\P q \defs \forall r \leq_\P p \mhquad \p{r \compat_\P q}}と書くことにする。つまり、${\P}が分離的${\iff} ${\mathord{\unlhd_\P} = \mathord{\leq_\P}}。
+        * ${d: \P \to \Q}が\emph{稠密埋め込み}（\emph{dense embedding}、記号：${d: \P \dense-to \Q}）${\defs}
+          \enumerate{
+            * 単調性：${p \leq_\P q \implies d(p) \leq_\Q d(q)},
+            * ${\incompat}-準同型：${p \incompat_\P q \implies d(p) \incompat_\Q d(q)},
+            * ${d[\P^+]}は${\Q}で稠密。
+          }
+        * 擬順序${\P}の\emph{Boole完備化}（\emph{Boolean completion}）${\B(\P)}とは、稠密埋め込み${d: \P \dense-to \B(\P)}が存在するような完備Boole代数${\B(\P)}のことである。
+      }
+    }
+  >
+  +remark<+p{擬順序には一般に反対称律${p \leq q \leq p \implies p = q}は要求しない。}>
+  +exercise<+p{Boole代数は分離的であることを示せ。}>
+  +exercise?:(`exc:sep-is-po`)<+p{一般の擬順序${\P}において、${\unlhd}は${\leq}を拡張する（つまり${x \leq y \implies x \unlhd y}となるような）${\P}上の擬順序となることを示せ。}>
+  +exercise?:(`lem:sup-completion`)<
+    +p{
+      ${d: \P \dense-to \B(\P)}をBoole完備化、${b \in \B(\P)}とするとき以下を示せ。
+      \eqn-notag(${
+        b = \sum \Set{ d(p) }{ d(p) \leq_{\B(\P)} b }
+      });
+    }
+  >
+  +lemma?*?:({Boole完備化の一意性})<
+    +p{擬順序${\P}がBoole完備化を持つなら、同型を除いて一意。}
+  >
+  +proof<
+    +p{
+      ${i: \P \dense-to \B}および${j: \P \dense-to \C}が共に${\P}のBoole完備化だったとする。このとき、以下のようにして${\P}の元による「下からの近似」を使って${h: \B \to \C}および${k: \C \to \B}を定めることができる：
+    }
+    +eqn-notag(${
+      h(b) \defeq \mathop{\sum}^\C \Set{j(p)}{i(p) \leq_\B b}, \mqquad k(c) \defeq \mathop{\sum}^\B \Set{i(p)}{j(p) \leq_\C c}
+    });
+    +p{このとき${h, k}は明らかに単調。あとは${h, k}が順序同型であること、つまり${h \circ k = \mathrm{id}_{\C}, k \circ h = \mathrm{id}_{\B}}を地道に確かめればよい。対称性より、${k \circ h = \mathrm{id}_\B}を示せばよい。それには次が示せれば十分：}
+    +eqn?:(AZMathEquation.make-tagfmt(fun ctx _ -> read-inline ctx{${(\star)}}))(${i(p) \leq_\B b \iff j(p) \leq_\C h(b)});
+    +p{実際、これを認めれば、
+      \eqn-notag(${
+        k(h(b)) = \sum \Set{i(p)}{j(p) \leq_\C h(b)} = \sum \Set{i(p)}{i(p) \leq_\B b} = b
+      });
+      となり、${k \circ h = \mathrm{id}_\B}を得る。
+    }
+  >
+
+  +exercise<
+    +p{${(\star)}を示し、上の証明を完成させよ。ヒント：${\leq}は\ref(`lem:sup-completion`);から直ちに従う。${\geq}はBoole代数の分離性と、${\P}の像が${\B}で稠密であること、${\incompat}-同型になっていることを使う。}
+  >
+  +lemma?*?:({分離商})<
+    +p{任意の擬順序${\P}に対して、分離的な擬順序${\tilde{\P}}と全射${h: \P \to \tilde{\P}}で次を満たすようなものが存在する：}
+    +enumerate{
+      * ${p \leq q \implies h(p) \leq h(q)},
+      * ${p \incompat_\P q \iff h(p) \incompat_{\tilde{\P}} h(q)}.
+    }
+  
+    +p{また、このような${\tilde{\P}}は同型を除いて一意であり、${\P}の\emph{分離商}（\emph{separative quotient}）と呼ぶ。}
+  >
+  +proof<
+    +p{${p \sim q \defs \forall r \in \P \mhquad \pB{r \compat_\P p \iff r \compat_\P q}}は${\P}上の同値関係を定めるので、${\tilde{\P} = \quot{\P}{\sim}}とすればよい。順序は代表元上で${\unlhd}で定めてやれば、これは${\sim}の定義からwell-definedとなり、しかもこれは分離的である。}
+    +p{一意性：分離性と条件${(2)}および全射性から従う。}
+  >
+  +lemma?*?:({分離的擬順序のBoole完備化})<
+    +p{任意の分離的擬順序${\P}に対し、Boole完備化は一意に存在し、特にその埋め込みは稠密となる。}
+  >
+  +p{証明に必要な定義をしておく：}
+  +defn<
+    +enumerate{
+      * ${\P}上の\emph{順序位相}とは、${p\mathord{\downarrow} \defeq \Set{q \in \P}{q \leq p}}を開基とする${\P}上の位相のことである。
+      * ${U \subseteq \P}が\emph{開集合}（\emph{open}）${\defs} 順序位相について開集合。つまり、${U}は下に閉：${q \leq p \in U \implies q \in U}。
+      * ${U \subseteq \P}が\emph{正則開集合}（\emph{regular open}）${\defs} ${U}は${\unlhd_\P}について下に閉じている${q \unlhd p \in U \implies q \in U}。
+    }
+  >
+  +remark<
+    +p{}
+    +enumerate{
+      * ${q \leq p \implies q \unlhd p}より、${U}が正則開集合なら${U}は開でもある。
+      * ${U}が正則開集合${\iff} ${U}が順序位相について正則開集合。つまり${\p{\bar{U}}^\circ = U}。
+      * ${\P}が分離的${\iff}開基${p \mathord{\downarrow}}は正則開集合。
+    }
+  >
+  +proof(let-math \RO = ${\mathop{\mathrm{RO}}} in '<
+    +p{
+      ${\RO(\P)}を${\P}上の正則開集合全体の集合とする。このとき、位相空間論の一般論より${\RO}は任意共通部分について閉じている。よって、あとは${\RO}にBoole演算が入ることが示されればよい。
+      以下、${U \subseteq \P}に対し、${U* \defeq \p{\bar{U}}^\circ}と略記する。
+      だいたい演算も自明だが、${U + V \defeq \p{U \cup V}*}および${-U \defeq \Set{p \in \P}{ p \mathord{\downarrow} \cap U = \emptyset}}と定めればよい。
+    }
+    +p{
+      ${P}から${\RO(\P)}への埋め込みは、単純に開基${p \mapsto p \mathord{\downarrow}}によって定めればよい。先の注意より、この部分に分離性を使っていることがわかる（まあ、仮定しない場合はあらためて${*}を取ればいいんですが）。
+      像が稠密なのはあたりまえ。単射性と残りの条件も確かめればわかる。
+    }
+  >);
+
+  +p{以上の結果の系として、一般の擬順序のBoole完備化の存在が言える：}
+
+  +theorem<
+    +p{任意の擬順序${\P}に対し、Boole完備化が一意に存在する。}
+  >
+
+  +exercise<+p{${\B(\P)}が（順序）単射であることと、${\P}が分離的であることの同値性を示せ。}>
 >>

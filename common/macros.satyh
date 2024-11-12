@@ -253,6 +253,7 @@ let-block ctx +conjecture = define-theorem `予想` ?:conj-color conjecture-coun
 let-mutable exercise-counter <- 0
 let-block ctx +exercise = define-theorem `演習` ?:exer-color exercise-counter ctx
 let-block ctx +notation = define-theorem-nonumber `記法` ?:defn-color ctx
+let-block ctx +claim = define-theorem-nonumber `主張` ?:prop-color ctx
 
 
 let-block ctx +section = JLReqHeading.block-heading-scheme 
