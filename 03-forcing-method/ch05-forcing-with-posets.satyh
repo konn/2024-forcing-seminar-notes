@@ -5,18 +5,27 @@ let forcing-with-posets = '<
 +section?:(`chap:posets`){擬順序による強制法}<
     +p{
       前節までは、主に完備Boole代数による強制法を考えてきた。実用上はより一般の擬順序による強制法が使われることが多い。本節では、完備Boole代数による強制法理論から擬順序による定式化を導出する。
+      そのため、まずは任意の擬順序はそのBoole完備化と呼ばれる完備Boole代数に一意に埋め込めることを見ていく。
     }
+
+    +p{
+      単純に擬順序${\P}を含むような完備Boole代数が欲しいだけなら、単に${\Pow(\P)}に対して${p \mapsto \Set{q \in \P}{ q \leq p}}という埋め込みを考えればよい、と思うかもしれない。たしかに、この埋め込みは単調な単射になっているが、実はこれだけでは強制法の文脈では不適当である。
+      結論からいうと、強制法は基本的に\emph{稠密埋め込みで不変}な性質を扱うものだと思える\footnote{厳密には、BaumgartnerのAxiom Aなど、稠密埋め込みによって保たれない性質を扱うこともある。}ので、${\P}はその完備化の中で稠密になっていてほしい。
+      また、たとえば${\P}-強制法による拡大では決して両立しなかった命題が、その完備化による強制拡大では両立してしまったりすると、それはもはや同値な強制法であるとはいえないだろう。
+      真理補題\ref(`lem:truth-lemma`);から、命題が両立するか否かは、Boole値モデルを考える場合その命題の真偽値が両立するか（正の交わりを持つか）どうか、と言い換えることができた。この観点でいえば、\emph{完備化の前後で両立関係は不変}であってほしい\footnote{これは、後ほど導入する完備埋め込みの気持ちとざっくりいって同じである。}。こうした要請を念頭におくと、${\Pow(\P)}を与える例は明らかに不適である。
+    }
+    +p{以上を念頭に、Boole完備化と関連する定義について以下で見ていく。}
 
     +notation<
       +p{
         以下、特に断わらない限り、${\mathbb{P}, \mathbb{Q}, \mathbb{R}, \ldots}などの${P}以降の黒板太字は（Boole代数かもしれない）擬順序を、${\mathbb{B}, \mathbb{C}, \mathbb{D}}などはBoole代数を表すものとする。
       }
     >
-
-    +p{無限組合せ論パートで、任意の擬順序${\P}についてその\emph{Boole完備化}${\B(\P)}が同型を除いて一意に存在することは既に見た。関連する定義は本節でも使うので復習しておこう：}
-
     +defn< +p{
       \listing{
+        * ${\P = \p{\P, \leq_\P, \mathbb{1}_\P}}が\emph{擬順序}（\emph{pseudo-order}、略して\emph{poset}）${\defs} ${\leq_\P}は${\P}上の反射的かつ推移的な二項関係であり、${\mathbb{1}_\P}は${\leq_\P}に関する（一意とは限らない）最大元である。
+        * 擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs} ${\forall r \leq p \mhquad \p{r \compat_{\P} q}}ならば${p \leq q}が成り立つ。
+        * 一般の擬順序${\P}について、\emph{このセミナーでは}以後${p \unlhd_\P q \defs \forall r \leq_\P p \mhquad \p{r \compat_\P q}}と書くことにする。つまり、${\P}が分離的${\iff} ${\mathord{\unlhd_\P} = \mathord{\leq_\P}}。
         * ${d: \P \to \Q}が\emph{稠密埋め込み}（\emph{dense embedding}、記号：${d: \P \dense-to \Q}）${\defs}
           \enumerate{
             * 単調性：${p \leq_\P q \implies d(p) \leq_\Q d(q)},
@@ -27,7 +36,102 @@ let forcing-with-posets = '<
       }
     }
   >
-  +lemma<+p{擬順序${\P}のBoole完備化${\B(\P)}は常に存在し、同型を除いて一意である。}>
+  +remark<+p{擬順序には一般に反対称律${p \leq q \leq p \implies p = q}は要求しない。}>
+  +exercise<+p{Boole代数は分離的であることを示せ。}>
+  +exercise?:(`exc:sep-is-po`)<+p{一般の擬順序${\P}において、${\unlhd}は${\leq}を拡張する（つまり${x \leq y \implies x \unlhd y}となるような）${\P}上の擬順序となることを示せ。}>
+  +exercise?:(`lem:sup-completion`)<
+    +p{
+      ${d: \P \dense-to \B(\P)}をBoole完備化、${b \in \B(\P)}とするとき以下を示せ。
+      \eqn-notag(${
+        b = \sum \Set{ d(p) }{ d(p) \leq_{\B(\P)} b }
+      });
+    }
+  >
+  +lemma?*?:({Boole完備化の一意性})<
+    +p{擬順序${\P}がBoole完備化を持つなら、同型を除いて一意。}
+  >
+  +proof<
+    +p{
+      ${i: \P \dense-to \B}および${j: \P \dense-to \C}が共に${\P}のBoole完備化だったとする。このとき、以下のようにして${\P}の元による「下からの近似」を使って${h: \B \to \C}および${k: \C \to \B}を定めることができる：
+    }
+    +eqn-notag(${
+      h(b) \defeq \mathop{\sum}^\C \Set{j(p)}{i(p) \leq_\B b}, \mqquad k(c) \defeq \mathop{\sum}^\B \Set{i(p)}{j(p) \leq_\C c}
+    });
+    +NCSq.cd(
+      open NCSqArrowStyle in
+      open NCSq in [
+      [ empty;empty;object ${\P}]
+    ; [ empty;  arrow?:${\mathrm{d}}?:(${i})?:(hook-r) (ld (1, 1)); empty; arrow?:(${j})?:${\mathrm{d}}?:(hook-l) (rd (1, 1))]
+    ; [object ${\B}; empty; stack vertical [arrow?:${h} right; arrow ?:${k} left]; empty; object ${\C}]
+    ]);
+
+    +p{このとき${h, k}は明らかに単調。あとは${h, k}が順序同型であること、つまり${h \circ k = \mathrm{id}_{\C}, k \circ h = \mathrm{id}_{\B}}を地道に確かめればよい。対称性より、${k \circ h = \mathrm{id}_\B}を示せばよい。それには次が示せれば十分：}
+    +eqn?:(AZMathEquation.make-tagfmt(fun ctx _ -> read-inline ctx{${(\star)}}))(${i(p) \leq_\B b \iff j(p) \leq_\C h(b)});
+    +p{実際、これを認めれば、
+      \eqn-notag(${
+        k(h(b)) = \sum \Set{i(p)}{j(p) \leq_\C h(b)} = \sum \Set{i(p)}{i(p) \leq_\B b} = b
+      });
+      となり、${k \circ h = \mathrm{id}_\B}を得る。
+    }
+  >
+
+  +exercise<
+    +p{${(\star)}を示し、上の証明を完成させよ（\emph{ヒント}：${\leq}は\ref(`lem:sup-completion`);から直ちに従う。${\geq}はBoole代数の分離性と、${\P}の像が${\B}で稠密であること、${\incompat}-同型になっていることを使う）。}
+  >
+  +exercise<
+    +p{上の${i, j, h, k}の図式が可換であること（つまり${k \circ j = i}および${h \circ i = j}）を示せ。}
+  >
+  +lemma?*?:({分離商})<
+    +p{任意の擬順序${\P}に対して、分離的な擬順序${\tilde{\P}}と全射${h: \P \to \tilde{\P}}で次を満たすようなものが存在する：}
+    +enumerate{
+      * ${p \leq q \implies h(p) \leq h(q)},
+      * ${p \incompat_\P q \iff h(p) \incompat_{\tilde{\P}} h(q)}.
+    }
+  
+    +p{また、このような${\tilde{\P}}は同型を除いて一意であり、${\P}の\emph{分離商}（\emph{separative quotient}）と呼ぶ。}
+  >
+  +proof<
+    +p{${p \sim q \defs \forall r \in \P \mhquad \pB{r \compat_\P p \iff r \compat_\P q}}は${\P}上の同値関係を定めるので、${\tilde{\P} = \quot{\P}{\sim}}とすればよい。順序は代表元上で${\unlhd}で定めてやれば、これは${\sim}の定義からwell-definedとなり、しかもこれは分離的である。}
+    +p{一意性：分離性と条件${(2)}および全射性から従う。}
+  >
+  +lemma?*?:({分離的擬順序のBoole完備化})<
+    +p{任意の分離的擬順序${\P}に対し、Boole完備化は一意に存在し、特にその埋め込みは稠密となる。}
+  >
+  +p{証明に必要な定義をしておく：}
+  +defn<
+    +p{\enumerate{
+      * ${\P}上の\emph{順序位相}とは、${p\mathord{\downarrow} \defeq \Set{q \in \P}{q \leq p}}を開基とする${\P}上の位相のことである。
+      * ${U \subseteq \P}が\emph{開集合}（\emph{open}）${\defs} 順序位相について開集合。つまり、${U}は下に閉：${q \leq p \in U \implies q \in U}。
+      * ${U \subseteq \P}が\emph{正則開集合}（\emph{regular open}）${\defs} ${U}は${\unlhd_\P}について下に閉じている${q \unlhd p \in U \implies q \in U}。
+    }}
+  >
+  +remark<
+    +p{}
+    +enumerate{
+      * ${q \leq p \implies q \unlhd p}より、${U}が正則開集合なら${U}は開でもある。
+      * ${U}が正則開集合${\iff} ${U}が順序位相について正則開集合。つまり${\p{\bar{U}}^\circ = U}。
+      * ${\P}が分離的${\iff}開基${p \mathord{\downarrow}}は正則開集合。
+    }
+  >
+  +proof(let-math \RO = ${\mathop{\mathrm{RO}}} in '<
+    +p{
+      ${\RO(\P)}を${\P}上の正則開集合全体の集合とする。このとき、位相空間論の一般論より${\RO}は任意共通部分について閉じている。よって、あとは${\RO}にBoole演算が入ることが示されればよい。
+      以下、${U \subseteq \P}に対し、${U* \defeq \p{\bar{U}}^\circ}と略記する。
+      だいたい演算も自明だが、${U + V \defeq \p{U \cup V}*}および${-U \defeq \Set{p \in \P}{ p \mathord{\downarrow} \cap U = \emptyset}}と定めればよい。
+    }
+    +p{
+      ${P}から${\RO(\P)}への埋め込みは、単純に開基${p \mapsto p \mathord{\downarrow}}によって定めればよい。先の注意より、この部分に分離性を使っていることがわかる（まあ、仮定しない場合はあらためて${*}を取ればいいんですが）。
+      像が稠密なのはあたりまえ。単射性と残りの条件も確かめればわかる。
+    }
+  >);
+
+  +p{以上の結果の系として、一般の擬順序のBoole完備化の存在が言える：}
+
+  +theorem<
+    +p{任意の擬順序${\P}に対し、Boole完備化が一意に存在する。}
+  >
+
+  +exercise<+p{${\B(\P)}が（順序）単射であることと、${\P}が分離的であることの同値性を示せ。}>
 
   +p{
     我々が完備Boole代数によるBoole値モデルを経由する形で強制法を定式化したのは、このBoole完備化が常に一意に存在し\footnote{基礎モデルで弱い集合論の公理系しか成り立たない場合Boole完備化は常に存在するとは限らないが、その場合も強制法関係${\forces}の定義から出発すれば問題ない。}、擬順序の強制法の定義よりも完備Boole代数による強制法の定義の方が直観がわかりやすいからである。

@@ -8,6 +8,7 @@
 @require: bibyfi/bibyfi-IEEETran
 @require: fss/fss
 @require: azmath/azmath
+@require: ncsq/ncsq
 @import: ../presets
 @import: references
 @import: macros
