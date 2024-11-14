@@ -553,7 +553,7 @@ let forcing-with-posets = '<
       }
     >);
 
-    +centering{\fontsize(30pt){\emph{TODO: 以下の結果を自然に繋ぐ}}}
+    +p{擬順序による強制法のごく簡単な応用として、かねて宣言していたMaximal Principleと選択公理の同値性を示してみよう。}
     +lemma?*?:({Maximal Principle, 擬順序版})<
       +p{${\varphi(x)}を${\FL_\P}-論理式、${\P}を擬順序、${p \in \P}とする。このとき、
       \eqn-notag(${p \forces \exists x \varphi(x) \iff \exists \dot{x} \in V^\P\mhquad \pB{p \forces \varphi(\dot{x})}});
