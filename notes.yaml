@@ -4,5 +4,5 @@ notes:
 - name: 強制法セミナー第1回：数理論理学の初歩
   file: "01-basic-mathematical-logic.pdf"
 - name: 強制法セミナー第3回：強制法の理論
-  file: "03-forcing-theory.pdf"
+  file: "03-forcing-method.pdf"
   # draft: true
