@@ -1,5 +1,6 @@
 @require: azmath/azmath
 @require: arrows/commands
+@require: ncsq/arrows
 @import: ../common/macros
 
 let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
@@ -9,7 +10,18 @@ let-math \loli = ${\mathbin{⊸}}
 let-math \mscript x = ${\mrfontsize!(0.8){#x}}
 let-math \rank = ${\mathprefix{\mathrm{rank}}}
 let-math \comp = ${\mathrel{⋖}}
-let-math \dense-to = ${\hookrightarrow_{\mathrm{d}}}
+let dense-arrow = Arrow.of-bth (|
+  body = NCSqArrowBody.solid;
+  head = NCSqArrowHead.vee;
+  tail = NCSqArrowTail.duplicate true 2 0.2 NCSqArrowTail.hook-l;
+|)
+let dense-arrow-flip = Arrow.of-bth (|
+  body = NCSqArrowBody.solid;
+  head = NCSqArrowHead.vee;
+  tail = NCSqArrowTail.duplicate true 2 0.2 NCSqArrowTail.hook-r;
+|)
+let-math \dense-to = 
+  open ArrowCommands in ${\draw!(dense-arrow)}
 let-math \incompat = ${\mathrel{\bot}}
 let-math \comp-to = 
   open ArrowCommands in ${\xrightarrow!(Arrow.solid(|line-width = .05; head-size=0.25|)){\comp}}

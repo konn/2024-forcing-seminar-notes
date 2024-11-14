@@ -30,7 +30,7 @@ let forcing-with-posets = '<
         * ${\P = \p{\P, \leq_\P, \mathbb{1}_\P}}が\emph{擬順序}（\emph{pseudo-order}、略して\emph{poset}）${\defs} ${\leq_\P}は${\P}上の反射的かつ推移的な二項関係であり、${\mathbb{1}_\P}は${\leq_\P}に関する（一意とは限らない）最大元である。
         * 擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs} ${\forall r \leq p \mhquad \p{r \compat_{\P} q}}ならば${p \leq q}が成り立つ。
         * 一般の擬順序${\P}について、\emph{このセミナーでは}以後${p \unlhd_\P q \defs \forall r \leq_\P p \mhquad \p{r \compat_\P q}}と書くことにする。つまり、${\P}が分離的${\iff} ${\mathord{\unlhd_\P} = \mathord{\leq_\P}}。
-        * ${d: \P \to \Q}が\emph{稠密埋め込み}（\emph{dense embedding}、記号：${d: \P \dense-to \Q}）${\defs}
+        * ${d: \P \to \Q}が\emph{稠密埋め込み}（\emph{dense embedding}、ここだけの記号：${d: \P \dense-to \Q}）${\defs}
           \enumerate{
             * 単調性：${p \leq_\P q \implies d(p) \leq_\Q d(q)},
             * ${\incompat}-準同型：${p \incompat_\P q \implies d(p) \incompat_\Q d(q)},
@@ -65,10 +65,9 @@ let forcing-with-posets = '<
       open NCSqArrowStyle in
       open NCSq in [
       [ empty;empty;object ${\P}]
-    ; [ empty;  arrow?:${\mathrm{d}}?:(${i})?:(hook-r) (ld (1, 1)); empty; arrow?:(${j})?:${\mathrm{d}}?:(hook-l) (rd (1, 1))]
+    ; [ empty;  arrow?*?:(${i})?:dense-arrow-flip (ld (1, 1)); empty; arrow?:(${j})?*?:dense-arrow (rd (1, 1))]
     ; [object ${\B}; empty; stack vertical [arrow?:${h} right; arrow ?:${k} left]; empty; object ${\C}]
     ]);
-
     +p{このとき${h, k}は明らかに単調。あとは${h, k}が順序同型であること、つまり${h \circ k = \mathrm{id}_{\C}, k \circ h = \mathrm{id}_{\B}}を地道に確かめればよい。対称性より、${k \circ h = \mathrm{id}_\B}を示せばよい。それには次が示せれば十分：}
     +eqn?:(AZMathEquation.make-tagfmt(fun ctx _ -> read-inline ctx{${(\star)}}))(${i(p) \leq_\B b \iff j(p) \leq_\C h(b)});
     +p{実際、これを認めれば、
