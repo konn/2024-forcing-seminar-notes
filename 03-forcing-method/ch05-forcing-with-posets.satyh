@@ -570,7 +570,7 @@ let forcing-with-posets = '<
     +proof<
       +p{${(1) \implies (2)}は明らか。${(2) \implies (1)}を示せば十分。}
       +p{
-        ${\seq{X_i}{i \in I}}を空でない集合からなる族とする。擬順序${\P}を次で定義する：
+        ${\Seq{X_i}{i \in I}}を空でない集合からなる族とする。擬順序${\P}を次で定義する：
           \gather?:(AZMathEquation.notag)(${|
             \P \defeq \set{ \mathbb{1} } \sqcup I
           | p \leq q \defs p = q \vee q = \mathbb{1}
