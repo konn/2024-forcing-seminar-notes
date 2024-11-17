@@ -1,5 +1,5 @@
 @import: 03-forcing-method/preamble
-@import: 03-forcing-method/ch01-algebraic-properties-of-boolean-algebras
+@import: 03-forcing-method/ch01-basics-of-boolean-algebras
 @import: 03-forcing-method/ch02-boolean-valued-model
 @import: 03-forcing-method/ch03-forcing-theorem
 @import: 03-forcing-method/ch04-generic-filter
