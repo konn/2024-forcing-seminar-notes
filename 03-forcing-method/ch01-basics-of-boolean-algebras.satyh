@@ -249,9 +249,9 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質と擬順序の
     +p{分離的擬順序からは、簡単に完備Boole代数を構成できる。以下の定義を使う：}
     +defn<
       +p{\enumerate{
-        * ${\P}上の\emph{Alexandroff位相}とは、${p\mathord{\downarrow} \defeq \Set{q \in \P}{q \leq p}}を開基とする${\P}上の位相のことである。
-        * ${U \subseteq \P}が\emph{開集合}（\emph{open}）${\defs} Alexandroff位相について開集合。
-        * ${U \subseteq \P}が\emph{正則開集合}（\emph{regular open}）${\defs} ${U}がAlexandroff位相について正則開集合。すなわち、閉包の内部は元の集合に一致する：${\mathop{\mathrm{int}}\p{\mathop{\mathrm{cl}}(U)} = U}.
+        * ${\P}上の\emph{Alexandrov位相}とは、${p\mathord{\downarrow} \defeq \Set{q \in \P}{q \leq p}}を開基とする${\P}上の位相のことである。
+        * ${U \subseteq \P}が\emph{開集合}（\emph{open}）${\defs} Alexandrov位相について開集合。
+        * ${U \subseteq \P}が\emph{正則開集合}（\emph{regular open}）${\defs} ${U}がAlexandrov位相について正則開集合。すなわち、閉包の内部は元の集合に一致する：${\mathop{\mathrm{int}}\p{\mathop{\mathrm{cl}}(U)} = U}.
       }}
     >
     +remark<
