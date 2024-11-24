@@ -15,7 +15,7 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質と擬順序の
   
         \enumerate{
           * ${\leq}は${B}上の半順序である。
-          * ${\mathbb{0}, \mathbb{1}}はそれぞれ${\leq}に関する最小・最大元である。
+          * ${\mathbb{0}, \mathbb{1}}はそれぞれ${\leq}に関する最小・最大元であり、${\mathbb{0} \neq \mathbb{1}}。
           * 任意の二元${p, q \in \mathbb{B}}に対して、${p + q, p \cdot q}はそれぞれ二元の上限・下限を与える。
             ** つまり${p, q \leq p \cdot q}かつ${\forall r \mhquad \pB{p, q \leq r \implies p \cdot q \leq r}}が成り立つ。${+}についてはこの双対を取った性質が成り立つ。
           * ${p \in \mathbb{B}}に対し、${p}の\emph{補元}（\emph{complement}）${-p}は、${p + (-p) = \mathbb{1}}および${p \cdot (-p) = \mathbb{0}}を満たす。
