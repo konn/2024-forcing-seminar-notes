@@ -311,7 +311,7 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
   +defn<
     +p{クラス${M}が\emph{推移的}（\emph{transitive}）であるとは、${x \in y \in M \implies x \in M}を満たすことである。${M}が特に集合論のモデルであるとき、そのような${M}を\emph{推移的モデル}（\emph{transitive model}）と呼ぶ。}
   >
-  +theorem<
+  +theorem?:(`thm:Delta-0-abs`)<
     +p{${M \subseteq N}を集合論の推移的モデルとする。このとき、任意の${\Delta_0}-概念は${M, N}の間で絶対的である。}
   >
   +proof<
