@@ -1,6 +1,7 @@
 @import: preamble
 @import: ../common/enum-utils
 
+let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
 let forcing-over-transitive-models = '<
 +section{集合論のモデルの生成拡大と強制法拡大}<
   +p{さて、前節まででBoole値モデルの場合は真偽値、擬順序の場合は強制関係を使ってその中で考えることで、仮想的に${V}の生成拡大${V[G]}を考える方法を確立した。特に、ある命題${\varphi}の${\ZFC}に対する無矛盾性を示すことは、完備Boole代数${\B}で${\pSQ{\varphi}_\B > \mathbb{0}}となるものを見付けてやることに帰着された。擬順序の場合であれば、これは${p \in \P^+}であって${p \forces \varphi}となるものを見付けてやることと同じであった。
@@ -90,10 +91,63 @@ let forcing-over-transitive-models = '<
   >
 
   +subsection{Hamkins–Seaboldの強制法の自然主義的正当化}<
-  >
+    +p{
+      ${V}で選択公理が成立している場合は、Hamkins–Seabold \cite[`Hamkins:2012`];による\emph{強制法の自然主義的正当化}と呼ばれる方法を用いて、ある意味で${V}自身の強制拡大${V[G]}に「同値」なクラスモデルを具体的に構成することができる。これは、大雑把にいって${V^\B}を${\B}の超フィルター${U}で割ることによって得られる。鍵となるのは次のBoole超冪版Łośの定理である：
+    }
+    +defn<
+      +p{
+        ${\B}を完備Boole代数、${U \subseteq \B}を超フィルター、${\dot{x}, \dot{y} \in V^\B}とし、${\quot{V^\B}{U}}を次のように定義する：
+      }
+      +gather?:(AZMathEquation.notag)(${
+      | \dot{x} \sim_U \dot{y} \iff \pSQ{\dot{x} = \dot{y}} \in U, \mqquad \dot{x} \in_U \dot{y} \iff \pSQ{\dot{x} \in \dot{y}} \in U,
+      | [\dot{x}]_U \defeq \Set{ \dot{y} \in V^\B }{ \text!{${\dot{x} \sim_U \dot{y} }となる${\dot{y}}の中でrank最小のもの} },
+      | \check{V}_U \defeq \Set{ [\dot{x}]_U }{ \pSQ{\dot{x} \in \check{V}} \in U },
+      | \quot{V^\B}{U} \defeq \Set{ [\dot{x}]_U }{ \dot{x} \in V^\B }.
+      | j_U(x) \defeq [\check{x}]_U.
+      |});
+      +p{${V^\B}で等号公理が成り立つことから、${\in_U}および${\check{V}_U}は${\quot{V^\B}{U}}上でwell-definedであることに注意する。以下、${\quot{V^\B}{U}}をクラス構造${\pangle{\quot{V^\B}{U}, \in_U, \check{V}_U}}と同一視する。}
+      +p{${j_U: V \prec \check{V}_U \subseteq \quot{V^\B}{U}}を${U}による${V}の\emph{Boole超冪}と呼ぶ。}
+    >
+    +lemma?:(`lem:los-for-cba`)<
+      +p{${\B}を完備Boole代数、${U \subseteq \B}を超フィルター、${\varphi(\bar{x})}を${\FL_\B}-論理式とするとき、次は同値：}
+      +enumerate{
+        * ${\quot{V^\B}{U} \models \varphi([\tau_0]_U, \ldots, [\tau_{n-1}]_U)},
+        * ${\pSQ{\varphi(\tau_0, \ldots, \tau_{n-1})} \in U}。
+      }
+    >
+    +exercise<+p{示せ。クラスサイズ対集合サイズの差はあるが、本質的には無限組合せ論パートの完全性定理の証明で示している。${\exists x \varphi(x)}の処理にはMaximal Principleを使う。}>
+    +lemma<
+      +p{${\mathcal{L}_{\ZF}}-論理式${\varphi(\bar{x})}および${[\tau_i] \in \check{V}_U}に対し次は同値：}
+      +enumerate{
+        * ${(\check{V}_U, \in_U) \models \varphi([\tau_0]_U, \ldots, [\tau_{n-1}]_U)},
+        * ${\pSQ{\varphi^{\check{\mrfontsize!(0.6){V}}}(\tau_0, \ldots, \tau_{n-1})} \in U}.
+      }
+    >
+    +exercise<+p{こちらも示せ。}>
+    +cor<
+      +p{以下が成立：}
+      +enumerate{
+        * ${\quot{V^\B}{U} \models \ZFC}.
+        * ${j_U: (V, \in) \prec (\check{V}_{U}, \in_U)}。
+        * ${\quot{V^\B}{U} \models \quoted{\text!{${\check{V}_U}は推移的クラスで俺は${\check{V}_U[\dot{G}]}}}}.
+        * ${\check{V}_U}は${\quot{V^\B}{U}}の内部モデルである。
+      }
+    >
+    +theorem<
+      +p{次は同値：}
+      +enumerate{
+        * ${j_U}が同型
+        * ${U}が${(V, \B)}-生成フィルター。
+      }
+    >
 
-  +subsection{強制法の実際}<
-    +p{\emph{TODO}: 強制法関係、c.t.m.、自然主義的強制法のどれをつかっても、あたかも${V}の外に出て${V[G]}を扱っているかのように振る舞ってもいいよ、ということを書く。論文によって強制関係を地道に計算する方法と${V}上の強制法を使うのと使い分けがあるよ。c.t.m.は無矛盾性証明のときに使うというよりも、無限組合せ論的な議論を行うときに使うことが多いよ。と書く}
+    +theorem<
+      +p{
+        任意の完備Boole代数${\B}に対し、${V}でパラメータを使って定義可能な初等埋め込み${j: (V, \in) \to (\bar{V}, \bar{\in})}と${(\bar{V}, j(\B))}-生成フィルター${G}が存在し、${V \prec \bar{V} \subseteq \bar{V}[G]}となる。
+      }
+    >
+
+    % TODO: ちゃんと非∈-モデルの生成拡大について話をする
   >
 >
 >
