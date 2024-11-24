@@ -81,7 +81,7 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
     このように${V^{\mathbb{B}}}に「真偽値」によるそれらしい意味論を与えたが、前回までに導入した証明体系が健全であることを見ておこう。
     我々は公式の証明体系としてシーケント計算を導入したが、直観としては、${\psi \vdash \psi}がLKで証明可能なら、${\pSQ{\varphi} \leq \pSQ{\psi}}が成り立つということを示したい。
   }
-  +lemma<
+  +lemma?:(`lem:boole-value-deduction`)<
     +p{
       ${\Gamma, \Delta}を自由変数が${x_0, \ldots, x_{n-1}}しか含まない${\FL}-論理式の有限集合とする。このとき、${\Gamma \vdash \Delta}がLKで証明可能なら、任意の${\sigma_0, \ldots, \sigma_{n-1} \in V^{\mathbb{B}}}について${\prod_{\phi(\bar{\mscript{x}}) \in \Gamma}\pSQ{\varphi(\bar{\sigma})}_{\mathbb{B}} \leq \sum_{\psi(\bar{\mscript{x}}) \in \Delta} \pSQ{\psi(\bar{\sigma})}_{\mathbb{B}}}が成り立つ。
     }

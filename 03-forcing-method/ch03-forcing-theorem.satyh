@@ -181,7 +181,7 @@ let forcing-theorem = '<  +section{強制法定理：${V^{\mathbb{B}}}が${\ZFC}
     }
   >
   +p{これまでの結果をまとめた次の定理が概ね「強制法定理」と呼ばれるものである。}
-  +theorem?*?:({強制法定理})<
+  +theorem?:(`thm:cba-forcing-thm`)?:({強制法定理})<
     +p{${\mathbb{B} \in V}を${V}における完備Boole代数とする。このとき次が成り立つ：}
     +enumerate{
       * ${V  \models \ZF}ならば${V^\mathbb{B} \models \ZF}。
@@ -193,6 +193,14 @@ let forcing-theorem = '<  +section{強制法定理：${V^{\mathbb{B}}}が${\ZFC}
         });
     }
   >
+  +p{
+    強制法定理により、${\ZFC + \varphi}の無矛盾性を示すには、完備Boole代数${\B}で${\pSQ{\varphi}_\B > \mathbb{0}}を満たすものを探せばよい、ということがわかる。相対無矛盾性の定義（の気持ち）は、「${\ZFC + \varphi}から矛盾の証明が得られた時、${\ZFC}から矛盾の証明に書き換える具体的な手続きが存在する」ことであった。
+    いま、${\pSQ{\varphi}_\B > \mathbb{0}}であり、なおかつ${\ZFC + \varphi}から矛盾に至る証明が存在したとする。特に、${\ZFC}の有限部分${\Gamma \Subset \ZFC}があって、${\Gamma, \varphi \proves \bot}となっているとする。\ref(`thm:cba-forcing-thm`);より${\prod\pSQ{\Gamma} = \mathbb{1}}であることに注意すれば、真偽値の健全性\ref(`lem:boole-value-deduction`);より、
+    \eqn-notag(${
+      \mathbb{0} < \pSQ{\varphi} = \pSQ{\Gamma} \cdot \pSQ{\varphi} \leq \pSQ{\bot} = \mathbb{0}
+    });
+    よって${\mathbb{0} \neq \mathbb{0}}となり矛盾を得る。ここで、個別の推件式に対する健全性定理の証明は具体的に書き下すことができるので、これによって相対無矛盾性が示されたことになる。
+  }
   +p{ところで、${\exists}の${V^{\mathbb{B}}}での解釈は上限で定義されていた。特に、${V^{\mathbb{B}} \models \exists x \varphi(x)}であった場合、${\pSQ{\varphi(\dot{x})} > \mathbb{0}}を満たすような${\dot{x}}は定義より直ちに取れる。つまり、「成り立ち得る」${\dot{x}}見付けることは容易い。一方で二値的（Tarski）モデルの場合のように、${V^{\mathbb{B}} \models \varphi(\dot{x})}が成り立つようなただ一つの${\dot{x}}が取れるかは直ちには明らかではない。実は、選択公理の下でこれは常に成り立つ：}
   +theorem?*?:({Maximal Principle})<
     +p{
