@@ -191,8 +191,6 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質と擬順序の
         \listing{
           * \emph{このセミナーでは}以後${p \unlhd_\P q \defs \forall r \leq_\P p \mhquad \p{r \compat_\P q}}と書き、これを「${p}は${q}を弱く拡張する（${p} \emph{weakly extends} ${q}）」と読むことにする。${p \leq q}ならば${p \unlhd q}であるが、逆は一般には成り立たない。
           * 擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs} ${\forall p, q \in \P \mhquad \pB{p \leq q \iff p \unlhd q}}。
-            % TODO: separative の気持ちを書く
-            % TODO: separative の定義はもうちょっと後にする
         }
       }
     >
