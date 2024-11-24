@@ -102,27 +102,8 @@ let forcing-with-posets = '<
   +p{上の系から、特に${d_\ast(\dot{G})}と${\dot{G}}は${\P}に関する限りは同一視して構わないことがわかった。}
 
   +p{また、以下の議論では擬順序${\P}とそのBoole完備化${d: \P \dense-to \B(\P)}の間を頻繁に往き来して議論する。この際に、行き先で${d(p) \leq_{\B(\P)} d(q)}が成り立つことと、もとの擬順序での${p \leq_\P q}が成り立つことの関係をしっかり意識する必要がある。}
-  +p{一般の擬順序のBoole完備化を考える際には、分離商（separative quotient）というものを経由するのであった：}
 
-  +defn<
-    +p{
-      \enumerate{
-        * 擬順序${\P}が\emph{分離的}（\emph{separative}）${\defs \forall p, q \in \P \mhquad \pB{p \leq q \iff \forall r \leq p \mhquad \p{r \compat q}}}。
-        * 一般の擬順序について、\emph{このセミナーでは}以後${p \unlhd_\P q \defs \forall r \leq_\P p \mhquad \p{r \compat_\P q}}と書くことにする。
-      }
-    }
-  >
-  
-  +lemma<
-    +p{任意の擬順序${\P}について、次を満たす分離的擬順序${\Q}と全射${e: \P \to \Q}が同型を除いて一意に存在する：}
-    +enumerate{
-      * ${p \leq_\P q \implies e(p) \leq_\Q e(q)}
-      * ${p \incompat_\P q \iff e(p) \incompat_\Q e(q)}
-    }
-    +pn{このような擬順序${\Q}を${\P}の分離商（\emph{separative quotient}）と呼ぶ。}
-  >
-
-  +p{ここで${\unlhd}を導入したのは次の補題が欲しいからである：}
+  +p{Boole完備化を扱った際に、${\leq}を拡張する擬順序${\unlhd}を導入し、${\leq}と${\unlhd}が一致する\emph{分離的}と呼ばれる擬順序のクラスを導入した。この時分離性はいささかテクニカルな定義に見えたかもしれないが、強制法の文脈では非常に自然な要請であることを以下見ていく。まず補題が成り立つ：}
 
   +lemma?:(`com:creates-sep-ord`)<
     +p{擬順序${\P, \Q}と単調写像${e: \P \to \Q}が${p \incompat_\P q \implies e(p) \incompat_\Q e(q)}を満たすとき：}
@@ -136,7 +117,7 @@ let forcing-with-posets = '<
   +cor?:(`cor:dense-sep-ord`)<+p{稠密埋め込み${d: \P \dense-to \Q}について、${p \unlhd_\P q \iff d(p) \unlhd_\Q d(q)}。また、${\Q}が分離的なら${p \unlhd_\P q \iff d(p) \leq d(q)}。}>
 
   +p{
-    分離性の概念はいかにも技術的に見えるかもしれない。しかし、実は${\unlhd}は強制関係を使うと非常に自然な概念であることがわかる：
+    分離性の「嬉しさ」を述べているのが、次の補題である：
   }
 
   +lemma?:(`lem:sep-order-char`)<
@@ -188,6 +169,7 @@ let forcing-with-posets = '<
     }
   >
   +exercise<+p{上の三つの補題を示せ。}>
+  +p{以上が教えてくれるのは、強制関係を考える限りにおいて、${\unlhd}と${\leq}には本質的な差がないということである。これを踏まえれば、分離性の「${\leq}と${\unlhd}が一致する」という要請は、強制法の文脈では非常に自然な定義であることがわかるだろう。}
 
   +p{以上の準備の下で、論理式を帰納的にバラしていくと、${\forces}は次の特徴付けを満たすことがわかる：}
 
