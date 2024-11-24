@@ -2,6 +2,9 @@
 @require: figbox/figbox
 @require: gr
 
+let-math \RO = ${\mathop{\mathrm{RO}}}
+let-math \int = ${\mathop{\mathrm{int}}}
+let-math \cl = ${\mathop{\mathrm{cl}}}
 let basic-boolean-algebra = '<+section{Boole代数の基本性質と擬順序のBoole完備化}<
   +p{強制法の定式化には幾つかの（同値な）流儀があるが、本セミナーでは\emph{完備Boole代数}によるBoole値モデルの理論を構築し、そこから一般の擬順序による強制法の理論を導出する順番をとる。そこで本節では、その前提となる完備Boole代数の基本性質と、一般の擬順序のBoole完備化についてまずは扱うことにする。}
   +subsection{Boole代数の基本性質}<
@@ -246,7 +249,38 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質と擬順序の
       +p{${p \sim q \defs \forall r \in \P \mhquad \pB{r \compat_\P p \iff r \compat_\P q}}は${\P}上の同値関係を定めるので、${\tilde{\P} = \quot{\P}{\sim}}とすればよい。順序は代表元上で${\unlhd}で定めてやれば、これは${\sim}の定義からwell-definedとなり、しかもこれは分離的である。}
       +p{一意性：分離性と条件${(2)}および全射性から従う。}
     >
-    +p{分離的擬順序からは、簡単に完備Boole代数を構成できる。以下の定義を使う：}
+    +p{分離的擬順序からは、簡単に完備Boole代数を構成できる。最初の例では${\Pow(\P)}に埋め込もうとして失敗したが、どのような完備Boole代数に埋め込むべきだろうか？それは、\emph{正則開集合代数}${\mathop{\mathrm{\RO}}(X)}である：}
+    +defn?*?:({正則開集合})<
+      +p{${X = (X, \mathcal{O}_X)}を位相空間とする。${U \subseteq X}が\emph{正則開集合}（\emph{regular open}）である${\defs \int\cl(U) = U}ただし、${\int}, ${\cl}はそれぞれ内部・閉包演算子である。${X}の正則開集合全体を${\RO(X)}と書く。}
+    >
+    +p{${\RO(X)}は常に完備Boole代数となる。この証明には、次の補題を使う：}
+    +lemma?:(`lem:cba-sup-inf-suffice`)<
+      +p{Boole代数${\mathbb{B}}が任意の集合${A}に対し、次は同値：}
+      +enumerate{
+        * ${\B}は完備Boole代数
+        * 任意の集合${A \subseteq \B}が上限${\sum A}を持つ。
+        * 任意の集合${A \subseteq \B}が下限${\prod A}を持つ。
+      }
+      +p{また、いずれの場合も${\sum A = - \prod(-A), \mquad \prod A = -\sum(-A)}が成り立つ。}
+    >
+    +exercise<+p{上を示せ。}>
+    +lemma?:(`lem:ro-is-cba`)<
+      +p{
+        任意の位相空間${X}に対して、以下の演算により${\RO(X)}には完備Boole代数の構造が入る：
+        \gather?:(AZMathEquation.notag)(${
+          |  \mathbb{0} \defeq \emptyset, \mquad \mathbb{1} \defeq X
+          | U \cdot V \defeq U \cap V, \mquad U + V \defeq \int\cl(U \cup V), \mquad -U \defeq \int(X \setminus U),
+          |
+        });
+        また、以下により${A \subseteq \RO(X)}に対する下限が定まる：
+        \eqn-notag(${
+          \prod \mathcal{A} \defeq \int\cl\p{\bigcap_{U \in A} U}.
+        });
+        よって\ref(`lem:cba-sup-inf-suffice`);から、${\RO(X)}は完備Boole代数である。
+      }
+    >
+    +exercise<+p{上を示せ。}>
+    +p{以上から、${\P}に適切な位相を入れ${\RO(\P)}に埋め込めれば良い。我々が考えるのはAlexandrov位相である：}
     +defn<
       +p{\enumerate{
         * ${\P}上の\emph{Alexandrov位相}とは、${p\mathord{\downarrow} \defeq \Set{q \in \P}{q \leq p}}を開基とする${\P}上の位相のことである。
@@ -266,11 +300,10 @@ let basic-boolean-algebra = '<+section{Boole代数の基本性質と擬順序の
     >
     +proof(let-math \RO = ${\mathop{\mathrm{RO}}} in '<
       +p{
-        ${\RO(\P)}を${\P}上の正則開集合全体の集合とする。このとき、位相空間論の一般論より${\RO}は任意共通部分について閉じている。よって、あとは${\RO}にBoole演算が入ることが示されればよい。
-        だいたい演算も自明だが、${U + V \defeq \mathop{\mathrm{int}}\p{\mathop{\mathrm{cl}}\p{U \cup V}}}および${-U \defeq \mathop{\mathrm{int}}\p{\P \setminus U}}と定めればよい。
+        以下、${\P}をAlexandrov位相により位相空間と見做す。このとき、\ref(`lem:ro-is-cba`);より${\RO(\P)}は完備Boole代数である。あとは、${\P}が${\RO(\P)}に稠密に埋め込めることが言えればよい。
       }
       +p{
-        ${\P}が分離的で特に開基${p \mathord{\downarrow}}が正則開であることから、${P}から${\RO(\P)}への埋め込みは、単純に${p \mapsto p \mathord{\downarrow}}によって定めればよい。
+        いま、${\P}が分離的で、特に開基${p \mathord{\downarrow}}が正則開であることから、${P}から${\RO(\P)}への埋め込みは、単純に${p \mapsto p \mathord{\downarrow}}によって定めればよい。
         単射性についても分離性から従う。一意性はBoole完備化の一意性より直ちに従う。
       }
     >);
