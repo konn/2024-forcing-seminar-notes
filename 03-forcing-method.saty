@@ -9,7 +9,7 @@
 document (|
   title = {\no-break{強制法セミナー第3回：強制法の基礎理論}};
   author = {Hiromi ISHII (\@mr_konn)};
-  date = {2024-XX-XX};
+  date = {2024-01-19};
 |)('<
   #basic-boolean-algebra;
   #boolean-valued-model;
