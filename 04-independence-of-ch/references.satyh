@@ -1,0 +1,28 @@
+@import: ../common/references
+
+let bibs = List.append bibs [
+  (`Kunen:2011`,
+    Book 
+    (|default-book with 
+      title = `Set Theory`
+    ; author = [`Kenneth Kunen`]
+    ; note = Some `ISBN: 978-1-84890-050-9`
+    ; series = Some `Mathematical Logic and Foundations`
+    ; publisher = `College Publications`
+    ; volume = Some `34`
+    ; year = `2011`
+    |)
+  )
+  ;(`Jech:2002`,
+    Book
+    (|default-book with
+      title = `Set Theory: The Third Millennium Edition, Revised and Expanded`
+    ; author = [`Thomas Jech`]
+    ; note = Some `ISBN: 978-3-540-44761-0`
+    ; edition = Some `3rd`
+    ; year = `2012`
+    ; publisher = `Springer Berlin, Heidelberg`
+    ; series = Some `Springer monographs in mathematics`
+    |)
+  )
+]

@@ -6,3 +6,6 @@ notes:
 - name: 強制法セミナー第3回：強制法の理論
   file: "03-forcing-method.pdf"
   # draft: true
+- name: 強制法セミナー第4回：連続体仮説の独立性
+  file: "04-independence-of-ch.pdf"
+  draft: true

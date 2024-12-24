@@ -1,0 +1,36 @@
+@require: azmath/azmath
+@require: arrows/commands
+@require: ncsq/arrows
+@import: ../common/macros
+
+let-math \FL = ${\mathcal{F\mrquad!(-0.3)L}}
+let-math \varpi = ${𝜛}
+let-math \vartheta = ${𝜗}
+let-math \loli = ${\mathbin{⊸}}
+let-math \mscript x = ${\mrfontsize!(0.8){#x}}
+let-math \rank = ${\mathprefix{\mathrm{rank}}}
+let-math \comp = ${\mathrel{⋖}}
+let-math \null = ${\mathord{𝗇𝗎𝗅𝗅}}
+let-math \symdiff = ${\mathbin{△}}
+let-math \meager = ${\mathord{𝗆𝖾𝖺𝗀𝖾𝗋}}
+let dense-arrow = Arrow.of-bth (|
+  body = NCSqArrowBody.solid;
+  head = NCSqArrowHead.vee;
+  tail = NCSqArrowTail.duplicate true 2 0.2 NCSqArrowTail.hook-l;
+|)
+let dense-arrow-flip = Arrow.of-bth (|
+  body = NCSqArrowBody.solid;
+  head = NCSqArrowHead.vee;
+  tail = NCSqArrowTail.duplicate true 2 0.2 NCSqArrowTail.hook-r;
+|)
+let-math \dense-to = 
+  open ArrowCommands in ${\draw!(dense-arrow)}
+let-math \incompat = ${\mathrel{\bot}}
+let-math \comp-to = 
+  open ArrowCommands in ${\xrightarrow!(Arrow.solid(|line-width = .05; head-size=0.25|)){\comp}}
+let-math \B = ${\mathbb{B}}
+let-math \C = ${\mathbb{C}}
+let-math \P = ${\mathbb{P}}
+let-math \Q = ${\mathbb{Q}}
+let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
+let-math \surj-to = ${\twoheadrightarrow}

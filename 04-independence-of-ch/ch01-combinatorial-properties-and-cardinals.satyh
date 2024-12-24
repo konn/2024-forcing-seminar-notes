@@ -1,0 +1,175 @@
+@import: preamble
+@require: figbox/figbox
+@require: gr
+
+let combinatorial-properties-and-cardinals = '<
+  +section{擬順序の組合せ論的性質と基数の保存}<
+    +p{前回までに見たように、基数の概念は必ずしも強制法により保たれるとは限らない。一方、${\CH}は基数に関する言明であるので、強制法によりどの範囲の基数が保たれるのか分析しなければならない。そこで本節では、基数の保存を導くような強制法擬順序の組合せ論的性質について議論しておく。そうした代表的な性質が、${\kappa}-鎖条件と${\kappa}-閉性である：}
+    +defn<
+      +p{
+        ${\kappa}を基数とする。
+        \listing{
+          * 擬順序${\mathbb{P}}が\emph{${\kappa}-鎖条件}（${\kappa}-chain condition、${\kappa}-c.c.）を持つ${\defs} ${\P}の任意の反鎖の濃度が${\kappa}未満。
+          * 擬順序${\P}が\emph{${\kappa}-閉}（${\kappa}-closed）${\defs} ${\P}は任意の長さ${\kappa}未満の下降列の下界を持つ。すなわち：
+            \eqn-notag(${
+              \forall \alpha < \kappa \mhquad
+              \forall \Seq{p_\xi \in \P}{\xi < \alpha} \mhquad
+              \pB{
+                \forall \xi < \zeta < \alpha \mhquad
+                  \p{ p_\xi \leq p_\zeta }
+                  \implies
+                  \exists q \in \P \mhquad \forall \xi < \alpha \mhquad q \leq p_\xi
+              }.
+            });
+          * 擬順序${\P}が基数${\kappa}を保つ${\defs} ${\forces_\P \quoted{\kappa: \text!{基数}}}。
+        }
+      }
+    >
+    +exercise<+p{擬順序${\P}ごとに、${\P}が${\kappa}-鎖条件を満たす最小の${\kappa}は、常に正則基数となることを示せ。}>
+    +p{閉性・鎖条件と基数の保存の関係を述べたのが、次の二つの補題である：}
+    +lemma?:(`lem:cc-card-pres`)<
+      +p{${\kappa}が正則基数で${\P}が${\kappa}-\emph{鎖条件}を持つならば、${\P}は${\kappa}\emph{以上}の全ての基数を保つ。即ち、任意の基数${\lambda \geq \kappa}について${\forces_\P \quoted{\lambda: \text!{基数}}}。}
+    >
+    +lemma?:(`lem:closure-card-pres`)<
+      +p{${\kappa}が正則基数で${\P}が${\kappa}-\emph{閉}なら、${\P}は${\kappa}\emph{以下}の全ての基数を保つ。即ち、任意の基数${\lambda \leq \kappa}について${\forces_\P \quoted{\lambda: \text!{基数}}}。}
+    >
+    +p{以下、本節ではこの二つの補題の証明を与えてゆく。以下の証明に限らずよく使うのが次の補題である：}
+    +lemma?:(`lem:decides`)<
+      +p{${\P}を擬順序、${a \in A \in V}とし、${B}を${B \cap V = B \cap V[G]}となるクラスとする。${p \in \P}および${\dot{f}}が${p \forces \dot{f}: \check{A} \to B}を満たすなら、${z \in B}と${q \leq p}で${q \forces \dot{f}(\check{a}) = \check{z}}を満たすものが存在し、とくにこのような${z}は${q}に対し一意である。}
+    >
+    +remark<+p{このような${q}を「${\dot{f}(a)}の値を決定するような${q}」と呼ぶ。}>
+    +proof<
+      +p{
+        仮定より${p \forces \dot{f}(a) \in B}なので、強制法の章の系5.13 (3)より次の集合${D}が${p}以下で稠密となる：
+        \eqn-notag(${
+          D = \Set{ q \in \P}{\exists z \mhquad q \forces \dot{f}(\check{a}) = \check{z}}: \text!{${p}以下で稠密}
+        });
+        特に${q \leq p}で${q \in D}となるものが取れる。よって${D}の定義より、${z \in B}が存在して${q \forces \dot{f}(\check{a}) = \check{z}}となる。${z}の${q}に対する一意性は、${\Delta_0}-論理式の絶対性から明らか。
+      }
+    >
+    +p{では、鎖条件の特徴付けを述べ、\ref(`lem:cc-card-pres`);が成り立つことを確認しよう。}
+    +notation<
+      +p{以下、${(V, \P)}-生成フィルター${G}が固定されていると思って議論をする。}
+    >
+    +p{実は、正則基数${\kappa}について、${\kappa}以上の基数の保存は、特に正則基数が${V[G]}でも（正則とは限らない）基数になっていることが言えれば十分である：}
+    +lemma?:(`lem:upward-card-pres-regular-suffices`)<
+      +p{順序数${\P}、正則基数${\kappa}について次は同値：}
+      +enumerate{
+        * ${\P}は${\kappa}以上の基数を保つ。
+        * ${\P}は${\kappa}以上の正則基数を基数として保つ。すなわち、${\forall \lambda \geq \kappa: \text!{正則}\mhquad \forces_\P \quoted{\lambda: \text!{基数}}}。
+      }
+    >
+    +proof<
+      +p{任意の特異基数は正則基数の極限として表すことができ、基数の極限は常に基数であり、極限は強制拡大で不変であることから。}
+    >
+    +exercise<+p{上をちゃんと示せ。}>
+    +defn<
+      +p{擬順序${\P}が\emph{${\kappa}-大域被覆性質}（\emph{${\kappa}-global covering property}）を持つ${\defs} ${V[G]}の任意の順序数の（集合サイズの）無限列${f \in V[G]}に対して、その値域の候補を高々${\kappa}未満の集合で捕まえる${F \in V}が存在する。つまり：
+      }
+      +eqn-notag(${
+        \forall \alpha\mhquad
+        \forall f: \seq{\alpha}{\On} \cap V[G] \mhquad
+        \exists F: \alpha \to [\On]^{<\kappa} \mhquad
+        \pB{ F \in V \land
+          \forall \xi < \alpha \mhquad f(\alpha) \in F(\alpha)}.
+      });
+    >
+    +remark<
+      +p{おもむろに${V[G]}への言及がでてきているが、これは幾つかの方法で正当化できることは既に振れた。具体的にこういうことをするのは初めてなので、たとえば強制関係を使って${V}の中だけでちゃんと定義できることを見ておこう。}
+      +p{結論から言えば、${\P}が${\kappa}-大域被覆性質を持つことは、次の論理式により${V}の中だけで書き下せる：}
+      +eqn-notag(${
+        \forall \alpha \mhquad
+        \forall \dot{f} \in V^{\P}\mhquad
+        \exists F: \alpha \to [\On]^{<\kappa} \mhquad
+        \pB{
+          \mathord{}\forces_\P \quoted{\dot{f}: \check{\alpha} \to \On}
+          \implies
+          \mathord{}\forces_\P \quoted{\forall \xi < \alpha \mhquad \dot{f}(\xi) \in \check{F}(\xi)}
+        }.
+      });
+    >
+    +lemma?:(`lem:cc-gcp-char`)?:({${\kappa}-鎖条件の特徴付け})<
+      +p{擬順序${\P}について、次は同値：}
+      +enumerate{
+        * ${\P}が${\kappa}-鎖条件を持つ。
+        * ${\P}が${\kappa}-大域被覆性質を持つ。
+      }
+    >
+    +proof<
+      +p{
+        ${(1) \implies (2)}：${\P}が${\kappa}-鎖条件を持つとし、順序数${\alpha}を固定して${\dot{f} \in V^\P}を${\forces_\P \quoted{\dot{f}: \check{\alpha} \to \On}}を満たす${\P}-名称とする。目標は、${F: \alpha \to [\On]^{<\kappa}}であって各${\xi < \alpha}ごとに、${\Set{p \in \P}{p \forces \dot{f}(\xi) \in \check{F}(\xi)}}が${\P}で稠密となるようなものを見付けることである。まず、${D_\xi\mhquad(\xi < \alpha)}を次のように定める：
+        \eqn-notag(${
+          D_\xi = \Set{p \in \P}{ \exists \beta \mhquad p \forces \dot{f}(\check{\xi}) = \check{\beta} }.
+        });
+        すると、\ref(`lem:decides`);より各${D_\xi}は${\P}で稠密である。また、強制関係は下に遺伝するので、${D_\xi}は特に開集合でもある。
+        そこで、各${\xi}について${D_\xi}に含まれる中で極大な反鎖${𝒜_\xi}をとっておく。すると、${\P}の${\kappa}-鎖条件から、${\pabs{𝒜_\xi} < \kappa}となる。ここで、各${p \in D_\xi}に対し、${p \forces \dot{f}(\xi) = \beta}となる${\beta}は一意に定まるので、それを${\beta_p}とおき、${F(\xi) \defeq \Set{\beta_p}{p \in 𝒜_\xi}}により${F: \alpha \to \Pow(\On)}を定める。すると${\pabs{𝒜_\xi} < \kappa}より${\pabs{F(\xi)} \leq \pabs{𝒜_\xi} < \kappa}となるので、特に${F: \alpha \to [\On]^{<\kappa}}である。
+        また、${𝒜_\xi}の極大性から、任意の${p \in D_\xi}に対して${q \in 𝒜_\xi}で${p \compat q}となるものがとれるが、${r \leq p, q}を取れば${r \forces \check{\beta_p} = \dot{f}(\check{\xi}) = \check{\beta_q}}となり、${\Delta_0}-絶対性から${\beta_p = \beta_q}を得、${p \forces \dot{f}(\xi) \in \check{F}(\xi)}となる。よって、特に${D_\xi}上で${\dot{f}(\xi) \in \check{F}(\xi)}が強制されているので、目標が達成された。
+      }
+      +p{${(2) \implies (1)}：
+        対偶を示す。${𝒜 \subseteq \P}を濃度${\kappa}の${\P}の反鎖とする。また、${\dot{f}}をつくる代わりに、順序数の${\P}-名称${\dot{\alpha}}であって、その取り得る値の範囲が${\kappa}以上となるものを作る（つまり、${\alpha = 1}としている）。ここで、${𝒜 = \Set{p_\xi}{\xi < \kappa}}として数え挙げ、${\dot{f} \in V^{\P}}を次で定める：
+        \eqn-notag(${
+          \dot{\alpha} \defeq \Set{ (\check{\xi}, p_\xi)} { \xi < \kappa }.
+        });
+        すると定義より${p_\xi \forces \dot{\alpha} = \check{\xi}}となるので、明らかに${\dot{\alpha}}の値の取り得る範囲は${\kappa}である。
+      }
+    >
+    +remark<
+      +p{実は、${\kappa}-極大被覆性質は擬順序に対してだけではなく、任意の推移的クラス${V \subseteq W}について同様に定義できる。この場合、\emph{特に${\P}に対する言及がなくても}、${V, W}がともに${\AC}を満たすなら、${(V, W)}が${\kappa}-被覆性質を持つことと、${W}がなんらかの${\kappa}-鎖条件擬順序${\P}による${V}の生成拡大であることは同値であることが知られている。この特徴付けは、${V}の基礎モデルを数え上げる\emph{集合論の地質学}で重要な役割を果す。}
+    >
+    +proof?:({Proof of \ref(`lem:cc-card-pres`);})<
+      +p{
+        ${\P}を${\kappa}-鎖条件を満たす強制法とする。\ref(`lem:upward-card-pres-regular-suffices`);を念頭に${\P}が${\kappa}以上の正則基数を基数として保つことを示そう。
+        証明は背理法である。つまり、${V}の正則基数${\lambda \geq \kappa}で${V[G]}で基数でなくなるようなものがあったとして矛盾を導く。
+        特に、そのような${\lambda}が特異基数になってしまうことが言えればよい。
+      }
+      +p{
+        そこで、${V}の正則基数${\lambda \geq \kappa}で、${V[G]}で基数でなくなっているものがあったとする。ここで${\theta \defeq \pabs{\lambda}^{V[G]} < \lambda}とおけば、${V[G]}で全射${f: \theta \surj-to \lambda}が取れる。
+        すると、\ref(`lem:cc-gcp-char`);より${V}に属する関数${F: \theta \to [\lambda]^{<\kappa}}で${f(\xi) \in F(\xi) \mhquad (\forall \xi < \theta)}を満たすものがとれる。
+        そこで、以下によって${g: \theta \to \lambda}を定める：
+        \eqn-notag(${
+          g(\xi) \defeq \sup F(\xi).
+        });
+        ここで、${\lambda \geq \kappa}かつ${\lambda}が正則であることから、${\sup F(\xi) < \lambda}となるので、${g: \theta \to \lambda}である。
+        しかし、${f}が全射であることから、${\sup_{\xi < \theta} f(\xi) = \lambda}となるので、${\cf^V(\lambda) \leq \theta < \lambda}となる。これは${\lambda}が${V}で正則であることに反する。
+      }
+    >
+
+    +p{最後に閉性の帰結を述べ、これにより下方向の基数の保存が導かれることを示す：}
+    +lemma?:(`lem:closure-is-closure`)<
+      +p{
+        擬順序${\P}が${\kappa}-閉なら、${\P}による強制拡大は長さ${\kappa}未満の順序数列について閉じている。
+        即ち、${\seq{<\kappa}{\On} \cap V[G] = \seq{<\kappa}{\On} \cap V}。
+      }
+    >
+    +exercise<+p{上の主張を厳密化せよ。}>
+    +p{これを認めれば、次のようにして\ref(`lem:closure-card-pres`);は一瞬である：}
+    +proof?:({Proof of \ref(`lem:closure-card-pres`);})<
+      +p{
+        対偶を示す。${\alpha \leq \kappa}を順序数とする。${V[G]}で${\alpha}が基数でなかったとすると、${\beta < \alpha}と${V[G]}に属する全射${f: \beta \surj-to \alpha}が取れる。今、${\P}は${\kappa}-未満の順序数列について閉じているので、この${f}は${V}に属しており、特に${V}においても${\beta < \alpha}から${\alpha}への全射となっている。よって${\alpha}は${V}でも基数ではない。
+      }
+    >
+    +proof?:({Proof of \ref(`lem:closure-is-closure`);})<
+      +p{${\P}が${\kappa}-閉であるとする。${\alpha < \kappa}を適当に固定し、${\dot{f}}を${\forces_\P \quoted{\dot{f}: \check{\alpha} \to \On}}を満たす${\P}-名称とする。
+        以下が稠密であることが示せればよい：
+        \eqn-notag(${
+          D \defeq \Set{ q \in \P }{ \exists g: \alpha \to \On \mhquad \forall \xi < \alpha \mhquad q \forces \dot{f}(\check{\xi}) = \check{g(\xi)} }.
+        });
+        つまり、${p \in \P}を適当に固定し、${q \leq p}と${g: \alpha \to \On}で、任意の${\xi < \alpha}について${q \forces \dot{f}(\check{\xi}) = \check{g(\xi)}}を満たすものが取れればよい。
+      }
+      +p{
+        そこで、以下のようにして${\Seq{(p_\xi, \gamma_\xi) }{\xi \leq \alpha}}を帰納的に取っていく：
+        \enumerate{
+          * ${p_0 = p},
+          * ${\xi < \zeta \implies p_\zeta \leq p_\xi},
+          * ${p_{\xi + 1} \forces \dot{f}(\xi) = \check{\gamma_\xi}}.
+        }
+        このようなものが取れたとする。${q \defeq p_\alpha}とおけば、${\forall \xi < \alpha \mhquad p_\xi \geq q \forces \dot{f}(\xi) = \gamma_\xi}となるので、${g(\xi) \defeq \gamma_\xi}とおけば、これが所望のものである。そこで、以下、${(p_\xi, \gamma_\xi)}を構成していく。
+      }
+      +p{
+        \emph{後続ケース}：${p_\xi}まで取れたとして、${p_{\xi + 1}}を取る。これは簡単で、\ref(`lem:decides`);により、${p_{\xi + 1} \leq p_\xi}で${\dot{f}(\xi)}の値を決定するような条件を取り、その値を ${\gamma_\xi} とすればよい。
+        }
+      +p{
+        \emph{極限ケース}：閉性を使う。${\xi \leq \alpha}が極限順序数で、任意の${\zeta < \xi}について${p_\zeta, \gamma_\zeta}が条件を満たすように取れているとする。しかるに、${p_\xi \leq p_\zeta \mhquad (\forall \zeta < \xi)}となるものが常に取れる、というのが${\P}の${\kappa}-閉性が保証するところなので、有り難く下界を取ればよい。}
+    >
+  >
+>
