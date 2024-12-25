@@ -77,5 +77,10 @@ let consistency-of-ch = '<
         すると、${p \compat r*}としたとき、${s \defeq p \cup r*}とおけば、${e(s) \leq e(p), r}となり、${e(p) \compat r}を得る。
       }
     >);
+
+    +exercise<
+      +p{ここではLevy崩壊を完備に埋め込む事で${\Add(\kappa)}が${\kappa}から${\seq{<\kappa}{2}}への全射を付加することを見た。一方で、単純に${\Add(\kappa)}の稠密集合を${\seq{<\kappa}{2}}の各元に対して作ってやり、${\Add(\kappa)}-生成的な${G}から細工して全射を創り出すこともできる。}
+      +pn{この方法で${\CH}の無矛盾性を証明してみよ。また、今回した議論との対応関係を考察してみよ。}
+    >
   >
 >
