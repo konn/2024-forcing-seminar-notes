@@ -1,6 +1,6 @@
 @import: 04-independence-of-ch/preamble
 @import: 04-independence-of-ch/ch01-combinatorial-properties-and-cardinals
-@import: 04-independence-of-ch/ch02-consistency-of-ch
+@import: 04-independence-of-ch/ch02-properties-of-cohen-forcings
 
 document (|
   title = {\no-break{強制法セミナー第4回：連続体仮説の独立性証明}};
@@ -9,7 +9,7 @@ document (|
 |)('<
   +p{本章では、いよいよ連続体仮説（${\CH}）の独立性証明に移る。通常、${\ZFC+\CH}の無矛盾性証明にはGödelの${L}を用い、${\ZFC+\lnot\CH}の無矛盾性に強制法が用いられることが多いが、ここではどちらも強制法による無矛盾性証明を与える。また、本章では常に${\AC}は仮定する。}
   #combinatorial-properties-and-cardinals;
-  #consistency-of-ch;
+  #properties-of-cohen-forcings;
   +section{参考文献}<
     +makebibliography 
           ?:(|sort-references=true; 

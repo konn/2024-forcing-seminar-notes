@@ -1,0 +1,53 @@
+@import: preamble
+@require: figbox/figbox
+@require: gr
+
+let properties-of-cohen-forcings = '<
+  +section{Cohen強制法の基本性質}<
+    +p{
+      ${\CH}やその否定の無矛盾性証明では、\emph{${\kappa}-Cohen強制法}と呼ばれる強制概念が重要な役割を果す。そこで、本節ではその基本的な性質を採り上げておく。
+    }
+    +defn<
+      +p{${\kappa}を基数とする。}
+      +enumerate{
+        * 以下で定まる${\Add(\kappa)}を、${\kappa}の部分集合を付け加える\emph{${\kappa}-Cohen強制法}と呼ぶ：
+          \gather?:(AZMathEquation.notag)(${|
+            \Add(\kappa) \defeq \seq{<\kappa}{2} = \Set{f: \alpha \to 2}{\alpha < \kappa},
+          | p \leq q \defs p \supseteq q \iff \dom(p) \supseteq \dom(q) \land p \restrict \dom(q) = q.
+          |});
+          ${\Add(\omega)}を単に実数を付け加える\emph{Cohen強制法}と呼ぶ。
+        * 集合${I}で添え字づけられた擬順序の族${\Seq{(\P_i, \mathbb{1}_i, \mathord{\leq_i})}{i \in I}}にの\emph{${\kappa}-台直積}${\prod_{i \in I}^{<\kappa} \P_i}を次で定める：
+          \gather?:(AZMathEquation.notag)(${|
+            \prod_{i \in I}^{<\kappa} \P_i \defeq \Set{p: \text!{関数}}{ \dom(p) \in [I]^{<\kappa} \land \forall i \in \dom(p) \mhquad \pB{p(i) \in \P_i}},
+          | \mathbb{1} = \emptyset,
+          | p \leq q \defs \dom(p) \supseteq \dom(q) \land \forall i \in \dom(q) \mhquad \pB{p(i) \leq_i q(i)}.
+          |});
+        * ${\Add(\kappa)}の${\gamma}個の${\kappa}-台直積${\Add(\kappa, \gamma) \defeq \prod_{\alpha < \gamma}^{<\kappa} \Add(\kappa)}のことを、${\gamma}個の${\kappa}の部分集合を付け加える\emph{${\kappa}-Cohen強制法}と呼ぶ。
+        ${\Add(\omega, \gamma)}を単に${\gamma}個の実数を付け加える\emph{Cohen強制法}と呼ぶ。
+        }
+    >
+    +remark<
+      +p{${\Add(\kappa) \cong \Add(\kappa, 1)}である。}
+    >
+    +p{${\Add(\kappa)}や${\Add(\kappa, \gamma)}がどのような基数を保つのかを以下では議論する。まず、${\Add(\kappa)}は${\cf(\kappa)}以下の基数を保つことを見ていこう。}
+    +lemma?:(`lem:prod-pres-closure`)<
+      +p{${I}を集合、${\kappa}、${\lambda \leq \cf(\kappa)}を基数とし、${\Seq{\P_i}{i \in I}}を${\lambda}-閉擬順序の族とする。このとき${\prod_{i \in I}^{<\kappa} \P_i}も${\lambda}-閉である。}
+    >
+    +proof<+p{成分ごとに閉性をつかって下界を取ればよい。定義域が${\kappa}未満となることに、${\lambda \leq \cf(\kappa)}を使う。}>
+    +exercise<+p{ちゃんと示せ。}>
+    +lemma<
+      +p{${\Add(\kappa, \gamma)}や${\Add(\kappa)}は${\cf(\kappa)}-閉。特に、${\kappa}が正則なら${\kappa}-Cohen強制法は${\kappa}-閉。}
+    >
+    +proof<
+      +p{
+        \ref(`lem:prod-pres-closure`);より${\Add(\kappa)}の場合についてだけ証明すればよい。
+        面倒なので${\kappa}が正則な場合のみ示す。
+        ${\gamma < \kappa}とし、${\Seq{p_\alpha}{\alpha < \gamma}}を${\Add(\kappa, \gamma)}の下降列とする。このとき、${p_\gamma \defeq \cup_{\alpha < \gamma} p_\alpha}とおけば、少なくとも${p_\gamma \supseteq p_\alpha \mhquad(\forall \alpha < \gamma)}が成り立つ。
+        あとは${\pabs{p_\gamma} < \kappa}が言えればよいが、これは${\kappa}が正則で、${\gamma < \kappa}かつ${\forall \alpha < \gamma \mhquad \pabs{p_\alpha} < \kappa}であることから従う。
+      }
+    >
+    +exercise<+p{ちゃんと証明せよ。}>
+    +cor?:(`lem:cohen-pres-cards-below`)<+p{${\kappa}-Cohen強制法${\Add(\kappa)}および${\Add(\kappa, \gamma)}はいずれも${\cf(\kappa)}-以下の基数を全て保つ。}>
+    
+  >
+>

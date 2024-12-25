@@ -34,3 +34,4 @@ let-math \P = ${\mathbb{P}}
 let-math \Q = ${\mathbb{Q}}
 let-math \quoted x = ${\mathord{\text!{“}#x\text!{”}}}
 let-math \surj-to = ${\twoheadrightarrow}
+let-math \Add = ${\mathop{𝖠𝖽𝖽}}
