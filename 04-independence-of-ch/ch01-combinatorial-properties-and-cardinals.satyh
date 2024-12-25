@@ -16,7 +16,7 @@ let combinatorial-properties-and-cardinals = '<
               \forall \Seq{p_\xi \in \P}{\xi < \alpha} \mhquad
               \pB{
                 \forall \xi < \zeta < \alpha \mhquad
-                  \p{ p_\xi \leq p_\zeta }
+                  \p{ p_\zeta \leq p_\xi }
                   \implies
                   \exists q \in \P \mhquad \forall \xi < \alpha \mhquad q \leq p_\xi
               }.
@@ -53,7 +53,7 @@ let combinatorial-properties-and-cardinals = '<
     >
     +p{実は、正則基数${\kappa}について、${\kappa}以上の基数の保存は、特に正則基数が${V[G]}でも（正則とは限らない）基数になっていることが言えれば十分である：}
     +lemma?:(`lem:upward-card-pres-regular-suffices`)<
-      +p{順序数${\P}、正則基数${\kappa}について次は同値：}
+      +p{擬順序${\P}、正則基数${\kappa}について次は同値：}
       +enumerate{
         * ${\P}は${\kappa}以上の基数を保つ。
         * ${\P}は${\kappa}以上の正則基数を基数として保つ。すなわち、${\forall \lambda \geq \kappa: \text!{正則}\mhquad \forces_\P \quoted{\lambda: \text!{基数}}}。
@@ -154,10 +154,7 @@ let combinatorial-properties-and-cardinals = '<
         \eqn-notag(${
           D \defeq \Set{ q \in \P }{ \exists g: \alpha \to \On \mhquad \forall \xi < \alpha \mhquad q \forces \dot{f}(\check{\xi}) = \check{g(\xi)} }.
         });
-        つまり、${p \in \P}を適当に固定し、${q \leq p}と${g: \alpha \to \On}で、任意の${\xi < \alpha}について${q \forces \dot{f}(\check{\xi}) = \check{g(\xi)}}を満たすものが取れればよい。
-      }
-      +p{
-        そこで、以下のようにして${\Seq{(p_\xi, \gamma_\xi) }{\xi \leq \alpha}}を帰納的に取っていく：
+        つまり、${p \in \P}を適当に固定し、${q \leq p}と${g: \alpha \to \On}で、任意の${\xi < \alpha}について${q \forces \dot{f}(\check{\xi}) = \check{g(\xi)}}を満たすものが取れればよい。そこで、以下のようにして${\Seq{(p_\xi, \gamma_\xi) }{\xi \leq \alpha}}を帰納的に取っていく：
         \enumerate{
           * ${p_0 = p},
           * ${\xi < \zeta \implies p_\zeta \leq p_\xi},
@@ -169,7 +166,7 @@ let combinatorial-properties-and-cardinals = '<
         \emph{後続ケース}：${p_\xi}まで取れたとして、${p_{\xi + 1}}を取る。これは簡単で、\ref(`lem:decides`);により、${p_{\xi + 1} \leq p_\xi}で${\dot{f}(\xi)}の値を決定するような条件を取り、その値を ${\gamma_\xi} とすればよい。
         }
       +p{
-        \emph{極限ケース}：閉性を使う。${\xi \leq \alpha}が極限順序数で、任意の${\zeta < \xi}について${p_\zeta, \gamma_\zeta}が条件を満たすように取れているとする。しかるに、${p_\xi \leq p_\zeta \mhquad (\forall \zeta < \xi)}となるものが常に取れる、というのが${\P}の${\kappa}-閉性が保証するところなので、有り難く下界を取ればよい。}
+        \emph{極限ケース}：閉性を使う。${\xi \leq \alpha}が極限順序数で、任意の${\zeta < \xi}について${p_\zeta, \gamma_\zeta}が条件を満たすように取れているとする。${p_\xi \leq p_\zeta \mhquad (\forall \zeta < \xi)}となるものが常に取れる、というのが${\P}の${\kappa}-閉性が保証するところなので、有り難く下界を取ればよい。}
     >
   >
 >
