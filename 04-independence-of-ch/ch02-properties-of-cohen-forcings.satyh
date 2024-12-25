@@ -29,10 +29,44 @@ let properties-of-cohen-forcings = '<
     +remark<
       +p{${\B(\Add(\kappa)) \cong \B\p{\Add(\kappa, 1)}}である。}
     >
+    +p{「${\kappa}の部分集合を付け加える」といっているので、本当に付け加えられているのか確認していこう。実のところ、${\Add(\kappa)}は${\kappa}の新しい部分集合${x}の特性関数${\chi_x}を近似している：}
+    +exercise?:(`exc:filter-function-union`)<
+      +p{Fを関数から成る${\supseteq}に関するフィルターとするとき、${\bigcup F}は${F}の任意の元を拡張する関数となることを示せ。}
+      +pn{ヒント：関数${f, g}が両立するなら、${f \subseteq g}か${g \subseteq f}が成り立ち、${f \cup g \supseteq f, g}が${f, g}を拡張する。}
+    >
+    +lemma<
+      +p{
+        ${G}を${(V, \Add(\kappa))}-生成フィルターとし、${f_G \defeq \bigcup G} とおく。このとき次が成立する：
+      }
+      +enumerate{
+        * ${f_G: \kappa \to 2},
+        * ${f_G \nin V}.
+      }
+      +pn{
+        このとき、${x_G \defeq \Set{\alpha < \kappa}{f_G(\alpha) = 1}}を\emph{${\kappa}-Cohen集合}と呼ぶ。特に、${\kappa = \omega}のとき、${x_G}は\emph{Cohen実数}と呼ばれる。
+      }
+    >
+    +proof<
+      +p{
+        ${V}で議論する。各${\alpha < \kappa}および${g: \kappa \to 2}に対し、以下の集合${D_\alpha, E_f}を考える：
+        \gather?:(AZMathEquation.notag)(${|
+          D_\alpha = \Set{p \in \Add(\kappa)}{\alpha \in \dom(p)},
+        | E_g = \Set{p \in \Add(\kappa)}{\exists \alpha \in \dom(p) \mhquad \pB{g(\alpha) \neq p(\alpha)}}.
+        |});
+        このとき、${D_\alpha, E_g}は明らかに${\Add(\kappa)}で稠密であり、${V}の元である。
+      }
+      +p{
+        そこで${(V, \Add(\kappa))}-生成フィルター${G}を取る。このとき、\ref(`exc:filter-function-union`);より、${f_G \defeq \bigcup G}は${G}の各元を拡張する関数である。
+        また、生成フィルターの定義より、任意の${g \in V}, ${\alpha < \kappa}に対して${G \cap D_\alpha \neq \emptyset}かつ${G \cap E_g \neq \emptyset}が成り立つ。
+        特に、${D_\alpha \cap G \neq}より${\alpha \in \dom(F)}が出るので、${\dom(f_G) = \kappa}である。
+        また、${f \in V}をとれば、${E_f \cap G \neq \emptyset}よりある${\alpha < \kappa, p \in G}があって、${f_G(\alpha) = p(\alpha) \neq f(\alpha)}となる。よって${f_G \nin V}である。
+      }
+    >
     +p{${\Add(\kappa)}や${\Add(\kappa, \gamma)}がどのような基数を保つのかを以下では議論する。まず、${\Add(\kappa)}は${\cf(\kappa)}以下の基数を保つことを見ていこう。}
     +lemma?:(`lem:prod-pres-closure`)<
       +p{${I}を集合、${\kappa}、${\lambda \leq \cf(\kappa)}を基数とし、${\Seq{\P_i}{i \in I}}を${\lambda}-閉擬順序の族とする。このとき${\prod_{i \in I}^{<\kappa} \P_i}も${\lambda}-閉である。}
     >
+    +exercise<+p{稠密性をちゃんと示せ。}>
     +proof<+p{成分ごとに閉性をつかって下界を取ればよい。定義域が${\kappa}未満となることに、${\lambda \leq \cf(\kappa)}を使う。}>
     +exercise<+p{ちゃんと示せ。}>
     +lemma<
