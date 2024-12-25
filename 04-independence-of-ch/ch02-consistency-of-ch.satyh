@@ -1,0 +1,9 @@
+@import: preamble
+@require: figbox/figbox
+@require: gr
+
+let consistency-of-ch = '<
+  +section{${\ZFC+\CH}の強制法による無矛盾性証明}<
+    
+  >
+>
