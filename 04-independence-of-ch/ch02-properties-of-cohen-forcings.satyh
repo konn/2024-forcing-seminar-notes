@@ -170,6 +170,6 @@ let properties-of-cohen-forcings = '<
       +p{${\Add(\kappa)}は${(2^{<\kappa})^+}-鎖条件を満たし、従って${(2^{<\kappa})^+}以上の基数を保つ。}
     >
     +proof<+p{${\pabs{\Add(\kappa)} = \pabs{\seq{<\kappa}{2}} = 2^{<\kappa}}なので明らか。}>
-    +p{では、複数個足す強制法${\Add(\kappa, \gamma)}についてはどうだろうか？これについては、やや混み入った無限組合せ論的議論が必要となるため、${\lnot \CH}の証明の節で採り上げる。}
+    +p{では、複数個足す強制法${\Add(\kappa, \gamma)}についてはどうだろうか？これについては、やや混み入った無限組合せ論的議論が必要となるため、${\lnot \CH}の証明の節\ref(`sec:consis-not-ch`);で採り上げる。}
   >
 >
