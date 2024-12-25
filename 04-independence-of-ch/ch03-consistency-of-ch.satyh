@@ -4,6 +4,27 @@
 
 let consistency-of-ch = '<
   +section?:(`sec:consis-ch`){${\ZFC + \CH}の無矛盾性の証明}<
-    +p{}
+    +p{
+      まずは比較的簡単な${\ZFC + \CH}の無矛盾性証明を行う。鍵となるのは次の補題である：
+    }
+    +lemma<
+      +p{${\kappa}が正則で${G}が${(V, \Add(\kappa))}-生成的なら、${(2^{<\kappa})^{V[G]} < \kappa}。}
+    >
+    +proof<
+      +p{
+        いま${\Add}
+        ${(2^{<\kappa})^{V[G]} \geq \kappa}は明らかなので、${(2^{<\kappa})^{V[G]} \geq \kappa}を示せばよい。
+        特に、\ref(`lem:cohen-adds-no-short-seq`);より${\seq{<\kappa}{2}}は${V}でも${V[G]}でも集合として一致するので、${V[G]}において${\kappa}から${\seq{<\kappa}{2}}への全射を構成できればよい。
+      }
+      +p{
+        そこで、${\kappa \times \kappa}から${\kappa}への標準的な全単射（Gödel対関数）${\pangle{-, -}}を固定する。
+        特に、${\alpha \times \alpha}が${\pangle{-, -}}の（${\pangle{0, \alpha}}による）切片になっているようなものとする。
+        このとき、${s \in \seq{<\kappa}{2}}に対して${D_s \subseteq \Add(\kappa)}を以下のように定める：
+        \eqn-notag(${
+          D_s \defeq \Set{p \in \Add(\kappa)}{\exists \alpha < \kappa \mhquad \forall \gamma \in \dom(s) \mhquad \pB{ p(\pangle{\alpha, \gamma}) = s(\gamma) }}.
+        });
+        すると
+      }
+    >
   >
 >

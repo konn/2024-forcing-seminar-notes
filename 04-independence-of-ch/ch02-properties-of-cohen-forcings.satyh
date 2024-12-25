@@ -12,7 +12,7 @@ let properties-of-cohen-forcings = '<
       +enumerate{
         * 以下で定まる${\Add(\kappa)}を、${\kappa}の部分集合を付け加える\emph{${\kappa}-Cohen強制法}と呼ぶ：
           \gather?:(AZMathEquation.notag)(${|
-            \Add(\kappa) \defeq \seq{<\kappa}{2} = \Set{f: \alpha \to 2}{\alpha < \kappa},
+            \Add(\kappa) \defeq \Set{f: A \to 2}{A \in [\kappa]^\kappa},
           | p \leq q \defs p \supseteq q \iff \dom(p) \supseteq \dom(q) \land p \restrict \dom(q) = q.
           |});
           ${\Add(\omega)}を単に実数を付け加える\emph{Cohen強制法}と呼ぶ。
@@ -157,19 +157,20 @@ let properties-of-cohen-forcings = '<
       +p{
         \ref(`lem:prod-pres-closure`);より${\Add(\kappa)}の場合についてだけ証明すればよい。
         面倒なので${\kappa}が正則な場合のみ示す。
-        ${\gamma < \kappa}とし、${\Seq{p_\alpha}{\alpha < \gamma}}を${\Add(\kappa, \gamma)}の下降列とする。このとき、${p_\gamma \defeq \cup_{\alpha < \gamma} p_\alpha}とおけば、少なくとも${p_\gamma \supseteq p_\alpha \mhquad(\forall \alpha < \gamma)}が成り立つ。
+        ${\gamma < \kappa}とし、${\Seq{p_\alpha}{\alpha < \gamma}}を${\Add(\kappa, \gamma)}の下降列とする。このとき、${p_\gamma \defeq \bigcup_{\alpha < \gamma} p_\alpha}とおけば、少なくとも${p_\gamma \supseteq p_\alpha \mhquad(\forall \alpha < \gamma)}が成り立つ。
         あとは${\pabs{p_\gamma} < \kappa}が言えればよいが、これは${\kappa}が正則で、${\gamma < \kappa}かつ${\forall \alpha < \gamma \mhquad \pabs{p_\alpha} < \kappa}であることから従う。
       }
     >
     +exercise<+p{ちゃんと証明せよ。}>
     +cor?:(`lem:cohen-pres-cards-below`)<+p{${\kappa}-Cohen強制法${\Add(\kappa)}および${\Add(\kappa, \gamma)}はいずれも${\cf(\kappa)}-以下の無限基数を全て保ち、更に長さ${\cf(\kappa)}未満の無限列を足さない。}>
+    +cor?:(`lem:cohen-adds-no-short-seq`)<+p{${\kappa}が正則、${G}が${(V, \Add(\kappa))}-生成的なら、${(\seq{<\kappa}{2})^{V[G]} = (\seq{<\kappa}{2})^V}。}>
 
 
     +p{続いて鎖条件について議論する。一個足す強制法${\Add(\kappa)}については、濃度を数えるだけで直ちにわかる：}
     +lemma?:(`lem:single-cohen-cc`)<
       +p{${\Add(\kappa)}は${(2^{<\kappa})^+}-鎖条件を満たし、従って${(2^{<\kappa})^+}以上の基数を保つ。}
     >
-    +proof<+p{${\pabs{\Add(\kappa)} = \pabs{\seq{<\kappa}{2}} = 2^{<\kappa}}なので明らか。}>
+    +proof<+p{${\pabs{\Add(\kappa)} = \pabs{\seq{<\kappa}{[\kappa]}} = 2^{<\kappa}}なので明らか。}>
     +p{では、複数個足す強制法${\Add(\kappa, \gamma)}についてはどうだろうか？これについては、やや混み入った無限組合せ論的議論が必要となるため、${\lnot \CH}の証明の節\ref(`sec:consis-not-ch`);で採り上げる。}
   >
 >
