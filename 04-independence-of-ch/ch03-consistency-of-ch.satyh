@@ -5,26 +5,77 @@
 let consistency-of-ch = '<
   +section?:(`sec:consis-ch`){${\ZFC + \CH}の無矛盾性の証明}<
     +p{
-      まずは比較的簡単な${\ZFC + \CH}の無矛盾性証明を行う。鍵となるのは次の補題である：
+      まずは比較的簡単な${\ZFC + \CH}の無矛盾性証明を行う。鍵となるのは、次の補題である：
     }
-    +lemma<
-      +p{${\kappa}が正則で${G}が${(V, \Add(\kappa))}-生成的なら、${(2^{<\kappa})^{V[G]} < \kappa}。}
+    +lemma?:(`lem:cohen-colappses`)<
+      +p{${\kappa}が正則で${G}が${(V, \Add(\kappa))}-生成的なら、${\kappa}は${V[G]}でも基数であり、${(2^{<\kappa})^{V[G]} = \kappa}。}
     >
+    +p{特に、系として${\Add(\omega_1)}が${\CH}を強制することがわかる。}
+    +cor<+p{${\Add(\omega_1)}は実数を一切付加することなく、${\CH}を強制する。}>
+    +proof<+p{\ref(`lem:cohen-colappses`);より${V[G] \models 2^\omega = 2^{<\omega_1} = \omega_1}を得る。}>
+
+    +p{
+      あとは\ref(`lem:cohen-colappses`);を示せばよい。
+      ${\Add(\kappa)}が${\kappa}-閉であることから、特に${V}と${V[G]}で${\seq{<\kappa}{2}}が一致することを利用すれば、${\Add(\kappa)}が${\kappa}から${\seq{<\kappa}{2}}への全射を付け加えることが示せればよい。
+    }
+    +p{
+      ある集合への全射を付け足す強制法としては、\emph{Levy崩壊}が標準的な手法である：
+    }
+    +defn?:(`defn:levy-collapse`)<
+      +p{基数${\kappa}について、${A}の濃度を${\kappa}以下に潰す\emph{Levy崩壊強制法}${\Col(\kappa, A)}を以下で定める：}
+      +gather?:(AZMathEquation.notag)(${|
+        \Col(\kappa, A) \defeq \Set{p: \alpha \to A}{\alpha < \kappa},
+      | p \leq q \defs \dom(p) \supseteq \dom(q) \land p \restrict \dom(q) = q.
+      |});
+    >
+    +p{Cohen強制法の場合と同様の論法により、Levy崩壊は${\kappa}-閉である：}
+    +lemma<+p{${\kappa}が正則基数なら、${\Col(\kappa, A)}は${\kappa}-閉であり、特に${\kappa}以下の基数を保つ。}>
+    +exercise<+p{上を示せ。}>
+
+    +p{実際にLevy崩壊により${A}の濃度が${\kappa}以下になることが以下の補題によりわかる：}
+
+    +lemma<+p{${\kappa}：正則、${G}：${(V, \Col(\kappa, A))}-生成的なら、${\bigcup G}は${\kappa}から${A}への全射で、従って${\pabs{A}^{V[G]} \leq \kappa}。}>
     +proof<
+      +p{${G}を${(V, \Col(\kappa, A))}-生成的とするとき、${f_G \defeq \bigcup G: \kappa \to A}となることはCohen強制法の場合と同様に示せる。全射性を示す。}
       +p{
-        いま${\Add}
-        ${(2^{<\kappa})^{V[G]} \geq \kappa}は明らかなので、${(2^{<\kappa})^{V[G]} \geq \kappa}を示せばよい。
-        特に、\ref(`lem:cohen-adds-no-short-seq`);より${\seq{<\kappa}{2}}は${V}でも${V[G]}でも集合として一致するので、${V[G]}において${\kappa}から${\seq{<\kappa}{2}}への全射を構成できればよい。
-      }
-      +p{
-        そこで、${\kappa \times \kappa}から${\kappa}への標準的な全単射（Gödel対関数）${\pangle{-, -}}を固定する。
-        特に、${\alpha \times \alpha}が${\pangle{-, -}}の（${\pangle{0, \alpha}}による）切片になっているようなものとする。
-        このとき、${s \in \seq{<\kappa}{2}}に対して${D_s \subseteq \Add(\kappa)}を以下のように定める：
+        各${a \in A}に対し、以下の${D_a \subseteq \Col(\kappa, A)}は${\Col(\kappa, A)}で稠密である：
         \eqn-notag(${
-          D_s \defeq \Set{p \in \Add(\kappa)}{\exists \alpha < \kappa \mhquad \forall \gamma \in \dom(s) \mhquad \pB{ p(\pangle{\alpha, \gamma}) = s(\gamma) }}.
+          D_a \defeq \Set{p \in \Col(\kappa, A)}{\exists \xi < \kappa \mhquad p(\xi) = a}.
         });
-        すると
+        なぜなら、${p \in \Col(\kappa, A)}と${a \in A}に対し、${q \defeq p \cup \set{(\dom(p), a)}}とすれば${q \in D_a}かつ${q \leq p}となるからである。
+        よって、任意の${a \in A}に対し、${G \cap D_a \neq \emptyset}が成り立つ。特に、${f_G(\xi) = a}となるような${\xi < \kappa}が存在する。したがって、${f_G}は${A}への全射である。
       }
     >
+    +p{よって、後は${\Col(\kappa, \seq{<\kappa}{2})}が${\Add(\kappa)}に完備に埋め込めることが示せればよい：}
+    +lemma<+p{${\Col(\kappa, \seq{<\kappa}{2})}は${\Add(\kappa)}に完備に埋め込まれる。}>
+    +proof(
+      let-math \Col = ${\Col(\kappa, \seq{<\kappa}{2})} in
+      let-math \Add = ${\Add(\kappa)} in '<
+      +p{
+        ${\pangle{-, -}: \kappa \times \kappa \cong-to \kappa}を標準的な全単射として、写像${e: \Col \to \Add}を次で定める：
+        \align?:(AZMathEquation.notag)(${|
+          \dom(e(p)) |\defeq \Set{\pangle{\xi, \eta}}{\xi \in \dom(p) \land \eta < \dom(p(\xi))},
+        | e(p)(\pangle{\xi, \eta}) |\defeq p(\xi)(\eta).
+        |});
+        すると、${e}は明らかに順序単射である。
+      }
+      +p{
+        前章の補題5.1より、あとは任意の${r \in \Add}に対して、その簡約${r* \in \Col}で次を満たすものが存在することを示せばよい：
+
+        \eqn?:(AZMathEquation.make-tagfmt(fun ctx _ -> read-inline ctx{${(\star)}}))(${
+          \forall p \in \Add \mhquad \pB{p \compat r* \implies e(p) \compat r}.
+          \label!(`eq:reduct`)
+        });
+        そこで${r \in \Add}を固定し、${r* \in \Col}を次で定める：
+        \align?:(AZMathEquation.notag)(${
+        | \dom(r*(\xi)) | \defeq \sup \Set{ \eta + 1 }{ \pangle{\xi, \eta} \in \dom(r)} < \kappa,
+        | r*(\xi)(\eta) | \defeq \cases{
+            | r(\pangle{\xi, \eta}) | (\pangle{\xi, \eta} \in \dom(r))
+            | 0                     | (\text!{otherwise})
+          |}
+        |});
+        すると、${p \compat r*}としたとき、${s \defeq p \cup r*}とおけば、${e(s) \leq e(p), r}となり、${e(p) \compat r}を得る。
+      }
+    >);
   >
 >
