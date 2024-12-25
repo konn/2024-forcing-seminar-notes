@@ -26,7 +26,7 @@ let combinatorial-properties-and-cardinals = '<
       }
     >
     +exercise<+p{擬順序${\P}ごとに、${\P}が${\kappa}-鎖条件を満たす最小の${\kappa}は、常に正則基数となることを示せ。}>
-    +remark<+p{定義より、擬順序${\P}は常に${\pabs{\P}}-鎖条件を満たす。}>
+    +remark<+p{定義より、擬順序${\P}は常に${\pabs{\P}^+}-鎖条件を満たす。}>
 
     +p{閉性・鎖条件と基数の保存の関係を述べたのが、次の二つの補題である：}
     +lemma?:(`lem:cc-card-pres`)<
@@ -139,7 +139,7 @@ let combinatorial-properties-and-cardinals = '<
         しかし、${f}が全射であることから、${\sup_{\xi < \theta} f(\xi) = \lambda}となるので、${\cf^V(\lambda) \leq \theta < \lambda}となる。これは${\lambda}が${V}で正則であることに反する。
       }
     >
-    +cor<+p{任意の擬順序${\P}は${\pabs{\P}}以上の基数を保つ。}>
+    +cor<+p{任意の擬順序${\P}は${\pabs{\P}^+}以上の基数を保つ。}>
 
     +p{最後に閉性の帰結を述べ、これにより下方向の基数の保存が導かれることを示す：}
     +lemma?:(`lem:closure-is-closure`)<
