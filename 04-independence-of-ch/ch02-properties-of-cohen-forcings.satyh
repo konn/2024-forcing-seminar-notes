@@ -8,7 +8,7 @@ let properties-of-cohen-forcings = '<
       ${\CH}やその否定の無矛盾性証明では、\emph{${\kappa}-Cohen強制法}と呼ばれる強制概念が重要な役割を果す。そこで、本節ではその基本的な性質を採り上げておく。
     }
     +defn<
-      +p{${\kappa}を基数とする。}
+      +p{${\kappa}を無限基数とする。}
       +enumerate{
         * 以下で定まる${\Add(\kappa)}を、${\kappa}の部分集合を付け加える\emph{${\kappa}-Cohen強制法}と呼ぶ：
           \gather?:(AZMathEquation.notag)(${|
@@ -36,7 +36,7 @@ let properties-of-cohen-forcings = '<
     >
     +lemma<
       +p{
-        ${G}を${(V, \Add(\kappa))}-生成フィルターとし、${f_G \defeq \bigcup G} とおく。このとき次が成立する：
+        ${G}を${(V, \Add(\kappa))}-生成的フィルターとし、${f_G \defeq \bigcup G} とおく。このとき次が成立する：
       }
       +enumerate{
         * ${f_G: \kappa \to 2},
@@ -56,15 +56,96 @@ let properties-of-cohen-forcings = '<
         このとき、${D_\alpha, E_g}は明らかに${\Add(\kappa)}で稠密であり、${V}の元である。
       }
       +p{
-        そこで${(V, \Add(\kappa))}-生成フィルター${G}を取る。このとき、\ref(`exc:filter-function-union`);より、${f_G \defeq \bigcup G}は${G}の各元を拡張する関数である。
-        また、生成フィルターの定義より、任意の${g \in V}, ${\alpha < \kappa}に対して${G \cap D_\alpha \neq \emptyset}かつ${G \cap E_g \neq \emptyset}が成り立つ。
+        そこで${(V, \Add(\kappa))}-生成的フィルター${G}を取る。このとき、\ref(`exc:filter-function-union`);より、${f_G \defeq \bigcup G}は${G}の各元を拡張する関数である。
+        また、生成的フィルターの定義より、任意の${g \in V}, ${\alpha < \kappa}に対して${G \cap D_\alpha \neq \emptyset}かつ${G \cap E_g \neq \emptyset}が成り立つ。
         特に、${D_\alpha \cap G \neq}より${\alpha \in \dom(F)}が出るので、${\dom(f_G) = \kappa}である。
         また、${f \in V}をとれば、${E_f \cap G \neq \emptyset}よりある${\alpha < \kappa, p \in G}があって、${f_G(\alpha) = p(\alpha) \neq f(\alpha)}となる。よって${f_G \nin V}である。
       }
     >
-    +p{${\Add(\kappa)}や${\Add(\kappa, \gamma)}がどのような基数を保つのかを以下では議論する。まず、${\Add(\kappa)}は${\cf(\kappa)}以下の基数を保つことを見ていこう。}
+    +p{よって${\Add(\kappa)}は新しい${\kappa}の部分集合を付け足していることがわかった。つづいて${\Add(\kappa, \gamma)}が「${\gamma}個以上」の新しい集合を足している事を見ていこう。}
+
+    +p{まず、前章の補題5.16より、次の補題から直積は各直積成分の生成的フィルターを足すことがわかる：}
+
+    +lemma?:(`lem:product-complete`)<
+      +p{${\Seq{\P_i}{i \in I}}を擬順序の族、${\kappa}を無限基数、${\Q \defeq \prod_{i \in I}^{<\kappa} \P_i}とする。このとき、${e_i: \P_i \to \Q}を${e_i(p) = \set{(i, p)}}により定めると、${e_i}は${\P_i}から${\Q}への完備埋め込みとなる。}
+    >
+    +proof<
+      +p{順序や${\incompat}を保つことは直ちに従う。あとは${𝒜}が${\P_i}の極大反鎖なら、${e_i[𝒜]}も${\Q}で極大反鎖となることを示せばよい。}
+      +p{
+        そこで、適当に${p \in \Q}をとったとき、${p* \in 𝒜}で${e(p*) \compat p}となるものが取れることを示せばよい。
+        いま、${𝒜}の${\P_i}での極大性から、${q \in 𝒜}で${p(i) \compat q}となるものが存在する。そこで${r \leq_i p(i), q}となるような${r \in \P_i}を取り、${p* \defeq e(q)}とおけば、${p* \in e[𝒜]}である。あとは${p}と${p*}が${\Q}で下界を持つことを示せばよい。
+      }
+      +p{
+        実際、次のように定義すればよい：
+        \eqn-notag(${
+          r*(j) \defeq \cases!(${|r|(j = i)|p(j)|(\text!{otherwise})|})
+        });
+        すると、定義より${r* \leq p, p*}となる。これが示したかった事である。
+      }
+    >
+
+    +cor?:(`lem:prod-adds-generic`)<
+      +p{${G}を${(V, \prod_i^{< \kappa} \P_i)}-生成的とするとき、${G_i \defeq \Set{p(i)}{p \in G, i \in \dom(p)}}は${(V, \P_i)}-生成的。}
+    >
+
+    +p{
+      これにより、特に${\Add(\kappa, \gamma)}は${\Add(\kappa)}の生成的フィルターを足すことがわかった。特に${\gamma}個足されている訳だが、これらの間に重複はないだろうか？
+      つまり、${\gamma}個足されているように見えても、実際には同じ生成的フィルターになっていたりはしないだろうか？
+    }
+    +p{ちゃんと\emph{この${\gamma}個が互いに相異なる}ことを保証するのが、Cohen強制法の\emph{無原子性}である：}
+
+    +lemma?:(`lem:cohen-atomless`)<
+      +p{${\Add(\kappa)}は原子を持たない。すなわち、任意の${p \in \Add(\kappa)}に対し、${q, r \leq p}で${q \incompat r}となるものが存在する。}
+    >
+    +proof<
+      +p{${p \in \Add(\kappa)}を任意に取る。このとき、${\dom(p) < \kappa}なので${\alpha \in \kappa \setminus \dom(p)}が取れる。ここれ${q \defeq p \cup \set{(\alpha, 0)}, \mhquad r \defeq p \cup \set{(\alpha, 1)}}とおけば、${q, r \leq p}で${q \incompat r}となる。}
+    >
+
+    +lemma?:(`lem:product-atomless-distinct`)<
+      +p{
+        \ref(`lem:product-complete`);、\ref(`lem:prod-adds-generic`);の状況で、更に各${\P_i}が原子を持たないとする。
+        このとき、${i \neq j}なら${p \in G_i, q \in G_j}で${e_i(p) \incompat_\Q e_j(q)}となるものが存在する。
+      }
+      +p{
+        特に、${\P_i = \P}が原子を持たないなら、各${G_i}は互いに両立しない元を持つ生成的フィルターとなる。
+      }
+    >
+    +proof<
+      +p{
+        面倒なので「特に」の${\P_i = \P}の場合だけ示す。${i \neq j}として、${D_{ij} \subseteq \Q}を次で定める：
+        \eqn-notag(${
+          D_{ij} \defeq \Set{p \in \Q}{i, j \in \dom(p) \land p(i) \incompat p(j)}.
+        });
+        ${D_{ij} \in V}なので、${D_{ij}}が${\Q}で稠密であることが示せれば、${p \in G \cap D_{ij}}が取れ、定義より${p(i) \in G_i, p(j) \in G_j}である。${D_{ij}}の定義より${p(i) \incompat p(j)}となるので、これが示したかった事である。
+      }
+      +p{
+        では${D_{ij}}の稠密性を示していく。${p \in \Q}を任意に取り、${p* \leq p}で${p*(i) \incompat p*(j)}となるものを探せばよい。
+        ${i \nin \dom(p)}または${j \nin \dom(p)}の少なくとも一方が成り立っていれば、${\P}の無原子性から${p}をしかるべく延長できるのでよい。
+        そこで、${i, j \in \dom(p)}とする。もし${p(i) \incompat p(j)}なら既に${p \in D_{ij}}となっているので、以下${p(i) \compat p(j)}とする。
+        そこで${q \leq p(i), p(j)}をとる。このとき、${\P}の無原子性から、${r, s \leq q}で${r \incompat s}となるものが取れる。そこで、次により${p*}を定める：
+        \eqn-notag(${
+          p*(k) \defeq \cases!(${
+            | r | (k = i)
+            | s | (k = j)
+            | p(k) | (\text!{otherwise})
+            |})
+        });
+        すると定め方より明らかに${p* \leq p}かつ${p* \in D_{ij}}である。
+      }
+    >
+    +exercise<+p{一般のケースを示せ。}>
+    +cor<
+      +p{${\Add(\kappa, \gamma)}は相異なる${\pabs{\gamma}}個の${\kappa}の部分集合を足す。}
+    >
+
+    +p{
+      以上から、${\kappa}-Cohen強制法により、望んだ数の${\kappa}の部分集合を付け加えられることがわかった。一方で、${\Add(\kappa, \gamma)}たちがどのような基数を保つのかについては、まだよくわかっていない。特に、仮に${\gamma}個新しい実数や集合を足したとしても、\emph{${\gamma}が強制法の前後で基数ではなくなっているかも}しれず、そうした場合、${\Pow(\kappa)}の濃度を狙ったように増やせているかはわからない。
+    }
+    +p{
+      そこで、以下では${\Add(\kappa)}や${\Add(\kappa, \gamma)}がどのような基数を保つのかを議論する。まず、${\Add(\kappa)}は${\cf(\kappa)}以下の基数を保つことを見ていこう。
+    }
     +lemma?:(`lem:prod-pres-closure`)<
-      +p{${I}を集合、${\kappa}、${\lambda \leq \cf(\kappa)}を基数とし、${\Seq{\P_i}{i \in I}}を${\lambda}-閉擬順序の族とする。このとき${\prod_{i \in I}^{<\kappa} \P_i}も${\lambda}-閉である。}
+      +p{${I}を集合、${\kappa}、${\lambda \leq \cf(\kappa)}を無限基数とし、${\Seq{\P_i}{i \in I}}を${\lambda}-閉擬順序の族とする。このとき${\prod_{i \in I}^{<\kappa} \P_i}も${\lambda}-閉である。}
     >
     +exercise<+p{稠密性をちゃんと示せ。}>
     +proof<+p{成分ごとに閉性をつかって下界を取ればよい。定義域が${\kappa}未満となることに、${\lambda \leq \cf(\kappa)}を使う。}>
@@ -81,6 +162,6 @@ let properties-of-cohen-forcings = '<
       }
     >
     +exercise<+p{ちゃんと証明せよ。}>
-    +cor?:(`lem:cohen-pres-cards-below`)<+p{${\kappa}-Cohen強制法${\Add(\kappa)}および${\Add(\kappa, \gamma)}はいずれも${\cf(\kappa)}-以下の基数を全て保ち、更に長さ${\kappa}未満の無限列を足さない。}>
+    +cor?:(`lem:cohen-pres-cards-below`)<+p{${\kappa}-Cohen強制法${\Add(\kappa)}および${\Add(\kappa, \gamma)}はいずれも${\cf(\kappa)}-以下の無限基数を全て保ち、更に長さ${\cf(\kappa)}未満の無限列を足さない。}>
   >
 >

@@ -51,7 +51,7 @@ let combinatorial-properties-and-cardinals = '<
     >
     +p{では、鎖条件の特徴付けを述べ、\ref(`lem:cc-card-pres`);が成り立つことを確認しよう。}
     +notation<
-      +p{以下、${(V, \P)}-生成フィルター${G}が固定されていると思って議論をする。}
+      +p{以下、${(V, \P)}-生成的フィルター${G}が固定されていると思って議論をする。}
     >
     +p{実は、正則基数${\kappa}について、${\kappa}以上の基数の保存は、特に正則基数が${V[G]}でも（正則とは限らない）基数になっていることが言えれば十分である：}
     +lemma?:(`lem:upward-card-pres-regular-suffices`)<
