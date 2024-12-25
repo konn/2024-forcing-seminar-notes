@@ -47,7 +47,6 @@ let properties-of-cohen-forcings = '<
       }
     >
     +exercise<+p{ちゃんと証明せよ。}>
-    +cor?:(`lem:cohen-pres-cards-below`)<+p{${\kappa}-Cohen強制法${\Add(\kappa)}および${\Add(\kappa, \gamma)}はいずれも${\cf(\kappa)}-以下の基数を全て保つ。}>
-    
+    +cor?:(`lem:cohen-pres-cards-below`)<+p{${\kappa}-Cohen強制法${\Add(\kappa)}および${\Add(\kappa, \gamma)}はいずれも${\cf(\kappa)}-以下の基数を全て保ち、更に長さ${\kappa}未満の無限列を足さない。}>
   >
 >
