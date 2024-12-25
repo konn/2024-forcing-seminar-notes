@@ -27,7 +27,7 @@ let properties-of-cohen-forcings = '<
         }
     >
     +remark<
-      +p{${\Add(\kappa) \cong \Add(\kappa, 1)}である。}
+      +p{${\B(\Add(\kappa)) \cong \B\p{\Add(\kappa, 1)}}である。}
     >
     +p{${\Add(\kappa)}や${\Add(\kappa, \gamma)}がどのような基数を保つのかを以下では議論する。まず、${\Add(\kappa)}は${\cf(\kappa)}以下の基数を保つことを見ていこう。}
     +lemma?:(`lem:prod-pres-closure`)<
