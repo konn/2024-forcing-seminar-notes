@@ -87,6 +87,11 @@ let generic-filter = '<
     +p{任意の${p \in \mathbb{B}^+}について${\set{p, -p}}は極大反鎖なので、${G}と交わる。}
     +p{擬順序の場合も通用する証明にしたい場合は、かわりに${\Set{q \in \mathbb{P}}{q \leq p \vee q \mathrel{\bot} p}}を考えてもよい。}
   >
+  +p{同様の議論により次が示せる：}
+  +lemma<+p{${G}が${(M, \mathbb{B})}-生成的フィルター、${p \in G}、${D}が${p}以下で前稠密なら、${D \cap G \neq \emptyset}。}>
+  +proof<
+    +p{${E \defeq D \cup \Set{q \in \B}{q \incompat p}}が${\P}で前稠密であるので${E \cap G \neq \emptyset}となるが、${G}はフィルターで${p \in G}なので${\Set{q \in \B}{q \incompat p}}とは交わらないため。}
+  >
 
   +theorem<
     +p{
