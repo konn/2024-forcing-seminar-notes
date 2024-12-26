@@ -4,6 +4,58 @@
 
 let consistency-of-not-ch = '<
   +section?:(`sec:consis-not-ch`){${\ZFC + \lnot \CH}の無矛盾性の証明}<
-    +p{}
+    +p{
+      それでは、${\lnot \CH}の無矛盾性に入っていこう。
+      第\ref(`sec:prop-cohen`);節の結果（\ref(`lem:cohen-adds-many-reals`);および\ref(`lem:cohen-pres-cards`);）をまとめれば、以下の結果が得られていた：
+    }
+    +lemma?:(`lem:cohen-lower-bound`)<
+      +p{${\kappa}を正則基数、${\lambda > 2^{\kappa}}を基数とし、${G}を${(V, \Add(\kappa, \lambda))}-生成的とする。このとき、${\Add(\kappa, \lambda)}は${\kappa}以下の基数と${\p{2^{<\kappa}}^+}以上の基数を保ち、${\p{2^\kappa}^{V[G]} \geq \lambda}。}
+    >
+    +p{これにより「少なくとも${\lambda}個の」実数を付加しており、この意味で${\CH}を既に破ることができている。では、「厳密に${\p{2^\kappa}^{V[G]} = \lambda}」となるようにできるだろうか？${\kappa}が正則で${\cf(\lambda) > \kappa}ならできる、というのが次の定理である：}
+    +theorem<
+      +p{
+        ${\kappa}を正則基数、${\lambda > 2^{\kappa}}を基数とし、${\cf(\lambda) > \kappa}とする。このとき、${\kappa}以下${\lambda}以上の基数を保ちながら、${2^\kappa = \lambda}が成り立つ強制拡大が存在する。
+      }
+    >
+
+    +p{このために、そもそも${\Add(\kappa, \gamma)}による拡大でどれくらい${\kappa}の部分集合が足され得るのか、その上界を見積ってみよう。こういう場合によく使われるのが、\emph{部分集合のnice name}である。}
+    +defn<
+      +p{${\kappa}を順序数、${\P}を擬順序とする。${\dot{x}}が${\kappa}の元のcheck名称と${\P}の反鎖の直積の和でかけるとき、つまり次を満たすとき${\dot{x}}は${\kappa}の部分集合の\emph{nice ${\P}-name}であるという：}
+      +eqn-notag(${
+        \exists \Seq{𝒜_\xi: \text!{${\P}の反鎖}}{ \xi < \kappa } \mhquad \pB{\dot{x} = \bigcup_{\xi < \kappa} \set{\check{\xi}} \times 𝒜_\xi}
+      });
+    >
+    +p{反鎖というのは（部分的な）排他的な場合分けであったことを思えば、自然な概念に見える。実際、任意の${\kappa}の部分集合の名称は、「同値」なnice nameを持つ：}
+    +lemma<
+      +p{${p \forces \dot{x} \subseteq \check{\kappa}}を満たす任意の${\P}-名称${\dot{x}}に対し、${\kappa}の部分集合のnice ${\P}-name ${\dot{y}}で${p \forces \dot{x} = \dot{y}}を満たすものが存在する。}
+    >
+    +proof<
+      +p{
+        以下、${p = \mathbb{1}}として一般性を失わない。
+        ${\dot{x}}を${\kappa}の部分集合の${\P}-nameとする。
+        このとき、${\alpha < \kappa}に対し${D_\alpha}を次で定める：
+        \eqn-notag(${
+          D_\alpha \defeq \Set{p \in \P}{ p \forces \check{\alpha} \in \dot{x}}.
+        });
+        そこで、${𝒜_\alpha \subseteq D_\alpha}に含まれる反鎖の中で極大な反鎖とし、${\dot{y}}を次で定める：
+        \eqn-notag(${
+          \dot{y} \defeq \bigcup_{\alpha < \kappa} \set{\check{\alpha}} \times 𝒜_\alpha.
+        });
+        このとき${\forces \dot{x} = \dot{y}}が成り立つことを示す。特に、${G}を${(V, \P)}-生成的フィルターをとり、${\dot{x}_G = \dot{y}_G}が成り立つことを示していこう。
+      }
+      +p{
+        ${\dot{y}_G \subseteq \dot{x}_G}は簡単である。なぜなら${\alpha \in \dot{y} \iff \exists p \in G \mhquad (\check{\alpha}, p) \in \dot{y}}であり、${\dot{y}}の定義から${p \forces \check{\alpha} \in \dot{x}}となるので、真理補題（系5.8）より${\alpha \in \dot{x}_G}を得る。
+      }
+      +p{
+        ${\dot{x}_G \subseteq \dot{x}_G}を示そう。${\alpha \in \dot{x}_G}とすると、同様に${p \in G}で${(\check{\alpha}, p) \in \dot{x}}を満たすものが取れる。
+        特に、${p \forces \check{\alpha} \in \dot{x}}より${p}以下で${𝒜_\alpha}が前稠密になっているので、前章の補題4.6より${q \in 𝒜_\alpha \cap G}が取れる。
+        すると作り方より${(\check{\alpha}, q) \in \dot{y}}なので、結局${\alpha \in \dot{y}_G}を得る。
+      }
+    >
+    +exercise<
+      +p{ここでは${\kappa}について定義したが、一般の${\tau \in V^\P}に対して「${\tau}の部分集合のnice name」の概念を定義できる。余力があればこれを定義して、対応する補題を示してみよ。}
+    >
+
+    +p{よって、あとは${\Add(\kappa, \gamma)}が${\kappa}の部分集合のnice nameを幾つ持つかを数え上げれば、${\Add(\kappa, \gamma)}-強制拡大における${\kappa}の部分集合の総数の上限を見積もることができる。}
   >
 >
