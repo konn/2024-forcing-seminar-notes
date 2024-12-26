@@ -171,6 +171,20 @@ let properties-of-cohen-forcings = '<
       +p{${\Add(\kappa)}は${(2^{<\kappa})^+}-鎖条件を満たし、従って${(2^{<\kappa})^+}以上の基数を保つ。}
     >
     +proof<+p{${\pabs{\Add(\kappa)} = \pabs{\seq{<\kappa}{[\kappa]}} = 2^{<\kappa}}なので明らか。}>
-    +p{では、複数個足す強制法${\Add(\kappa, \gamma)}についてはどうだろうか？これについては、やや混み入った無限組合せ論的議論が必要となるため、${\lnot \CH}の証明の節\ref(`sec:consis-not-ch`);で採り上げる。}
+    +p{では、複数個足す強制法${\Add(\kappa, \gamma)}についてはどうだろうか？閉性の場合と同様に直積によって鎖条件が保たれてくれればよいが、実は\emph{二項直積が可算鎖条件を保つかどうかすら${\ZFC}から独立}であることが知られている。これについては、次の${\Delta}-システム補題を使って示す：}
+    +defn<
+      +p{集合族${𝒜}が${r}を根とする\emph{${\Delta}-システム}${\defs}任意の相異なる${A, B \in 𝒜}について、${A \cap B = r}。}
+    >
+    +lemma<
+      +p{${\lambda < \kappa}をそれぞれ無限正則基数とし、${\forall \theta < \kappa \mhquad \pB{\theta^{<\lambda} < \kappa}}が成り立つとする。集合族${𝒜}が${\pabs{𝒜} = \kappa}かつ${\pabs{A} < \lambda \mhquad(\forall A \in 𝒜)}を満たすなら、${ℬ \in [𝒜]^{κ}}で${\Delta}-システムとなるものが存在する。}
+    >
+    +p{これを認めれば、${\Add(\kappa, \gamma)}の鎖条件は次のように示せる：}
+    +lemma?:(`lem:cohen-cc`)<
+      +p{${\Add(\kappa, \gamma)}は${(2^{<\kappa})^+}-鎖条件を満たし、従って${(2^{<\kappa})^+}以上の基数を保つ。}
+    >
+    +proof<+p{TODO: 書いて}>
+    +cor<
+      +p{${\Add(\kappa, \gamma)}は${\kappa}以下および${(2^{<\kappa})^+}以上の基数を保つ。特に、${\Add(\omega)}は任意の基数を保つ。}
+    >
   >
 >
