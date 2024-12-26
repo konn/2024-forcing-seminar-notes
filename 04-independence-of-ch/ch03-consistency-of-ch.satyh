@@ -11,7 +11,7 @@ let consistency-of-ch = '<
       +p{${\kappa}が正則で${G}が${(V, \Add(\kappa))}-生成的なら、${\kappa}は${V[G]}でも基数であり、${(2^{<\kappa})^{V[G]} = \kappa}。}
     >
     +p{特に、系として${\Add(\omega_1)}が${\CH}を強制することがわかる。}
-    +cor<+p{${\Add(\omega_1)}は実数を一切付加することなく、${\CH}を強制する。}>
+    +cor<+p{${\Add(\omega_1)}は実数を付加せず${\CH}を強制し、${\omega_1}以下と${(2^{\omega})^+}以上の基数を全て保つ。}>
     +proof<+p{\ref(`lem:cohen-colappses`);より${V[G] \models 2^\omega = 2^{<\omega_1} = \omega_1}を得る。}>
 
     +p{
