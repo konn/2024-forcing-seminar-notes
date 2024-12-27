@@ -56,6 +56,37 @@ let consistency-of-not-ch = '<
       +p{ここでは${\kappa}について定義したが、一般の${\tau \in V^\P}に対して「${\tau}の部分集合のnice name」の概念を定義できる。余力があればこれを定義して、対応する補題を示してみよ。}
     >
 
-    +p{よって、あとは${\Add(\kappa, \gamma)}が${\kappa}の部分集合のnice nameを幾つ持つかを数え上げれば、${\Add(\kappa, \gamma)}-強制拡大における${\kappa}の部分集合の総数の上限を見積もることができる。}
+    +p{よって、あとは${\Add(\kappa, \gamma)}が${\kappa}の部分集合のnice nameを幾つ持つかを数え上げれば、${\Add(\kappa, \gamma)}-強制拡大における${\kappa}の部分集合の総数の上限を見積もることができる。
+    }
+
+    +lemma<
+      +p{
+        ${\kappa}を正則基数、${\lambda > \kappa}を基数とし、${\lambda^\kappa = \lambda}かつ${2^{<\kappa} = \kappa}が成り立つとする。
+        このとき${\Add(\kappa, \lambda)}の${\kappa}の部分集合のnice nameの総数は高々${\lambda}である。
+      }
+    >
+    +proof(let-math \Add = ${\Add(\kappa, \gamma)} in '<
+      +p{
+        ${2^{<\kappa} = \kappa}より、${\Add}は${\p{2^{<\kappa}}^+ = \kappa^+}-鎖条件を持つことに注意する。
+        ${\Add}の濃度は、仮定より ${\lambda \leq \lambda^{<\kappa} \geq \lambda^\kappa = \lambda}となることから、
+        \eqn-notag(${\pabs{\Add} = \pabs{[\kappa \times \lambda \times 2 ]^{<\kappa}} = \lambda^{<\kappa} = \lambda});
+        である。
+        また、${\Add}の${\kappa^+}-鎖条件より、${\Add}の反鎖の濃度は高々${2^{<\kappa}}なので、その総数は高々${[\lambda]^{\kappa} = \lambda^\kappa = \lambda}個である。
+      }
+      +p{
+        よって、${\kappa}の部分集合のnice ${\Add}-nameの総数は高々${\lambda^\kappa = \lambda}個である。
+      }
+    >);
+    
+    +p{
+      以上を踏まえれば、次が得られる：
+    }
+    +theorem<
+      +p{${\kappa}を正則、${\lambda > \kappa}を基数とし、${2^{<\kappa} = \kappa}かつ${\lambda^\kappa = \lambda}が成り立つとする。このとき、${\Add(\kappa, \lambda)}は${\kappa}以下と${\lambda}以上の基数を保ちながら、${2^\kappa = \lambda}を強制する。}
+    >
+
+    +p{
+      定理4.5の「前提」が満たされるのはどういう時だろうか？Königの補題より、${\lambda^{\cf(\lambda)} > \lambda}なので、${\kappa < \cf(\lambda)}でなければならないことがわかる。
+    }
   >
 >
