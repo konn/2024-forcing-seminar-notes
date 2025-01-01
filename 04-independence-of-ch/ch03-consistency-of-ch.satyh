@@ -34,7 +34,7 @@ let consistency-of-ch = '<
 
     +p{実際にLevy崩壊により${A}の濃度が${\kappa}以下になることが以下の補題によりわかる：}
 
-    +lemma<+p{${\kappa}：正則、${G}：${(V, \Col(\kappa, A))}-生成的なら、${\bigcup G}は${\kappa}から${A}への全射で、従って${\pabs{A}^{V[G]} \leq \kappa}。}>
+    +lemma?:(`lem:collapse-surj`)<+p{${\kappa}：正則、${G}：${(V, \Col(\kappa, A))}-生成的なら、${\bigcup G}は${\kappa}から${A}への全射で、従って${\pabs{A}^{V[G]} \leq \kappa}。}>
     +proof<
       +p{${G}を${(V, \Col(\kappa, A))}-生成的とするとき、${f_G \defeq \bigcup G: \kappa \to A}となることはCohen強制法の場合と同様に示せる。全射性を示す。}
       +p{

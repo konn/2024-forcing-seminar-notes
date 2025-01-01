@@ -11,7 +11,7 @@ let consistency-of-not-ch = '<
     +lemma?:(`lem:cohen-lower-bound`)<
       +p{${\kappa}を正則基数、${\lambda > 2^{\kappa}}を基数とし、${G}を${(V, \Add(\kappa, \lambda))}-生成的とする。このとき、${\Add(\kappa, \lambda)}は${\kappa}以下の基数と${\p{2^{<\kappa}}^+}以上の基数を保ち、${\p{2^\kappa}^{V[G]} \geq \lambda}。}
     >
-    +p{これにより「少なくとも${\lambda}個の」実数を付加しており、この意味で${\CH}を既に破ることができている。では、「厳密に${\p{2^\kappa}^{V[G]} = \lambda}」となるようにできるだろうか？${\kappa}が正則で${\cf(\lambda) > \kappa}ならできる、というのが次の定理である：}
+    +p{これにより「少なくとも${\lambda}個の」実数を付加しており、この意味で${\Add(\kappa, \lambda)}を使えば、どんな状況からでも適当な位置の${\kappa}で${\CH}を自由に破ることができている。では、「厳密に${\p{2^\kappa}^{V[G]} = \lambda}」となるようにできるだろうか？${\kappa}が正則で${\cf(\lambda) > \kappa}ならできる、というのが次の定理である：}
     +theorem<
       +p{
         ${\kappa}を正則基数、${\lambda > 2^{\kappa}}を基数とし、${\cf(\lambda) > \kappa}とする。このとき、${\kappa}以下${\lambda}以上の基数を保ちながら、${2^\kappa = \lambda}が成り立つ強制拡大が存在する。
@@ -65,7 +65,7 @@ let consistency-of-not-ch = '<
         このとき${\Add(\kappa, \lambda)}の${\kappa}の部分集合のnice nameの総数は高々${\lambda}である。
       }
     >
-    +proof(let-math \Add = ${\Add(\kappa, \gamma)} in '<
+    +proof(let-math \Add = ${\Add(\kappa, \lambda)} in '<
       +p{
         ${2^{<\kappa} = \kappa}より、${\Add}は${\p{2^{<\kappa}}^+ = \kappa^+}-鎖条件を持つことに注意する。
         ${\Add}の濃度は、仮定より ${\lambda \leq \lambda^{<\kappa} \geq \lambda^\kappa = \lambda}となることから、
@@ -87,6 +87,30 @@ let consistency-of-not-ch = '<
 
     +p{
       定理4.5の「前提」が満たされるのはどういう時だろうか？Königの補題より、${\lambda^{\cf(\lambda)} > \lambda}なので、${\kappa < \cf(\lambda)}でなければならないことがわかる。
+      特に、${\GCH}が${\lambda}以下まで成立していれば、${\cf(\lambda) > \kappa}であれば上の定理の前提は自動的に満たされる。よって次を得る：
     }
+
+    +cor<
+      +p{${\GCH}が${\lambda}以下まで成立している（つまり ${\forall \kappa \leq \lambda \mhquad 2^\kappa = \kappa^+}）とする。${\kappa}が正則基数で${\cf(\lambda) > \kappa}を満たすなら、${\Add(\kappa, \lambda)}は${\kappa}以下と${\lambda}以上の基数を保ちながら、${2^\kappa = \lambda}を強制する。}
+    >
+
+    +p{特に、${\mathbf{L} \models \GCH}より、Gödelの${\mathbf{L}}から始めれば、${\Add(\kappa, \lambda)}により${2^\kappa}の値をきっかり${\lambda}にできる。}
+    +p{最初から${\GCH}が成り立つとは限らない場合も、十分大きな基数${\vartheta}に対し、${\Add(\mu^+)}を${\mu \leq \vartheta}に対して下から順次超限的に繰り返して強制していけば、${\GCH}を部分的に強制してやることができる。このように、強制法を複数回繰り返す技法を\emph{反復強制法}という。単純に「超限回繰り返す」といったが、極限ステップでどのように擬順序を定めるかに任意性があり、${\GCH}を強制する際には\emph{Easton台反復強制法}という種類の反復強制法を使う。また、適当な超限回で止めずに${\On}回繰り返すと、大域的に${\GCH}を強制することもできるが、これには\emph{クラス強制法}の理論が必要となる。クラス強制法は必ずしも${\ZFC}を保つとは限らなかったり、新たな順序数や基数を増やしてしまったり、強制法定理も部分的にしか成り立たなかったりする。}
+    +p{Easton台のクラス強制法の著しい応用は、「正則基数の冪は${\ZFC}の下では単調性とKönigの補題以外に如何なる制約も受けない」ことを示した次の定理である：}
+    +theorem(
+      let-math \Reg = ${\mathrm{Reg}} in '<
+      +p{${V}で${\GCH}が成り立つと仮定し、${G: \Reg \to \Cd}を次を満たす正則無限基数上で定義されたクラス関数とする：}
+      +enumerate{
+        * ${\forall \kappa \mhquad G(\kappa) > \kappa},
+        * ${\forall \kappa \leq \lambda \mhquad G(\kappa) \leq G(\lambda)}, and
+        * ${\forall \kappa \in \Reg \mhquad G(\kappa) > \cf(\kappa)}.
+      }
+      +pn{このとき、${V}の\emph{クラス}強制拡大${V[G]}で、${V}と同じ基数および順序数を持ち${V[G] \models \forall \kappa \in \Reg \mhquad 2^\kappa = G(\kappa)}を満たすものが存在する。}
+    >);
+    +p{
+      反復強制法はそれだけで一本ブ厚い教科書ができるくらいの話題なので、ここではこれ以上立ち入ることは控えておく。Easton強制法に関しては、Kunen\cite[`Kunen:2011`];やJech\cite[`Jech:2002`];などを参考にされたい。
+      また可算鎖条件やそれを一般化した強制法の分類である\emph{適正}（proper）強制法とその反復について扱ったShelah \cite[`Shelah:1998`];もある。クラス強制法はこれまでは職人芸で進められてきたところがあるが、近年になってクラスを扱う${\mathrm{NBG}}や${\mathrm{MK}}集合論の言葉を使って、クラスに対する超限帰納法原理と関連づけて体系的な研究がはじまったところのようである（\cite[`Gitman:2020`; `Gitman:2021`];）。
+    }
+
   >
 >

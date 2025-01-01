@@ -24,5 +24,39 @@ let bibs = List.append bibs [
     ; publisher = `Springer Berlin, Heidelberg`
     ; series = Some `Springer monographs in mathematics`
     |)
+  );
+  ( `Shelah:1998`
+  , Book
+  (|default-book with
+    title = `Proper and Improper Forcing`
+  ; author = [`Saharon Shelah`]
+  ; note = Some `ISBN: 3-540-51700-6`
+  ; series = Some `Perspectives in Mathematical Logic`
+  ; year = `1998`
+  ; publisher = `Springer-Verlag`
+  |)
+  );
+  ( `Gitman:2021`
+  , Article
+    (|default-article with
+      title = `Modern class forcing` 
+    ; author = [`Carolin Antos`; `Victoria Gitman`]
+    ; journal = `Research Trends in Contemporary Logic (to appear)`
+    ; year = `2021`
+    ; note = Some `URL: https://victoriagitman.github.io/publications/2019/11/13/modern-class-forcing.html`
+    |)
+  );
+  ( `Gitman:2020`
+  , Article
+    (|default-article with
+      title = `The exact strength of the class forcing theorem` 
+    ; author = [`Victoria Gitman`; `Joel David Hamkins`; `Peter Holy`; `Philipp Schlicht`; `Kameryn Williams`
+    ]
+    ; journal = `Journal of Symbolic Logic`
+    ; year = `2020`
+    ; volume = Some `85`
+    ; pages = (`869`, `965`)
+    ; note = Some `URL: https://arxiv.org/abs/1707.03700`
+    |)
   )
 ]
