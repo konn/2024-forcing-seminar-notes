@@ -34,6 +34,7 @@ let bibs = List.append bibs [
   ; series = Some `Perspectives in Mathematical Logic`
   ; year = `1998`
   ; publisher = `Springer-Verlag`
+  ; note = Some `URL: https://projecteuclid.org/eBooks/perspectives-in-logic/Proper-and-Improper-Forcing/toc/pl/1235419814`
   |)
   );
   ( `Gitman:2021`
