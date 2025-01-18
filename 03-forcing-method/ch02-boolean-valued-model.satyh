@@ -70,11 +70,11 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
       特に、個別の\emph{${n < \omega} ごとに${\Sigma_n}-論理式に対する真偽値はオブジェクトレベルで斉一的に定義}できる（${\Pi_n}も同様）ものの、\emph{全ての論理式に対する真偽値はオブジェクトレベルでは定義できない}。
     }
     +p{
-      これは、\emph{${V}真理述語が${\Sigma_n}ごとにしか定義できない事実とパラレル}である。実際、二元Boole代数${\mathbb{2} = \set{\mathbb{0}, \mathbb{1}}}を考えると、${V^\mathbb{2}}と${V}の真偽は完全に一致し、特に${\mathop{\mathrm{Tr}}(\code{\varphi}) \deffml \pSQ{\code{\phi}} = \mathbb{1}}によって${V}に真理述語を定義できてしまい、Tarskiの真理定義不可能性に反する。
+      これは、\emph{${V}の真理述語が${\Sigma_n}ごとにしか定義できない事実とパラレル}である。実際、二元Boole代数${\mathbb{2} = \set{\mathbb{0}, \mathbb{1}}}を考えると、${V^\mathbb{2}}と${V}の真偽は完全に一致し、特に${\mathop{\mathrm{Tr}}(\code{\varphi}) \deffml \pSQ{\code{\phi}} = \mathbb{1}}によって${V}の真理述語を定義できてしまい、Tarskiの真理定義不可能性に反する。
     }
   >
   +exercise<
-    +p{${V}上の注意を確認せよ。とくに次を示せ：}
+    +p{上の注意を確認せよ。とくに次を示せ：}
     +enumerate{
       * 任意の${\mathbb{2}}-名称${\dot{x} \in V^{\mathbb{2}}}に対し、${z \in V}で${\pSQ{\dot{x} = \check{z}} = \mathbb{1}}が成り立つようなものが存在する。
       * 任意の${\FL_{\mathbb{2}}}-論理式${\varphi}について、${V \models \varphi \iff \pSQ{\varphi}_{\mathbb{2}} = \mathbb{1}}。
