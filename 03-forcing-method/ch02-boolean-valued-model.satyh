@@ -36,6 +36,7 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
   +defn<
     +p{\emph{強制法の言語${\FL}}は、二項述語記号${\in}、単項述語記号${\check{V}}を持つ言語である。}
     +p{以後、${x \in \check{V}}は${\check{V} (x)}の略記とする。}
+    +p{また、擬順序${\P}について、${\FL_\P}を、${V^\P}の元のみをパラメータに持つ${\FL}-論理式の全体とする。}
   >
   +p{記号から類推できるように、${\in}は所属関係を、${\check{V}}は基礎モデルの元であることを表す述語記号として想定されている。}
   +remark<+p{実は、${\check{V}}は${V^{\mathbb{B}}}で定義可能クラスとなっていることが知られている（Bukovskýの定理）。この証明は擬順序の反鎖条件という組合せ論的性質と強制拡大の基礎モデルに対する被覆性質の関連を使うもので興味深いが、基礎理論を終えてから立ち戻ることにする。}>
@@ -58,10 +59,28 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
     |});
     +p{${V^{\mathbb{B}}}の元をパラメータに持つ${\FL}-論理式${\varphi}の真偽値${\pSQ{\varphi}_\mathbb{B}}を、論理式の構成に関するメタレベルの帰納法で以下のように定める：}
     +gather?:(AZMathEquation.notag)(${|
-      \pSQ{\bot} \defeq \mathbb{0}, \mqquad \pSQ{\varphi \to \psi} \defeq -\pSQ{\varphi} + \pSQ{\psi}, \mqquad
+      \pSQ{\bot} \defeq \mathbb{0}, \mqquad \pSQ{\varphi \to \psi} \defeq -\pSQ{\varphi} + \pSQ{\psi} = \pSQ{\varphi} \loli \pSQ{\psi}, \mqquad
       \pSQ{\exists x \varphi(x)} \defeq \sum_{\dot{\mscript{x}} \in V^{\mathbb{B}}} \pSQ{\varphi(\dot{x})}_\mathbb{B}.
     |});
     +p{${p \in \mathbb{B}}と${\FL}-論理式${\varphi}について、${p \leq \pSQ{\varphi}}が成り立つとき、\emph{${p}が${\varphi}を強制する}といい、記号${p \forces \varphi}で表す。また、${\mathbb{1} \forces \varphi}が成り立つとき（つまり${\pSQ{\varphi} = \mathbb{1}}となるとき）、${V^{\mathbb{B}} \models \varphi}または${\forces \varphi}と書く。}
+  >
+  +remark<
+    +p{
+      上の定義でも敢えて区別して書いたように、原子論理式に対する真偽値の定義は\emph{オブジェクトレベル}の（${\B}-階数に関する）超限帰納法で定義できるのに対し、一般の（量化子を持つ）論理式の真偽値は\emph{メタレベルの論理式における論理式の複雑性に関する帰納法}でしか定義され得ないことに注意する。
+      特に、個別の\emph{${n < \omega} ごとに${\Sigma_n}-論理式に対する真偽値はオブジェクトレベルで斉一的に定義}できる（${\Pi_n}も同様）ものの、\emph{全ての論理式に対する真偽値はオブジェクトレベルでは定義できない}。
+    }
+    +p{
+      これは、\emph{${V}真理述語が${\Sigma_n}ごとにしか定義できない事実とパラレル}である。実際、二元Boole代数${\mathbb{2} = \set{\mathbb{0}, \mathbb{1}}}を考えると、${V^\mathbb{2}}と${V}の真偽は完全に一致し、特に${\mathop{\mathrm{Tr}}(\code{\varphi}) \deffml \pSQ{\code{\phi}} = \mathbb{1}}によって${V}に真理述語を定義できてしまい、Tarskiの真理定義不可能性に反する。
+    }
+  >
+  +exercise<
+    +p{${V}上の注意を確認せよ。とくに次を示せ：}
+    +enumerate{
+      * 任意の${\mathbb{2}}-名称${\dot{x} \in V^{\mathbb{2}}}に対し、${z \in V}で${\pSQ{\dot{x} = \check{z}} = \mathbb{1}}が成り立つようなものが存在する。
+      * 任意の${\FL_{\mathbb{2}}}-論理式${\varphi}について、${V \models \varphi \iff \pSQ{\varphi}_{\mathbb{2}} = \mathbb{1}}。
+      * ${\B}を完備Boole代数とする。このとき、オブジェクトレベルの帰納法で、量化子を含まない任意の${\FL_\B}-論理式${\varphi}について${\mathop{\mathrm{Val}^\B_{\mathrm{qf}}}(\code{\varphi}) = \pSQ{\varphi}}を満たす（クラス）関数${\mathrm{Val}^\B_{\mathrm{qf}}: \mathrm{QF} \to \B}を定義せよ。
+      * ${\B}を完備Boole代数、${n < \omega}とする。このとき、オブジェクトレベルの帰納法で、任意の${\Sigma_n}な${\FL_\B}-論理式${\varphi}について${\mathop{\mathrm{Val}}^\B_{n}(\code{\varphi}) = \pSQ{\varphi}}を満たす（クラス）関数${\mathrm{Val}^\B: \Sigma_n \to \mathbb{B}}を定義せよ。
+    }
   >
   +remark<
     +p{
