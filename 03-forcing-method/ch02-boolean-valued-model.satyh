@@ -79,7 +79,7 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
       * 任意の${\mathbb{2}}-名称${\dot{x} \in V^{\mathbb{2}}}に対し、${z \in V}で${\pSQ{\dot{x} = \check{z}} = \mathbb{1}}が成り立つようなものが存在する。
       * 任意の${\FL_{\mathbb{2}}}-論理式${\varphi}について、${V \models \varphi \iff \pSQ{\varphi}_{\mathbb{2}} = \mathbb{1}}。
       * ${\B}を完備Boole代数とする。このとき、オブジェクトレベルの帰納法で、量化子を含まない任意の${\FL_\B}-論理式${\varphi}について${\mathop{\mathrm{Val}^\B_{\mathrm{qf}}}(\code{\varphi}) = \pSQ{\varphi}}を満たす（クラス）関数${\mathrm{Val}^\B_{\mathrm{qf}}: \mathrm{QF} \to \B}を定義せよ。
-      * ${\B}を完備Boole代数、${n < \omega}とする。このとき、オブジェクトレベルの帰納法で、任意の${\Sigma_n}な${\FL_\B}-論理式${\varphi}について${\mathop{\mathrm{Val}}^\B_{n}(\code{\varphi}) = \pSQ{\varphi}}を満たす（クラス）関数${\mathrm{Val}^\B: \Sigma_n \to \mathbb{B}}を定義せよ。
+      * ${\B}を完備Boole代数、${n < \omega}とする。このとき、オブジェクトレベルの帰納法で、任意の${\Sigma_n}な${\FL_\B}-論理式${\varphi}について${\mathop{\mathrm{Val}}^\B_{n}(\code{\varphi}) = \pSQ{\varphi}}を満たす（クラス）関数${\mathrm{Val}^\B_n: \Sigma_n \to \mathbb{B}}を定義せよ。
     }
   >
   +remark<
