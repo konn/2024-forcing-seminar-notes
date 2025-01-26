@@ -270,11 +270,11 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
     +pn{
       (2): 
       \alignat?:(AZMathEquation.notag)(2)(${
-      |   \pSQ{\varphi(\dot{x})}  \cdot \pSQ{\dot{x} = \dot{y}}
-      |   = \pSQ{\varphi(\dot{x})} \cdot \pSQ{\dot{x} = \dot{y}} \cdot \pSQ{\dot{x} = \dot{y}}\cdot \pSQ{\dot{x} = \dot{y}} |\mqquad| (\text!{冪等律})
-      || \leq \pSQ{\varphi(\dot{y})}  \cdot \pSQ{\dot{x} = \dot{y}} \cdot \pSQ{\dot{x} = \dot{y}}
+      |   \pSQ{\varphi(\dot{x})}  \cdot \muline{\pSQ{\dot{x} = \dot{y}}}
+      |   = \muline{\pSQ{\varphi(\dot{x})} \cdot \pSQ{\dot{x} = \dot{y}}} \cdot \pSQ{\dot{x} = \dot{y}}\cdot \pSQ{\dot{x} = \dot{y}} |\mqquad| (\text!{冪等律})
+      || \leq \pSQ{\varphi(\dot{y})}  \cdot \muline{\pSQ{\dot{x} = \dot{y}}} \cdot \pSQ{\dot{x} = \dot{y}}
           | | (\text!{等号公理})
-      | | = \pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{y} = \dot{x}} \cdot \pSQ{\dot{x} = \dot{y}}
+      | | = \muline{\pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{y} = \dot{x}}} \cdot \pSQ{\dot{x} = \dot{y}}
           | | (1)
       || \leq \pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{x} = \dot{y}} | | (\text!{等号公理}).
       |});
