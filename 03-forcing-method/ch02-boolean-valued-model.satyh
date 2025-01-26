@@ -258,20 +258,27 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
 
 
   +lemma?:(`lem:eq-one-cong`)<
-    +p{${\dot{x}, \dot{y} \in V^{\mathbb{B}}}とし、${\varphi(x)}を${\FL_\B}-論理式とする。${\pSQ{\dot{x} = \dot{y}} = \mathbb{1}}なら、${\pSQ{\varphi(\dot{x})} = \pSQ{\varphi(\dot{y})}}。}
+    +p{${\dot{x}, \dot{y} \in V^{\mathbb{B}}}とし、${\varphi(x)}を${\FL_\B}-論理式とする。
+    \enumerate{
+      * ${\pSQ{\dot{x} = \dot{y}} = \pSQ{\dot{y} = \dot{x}}}.
+      * ${\pSQ{\varphi(\dot{x})} \cdot \pSQ{\dot{x} = \dot{y}} = \pSQ{ \varphi(\dot{y}) } \cdot \pSQ{ \dot{x} = \dot{y} }}。
+        特に、${\pSQ{\dot{x} = \dot{y}} = \mathbb{1}}なら${\pSQ{\varphi(\dot{x})} = \pSQ{\varphi(\dot{y})}}。}
+    }
   >
   +proof<
-    +p{
-      等号公理より${\mathbb{1} = \pSQ{\dot{x} = \dot{y}} \leq \pSQ{\dot{y} = \dot{x}}}であり、従って${\pSQ{\dot{y} = \dot{x}} = \mathbb{1}}となることに注意すれば：
-      \eqn-notag(${
-        \pSQ{\varphi(\dot{x})} = \pSQ{\varphi(\dot{x})} \cdot \mathbb{1}
-        = \pSQ{\varphi(\dot{x})} \cdot \pSQ{\dot{x} = \dot{y}}
-        \leq \pSQ{\varphi(\dot{y})}
-        = \pSQ{\varphi(\dot{y})} \cdot \mathbb{1}
-        = \pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{y} = \dot{x}}
-        \leq \pSQ{\varphi(\dot{x})}.
-      });
-      よって示せた。
+    +p{(1): 等号公理、特に対称律を二回つかえば、${\pSQ{\dot{x} = \dot{y}} \leq \pSQ{\dot{y} = \dot{x}} \leq \pSQ{\dot{x} = \dot{y}}}。よって${\pSQ{\dot{x} = \dot{y}} = \pSQ{\dot{y} = \dot{x}}}。}
+    +pn{
+      (2): 
+      \alignat?:(AZMathEquation.notag)(2)(${
+      |   \pSQ{\varphi(\dot{x})}  \cdot \pSQ{\dot{x} = \dot{y}}
+      |   = \pSQ{\varphi(\dot{x})} \cdot \pSQ{\dot{x} = \dot{y}} \cdot \pSQ{\dot{x} = \dot{y}}\cdot \pSQ{\dot{x} = \dot{y}} |\mqquad| (\text!{冪等律})
+      || \leq \pSQ{\varphi(\dot{y})}  \cdot \pSQ{\dot{x} = \dot{y}} \cdot \pSQ{\dot{x} = \dot{y}}
+          | | (\text!{等号公理})
+      | | = \pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{y} = \dot{x}} \cdot \pSQ{\dot{x} = \dot{y}}
+          | | (1)
+      || \leq \pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{x} = \dot{y}} | | (\text!{等号公理}).
+      |});
+      「特に」以降は明らか。
     }
   >
 
