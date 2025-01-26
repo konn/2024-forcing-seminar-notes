@@ -120,15 +120,19 @@ let generic-filter = '<
       | = \pSQ{ \exists (\tau, b) \in \check{\sigma} \mhquad \pB{b \in \dot{G} \land \dot{x} = \val(\tau) } }
         = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G} \land \dot{x} = \val(\check{\tau}) }
       || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x}= \val(\check{\tau}) }
+      \label?:!(`*`)!(`eqn:equiv`)
       |});
       以上を踏まえれば、
     }
-    +align?:(AZMathEquation.notag)(${
+    +alignat?:(AZMathEquation.notag)(2)(${
       | \pSQ{\dot{x} \in \sigma}
-      | = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
-      = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \tau}
-      || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \val(\check{\tau})} \mqquad(\text!{帰納法の仮定を${\tau}に使い、\ref(`lem:eq-one-cong`);を適用})
+        | = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
+        | \mqquad |
+      || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \muline{\pSQ{\dot{x} = \tau}}
+      ||(\text!{Truth Lemma})
+      || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \muline{\pSQ{\dot{x} = \val(\check{\tau})}} || (\text!{帰納法の仮定を${\tau}に使い、\ref(`lem:eq-one-cong`);を適用})
       || = \pSQ{\dot{x} \in \val(\check{\sigma})}
+      || \text!{\eqref(`eqn:equiv`);}
     |});
     +pn{
       よって示せた。
