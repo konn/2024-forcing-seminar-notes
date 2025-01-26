@@ -126,7 +126,7 @@ let generic-filter = '<
     +align?:(AZMathEquation.notag)(${
       | \pSQ{\dot{x} \in \sigma}
       | = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
-        = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
+      = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \tau}
       || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \val(\check{\tau})} \mqquad(\text!{帰納法の仮定を${\tau}に使い、\ref(`lem:eq-one-cong`);を適用})
       || = \pSQ{\dot{x} \in \val(\check{\sigma})}
     |});
