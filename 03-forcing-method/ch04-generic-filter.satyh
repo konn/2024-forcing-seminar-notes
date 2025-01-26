@@ -1,4 +1,5 @@
 @import: preamble
+@require: azmath/parens
 
 let generic-filter = '<
 +section{Boole値モデル${V^{\mathbb{B}}}と${(V, \mathbb{B})}-生成的フィルター}<
@@ -10,9 +11,9 @@ let generic-filter = '<
       \dot{G} \defeq \Set{ (\check{b}, b) }{ b \in \mathbb{B} }.
     });
     +p{
-      また、${\mathbb{B}}-名称${\dot{x}}について、超フィルター${U}による解釈${\dot{x}_U}を以下で定める：
+      また、${\mathbb{B}}-名称${\dot{x}}について、超フィルター${U}による解釈${\dot{x}_U \defeq \val_U(\dot{x})}を以下で定める：
       \eqn-notag(${
-        \dot{x}_U \defeq \Set{ \dot{y}_U }{ \exists b \in U \mhquad (\dot{y}, b) \in \dot{x} }.
+        \dot{x}_U \defeq \val_U(\dot{x}) \defeq \Set{ \dot{y}_U }{ \exists b \in U \mhquad (\dot{y}, b) \in \dot{x} }.
       });
     }
   >
@@ -108,21 +109,31 @@ let generic-filter = '<
   >
 
   +theorem<
-    +p{任意の${\sigma \in V^{\mathbb{B}}}について${V^{\mathbb{B}} \models \sigma = \check{\sigma}_{\dot{\mrfontsize!(0.6){G}}}}。}
+    +p{任意の${\sigma \in V^{\mathbb{B}}}について${V^{\mathbb{B}} \models \sigma = \val_{\dot{\mrfontsize!(.6){G}}}(\check{\sigma})}。}
   >
-  +proof<
+  +proof(
+    let-math \val = ${\val_{\dot{\mrfontsize!(0.6){G}}}} in '<
     +p{
-      ${\B}-階数による帰納法により示す。${\dot{x}}を任意に取れば、
-      \eqn-notag(${
-        \pSQ{\dot{x} \in \sigma}
-        = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
-        = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau} \cdot \pSQ{\tau = \check{\tau}_{\dot{\mrfontsize!(0.6){G}}}}
-        = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \check{\tau}_{\dot{\mrfontsize!(0.6){G}}}}
-        = \pSQ{\dot{x} \in \check{\sigma}_{\dot{\mrfontsize!(0.6){G}}}}
-      });
+      ${\B}-階数による帰納法により示す。帰納法の仮定は、「${\rank_\B(\tau) < \rank_\B(\sigma)}ならば${\pSQ{\tau = \val(\check{\tau})} = \mathbb{1}}」である。定義より、任意の${\dot{x} \in V^\B}について、
+      \align?:(AZMathEquation.notag)(${
+      | \pSQ{\dot{x} \in \val(\check{\sigma})}
+      | = \pSQ{ \exists (\tau, b) \in \check{\sigma} \mhquad \pB{b \in \dot{G} \land \dot{x} = \val(\tau) } }
+        = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G} \land \dot{x} = \val(\check{\tau}) }
+      || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x}= \val(\check{\tau}) }
+      |});
+      以上を踏まえれば、
+    }
+    +align?:(AZMathEquation.notag)(${
+      | \pSQ{\dot{x} \in \sigma}
+      | = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau}
+        = \sum_{(\tau, b) \in \sigma} b \cdot \pSQ{\dot{x} = \tau} \cdot \underbrace{\pSQ{\tau = \val(\check{\tau})}}_{\mrquad!(-2.)\mrfontsize!(.8){= \mathbb{1}} \text!{\rfontsize(0.6){（帰納法の仮定）}}}
+      || = \sum_{(\tau, b) \in \sigma} \pSQ{\check{b} \in \dot{G}} \cdot \pSQ{\dot{x} = \val(\check{\tau})} \mqquad(\text!{\ref(`lem:eq-one-cong`);より})
+      || = \pSQ{\dot{x} \in \val(\check{\sigma})}
+    |});
+    +pn{
       よって示せた。
     }
-  >
+  >);
 
   +cor<
     +p{${V^{\mathbb{B}} \models \forall x \exists \sigma \in \check{V} \mhquad x = \sigma_{\dot{\mrfontsize!(0.6){G}}}}が成り立つので、つまり${V^{\mathbb{B}} \models \text!{「私は${\check{V}[\dot{G}]}です」}}}

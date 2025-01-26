@@ -251,8 +251,29 @@ let boolean-valued-model = '<+section{集合のBoole値モデル}<
       * ${\pSQ{\check{x} \in \check{V}} = \mathbb{1}}
       * ${\pSQ{\exists x \in \check{V} \mhquad \varphi(x)} = \sum_{x \in V} \pSQ{\varphi(\check{x})}}
       * ${\pSQ{\forall x \in \check{V} \mhquad \varphi(x)} = \prod_{x \in V} \pSQ{\varphi(\check{x})}}
+      * ${\pSQ{\exists x \in \check{A} \mhquad \varphi(x)} = \sum_{x \in A} \pSQ{\varphi(\check{x})}}
+      * ${\pSQ{\forall x \in \check{A} \mhquad \varphi(x)} = \prod_{x \in A} \pSQ{\varphi(\check{x})}}
     }
   }>
+
+
+  +lemma?:(`lem:eq-one-cong`)<
+    +p{${\dot{x}, \dot{y} \in V^{\mathbb{B}}}とし、${\varphi(x)}を${\FL_\B}-論理式とする。${\pSQ{\dot{x} = \dot{y}} = \mathbb{1}}なら、${\pSQ{\varphi(\dot{x})} = \pSQ{\varphi(\dot{y})}}。}
+  >
+  +proof<
+    +p{
+      等号公理より${\mathbb{1} = \pSQ{\dot{x} = \dot{y}} \leq \pSQ{\dot{y} = \dot{x}}}であり、従って${\pSQ{\dot{y} = \dot{x}} = \mathbb{1}}となることに注意すれば：
+      \eqn-notag(${
+        \pSQ{\varphi(\dot{x})} = \pSQ{\varphi(\dot{x})} \cdot \mathbb{1}
+        = \pSQ{\varphi(\dot{x})} \cdot \pSQ{\dot{x} = \dot{y}}
+        \leq \pSQ{\varphi(\dot{y})}
+        = \pSQ{\varphi(\dot{y})} \cdot \mathbb{1}
+        = \pSQ{\varphi(\dot{y})} \cdot \pSQ{\dot{y} = \dot{x}}
+        \leq \pSQ{\varphi(\dot{x})}.
+      });
+      よって示せた。
+    }
+  >
 
   +p{
     以上から、${V^{\mathbb{B}}}は少なくとも演繹について閉じていることがわかり、特に三段論法（というかModus Ponens）を自由に使ってよいことがわかった。

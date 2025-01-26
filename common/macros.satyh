@@ -2,14 +2,15 @@
 @require: class-jlreq/jlreq
 @require: math
 @require: enumitem/enumitem
-@require: azmath/azmath
-@require: azmath/accent
 @require: bibyfi/bibyfi
 @require: bibyfi/bibyfi-IEEETran
 @require: pervasives
 @require: ruby/ruby
 @require: base/list-ext
 @require: latexcmds/latexcmds
+@require: azmath/azmath
+@require: azmath/parens
+@require: azmath/accent
 @require: matrix/matrix
 @require: arrows/arrows
 @require: arrows/commands
@@ -20,6 +21,7 @@
 @require: code
 @require: derive/derive
 @import: ../colors
+let-math \underbrace-orig a = ${\underbrace{#a}}
 
 let output-cross-reference ctx l =
   let ref-txt = 
@@ -264,6 +266,7 @@ let-block ctx +section = JLReqHeading.block-heading-scheme
 
 let-math \GCH  = ${\mathord{\mathrm{GCH}}}
 open LatexCmds
+
 
 let math-font-scale sty sz m = text-in-math sty 
   (fun ctx -> 
@@ -537,3 +540,5 @@ let-math \mydot x = math-in-math MathOrd
     let sz = ctx |> get-font-size
     in ${\mfontsize!(sz){\dot{#x}}}
   ))
+
+let-math \underbrace a = ${\underbrace-orig{#a}}

@@ -32,3 +32,4 @@ let-math \B = ${\mathbb{B}}
 let-math \C = ${\mathbb{C}}
 let-math \P = ${\mathbb{P}}
 let-math \Q = ${\mathbb{Q}}
+let-math \val = ${\mathop{\mathrm{val}}}
